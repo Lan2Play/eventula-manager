@@ -212,7 +212,7 @@ class SeatingController extends Controller
         if (
             !in_array(substr($request->seat_number_modal, 0, 1), explode(',', $seatingPlan->headers)) ||
             substr($request->seat_number_modal, 1, 1) <= 0 ||
-            substr($request->seat_number_modal, 1, 1) > $seatingPlan->rows
+            substr($request->seat_number_modal, 1, 1) > $seatingPlan->columns
         ) {
             Session::flash('alert-danger', 'Invalid seat selection!');
             return Redirect::back();
