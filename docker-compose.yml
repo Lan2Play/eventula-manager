@@ -17,7 +17,7 @@ services:
       - 443:443
     restart: unless-stopped
   eventula_manager_database:
-    image: mysql:5.7
+    image: mysql:8.0
     volumes:
       - eventula_manager_database:/var/lib/mysql
     env_file: $PWD/src/.env
