@@ -55,7 +55,7 @@ trigger:
 
 services:
 - name: database
-  image: mysql:5.6
+  image: mysql:5.7
   environment:
     MYSQL_DATABASE: eventula_manager_database
     MYSQL_USER: eventula_manager
@@ -237,7 +237,7 @@ depends_on:
 
 services:
 - name: database
-  image: mysql:5.6
+  image: mysql:5.7
   environment:
     MYSQL_DATABASE: eventula_manager_database
     MYSQL_USER: eventula_manager
