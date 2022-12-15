@@ -52,7 +52,7 @@
         "spatie/backtrace": "1.2.1"
     },
     "require-dev": {
-        "fakerphp/faker": "1.20.0",
+        "fakerphp/faker": "1.21.0",
         "mockery/mockery": "1.5.1",
         "phpunit/phpunit": "9.5.27",
         "kitloong/laravel-migrations-generator": "6.6.1",
