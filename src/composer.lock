@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d3ac1ed1888cb9f10f4d582e3355762e",
+    "content-hash": "a8f4d5769a9e2c7029d8ee7e24fe7fd9",
     "packages": [
         {
             "name": "artesaos/seotools",
@@ -9209,23 +9209,23 @@
         },
         {
             "name": "kitloong/laravel-migrations-generator",
-            "version": "v6.6.1",
+            "version": "v6.6.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kitloong/laravel-migrations-generator.git",
-                "reference": "b8a6c0e911759b123481a9aa9dfdd65b9d021ac1"
+                "reference": "be7b69e289ca952ac107fdbbddb4f0c7d73f4c9a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kitloong/laravel-migrations-generator/zipball/b8a6c0e911759b123481a9aa9dfdd65b9d021ac1",
-                "reference": "b8a6c0e911759b123481a9aa9dfdd65b9d021ac1",
+                "url": "https://api.github.com/repos/kitloong/laravel-migrations-generator/zipball/be7b69e289ca952ac107fdbbddb4f0c7d73f4c9a",
+                "reference": "be7b69e289ca952ac107fdbbddb4f0c7d73f4c9a",
                 "shasum": ""
             },
             "require": {
                 "doctrine/dbal": "^2.4|^3.0",
                 "ext-pdo": "*",
                 "illuminate/support": "^5.6|^6.0|^7.0|^8.0|^9.0",
-                "myclabs/php-enum": "^1.8",
+                "myclabs/php-enum": "^1.6|^1.7|^1.8",
                 "php": ">=7.1.3"
             },
             "require-dev": {
@@ -9272,7 +9272,7 @@
             ],
             "support": {
                 "issues": "https://github.com/kitloong/laravel-migrations-generator/issues",
-                "source": "https://github.com/kitloong/laravel-migrations-generator/tree/v6.6.1"
+                "source": "https://github.com/kitloong/laravel-migrations-generator/tree/v6.6.3"
             },
             "funding": [
                 {
@@ -9280,7 +9280,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2022-11-29T12:53:52+00:00"
+            "time": "2022-12-07T15:57:40+00:00"
         },
         {
             "name": "masterminds/html5",
