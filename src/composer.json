@@ -18,7 +18,7 @@
     "require": {
         "php": "8.2.*",
         "laravel/framework": "9.52.4",
-        "laravelcollective/html": "6.4.0",
+        "laravelcollective/html": "6.4.1",
         "laravel/legacy-factories": "1.3.2",
         "webonyx/graphql-php": "dev-master",
         "invisnik/laravel-steam-auth": "4.4.0",
