@@ -55,7 +55,7 @@
         "fakerphp/faker": "1.21.0",
         "mockery/mockery": "1.5.1",
         "phpunit/phpunit": "9.6.3",
-        "kitloong/laravel-migrations-generator": "6.8.0",
+        "kitloong/laravel-migrations-generator": "6.10.0",
         "symfony/css-selector": "6.2.5",
         "symfony/dom-crawler": "6.2.5",
         "orangehill/iseed": "3.0.2",

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3b8ab207db2e51c3132c88385cccf2cc",
+    "content-hash": "32d55ea855f9d800f813864b9f6bf461",
     "packages": [
         {
             "name": "artesaos/seotools",
@@ -9306,16 +9306,16 @@
         },
         {
             "name": "kitloong/laravel-migrations-generator",
-            "version": "v6.8.0",
+            "version": "v6.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kitloong/laravel-migrations-generator.git",
-                "reference": "4486f337c2386e33eec49bf5988a041094560fe2"
+                "reference": "116f50fab918b7f1363a40ebd954ce250f6aedcd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kitloong/laravel-migrations-generator/zipball/4486f337c2386e33eec49bf5988a041094560fe2",
-                "reference": "4486f337c2386e33eec49bf5988a041094560fe2",
+                "url": "https://api.github.com/repos/kitloong/laravel-migrations-generator/zipball/116f50fab918b7f1363a40ebd954ce250f6aedcd",
+                "reference": "116f50fab918b7f1363a40ebd954ce250f6aedcd",
                 "shasum": ""
             },
             "require": {
@@ -9326,7 +9326,7 @@
                 "php": ">=7.1.3"
             },
             "require-dev": {
-                "barryvdh/laravel-ide-helper": "^2.7",
+                "barryvdh/laravel-ide-helper": "^2.5",
                 "friendsofphp/php-cs-fixer": "^2.19.0|^3.1",
                 "mockery/mockery": "^1.0",
                 "nunomaduro/larastan": "^0.4|^0.5|^0.6|^0.7|^1.0|^2.0",
@@ -9369,7 +9369,7 @@
             ],
             "support": {
                 "issues": "https://github.com/kitloong/laravel-migrations-generator/issues",
-                "source": "https://github.com/kitloong/laravel-migrations-generator/tree/v6.8.0"
+                "source": "https://github.com/kitloong/laravel-migrations-generator/tree/v6.10.0"
             },
             "funding": [
                 {
@@ -9377,7 +9377,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2023-02-06T15:02:31+00:00"
+            "time": "2023-03-26T07:37:00+00:00"
         },
         {
             "name": "masterminds/html5",
@@ -11388,5 +11388,5 @@
         "php": "8.2.*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.3.0"
 }
