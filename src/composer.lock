@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3b8ab207db2e51c3132c88385cccf2cc",
+    "content-hash": "af5dbd22bbc3e127a8bdc47998ad82c6",
     "packages": [
         {
             "name": "artesaos/seotools",
@@ -1915,22 +1915,22 @@
         },
         {
             "name": "ignited/laravel-omnipay",
-            "version": "3.4.0",
+            "version": "3.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ignited/laravel-omnipay.git",
-                "reference": "3c6dd701f4bb5b6c47860ead716445f964b270f5"
+                "reference": "dda12196cdbc07a73046b94c221c165e72570570"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ignited/laravel-omnipay/zipball/3c6dd701f4bb5b6c47860ead716445f964b270f5",
-                "reference": "3c6dd701f4bb5b6c47860ead716445f964b270f5",
+                "url": "https://api.github.com/repos/ignited/laravel-omnipay/zipball/dda12196cdbc07a73046b94c221c165e72570570",
+                "reference": "dda12196cdbc07a73046b94c221c165e72570570",
                 "shasum": ""
             },
             "require": {
-                "illuminate/support": "~5|~6|~7|~8|~9",
+                "illuminate/support": "~6|~7|~8|~9|~10",
                 "omnipay/common": "~3.0",
-                "php": ">=5.4.0"
+                "php": "^7.2.5|^8.0"
             },
             "type": "library",
             "extra": {
@@ -1952,6 +1952,9 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
             "authors": [
                 {
                     "name": "Alex Whiteside",
@@ -1961,15 +1964,14 @@
             "description": "Integrates Omnipay with Laravel and provides an easy configuration.",
             "keywords": [
                 "laravel",
-                "laravel5",
                 "omnipay",
                 "payments"
             ],
             "support": {
                 "issues": "https://github.com/ignited/laravel-omnipay/issues",
-                "source": "https://github.com/ignited/laravel-omnipay/tree/3.4.0"
+                "source": "https://github.com/ignited/laravel-omnipay/tree/3.5.0"
             },
-            "time": "2022-02-24T22:23:01+00:00"
+            "time": "2023-03-06T01:06:05+00:00"
         },
         {
             "name": "intervention/image",
@@ -11388,5 +11390,5 @@
         "php": "8.2.*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.3.0"
 }
