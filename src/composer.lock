@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d1baf406f466162c93c3198bb9684667",
+    "content-hash": "8a7e234e917756a6e5836fe74316b4ca",
     "packages": [
         {
             "name": "artesaos/seotools",
@@ -5679,16 +5679,16 @@
         },
         {
             "name": "sirprize/postal-code-validator",
-            "version": "1.4.0",
+            "version": "1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sirprize/postal-code-validator.git",
-                "reference": "7f730fd8d4d30a669ed7ac157bee91c00cd06f26"
+                "reference": "a48928a52745e896abb601735e1f9d72d70947d5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sirprize/postal-code-validator/zipball/7f730fd8d4d30a669ed7ac157bee91c00cd06f26",
-                "reference": "7f730fd8d4d30a669ed7ac157bee91c00cd06f26",
+                "url": "https://api.github.com/repos/sirprize/postal-code-validator/zipball/a48928a52745e896abb601735e1f9d72d70947d5",
+                "reference": "a48928a52745e896abb601735e1f9d72d70947d5",
                 "shasum": ""
             },
             "require": {
@@ -5727,9 +5727,9 @@
             ],
             "support": {
                 "issues": "https://github.com/sirprize/postal-code-validator/issues",
-                "source": "https://github.com/sirprize/postal-code-validator/tree/1.4.0"
+                "source": "https://github.com/sirprize/postal-code-validator/tree/1.4.1"
             },
-            "time": "2023-02-18T15:20:58+00:00"
+            "time": "2023-06-29T20:46:26+00:00"
         },
         {
             "name": "spatie/data-transfer-object",
@@ -11281,5 +11281,5 @@
         "php": "8.2.*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.6.0"
 }
