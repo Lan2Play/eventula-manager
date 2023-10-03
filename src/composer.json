@@ -33,7 +33,7 @@
         "laravel/tinker": "2.8.2",
         "scssphp/scssphp": "1.11.1",
         "omnipay/paypal": "3.0.2",
-        "cviebrock/eloquent-sluggable": "9.0.0",
+        "cviebrock/eloquent-sluggable": "10.0.0",
         "barryvdh/laravel-debugbar": "3.9.2",
         "omnipay/stripe": "3.2.0",
         "stripe/stripe-php": "8.12.0",
