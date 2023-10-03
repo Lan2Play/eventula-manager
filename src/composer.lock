@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d1baf406f466162c93c3198bb9684667",
+    "content-hash": "41f9a696fcdb197e99bf0382db0c67c2",
     "packages": [
         {
             "name": "artesaos/seotools",
@@ -4969,16 +4969,16 @@
         },
         {
             "name": "psr/http-client",
-            "version": "1.0.2",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/http-client.git",
-                "reference": "0955afe48220520692d2d09f7ab7e0f93ffd6a31"
+                "reference": "bb5906edc1c324c9a05aa0873d40117941e5fa90"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-client/zipball/0955afe48220520692d2d09f7ab7e0f93ffd6a31",
-                "reference": "0955afe48220520692d2d09f7ab7e0f93ffd6a31",
+                "url": "https://api.github.com/repos/php-fig/http-client/zipball/bb5906edc1c324c9a05aa0873d40117941e5fa90",
+                "reference": "bb5906edc1c324c9a05aa0873d40117941e5fa90",
                 "shasum": ""
             },
             "require": {
@@ -5015,9 +5015,9 @@
                 "psr-18"
             ],
             "support": {
-                "source": "https://github.com/php-fig/http-client/tree/1.0.2"
+                "source": "https://github.com/php-fig/http-client"
             },
-            "time": "2023-04-10T20:12:12+00:00"
+            "time": "2023-09-23T14:17:50+00:00"
         },
         {
             "name": "psr/http-factory",
@@ -5129,30 +5129,30 @@
         },
         {
             "name": "psr/log",
-            "version": "1.1.4",
+            "version": "3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
-                "reference": "d49695b909c3b7628b6289db5479a1c204601f11"
+                "reference": "fe5ea303b0887d5caefd3d431c3e61ad47037001"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/d49695b909c3b7628b6289db5479a1c204601f11",
-                "reference": "d49695b909c3b7628b6289db5479a1c204601f11",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/fe5ea303b0887d5caefd3d431c3e61ad47037001",
+                "reference": "fe5ea303b0887d5caefd3d431c3e61ad47037001",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0"
+                "php": ">=8.0.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.1.x-dev"
+                    "dev-master": "3.x-dev"
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "Psr\\Log\\": "Psr/Log/"
+                    "Psr\\Log\\": "src"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -5173,9 +5173,9 @@
                 "psr-3"
             ],
             "support": {
-                "source": "https://github.com/php-fig/log/tree/1.1.4"
+                "source": "https://github.com/php-fig/log/tree/3.0.0"
             },
-            "time": "2021-05-03T11:20:27+00:00"
+            "time": "2021-07-14T16:46:02+00:00"
         },
         {
             "name": "psr/simple-cache",
@@ -8545,25 +8545,25 @@
         },
         {
             "name": "team-reflex/challonge-php",
-            "version": "4.1.1",
+            "version": "5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/teamreflex/ChallongePHP.git",
-                "reference": "cf07f16347f1fb79db3536621ec169abbc0930bb"
+                "reference": "397102b2a6f5708e299c0cbe2f217ef5adc43d9b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/teamreflex/ChallongePHP/zipball/cf07f16347f1fb79db3536621ec169abbc0930bb",
-                "reference": "cf07f16347f1fb79db3536621ec169abbc0930bb",
+                "url": "https://api.github.com/repos/teamreflex/ChallongePHP/zipball/397102b2a6f5708e299c0cbe2f217ef5adc43d9b",
+                "reference": "397102b2a6f5708e299c0cbe2f217ef5adc43d9b",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "illuminate/collections": "~9",
-                "nyholm/psr7": "^1.4",
-                "php": "^8.0 | ^8.1",
+                "illuminate/collections": "~9| ~10",
+                "nyholm/psr7": "^1.6.1",
+                "php": "^8.1 | ^8.2",
                 "psr/http-client": "^1.0",
-                "psr/log": "^1.1.4",
+                "psr/log": "^3.0",
                 "spatie/data-transfer-object": "^2.5"
             },
             "require-dev": {
@@ -8591,9 +8591,9 @@
             "description": "PSR-18 compatible library to interface with the bracket generator Challonge.",
             "support": {
                 "issues": "https://github.com/teamreflex/ChallongePHP/issues",
-                "source": "https://github.com/teamreflex/ChallongePHP/tree/4.1.1"
+                "source": "https://github.com/teamreflex/ChallongePHP/tree/5.0"
             },
-            "time": "2022-10-21T14:04:50+00:00"
+            "time": "2023-06-13T18:31:51+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
@@ -11281,5 +11281,5 @@
         "php": "8.2.*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.6.0"
 }
