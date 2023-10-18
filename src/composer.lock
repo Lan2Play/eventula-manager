@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b4fcfb77617c662fde4a55137cebe6c0",
+    "content-hash": "29263d9c3f37851525f210ae2199178c",
     "packages": [
         {
             "name": "artesaos/seotools",
@@ -9257,16 +9257,16 @@
         },
         {
             "name": "kitloong/laravel-migrations-generator",
-            "version": "v6.10.0",
+            "version": "v6.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kitloong/laravel-migrations-generator.git",
-                "reference": "116f50fab918b7f1363a40ebd954ce250f6aedcd"
+                "reference": "220b5f17fcb16610a3e9757d68c197319c0f7444"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kitloong/laravel-migrations-generator/zipball/116f50fab918b7f1363a40ebd954ce250f6aedcd",
-                "reference": "116f50fab918b7f1363a40ebd954ce250f6aedcd",
+                "url": "https://api.github.com/repos/kitloong/laravel-migrations-generator/zipball/220b5f17fcb16610a3e9757d68c197319c0f7444",
+                "reference": "220b5f17fcb16610a3e9757d68c197319c0f7444",
                 "shasum": ""
             },
             "require": {
@@ -9320,7 +9320,7 @@
             ],
             "support": {
                 "issues": "https://github.com/kitloong/laravel-migrations-generator/issues",
-                "source": "https://github.com/kitloong/laravel-migrations-generator/tree/v6.10.0"
+                "source": "https://github.com/kitloong/laravel-migrations-generator/tree/v6.11.0"
             },
             "funding": [
                 {
@@ -9328,7 +9328,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2023-03-26T07:37:00+00:00"
+            "time": "2023-10-10T13:55:26+00:00"
         },
         {
             "name": "masterminds/html5",
