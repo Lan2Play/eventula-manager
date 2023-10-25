@@ -19,7 +19,7 @@ steps:
   - composer install --ignore-platform-reqs --no-scripts
 
 - name: build-npm
-  image: node:20.8
+  image: node:20.9
   commands:
   - cd src/
   - npm install && npm run production
@@ -109,7 +109,7 @@ steps:
     - push
 
 - name: build-npm
-  image: node:20.8
+  image: node:20.9
   commands:
   - cd src/
   - npm install && npm run production
@@ -288,7 +288,7 @@ steps:
     - tag
 
 - name: build-npm
-  image: node:20.8
+  image: node:20.9
   commands:
   - cd src/
   - npm install && npm run production
