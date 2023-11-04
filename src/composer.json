@@ -65,7 +65,7 @@
         "symfony/dom-crawler": "6.3.4",
         "orangehill/iseed": "3.0.3",
         "squizlabs/php_codesniffer": "3.7.2",
-        "filp/whoops": "2.15.3"
+        "filp/whoops": "2.15.4"
     },
     "autoload": {
         "classmap": [
