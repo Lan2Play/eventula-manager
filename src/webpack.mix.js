@@ -39,6 +39,7 @@ mix.scripts([
         './node_modules/bootstrap/dist/js/bootstrap.js',
         './node_modules/summernote/dist/summernote-lite.js',
         './node_modules/slick-carousel/slick/slick.js',
+        './node_modules/chart.js/dist/chart.umd.js',
     ], 'public/js/vendor.js')
     .copy('./node_modules/jquery-ui-dist/jquery-ui.min.css', 'public/css')
     .copy('./node_modules/summernote/dist/summernote-lite.js.map', 'public/js')

@@ -34,11 +34,15 @@
 				<div class="row">
 					<div class="col-sm-6 col-12">
 						<h4>Purchase Breakdown</h4>
-						<div id="ticket-purchase-breakdown"></div>
+						<div class="w-100 h-100">
+							<canvas id="purchaseBreakdownChart"></canvas>
+						</div>
 					</div>
 					<div class="col-sm-6 col-12">
 						<h4>Income Breakdown</h4>
-						<div id="ticket-income-breakdown"></div>
+						<div class="w-100 h-100">
+							<canvas id="incomeBreakdownChart"></canvas>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -89,29 +93,41 @@
 				</table>
 			</div>
 		</div>
+		<script>
+			
+			const purchaseBreakdownChartCanvas = document.getElementById('purchaseBreakdownChart');
+			const incomeBreakdownChartCanvas = document.getElementById('incomeBreakdownChart');
 
-    {{-- TODO: Replace Morris --}}
-		{{-- <script>
-			Morris.Donut({
-				element: 'ticket-purchase-breakdown',
-				data: [
-					@foreach ($event->tickets as $ticket)
-						{label: '{{ $ticket->name }}', value: {{ $ticket->participants()->count() }} },
-					@endforeach
-				]
+			const purchaseBreakdownData = @json($purchaseBreakdownData);
+			const incomeBreakdownData = @json($incomeBreakdownData);
+		  			
+			// Purchase Breakdown
+			
+			new Chart(purchaseBreakdownChartCanvas, {
+			  type: 'doughnut',
+			  data: {
+				labels: purchaseBreakdownData.map(item => item.name),
+				datasets: [{
+				  label: 'Purchase Breakdown',
+				  data: purchaseBreakdownData.map(item => item.count),
+				}]
+			  }
 			});
-			Morris.Bar({
-				element: 'ticket-income-breakdown',
-				data: [
-					@foreach ($event->tickets as $ticket)
-						{ y: '{{ $ticket->name }}', a: {{ $ticket->price * $ticket->participants()->count() }} },
-					@endforeach
-				],
-				xkey: 'y',
-				ykeys: ['a'],
-				labels: ['Pounds']
+
+			// Income Breakdown
+
+			new Chart(incomeBreakdownChartCanvas, {
+				type: 'bar',
+				data: {
+					labels: incomeBreakdownData.map(item => item.name),
+					datasets: [{
+				  		label: 'Income Breakdown',
+				  		data: incomeBreakdownData.map(item => item.income),
+					}]
+				}
 			});
-		</script> --}}
+		</script>
+
 		<div class="card mb-3">
 			<div class="card-header">
 				<i class="fa fa-ticket fa-fw"></i> Tickets
