@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\EventParticipant;
 use DB;
 use Auth;
+use Dompdf\Dompdf;
 use Settings;
 use Session;
 use Colors;
@@ -357,8 +358,23 @@ class AccountController extends Controller
         if ($user->id != $participant->user_id) {
             return response()->view('errors.403', [], Response::HTTP_FORBIDDEN);
         }
-        $res = \Response::make("Test");
-        $res->header('Content-Type', 'text/plain');
+
+        // TODO: Probably don't use str_replace
+        $qrfile = base64_encode(\Storage::read(str_replace('storage', 'public', $participant->qrcode)));
+        $qrimage = "data:image/png;base64,{$qrfile}";
+
+        $pdfView = view('ticket.pdf')
+            ->with('participant', $participant)
+            ->with('qrimage', $qrimage)
+            ->render();
+
+        $pdf = new Dompdf();
+        $pdf->setPaper('A4', 'portrait');
+        $pdf->loadHtml($pdfView);
+        $pdf->render();
+
+        $res = \Response::make($pdf->output());
+        $res->header('Content-Type', 'application/pdf');
         return $res;
     }
 }
