@@ -117,6 +117,7 @@ Route::group(['middleware' => ['installed']], function () {
 
             Route::group(['middleware' => ['auth', 'banned', 'verified', 'nophonenumber']], function () {
                 Route::get('/account', 'AccountController@index');
+                Route::get('/account/ticket/pdf/{ticketId}', 'AccountController@pdfTicket');
                 Route::get('/account/sso/remove/{method}', 'AccountController@showRemoveSso');
                 Route::post('/account/sso/remove/{method}', 'AccountController@removeSso');
                 Route::get('/account/sso/add/{method}', 'AccountController@addSso');

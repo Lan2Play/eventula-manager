@@ -81,6 +81,11 @@
 			</div>
 		</div>
 	</div>
+	<div class="card-footer">
+		<div class="btn-group">
+			<a href="/account/ticket/pdf/{{ $participant->id }}" class="btn btn-primary">PDF</a>
+		</div>
+	</div>
 </div>
 
 @include ('layouts._partials._gifts.modal')

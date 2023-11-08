@@ -11,6 +11,7 @@ use Colors;
 
 use App\Http\Requests;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -347,5 +348,11 @@ class AccountController extends Controller
             return redirect($request->session()->get('eventula_req_url'));
         }
         return redirect('/');
+    }
+
+    public function pdfTicket(string $ticketId): Response {
+        $res = \Response::make("Test");
+        $res->header('Content-Type', 'text/plain');
+        return $res;
     }
 }
