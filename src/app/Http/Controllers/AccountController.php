@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\EventParticipant;
 use DB;
 use Auth;
 use Settings;
@@ -351,6 +352,11 @@ class AccountController extends Controller
     }
 
     public function pdfTicket(string $ticketId): Response {
+        $user = Auth::user();
+        $participant = EventParticipant::where('id', $ticketId)->first();
+        if ($user->id != $participant->user_id) {
+            return response()->view('errors.403', [], Response::HTTP_FORBIDDEN);
+        }
         $res = \Response::make("Test");
         $res->header('Content-Type', 'text/plain');
         return $res;
