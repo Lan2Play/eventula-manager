@@ -1,17 +1,88 @@
 <html>
 <head>
     <style>
-        html,
-        body {
-            width: 210mm;
-            height: 297mm;
+        @page {
+            margin: 20mm 0;
+        }
+
+        #header {
+            position: fixed;
+            top: -10mm;
+            left: 0;
+            right: 0;
+        }
+
+        #header .site-name {
+            text-align: center;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        #content {
+            margin: 0 5mm;
+        }
+
+        table th {
+            text-align: left;
+            padding-right: 5mm;
+        }
+
+        .qr-code-container p {
+            margin-top: 10mm;
+            margin-bottom: 10mm;
+        }
+
+        .qr-code {
+            width: 50mm;
+        }
+
+        #footer {
+            position: fixed;
+            bottom: -10mm;
+            left: 0;
+            right: 0;
         }
     </style>
 </head>
 <body>
-<h1>TODO: Ticket information here</h1>
-<div>
-    <img src="{{ $qrimage }}" />
+<div id="header">
+    <div class="site-name">{{ Settings::getOrgTagline() }} | {{ Settings::getOrgName() }}</div>
+</div>
+<div id="footer">
+    <p><!-- TODO Footer text --></p>
+</div>
+<div id="content">
+    <h1 class="center">@lang('tickets.pdf_header', ['name' => $data->event_name] )</h1>
+    <table>
+        <tr>
+            <th>@lang('tickets.username')</th>
+            <td>{{ $data->username }}</td>
+        </tr>
+        <tr>
+            <th>@lang('tickets.realname')</th>
+            <td>@lang('tickets.realname_format', ['firstname' => $data->firstname, 'lastname' => $data->surname])</td>
+        </tr>
+        <tr>
+            <th>@lang('tickets.ticket_name')</th>
+            <td>{{ $data->ticket_name }}</td>
+        </tr>
+        <tr>
+            <th>@lang('tickets.seat')</th>
+            <td>{{ $data->seat }}</td>
+        </tr>
+        <tr>
+            <th>@lang('tickets.seat_in')</th>
+            <td>{{ $data->seating_plan }}</td>
+        </tr>
+    </table>
+    <div class="qr-code-container">
+        <p>@lang('tickets.present_qr_code')</p>
+        <div class="center">
+            <img class="qr-code" src="{{ $data->qr_image }}"/>
+        </div>
+    </div>
 </div>
 </body>
 </html>

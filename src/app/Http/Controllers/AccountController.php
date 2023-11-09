@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\EventParticipant;
+use App\Event;
 use DB;
 use Auth;
 use Dompdf\Dompdf;
@@ -359,13 +360,37 @@ class AccountController extends Controller
             return response()->view('errors.403', [], Response::HTTP_FORBIDDEN);
         }
 
+        $event = Event::where('id', $participant->event_id)->first();
+
+        $data = new \stdClass();
         // TODO: Probably don't use str_replace
         $qrfile = base64_encode(\Storage::read(str_replace('storage', 'public', $participant->qrcode)));
-        $qrimage = "data:image/png;base64,{$qrfile}";
+
+        if ($participant->ticket) {
+            $data->ticket_name = $participant->ticket->name;
+        } elseif ($participant->staff) {
+            $data->ticket_name = __('tickets.staff_ticket');
+        } else {
+            $data->ticket_name = __('tickets.free_ticket');
+        }
+
+        if ($participant->seat) {
+            $data->seat = $participant->seat->getName();
+            $data->seating_plan = $participant->seat->seatingPlan->name;
+        } else {
+            $data->seat = __('events.notseated');
+            $data->seating_plan = $data->seat;
+        }
+
+        $data->qr_image = "data:image/png;base64,{$qrfile}";
+        $data->event_name = $event->display_name;
+        $data->firstname = $user->firstname;
+        $data->surname = $user->surname;
+        $data->username = $user->username;
+
 
         $pdfView = view('ticket.pdf')
-            ->with('participant', $participant)
-            ->with('qrimage', $qrimage)
+            ->with('data', $data)
             ->render();
 
         $pdf = new Dompdf();

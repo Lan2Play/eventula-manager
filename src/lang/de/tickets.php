@@ -24,7 +24,17 @@ return [
     'gift_url' => 'Geschenk URL:',
     'revoke_gift' => 'Geschenk zurückziehen',
     'staff_ticket' => 'Team Ticket',
-    'free_ticket' => 'Kostenloses Ticket,'
+    'free_ticket' => 'Kostenloses Ticket',
+
+    /* Ticket PDF */
+    'pdf_header' => 'Dein Ticket für :name',
+    'ticket_name' => 'Ticket Name',
+    'seat' => 'Sitzplatz',
+    'seat_in' => 'Platziert in',
+    'username' => 'Username',
+    'realname' => 'Name',
+    'realname_format' => ':firstname :lastname',
+    'present_qr_code' => 'Bitte zeige den QR Code am Einlass for.',
     
 
 ];

@@ -24,6 +24,15 @@ return [
     'gift_url' => 'Gift URL:',
     'revoke_gift' => 'Revoke Gift',
     'staff_ticket' => 'Staff Ticket',
-    'free_ticket' => 'Free Ticket,'
+    'free_ticket' => 'Free Ticket',
 
+    /* Ticket PDF */
+    'pdf_header' => 'Your ticket for :name',
+    'ticket_name' => 'Ticket name',
+    'seat' => 'Seat',
+    'seat_in' => 'Seated in',
+    'username' => 'Username',
+    'realname' => 'Name',
+    'realname_format' => ':firstname :lastname',
+    'present_qr_code' => 'Please present this QR code at the entry gate.',
 ];
