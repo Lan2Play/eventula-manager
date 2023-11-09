@@ -41,8 +41,9 @@
         #footer {
             position: fixed;
             bottom: -10mm;
-            left: 0;
-            right: 0;
+            left: 5mm;
+            right: 5mm;
+            font-size: 0.75rem;
         }
     </style>
 </head>
@@ -51,7 +52,7 @@
     <div class="site-name">{{ Settings::getOrgTagline() }} | {{ Settings::getOrgName() }}</div>
 </div>
 <div id="footer">
-    <p><!-- TODO Footer text --></p>
+    <p>@lang('tickets.generated_at', ['date' => $data->date, 'time' => $data->time])</p>
 </div>
 <div id="content">
     <h1 class="center">@lang('tickets.pdf_header', ['name' => $data->event_name] )</h1>

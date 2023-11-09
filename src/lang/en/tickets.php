@@ -35,4 +35,5 @@ return [
     'realname' => 'Name',
     'realname_format' => ':firstname :lastname',
     'present_qr_code' => 'Please present this QR code at the entry gate.',
+    'generated_at' => 'This document has been created on :date at :time',
 ];

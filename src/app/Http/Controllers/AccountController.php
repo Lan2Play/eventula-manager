@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\EventParticipant;
 use App\Event;
+use Carbon\Carbon;
 use DB;
 use Auth;
 use Dompdf\Dompdf;
@@ -365,6 +366,7 @@ class AccountController extends Controller
         $data = new \stdClass();
         // TODO: Probably don't use str_replace
         $qrfile = base64_encode(\Storage::read(str_replace('storage', 'public', $participant->qrcode)));
+        $now = Carbon::now();
 
         if ($participant->ticket) {
             $data->ticket_name = $participant->ticket->name;
@@ -387,6 +389,8 @@ class AccountController extends Controller
         $data->firstname = $user->firstname;
         $data->surname = $user->surname;
         $data->username = $user->username;
+        $data->date = $now->toDateString();    //TODO: Date/time format does not seem to heed locale
+        $data->time = $now->toTimeString();
 
 
         $pdfView = view('ticket.pdf')
