@@ -53,7 +53,7 @@
         "laravel/sanctum": "3.3.2",
         "propaganistas/laravel-phone": "5.0.3",
         "symfony/mailgun-mailer": "6.3.6",
-        "symfony/http-client": "6.3.7",
+        "symfony/http-client": "6.3.8",
         "spatie/backtrace": "1.5.3",
         "haydenpierce/class-finder": "^0.5.3"
     },
