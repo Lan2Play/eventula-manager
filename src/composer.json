@@ -23,7 +23,7 @@
     "type": "project",
     "require": {
         "php": "8.2.*",
-        "laravel/framework": "10.32.0",
+        "laravel/framework": "10.32.1",
         "laravelcollective/html": "6.4.1",
         "laravel/legacy-factories": "1.3.2",
         "webonyx/graphql-php": "15.7.0",
