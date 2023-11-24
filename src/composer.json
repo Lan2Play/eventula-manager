@@ -43,7 +43,7 @@
         "barryvdh/laravel-debugbar": "3.9.2",
         "omnipay/stripe": "3.2.0",
         "symfony/routing": "6.3.5",
-        "sirprize/postal-code-validator": "1.4.1",
+        "sirprize/postal-code-validator": "1.5.0",
         "artesaos/seotools": "1.2.0",
         "spatie/laravel-cookie-consent": "3.2.4",
         "xpaw/php-source-query-class": "2.1.0",
