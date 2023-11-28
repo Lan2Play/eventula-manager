@@ -48,7 +48,7 @@
         "spatie/laravel-cookie-consent": "3.2.4",
         "xpaw/php-source-query-class": "2.1.0",
         "maniaplanet/dedicated-server-api": "dev-master",
-        "laravel/ui": "4.2.2",
+        "laravel/ui": "4.2.3",
         "spatie/laravel-database-mail-templates": "3.5.1",
         "laravel/sanctum": "3.3.2",
         "propaganistas/laravel-phone": "5.0.3",
