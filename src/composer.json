@@ -32,7 +32,7 @@
         "ignited/laravel-omnipay": "3.5.0",
         "doctrine/dbal": "3.7.2",
         "simplesoftwareio/simple-qrcode": "4.2.0",
-        "guzzlehttp/guzzle": "7.8.0",
+        "guzzlehttp/guzzle": "7.8.1",
         "php-http/guzzle7-adapter": "1.0.0",
         "team-reflex/challonge-php": "5.0",
         "intervention/image": "2.7.2",
