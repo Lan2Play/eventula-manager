@@ -42,7 +42,7 @@
         "cviebrock/eloquent-sluggable": "10.0.0",
         "barryvdh/laravel-debugbar": "3.9.2",
         "omnipay/stripe": "3.2.0",
-        "symfony/routing": "6.4.0",
+        "symfony/routing": "6.4.1",
         "sirprize/postal-code-validator": "1.5.0",
         "artesaos/seotools": "1.2.0",
         "spatie/laravel-cookie-consent": "3.2.4",
