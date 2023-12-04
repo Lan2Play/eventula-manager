@@ -61,7 +61,7 @@
     "require-dev": {
         "mockery/mockery": "1.6.6",
         "fakerphp/faker": "1.23.0",
-        "phpunit/phpunit": "10.4.2",
+        "phpunit/phpunit": "10.5.1",
         "kitloong/laravel-migrations-generator": "6.11.0",
         "symfony/css-selector": "6.4.0",
         "symfony/dom-crawler": "6.4.0",
