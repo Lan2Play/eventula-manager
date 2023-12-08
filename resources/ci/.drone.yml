@@ -7,7 +7,7 @@ steps:
 # Build Dependencies & Structure
 
 - name: build-structure
-  image: alpine:3.18
+  image: alpine:3.19
   commands:
   - apk add make
   - make folder-structure layout-images env-file-blank
@@ -91,7 +91,7 @@ steps:
 # Build Dependencies & Structure
 
 - name: build-structure
-  image: alpine:3.18
+  image: alpine:3.19
   commands:
   - apk add make
   - make folder-structure layout-images env-file-blank
@@ -270,7 +270,7 @@ steps:
 # Build Dependencies & Structure
 
 - name: build-structure
-  image: alpine:3.18
+  image: alpine:3.19
   commands:
   - apk add make
   - make folder-structure layout-images env-file-blank
