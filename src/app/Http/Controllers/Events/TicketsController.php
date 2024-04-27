@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Events;
 
 use DB;
 use Auth;
+use Illuminate\Http\RedirectResponse;
 use Session;
 use Settings;
 use Colors;
@@ -26,10 +27,11 @@ class TicketsController extends Controller
      * Purchase Ticket
      * @param  Request     $request
      * @param  EventTicket $ticket
-     * @return Redirect
+     * @return RedirectResponse
      */
     public function purchase(Request $request, EventTicket $ticket)
     {
+        /** @var User $user */
         $user = User::where('id', $request->user_id)->first();
 
         if ($user == null) {
@@ -59,14 +61,64 @@ class TicketsController extends Controller
             return Redirect::to('/events/' . $ticket->event->slug);
         }
 
-
-        $user_event_tickets = $user->getAllTickets($ticket->event->id);
-        if (is_numeric($ticket->no_tickets_per_user) && $ticket->no_tickets_per_user > 0 && count($user_event_tickets) + $request->quantity > $ticket->no_tickets_per_user) {
-            Session::flash('alert-danger', __('tickets.max_ticket_count_reached', ['maxticketcount' =>  $ticket->no_tickets_per_user]));
+        if (($ticket->event->no_tickets_per_user ?? 0) > 0) {
+            $ticketCount = $user->getAllTickets($ticket->event->id)->count();
+            if ($ticketCount + $request->quantity > $ticket->event->no_tickets_per_user) {
+                Session::flash(
+                    'alert-danger',
+                    __(
+                        'tickets.max_ticket_event_count_reached',
+                        [
+                            'ticketname' => $ticket->name,
+                            'ticketamount' => $request->quantity,
+                            'maxamount' => $ticket->event->no_tickets_per_user,
+                            'currentamount' => $ticketCount
+                        ]
+                    )
+                );
+                return Redirect::to("/events/{$ticket->event->slug}");
+            }
+        }
+        if ($ticket->hasTicketGroup()) {
+            $ticketCount = $user->getAllTicketsInTicketGroup($ticket->event, $ticket)->count();
+            if ($ticketCount + $request->quantity > $ticket->ticketGroup->tickets_per_user) {
+                Session::flash(
+                    'alert-danger',
+                    __(
+                        'tickets.max_ticket_group_count_reached',
+                        [
+                            'ticketname' => $ticket->name,
+                            'ticketamount' => $request->quantity,
+                            'maxamount' => $ticket->ticketGroup->tickets_per_user,
+                            'ticketgroup' => $ticket->ticketGroup->name,
+                            'currentamount' => $ticketCount
+                        ]
+                    )
+                );
+                return Redirect::to("/events/{$ticket->event->slug}");
+            }
+        }
+        $user_event_tickets = $user->getAllTicketsOfType($ticket->event, $ticket)->count();
+        if (
+            is_numeric($ticket->no_tickets_per_user) &&
+            $ticket->no_tickets_per_user > 0 &&
+            $user_event_tickets + $request->quantity > $ticket->no_tickets_per_user
+        ) {
+            Session::flash(
+                'alert-danger',
+                __(
+                    'tickets.max_ticket_type_count_reached',
+                    [
+                        'ticketname' => $ticket->name,
+                        'ticketamount' => $request->quantity,
+                        'maxamount' => $ticket->no_tickets_per_user,
+                        'currentamount' => $user_event_tickets,
+                        'maxticketcount' => $ticket->no_tickets_per_user,
+                    ]
+                )
+            );
             return Redirect::to('/events/' . $ticket->event->slug);
         }
-
-
 
         $params = [
             'tickets' => [

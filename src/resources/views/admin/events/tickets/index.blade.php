@@ -44,6 +44,52 @@
 			</div>
 		</div>
 
+		<div class="card mb-3">
+			<div class="card-header">
+				<i class="fa fa-layer-group"></i> Ticket Groups
+			</div>
+			<div class="card-body table-responsive">
+				<table class="table table-striped table-hover">
+					<thead>
+					<tr>
+						<th>Name</th>
+						<th>Tickets in group</th>
+						<th>No. tickets per user</th>
+						<th colspan="2">Actions</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr>
+						<td><i>ungrouped</i></td>
+						<td>{{ $event->getUngroupedTickets()->count() }}</td>
+						<td>N/A</td>
+						<td colspan="2"></td>
+					</tr>
+					@foreach($event->ticketGroups as $group)
+						<tr>
+							<td>{{ $group->name }}</td>
+							<td>{{ $group->tickets->count() }}</td>
+							<td>{{ $group->tickets_per_user }}</td>
+							<td>
+								<a class="btn btn-primary btn-sm"
+								   href="/admin/events/{{ $event->slug }}/ticketgroups/{{ $group->id }}">Edit</a>
+							</td>
+							<td>
+								{{ Form::open([
+									'url' => "/admin/events/{$event->slug}/ticketgroups/{$group->id}",
+									'onsubmit' => 'return ConfirmSubmit()'
+								]) }}
+								{{ Form::hidden('_method', 'DELETE') }}
+								<button type="submit" class="btn btn-danger btn-sm">Delete</button>
+								{{ Form::close() }}
+							</td>
+						</tr>
+					@endforeach
+					</tbody>
+				</table>
+			</div>
+		</div>
+
     {{-- TODO: Replace Morris --}}
 		{{-- <script>
 			Morris.Donut({
@@ -76,6 +122,7 @@
 						<tr>
 							<th>Name</th>
 							<th>Type</th>
+							<th>Ticket group</th>
 							<th>Price</th>
 							<th>Quantity</th>
 							<th>Purchased</th>
@@ -93,6 +140,13 @@
 								</td>
 								<td>
 									{{ $ticket->type }}
+								</td>
+								<td>
+									@if ($ticket->ticketGroup)
+										{{ $ticket->ticketGroup->name }}
+									@else
+										<i>ungrouped</i>
+									@endif
 								</td>
 								<td>
 									{{ $ticket->price }}
@@ -198,6 +252,17 @@
 		</div>
 	</div>
 	<div class="col-lg-4">
+
+		<div class="card mb-3">
+			<div class="card-header">
+				<i class="fa fa-plus fa-fw"></i> Add Ticket Group
+			</div>
+			<div class="card-body">
+				{{ Form::open(array('url'=>'/admin/events/' . $event->slug . '/ticketgroups')) }}
+				@include('layouts._partials._admin._event._tickets.ticket-group-form')
+				{{ Form::close() }}
+			</div>
+		</div>
 
 		<div class="card mb-3">
 			<div class="card-header">

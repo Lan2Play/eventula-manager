@@ -95,6 +95,7 @@ class EventsController extends Controller
         $event->event_live_info             = $request->event_live_info;
         $event->event_venue_id              = @$request->venue;
         $event->capacity                    = $request->capacity;
+        $event->no_tickets_per_user         = empty($request->no_tickets_per_user) ? null : $request->no_tickets_per_user;
         $event->online_event  = ($request->online_event ? true : false);
         $event->private_participants  = ($request->private_participants ? true : false);
         $event->matchmaking_enabled  = ($request->matchmaking_enabled ? true : false);
@@ -193,6 +194,7 @@ class EventsController extends Controller
         $event->online_event  = ($request->online_event ? true : false);
         $event->private_participants  = ($request->private_participants ? true : false);
         $event->matchmaking_enabled  = ($request->matchmaking_enabled ? true : false);
+        $event->no_tickets_per_user = empty($request->no_tickets_per_user) ? null : $request->no_tickets_per_user;
 
         if (isset($request->capacity)) {
             $event->capacity        = $request->capacity;

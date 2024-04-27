@@ -38,4 +38,12 @@ class EventTicket extends Model
     {
         return $this->belongsTo('App\CreditLog');
     }
+
+    public function ticketGroup() {
+        return $this->belongsTo('App\EventTicketGroup', 'event_ticket_group_id');
+    }
+
+    public function hasTicketGroup():bool {
+        return !empty($this->ticketGroup);
+    }
 }

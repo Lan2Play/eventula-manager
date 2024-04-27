@@ -58,6 +58,7 @@ return [
     'purchasetickets' => 'Purchase tickets',
     'soldout' => 'Sold out!',
     'limitedavailability' => 'Limited availablity',
+    'ticketgroup' => 'Ticket group: :ticketgroup',
     'availablefrom' => 'This ticket will be available for purchase at :time on :date',
     'ticketnolongavailable' => 'This ticket is no longer available for purchase',
     'seatsremaining' => 'Seats remaining',

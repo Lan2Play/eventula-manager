@@ -13,7 +13,9 @@ return [
     |
     */
 
-    'max_ticket_count_reached' => 'You cannot buy this ticket anymore. Max Ticket count of :maxticketcount reached.',
+    'max_ticket_event_count_reached' => 'You can not buy :ticketname x:ticketamount because it would exceed the event\'s limit of :maxamount total ticket(s) per user. You currently have :currentamount total ticket(s) for this event.',
+    'max_ticket_group_count_reached' => 'You can not buy :ticketname x:ticketamount, because it would exceed the limit of :maxamount ticket(s) from the group :ticketgroup per user. You currently have :currentamount ticket(s).',
+    'max_ticket_type_count_reached' => 'You can not buy :ticketname x:ticketamount, because it would exceed the limit of :maxamount ticket(s) per user. You currently have :currentamount ticket(s).',
     'ticket_not_yet' => 'You cannot buy this ticket yet.',
     'ticket_not_anymore' => 'You cannot buy this ticket anymore.',
     

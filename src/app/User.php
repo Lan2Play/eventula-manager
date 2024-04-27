@@ -174,6 +174,28 @@ class User extends Authenticatable implements MustVerifyEmail
         return $eventParticipants;
     }
 
+    public function getAllTicketsOfType(Event $event, EventTicket $ticket) {
+        return EventParticipant::where([
+            'user_id' => $this->id,
+            'event_id' => $event->id,
+            'ticket_id' => $ticket->id
+        ])->get();
+    }
+
+    public function getAllTicketsInTicketGroup(Event $event, EventTicket $ticket) {
+        if (empty($ticket->ticketGroup)) {
+            return $this->getAllTicketsOfType($event, $ticket);
+        }
+        $ticketIds = EventTicket::where(['event_ticket_group_id' => $ticket->ticketGroup->id])->pluck('id')->toArray();
+
+        return EventParticipant::where([
+            'user_id' => $this->id,
+            'event_id' => $event->id,
+        ])
+            ->whereIn('ticket_id', $ticketIds)
+            ->get();
+    }
+
     /**
     * User has at least one seatable ticket for event
     */

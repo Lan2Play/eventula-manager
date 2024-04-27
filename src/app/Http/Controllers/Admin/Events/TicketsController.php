@@ -107,6 +107,7 @@ class TicketsController extends Controller
         $ticket->sale_end   = @$saleEnd;
         $ticket->quantity   = @$request->quantity;
         $ticket->no_tickets_per_user = $request->no_tickets_per_user;
+        $ticket->event_ticket_group_id = empty($request->ticket_group) ? null : $request->ticket_group;
 
         if (!$ticket->save()) {
             Session::flash('alert-danger', 'Cannot save Ticket');
@@ -201,6 +202,7 @@ class TicketsController extends Controller
 
 
         $ticket->seatable   = ($request->seatable ? true : false);
+        $ticket->event_ticket_group_id = empty($request->ticket_group) ? null : $request->ticket_group;
 
         if (!$ticket->save()) {
             Session::flash('alert-danger', 'Cannot update Ticket!');

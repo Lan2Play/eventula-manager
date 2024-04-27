@@ -75,6 +75,25 @@
 									</div>
 								</div>
 							</div>
+							<div class="row">
+								<div class="col-12">
+									<div class="mb-3">
+										{{ Form::label('no_tickets_per_user','No. tickets per user',array('id'=>'','class'=>'')) }}
+										{{ Form::number(
+												'no_tickets_per_user',
+												$event->no_tickets_per_user,
+												array(
+													'id'=>'no_tickets_per_user',
+													'class'=>'form-control',
+													'min' => 0
+												)
+										) }}
+										<div class="form-text">Limit total amount of tickets a user can buy for the event. 0 or leave empty for
+											unlimited.
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
 						<div class="col-md-6 col-sm-12">
 							<div class="row">

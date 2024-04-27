@@ -96,6 +96,9 @@ class Event extends Model
     {
         return $this->hasMany('App\EventTimetable');
     }
+    public function ticketGroups() {
+        return $this->hasMany('App\EventTicketGroup');
+    }
     public function tickets()
     {
         return $this->hasMany('App\EventTicket');
@@ -323,5 +326,9 @@ class Event extends Model
             return false;
         }
         return true;
+    }
+
+    public function getUngroupedTickets() {
+        return $this->tickets->where('event_ticket_group_id', '===', null);
     }
 }

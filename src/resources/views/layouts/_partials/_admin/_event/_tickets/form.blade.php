@@ -72,6 +72,18 @@
 		}}
 		<small>If unlimited, leave blank</small>
 	</div>
+	<div class="mb-3 col-md-6 col-sm-6 col-12">
+		{{ Form::label('ticket-group', 'Ticket group') }}
+		{{ Form::select(
+            'ticket_group',
+            Helpers::getTicketGroupSelection(),
+            ($empty ?? false) ? null : $ticket->ticketGroup?->id,
+            [
+                'id' => 'ticket-group',
+                'class' => 'form-control'
+			]
+		) }}
+	</div>
 	<div class="mb-3 col-12">
 		<div class="form-check">
 			<label class="form-check-label">
