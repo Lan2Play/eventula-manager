@@ -56,7 +56,7 @@
         "symfony/http-client": "6.4.0",
         "spatie/backtrace": "1.5.3",
         "haydenpierce/class-finder": "^0.5.3",
-        "dompdf/dompdf": "^2.0"
+        "dompdf/dompdf": "^3.0"
     },
     "require-dev": {
         "mockery/mockery": "1.6.6",
