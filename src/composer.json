@@ -45,7 +45,7 @@
         "symfony/routing": "6.4.1",
         "sirprize/postal-code-validator": "1.5.0",
         "artesaos/seotools": "1.2.0",
-        "spatie/laravel-cookie-consent": "3.2.4",
+        "spatie/laravel-cookie-consent": "3.3.2",
         "xpaw/php-source-query-class": "2.1.0",
         "maniaplanet/dedicated-server-api": "dev-master",
         "laravel/ui": "4.2.3",
