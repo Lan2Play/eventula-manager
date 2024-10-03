@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "99fa9f6a7ff98f2c5032d70d7c2b49b0",
+    "content-hash": "d2c620cb4810668183fd6f5a1df36772",
     "packages": [
         {
             "name": "artesaos/seotools",
@@ -6451,16 +6451,16 @@
         },
         {
             "name": "spatie/laravel-database-mail-templates",
-            "version": "3.6.0",
+            "version": "3.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-database-mail-templates.git",
-                "reference": "a22fec6b75753d2b03d069b407440fe38558b192"
+                "reference": "093eba4de14d47cb86c98a743a09f265958779a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-database-mail-templates/zipball/a22fec6b75753d2b03d069b407440fe38558b192",
-                "reference": "a22fec6b75753d2b03d069b407440fe38558b192",
+                "url": "https://api.github.com/repos/spatie/laravel-database-mail-templates/zipball/093eba4de14d47cb86c98a743a09f265958779a6",
+                "reference": "093eba4de14d47cb86c98a743a09f265958779a6",
                 "shasum": ""
             },
             "require": {
@@ -6507,7 +6507,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-database-mail-templates/issues",
-                "source": "https://github.com/spatie/laravel-database-mail-templates/tree/3.6.0"
+                "source": "https://github.com/spatie/laravel-database-mail-templates/tree/3.7.0"
             },
             "funding": [
                 {
@@ -6515,7 +6515,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2024-04-02T05:57:54+00:00"
+            "time": "2024-10-03T14:50:26+00:00"
         },
         {
             "name": "spatie/laravel-package-tools",
