@@ -23,7 +23,7 @@
         "jquery": "3.7.1",
         "jquery-ui-dist": "1.13.3",
         "@popperjs/core": "2.11.8",
-        "summernote": "0.9.0",
+        "summernote": "0.9.1",
         "slick-carousel": "1.8.1"
     }
 }
