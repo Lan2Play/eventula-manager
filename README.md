@@ -1,6 +1,10 @@
 ![Eventula Logo](resources/images/eventula_sample_logo.png)
 
-The Eventula Event Manager / ECO System is a fully featured White labeled Event Management system. The only prerequisite is `docker and/or docker-compose`. Everything is self contained. The purpose of this application is to unify Event Management (Venue, attendees, seating), Ticket Sales, Tournament Management, Shop Management and Credit Management.
+> **Announcement**
+> The development on Eventula will follow new paths in the future, since we forked off. This also means current users maybe have to take action. Read everything about it in our [related Issue](https://github.com/Lan2Play/eventula-manager/issues/842)
+
+
+The Eventula Event Manager / ECO System is a fully featured White labeled Event Management system. The only prerequisite is `docker and/or docker-compose`. Everything is self contained. The purpose of this application is to unify Event Management (Venue, attendees, seating), Ticket Sales, Tournament Management, Shop Management and Credit Management. It was initially forked off of [th0rn0`s](https://github.com/th0rn0) [lanops-manager](https://github.com/th0rn0/lanops-manager).
 
 <!-- commented out because of the downtimes -->
 <!-- https://eventula.com -->
@@ -16,7 +20,7 @@ If you need help with setting up or using eventula or you want to help developin
 <!-- If you are using this please consider signing up to eventula for event mapping. -->
 
 > **Warning**
-> This fork of eventula manager is not 100% update compatible to the current upstream. We have intended to merge it someday, but currently there are to many changes and there is not enough time to do so. If you migrate from the upstream to our fork, please backup youre database and storage before doing so and please report any issues you encounter with the upgrade.
+> This fork of eventula manager is not 100% update compatible from [th0rn0`s](https://github.com/th0rn0) [lanops-manager](https://github.com/th0rn0/lanops-manager) or old versions of eventula-manager. If you migrate from one of those to our fork, please backup youre database and storage before doing so and please report any issues you encounter with the upgrade. We don't fully support this path nowadays, so expect problems to arise.
 
 
 ## Usage
@@ -131,3 +135,6 @@ Hop over to our [admin documentation](https://eventula.lan2play.de/admin/getting
 
 - Lan2Play - https://lan2play.de
 - Sund-Xplosion - https://sxlan.de
+
+## Credits
+- [th0rn0](https://github.com/th0rn0) for the nice work on our Projects base [lanops-manager](https://github.com/th0rn0/lanops-manager)
