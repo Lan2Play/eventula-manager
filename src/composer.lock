@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "530e5821b866199c1bc874acb66a05ca",
+    "content-hash": "e224558882d580b100b850c1c466279b",
     "packages": [
         {
             "name": "artesaos/seotools",
@@ -134,16 +134,16 @@
         },
         {
             "name": "barryvdh/laravel-debugbar",
-            "version": "v3.14.3",
+            "version": "v3.14.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/barryvdh/laravel-debugbar.git",
-                "reference": "c0bee7c08ae2429e4a9ed2bc75679b012db6e3bd"
+                "reference": "f5c4011cb437451bd0276fb7bc9fed008b46d6ca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barryvdh/laravel-debugbar/zipball/c0bee7c08ae2429e4a9ed2bc75679b012db6e3bd",
-                "reference": "c0bee7c08ae2429e4a9ed2bc75679b012db6e3bd",
+                "url": "https://api.github.com/repos/barryvdh/laravel-debugbar/zipball/f5c4011cb437451bd0276fb7bc9fed008b46d6ca",
+                "reference": "f5c4011cb437451bd0276fb7bc9fed008b46d6ca",
                 "shasum": ""
             },
             "require": {
@@ -202,7 +202,7 @@
             ],
             "support": {
                 "issues": "https://github.com/barryvdh/laravel-debugbar/issues",
-                "source": "https://github.com/barryvdh/laravel-debugbar/tree/v3.14.3"
+                "source": "https://github.com/barryvdh/laravel-debugbar/tree/v3.14.4"
             },
             "funding": [
                 {
@@ -214,7 +214,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-10-02T09:17:49+00:00"
+            "time": "2024-10-18T07:28:31+00:00"
         },
         {
             "name": "brick/math",
