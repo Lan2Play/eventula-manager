@@ -13,7 +13,7 @@
         "laravel-mix-purgecss": "6.0.0",
         "postcss": "8.4.47",
         "resolve-url-loader": "5.0.0",
-        "sass": "1.80.2",
+        "sass": "1.80.3",
         "sass-loader": "16.0.2"
     },
     "dependencies": {
