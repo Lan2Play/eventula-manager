@@ -56,7 +56,7 @@
 			<div class="card-body">
 				{{ Form::open(array('url'=>'/admin/settings/', 'onsubmit' => 'return ConfirmSubmit()')) }}
 					<div class="mb-3">
-						{{ Form::select('currency', ['GBP' => 'GBP', 'USD' => 'USD', 'EUR' => 'EUR', 'DKK' => 'DKK'], Settings::getCurrency(), array('id'=>'venue','class'=>'form-control')) }}
+						{{ Form::select('currency', ['GBP' => 'GBP', 'USD' => 'USD', 'EUR' => 'EUR', 'SEK' => 'SEK', 'DKK' => 'DKK'], Settings::getCurrency(), array('id'=>'venue','class'=>'form-control')) }}
 					</div>
 					<button type="submit" class="btn btn-success btn-block">Submit</button>
 				{{ Form::close() }}
