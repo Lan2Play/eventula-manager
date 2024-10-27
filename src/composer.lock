@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ab3627ae77db39ae4971fbc854751da4",
+    "content-hash": "88c05eab6cae20377fd4396b8f7e9b5e",
     "packages": [
         {
             "name": "artesaos/seotools",
@@ -2001,16 +2001,16 @@
         },
         {
             "name": "intervention/image",
-            "version": "3.9.0",
+            "version": "3.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Intervention/image.git",
-                "reference": "1e0a2b6d767ef22a095924c6bcb2981da6de6f1e"
+                "reference": "b496d1f6b9f812f96166623358dfcafb8c3b1683"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Intervention/image/zipball/1e0a2b6d767ef22a095924c6bcb2981da6de6f1e",
-                "reference": "1e0a2b6d767ef22a095924c6bcb2981da6de6f1e",
+                "url": "https://api.github.com/repos/Intervention/image/zipball/b496d1f6b9f812f96166623358dfcafb8c3b1683",
+                "reference": "b496d1f6b9f812f96166623358dfcafb8c3b1683",
                 "shasum": ""
             },
             "require": {
@@ -2057,7 +2057,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Intervention/image/issues",
-                "source": "https://github.com/Intervention/image/tree/3.9.0"
+                "source": "https://github.com/Intervention/image/tree/3.9.1"
             },
             "funding": [
                 {
@@ -2073,7 +2073,7 @@
                     "type": "ko_fi"
                 }
             ],
-            "time": "2024-10-06T15:37:56+00:00"
+            "time": "2024-10-27T10:15:54+00:00"
         },
         {
             "name": "intervention/image-laravel",
