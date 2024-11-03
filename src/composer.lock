@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "81c8cabfea5e78548acb50649f3cebf6",
+    "content-hash": "fda6a59f8a7df8baaeb8f96d08739472",
     "packages": [
         {
             "name": "artesaos/seotools",
@@ -9687,16 +9687,16 @@
         },
         {
             "name": "kitloong/laravel-migrations-generator",
-            "version": "v7.0.5",
+            "version": "v7.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kitloong/laravel-migrations-generator.git",
-                "reference": "8b3575285bc3d65a084085fb20d7c1ba5f903c4e"
+                "reference": "3d036e3030928f904c833a8e004fd4914f301236"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kitloong/laravel-migrations-generator/zipball/8b3575285bc3d65a084085fb20d7c1ba5f903c4e",
-                "reference": "8b3575285bc3d65a084085fb20d7c1ba5f903c4e",
+                "url": "https://api.github.com/repos/kitloong/laravel-migrations-generator/zipball/3d036e3030928f904c833a8e004fd4914f301236",
+                "reference": "3d036e3030928f904c833a8e004fd4914f301236",
                 "shasum": ""
             },
             "require": {
@@ -9748,7 +9748,7 @@
             ],
             "support": {
                 "issues": "https://github.com/kitloong/laravel-migrations-generator/issues",
-                "source": "https://github.com/kitloong/laravel-migrations-generator/tree/v7.0.5"
+                "source": "https://github.com/kitloong/laravel-migrations-generator/tree/v7.0.6"
             },
             "funding": [
                 {
@@ -9760,7 +9760,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-08-06T13:18:32+00:00"
+            "time": "2024-11-03T12:05:10+00:00"
         },
         {
             "name": "mockery/mockery",
