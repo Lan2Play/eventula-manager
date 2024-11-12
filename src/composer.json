@@ -78,7 +78,7 @@
         "symfony/css-selector": "7.1.6",
         "symfony/dom-crawler": "7.1.6",
         "orangehill/iseed": "3.0.4",
-        "squizlabs/php_codesniffer": "3.10.3",
+        "squizlabs/php_codesniffer": "3.11.0",
         "filp/whoops": "2.16.0"
     },
     "autoload": {
