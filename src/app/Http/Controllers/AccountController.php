@@ -31,10 +31,10 @@ class AccountController extends Controller
         ->orderBy('created_at', 'desc')
         ->paginate(5, ['*'], 'ti');
         return view("accounts.index")
-            ->withUser($user)
-            ->withCreditLogs($creditLogs)
-            ->withPurchases($purchases)
-            ->withEventParticipants($tickets);
+            ->with('user', $user)
+            ->with('creditLogs', $creditLogs)
+            ->with('purchases', $purchases)
+            ->with('eventParticipants', $tickets);
     }
 
     /**
@@ -46,7 +46,7 @@ class AccountController extends Controller
         $user = Auth::user();
 
         return view("accounts.email")
-            ->withUser($user);
+            ->with('user', $user);
     }
 
     /**
@@ -58,8 +58,8 @@ class AccountController extends Controller
         $user = Auth::user();
 
         return view("accounts.removesso")
-            ->withUser($user)
-            ->withMethod($method);
+            ->with('user', $user)
+            ->with('method', $method);
     }
 
 
@@ -135,17 +135,17 @@ class AccountController extends Controller
     {
         $user = Auth::user();
         if ($application == null || $application == "") {
-            return view("accounts.tokenwizzard_start")->withStatus('no_application');
+            return view("accounts.tokenwizzard_start")->with('status', 'no_application');
         }
 
 
         foreach ($user->tokens as $currtoken) {
             if ($currtoken->name == $application) {
-                return view("accounts.tokenwizzard_start")->withStatus('exists')->withApplication($application)->withCallbackurl($callbackurl);
+                return view("accounts.tokenwizzard_start")->with('status', 'exists')->with('application', $application)->with('callbackurl', $callbackurl);
             }
         }
 
-        return view("accounts.tokenwizzard_start")->withStatus("not_exists")->withApplication($application)->withCallbackurl($callbackurl);
+        return view("accounts.tokenwizzard_start")->withStatus("not_exists")->with('application', $application)->with('callbackurl', $callbackurl);
     }
 
     /**
@@ -160,7 +160,7 @@ class AccountController extends Controller
         foreach ($user->tokens as $currtoken) {
             if ($currtoken->name == $request->application) {
                 if (!$currtoken->delete()) {
-                    return view("accounts.tokenwizzard_finish")->withStatus('del_failed')->withApplication($request->application);
+                    return view("accounts.tokenwizzard_finish")->with('status', 'del_failed')->with('application', $request->application);
                 }
             }
         }
@@ -170,12 +170,12 @@ class AccountController extends Controller
         $token = $user->createToken($request->application);
 
         if ($token->plainTextToken == null || $token->plainTextToken == "") {
-            return view("accounts.tokenwizzard_finish")->withStatus('creation_failed')->withApplication($request->application);
+            return view("accounts.tokenwizzard_finish")->with('status', 'creation_failed')->with('application', $request->application);
         }
 
         $newcallbackurl = $request->callbackurl . "://" . $token->plainTextToken;
 
-        return view("accounts.tokenwizzard_finish")->withStatus('success')->withNewtoken($token->plainTextToken)->withApplication($request->application)->withCallbackurl($newcallbackurl);
+        return view("accounts.tokenwizzard_finish")->with('status', 'success')->with('newtoken', $token->plainTextToken)->with('application', $request->application)->with('callbackurl', $newcallbackurl);
     }
 
 
@@ -190,7 +190,7 @@ class AccountController extends Controller
                 return redirect('/login/steam');
                 break;
             default:
-                return Redirect::back()->withError('no valid sso method selected');
+                return Redirect::back()->with('error', 'no valid sso method selected');
                 break;
         }
     }
@@ -250,7 +250,7 @@ class AccountController extends Controller
 
                     break;
                 default:
-                    return Redirect::back()->withError('no valid sso method selected');
+                    return Redirect::back()->with('error', 'no valid sso method selected');
                     break;
             }
         }
@@ -307,7 +307,7 @@ class AccountController extends Controller
 
         $user->firstname = @$request->firstname;
         $user->surname = @$request->surname;
-        
+
         if (isset($request->locale)) {
             $user->locale = @$request->locale;
         }
@@ -315,7 +315,7 @@ class AccountController extends Controller
         if (!$user->save()) {
             return Redirect::back()->withFail("Oops, Something went Wrong.");
         }
-        return Redirect::back()->withSuccess('Account successfully updated!');
+        return Redirect::back()->with('success', 'Account successfully updated!');
     }
 
     public function updateMail(Request $request)
@@ -364,7 +364,7 @@ class AccountController extends Controller
         $this->validate($request, [
             'avatar' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
         ]);
-        
+
         if(!$path = Storage::putFile(
             'public/images/avatars', $request->file('avatar')
         ))
@@ -401,5 +401,5 @@ class AccountController extends Controller
         return Redirect::back();
     }
 
-    
+
 }

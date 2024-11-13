@@ -29,7 +29,7 @@ class GameServersController extends Controller
     public function show(Game $game, GameServer $gameServer)
     {
         return view('admin.games.gameserver.show')
-            ->withGameServer($gameServer);
+            ->with('gameServer', $gameServer);
     }
 
     /**
@@ -142,7 +142,7 @@ class GameServersController extends Controller
      * @return Redirect
      */
     public function updatetoken(Game $game, GameServer $gameServer, Request $request)
-    {   
+    {
         $gameServer->tokens()->delete();
         $token = $gameServer->createToken("gs_" . Str::random());
         if (!isset($token->plainTextToken) || $token->plainTextToken == "")

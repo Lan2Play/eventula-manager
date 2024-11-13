@@ -26,7 +26,7 @@ class GamesController extends Controller
     public function index()
     {
         return view('admin.games.index')
-            ->withGames(Game::paginate(20));
+            ->with('games', Game::paginate(20));
     }
 
     /**
@@ -51,9 +51,9 @@ class GamesController extends Controller
         }
 
         return view('admin.games.show')
-            ->withAllCommands($allcommands)
-            ->withGame($game)
-            ->withMatchCountError($matchcounterror);
+            ->with('allCommands', $allcommands)
+            ->with('game', $game)
+            ->with('matchCountError', $matchcounterror);
     }
 
     /**

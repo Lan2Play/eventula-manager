@@ -29,7 +29,7 @@ class UsersController extends Controller
     {
         if ($request->searchquery != "") {
             return view('admin.users.index')
-                ->withUser(Auth::user())
+                ->with('user', Auth::user())
                 ->withUsers(
                     User::where('username', 'LIKE', '%' . $request->searchquery . '%')
                         ->orWhere('firstname', 'LIKE', '%' . $request->searchquery . '%')
@@ -44,8 +44,8 @@ class UsersController extends Controller
         }
 
         return view('admin.users.index')
-            ->withUser(Auth::user())
-            ->withUsers(User::paginate(20)->appends(['searchquery' =>  $request->searchquery]));
+            ->with('user', Auth::user())
+            ->with('users', User::paginate(20)->appends(['searchquery' =>  $request->searchquery]));
     }
 
     /**
@@ -59,9 +59,9 @@ class UsersController extends Controller
             $creditLogs = $user->creditLogs()->paginate(5, ['*'], 'cl');
         }
         return view('admin.users.show')
-            ->withUserShow($user)
-            ->withCreditLogs($creditLogs)
-            ->withPurchases($user->purchases()->paginate(10, ['*'], 'pu'));
+            ->with('userShow', $user)
+            ->with('creditLogs', $creditLogs)
+            ->with('purchases', $user->purchases()->paginate(10, ['*'], 'pu'));
     }
 
     /**
@@ -175,7 +175,7 @@ class UsersController extends Controller
 
 
     /**
-     * Remove User 
+     * Remove User
      * @param  User  $user
      * @return View
      */

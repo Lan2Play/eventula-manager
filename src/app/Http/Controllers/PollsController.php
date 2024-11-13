@@ -29,8 +29,8 @@ class PollsController extends Controller
             ->whereNull('event_id')
             ->paginate(10, ['*'], 'page');
         return view("polls.index")
-            ->withActivePolls($activePolls)
-            ->withEndedPolls($endedPolls);
+            ->with('activePolls', $activePolls)
+            ->with('endedPolls', $endedPolls);
     }
 
     /**
@@ -41,7 +41,7 @@ class PollsController extends Controller
     {
         $poll->sortOptions();
         return view("polls.show")
-            ->withPoll($poll);
+            ->with('poll', $poll);
     }
 
     /**

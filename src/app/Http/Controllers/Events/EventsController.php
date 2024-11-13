@@ -36,9 +36,9 @@ class EventsController extends Controller
      */
     public function index()
     {
-        return view('events.index')->withEvents(Event::all());
+        return view('events.index')->with('events', Event::all());
     }
-    
+
     /**
      * Show Event Page
      * @param  Event $event
@@ -83,7 +83,7 @@ class EventsController extends Controller
         OpenGraph::addProperty('type', 'article');
 
         return view('events.show')
-            ->withEvent($event);
+            ->with('event', $event);
     }
 
     /**
@@ -109,7 +109,7 @@ class EventsController extends Controller
         ];
         $address = implode(', ', array_filter($addressParts, function($value) { return !is_null($value) && $value !== ''; }));
         $address = str_replace([',', ';'], ['\,', '\;'], $address);
-        
+
         $icsContent = "BEGIN:VCALENDAR\r\n";
         $icsContent .= "VERSION:2.0\r\n";
         $icsContent .= "PRODID:-//" . $orgName . "//" . $eventName . "//EN\r\n";

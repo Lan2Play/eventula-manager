@@ -19,6 +19,6 @@ class Banned
         }
 
  		Session::flash('alert-danger', 'You have been banned!');
-        return Redirect::back()->withError('You have been banned.');
+        return Redirect::back()->with('error', 'You have been banned.');
     }
 }

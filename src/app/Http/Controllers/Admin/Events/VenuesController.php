@@ -28,7 +28,7 @@ class VenuesController extends Controller
     public function index()
     {
         return view('admin.events.venues.index')
-            ->withVenues(EventVenue::paginate(10))
+            ->with('venues', EventVenue::paginate(10))
         ;
     }
 
@@ -40,7 +40,7 @@ class VenuesController extends Controller
     public function show(EventVenue $venue)
     {
         return view('admin.events.venues.show')
-            ->withVenue($venue);
+            ->with('venue', $venue);
     }
 
     /**
@@ -83,7 +83,7 @@ class VenuesController extends Controller
         }
         if (!$validCountry) {
             Session::flash('alert-danger', 'That country appears to be invalid. Please use a valid one.');
-            return Redirect::back()->withInput($request->input())->withError('That country appears to be invalid. Please use a valid one.');
+            return Redirect::back()->with('input', $request->input())->with('error', 'That country appears to be invalid. Please use a valid one.');
         }
 
         if (isset($request->address_postcode) && $request->address_postcode != null && trim($request->address_postcode) != '') {
@@ -193,7 +193,7 @@ class VenuesController extends Controller
             }
             if (!$validCountry) {
                 Session::flash('alert-danger', 'That country appears to be invalid. Please use a valid one.');
-                return Redirect::back()->withInput($request->input())->withError('That country appears to be invalid. Please use a valid one.');
+                return Redirect::back()->with('input', $request->input())->with('error', 'That country appears to be invalid. Please use a valid one.');
             }
 
             if (isset($request->address_postcode) && $request->address_postcode != null && trim($request->address_postcode) != '') {

@@ -30,7 +30,7 @@ class TimetablesController extends Controller
     public function index(Event $event)
     {
         return view('admin.events.timetables.index')
-            ->withEvent($event);
+            ->with('event', $event);
     }
 
     /**
@@ -43,8 +43,8 @@ class TimetablesController extends Controller
     {
         $timetable->data = $timetable->data->sortBy('start_time');
         return view('admin.events.timetables.show')
-            ->withEvent($event)
-            ->withTimetable($timetable);
+            ->with('event', $event)
+            ->with('timetable', $timetable);
     }
 
     /**
@@ -129,7 +129,7 @@ class TimetablesController extends Controller
             Session::flash('alert-danger', 'Cannot delete Timetable!');
             return Redirect::back();
         }
-        
+
         Session::flash('alert-success', 'Successfully deleted Timetable!');
         return Redirect::back();
     }

@@ -44,16 +44,16 @@ class SettingsController extends Controller
             $facebookCallback = Facebook::getLoginUrl();
         }
         return view('admin.settings.index')
-            ->withSettings(Setting::all())
-            ->withIsShopEnabled(Settings::isShopEnabled())
-            ->withisGalleryEnabled(Settings::isGalleryEnabled())
-            ->withisHelpEnabled(Settings::isHelpEnabled())
-            ->withisMatchMakingEnabled(Settings::isMatchMakingEnabled())
-            ->withIsCreditEnabled(Settings::isCreditEnabled())
-            ->withFacebookCallback($facebookCallback)
-            ->withFacebookIsLinked(Facebook::isLinked())
-            ->withSupportedLoginMethods(Settings::getSupportedLoginMethods())
-            ->withActiveLoginMethods(Settings::getLoginMethods());
+            ->with('settings', Setting::all())
+            ->with('isShopEnabled', Settings::isShopEnabled())
+            ->with('isGalleryEnabled', Settings::isGalleryEnabled())
+            ->with('isHelpEnabled', Settings::isHelpEnabled())
+            ->with('isMatchMakingEnabled', Settings::isMatchMakingEnabled())
+            ->with('isCreditEnabled', Settings::isCreditEnabled())
+            ->with('facebookCallback', $facebookCallback)
+            ->with('facebookIsLinked', Facebook::isLinked())
+            ->with('supportedLoginMethods', Settings::getSupportedLoginMethods())
+            ->with('activeLoginMethods', Settings::getLoginMethods());
     }
 
     /**
@@ -63,7 +63,7 @@ class SettingsController extends Controller
     public function showOrg()
     {
         return view('admin.settings.org')
-            ->withSettings(Setting::all());
+            ->with('settings', Setting::all());
     }
 
     /**
@@ -74,10 +74,10 @@ class SettingsController extends Controller
     {
 
         return view('admin.settings.payments')
-            ->withSupportedPaymentGateways(Settings::getSupportedPaymentGateways())
-            ->withActivePaymentGateways(Settings::getPaymentGateways())
-            ->withIsCreditEnabled(Settings::isCreditEnabled())
-            ->withIsShopEnabled(Settings::isShopEnabled());
+            ->with('supportedPaymentGateways', Settings::getSupportedPaymentGateways())
+            ->with('activePaymentGateways', Settings::getPaymentGateways())
+            ->with('isCreditEnabled', Settings::isCreditEnabled())
+            ->with('isShopEnabled', Settings::isShopEnabled());
     }
 
     /**
@@ -88,23 +88,23 @@ class SettingsController extends Controller
     {
 
         return view('admin.settings.systems')
-            ->withIsSystemsMatchMakingPublicuseEnabled(Settings::isSystemsMatchMakingPublicuseEnabled())
-            ->withMaxOpenPerUser(Settings::getSystemsMatchMakingMaxopenperuser())
-            ->withIsMatchMakingEnabled(Settings::isMatchMakingEnabled())
-            ->withIsCreditEnabled(Settings::isCreditEnabled())
-            ->withCreditAwardTournamentParticipation(Settings::getCreditTournamentParticipation())
-            ->withCreditAwardTournamentFirst(Settings::getCreditTournamentFirst())
-            ->withCreditAwardTournamentSecond(Settings::getCreditTournamentSecond())
-            ->withCreditAwardTournamentThird(Settings::getCreditTournamentThird())
-            ->withCreditAwardRegistrationEvent(Settings::getCreditRegistrationEvent())
-            ->withCreditAwardRegistrationSite(Settings::getCreditRegistrationSite())
+            ->with('isSystemsMatchMakingPublicuseEnabled', Settings::isSystemsMatchMakingPublicuseEnabled())
+            ->with('maxOpenPerUser', Settings::getSystemsMatchMakingMaxopenperuser())
+            ->with('isMatchMakingEnabled', Settings::isMatchMakingEnabled())
+            ->with('isCreditEnabled', Settings::isCreditEnabled())
+            ->with('creditAwardTournamentParticipation', Settings::getCreditTournamentParticipation())
+            ->with('creditAwardTournamentFirst', Settings::getCreditTournamentFirst())
+            ->with('creditAwardTournamentSecond', Settings::getCreditTournamentSecond())
+            ->with('creditAwardTournamentThird', Settings::getCreditTournamentThird())
+            ->with('creditAwardRegistrationEvent', Settings::getCreditRegistrationEvent())
+            ->with('creditAwardRegistrationSite', Settings::getCreditRegistrationSite())
 
 
 
-            ->withIsShopEnabled(Settings::isShopEnabled())
-            ->withShopWelcomeMessage(Settings::getShopWelcomeMessage())
-            ->withShopStatus(Settings::getShopStatus())
-            ->withShopClosedMessage(Settings::getShopClosedMessage());
+            ->with('isShopEnabled', Settings::isShopEnabled())
+            ->with('shopWelcomeMessage', Settings::getShopWelcomeMessage())
+            ->with('shopStatus', Settings::getShopStatus())
+            ->with('shopClosedMessage', Settings::getShopClosedMessage());
     }
 
     /**
@@ -115,11 +115,11 @@ class SettingsController extends Controller
     {
 
         return view('admin.settings.auth')
-            ->withSupportedLoginMethods(Settings::getSupportedLoginMethods())
-            ->withActiveLoginMethods(Settings::getLoginMethods())
-            ->withIsAuthAllowEmailChangeEnabled(Settings::isAuthAllowEmailChangeEnabled())
-            ->withIsAuthSteamRequireEmailEnabled(Settings::isAuthSteamRequireEmailEnabled())
-            ->withIsAuthRequirePhonenumberEnabled(Settings::isAuthRequirePhonenumberEnabled());
+            ->with('supportedLoginMethods', Settings::getSupportedLoginMethods())
+            ->with('activeLoginMethods', Settings::getLoginMethods())
+            ->with('isAuthAllowEmailChangeEnabled', Settings::isAuthAllowEmailChangeEnabled())
+            ->with('isAuthSteamRequireEmailEnabled', Settings::isAuthSteamRequireEmailEnabled())
+            ->with('isAuthRequirePhonenumberEnabled', Settings::isAuthRequirePhonenumberEnabled());
     }
 
     /**
@@ -129,17 +129,17 @@ class SettingsController extends Controller
     public function showApi()
     {
         return view('admin.settings.api')
-            ->withApiKeys(ApiKey::all())
-            ->withPaypalUsername(ApiKey::where('key', 'paypal_username')->first()->value)
-            ->withPaypalPassword(ApiKey::where('key', 'paypal_password')->first()->value)
-            ->withPaypalSignature(ApiKey::where('key', 'paypal_signature')->first()->value)
-            ->withStripePublicKey(ApiKey::where('key', 'stripe_public_key')->first()->value)
-            ->withStripeSecretKey(ApiKey::where('key', 'stripe_secret_key')->first()->value)
-            ->withFacebookAppId(ApiKey::where('key', 'facebook_app_id')->first()->value)
-            ->withFacebookAppSecret(ApiKey::where('key', 'facebook_app_secret')->first()->value)
-            ->withChallongeApiKey(ApiKey::where('key', 'challonge_api_key')->first()->value)
-            ->withGoogleAnalyticsTrackingId(ApiKey::where('key', 'google_analytics_tracking_id')->first()->value)
-            ->withSteamApiKey(ApiKey::where('key', 'steam_api_key')->first()->value);
+            ->with('apiKeys', ApiKey::all())
+            ->with('paypalUsername', ApiKey::where('key', 'paypal_username')->first()->value)
+            ->with('paypalPassword', ApiKey::where('key', 'paypal_password')->first()->value)
+            ->with('paypalSignature', ApiKey::where('key', 'paypal_signature')->first()->value)
+            ->with('stripePublicKey', ApiKey::where('key', 'stripe_public_key')->first()->value)
+            ->with('stripeSecretKey', ApiKey::where('key', 'stripe_secret_key')->first()->value)
+            ->with('facebookAppId', ApiKey::where('key', 'facebook_app_id')->first()->value)
+            ->with('facebookAppSecret', ApiKey::where('key', 'facebook_app_secret')->first()->value)
+            ->with('challongeApiKey', ApiKey::where('key', 'challonge_api_key')->first()->value)
+            ->with('googleAnalyticsTrackingId', ApiKey::where('key', 'google_analytics_tracking_id')->first()->value)
+            ->with('steamApiKey', ApiKey::where('key', 'steam_api_key')->first()->value);
     }
 
     /**

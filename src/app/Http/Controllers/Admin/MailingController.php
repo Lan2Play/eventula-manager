@@ -44,11 +44,11 @@ class MailingController extends Controller
         foreach ($userswithmail as $user) {
             $selectallusers[$user->id] = $user->username;
         }
-        return view('admin.mailing.index')->withMailTemplates(MailTemplate::all())
-            ->withMailVariables(EventulaMailingMail::getVariables())
-            ->withUsersWithMail($selectallusers)
-            ->withNextEvent($nextevent)
-            ->withUser($user);
+        return view('admin.mailing.index')->with('mailTemplates', MailTemplate::all())
+            ->with('mailVariables', EventulaMailingMail::getVariables())
+            ->with('usersWithMail', $selectallusers)
+            ->with('nextEvent', $nextevent)
+            ->with('user', $user);
     }
 
     /**
@@ -59,8 +59,8 @@ class MailingController extends Controller
     public function show(MailTemplate $mailTemplate)
     {
         return view('admin.mailing.show')
-            ->withMailTemplate($mailTemplate)
-            ->withMailVariables($mailTemplate->mailable::getVariables());
+            ->with('mailTemplate', $mailTemplate)
+            ->with('mailVariables', $mailTemplate->mailable::getVariables());
     }
 
     /**

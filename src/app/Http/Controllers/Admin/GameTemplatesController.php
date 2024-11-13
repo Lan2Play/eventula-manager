@@ -32,7 +32,7 @@ class GameTemplatesController extends Controller
     public function index()
     {
         return view('admin.games.gametemplates.index')
-            ->withGameTemplates(Helpers::getGameTemplates());
+            ->with('gameTemplates', Helpers::getGameTemplates());
     }
 
     /**
@@ -48,17 +48,17 @@ class GameTemplatesController extends Controller
         }
 
         try {
-            DB::beginTransaction();    
+            DB::beginTransaction();
 
             Artisan::call('db:seed', ['class'=> $request->gameTemplateClass, '--force' => true]);
             $artisanOutput = Artisan::output();
-        
+
             if (in_array("Error", str_split($artisanOutput, 5))) {
                 throw new Exception($artisanOutput);
             }
-        
+
             DB::commit();
-            
+
             Session::flash('alert-success', 'Game template successfully deployed!');
             return Redirect::to('admin/games/gametemplates');
 

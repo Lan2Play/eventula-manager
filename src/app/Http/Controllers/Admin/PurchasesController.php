@@ -26,7 +26,7 @@ class PurchasesController extends Controller
     public function index()
     {
         return view('admin.purchases.index')
-            ->withPurchases(Helpers::paginate(Purchase::get()->sortByDesc('created_at'), 20));
+            ->with('purchases', Helpers::paginate(Purchase::get()->sortByDesc('created_at'), 20));
     }
 
     /**
@@ -36,7 +36,7 @@ class PurchasesController extends Controller
     public function showShop()
     {
         return view('admin.purchases.index')
-            ->withPurchases(Helpers::paginate(Purchase::has('order')->get()->sortByDesc('created_at'), 20));
+            ->with('purchases', Helpers::paginate(Purchase::has('order')->get()->sortByDesc('created_at'), 20));
     }
 
     /**
@@ -46,7 +46,7 @@ class PurchasesController extends Controller
     public function showEvent()
     {
         return view('admin.purchases.index')
-            ->withPurchases(Helpers::paginate(Purchase::has('participants')->get()->sortByDesc('created_at'), 20));
+            ->with('purchases', Helpers::paginate(Purchase::has('participants')->get()->sortByDesc('created_at'), 20));
     }
 
     /**
@@ -60,7 +60,7 @@ class PurchasesController extends Controller
             Helpers::paginate(
                 Purchase::whereHas('participants', function ($query) {
                     $query->where('revoked', '=', 1);
-                })->get()->sortByDesc('created_at'), 
+                })->get()->sortByDesc('created_at'),
                 20
             )
         );
@@ -74,7 +74,7 @@ class PurchasesController extends Controller
     public function show(Purchase $purchase)
     {
         return view('admin.purchases.show')
-            ->withPurchase($purchase);
+            ->with('purchase', $purchase);
     }
 
     /**

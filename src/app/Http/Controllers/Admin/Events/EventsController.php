@@ -30,9 +30,9 @@ class EventsController extends Controller
     public function index()
     {
         return view('admin.events.index')
-            ->withUser(Auth::user())
-            ->withEvents(Event::withoutGlobalScopes()->paginate(10))
-            ->withEventTags(Helpers::getEventulaEventTags());
+            ->with('user', Auth::user())
+            ->with('events', Event::withoutGlobalScopes()->paginate(10))
+            ->with('eventTags', Helpers::getEventulaEventTags());
     }
 
     /**
@@ -43,10 +43,10 @@ class EventsController extends Controller
     public function show(Event $event)
     {
         return view('admin.events.show')
-            ->withUser(Auth::user())
-            ->withEvent($event)
-            ->withAnnouncements($event->announcements()->paginate(5, ['*'], 'an'))
-            ->withParticipants($event->eventParticipants()->paginate(10, ['*'], 'ep'));
+            ->with('user', Auth::user())
+            ->with('event', $event)
+            ->with('announcements', $event->announcements()->paginate(5, ['*'], 'an'))
+            ->with('participants', $event->eventParticipants()->paginate(10, ['*'], 'ep'));
     }
 
     /**
@@ -265,8 +265,8 @@ class EventsController extends Controller
         $participant->staff_free_assigned_by    = Auth::id();
         $participant->purchase_id               = $purchase->id;
         $participant->generateQRCode();
-        
-        
+
+
         if (!$participant->save()) {
             Session::flash('alert-danger', 'Could not add Gift!');
             return Redirect::to('admin/events/' . $event->slug . '/tickets');

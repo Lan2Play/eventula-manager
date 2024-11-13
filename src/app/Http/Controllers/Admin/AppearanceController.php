@@ -42,9 +42,9 @@ class AppearanceController extends Controller
             return false !== stristr($item->key, 'color_header');
         });
         return view('admin.settings.appearance')
-            ->withSliderImages(SliderImage::getImages('frontpage'))
-            ->withUserOverrideCss(Appearance::getCssOverride())
-            ->withCssVariables($sortedCssVariables);
+            ->with('sliderImages', SliderImage::getImages('frontpage'))
+            ->with('userOverrideCss', Appearance::getCssOverride())
+            ->with('cssVariables', $sortedCssVariables);
     }
 
     /**

@@ -25,7 +25,7 @@ class HelpController extends Controller
         $event = Event::where('start', '>=', date("Y-m-d 00:00:00"))->first();
         $helpCategorys = HelpCategory::all();
         return view('help.index')
-            ->withHelpCategorys($helpCategorys)
-            ->withEvent($event);
+            ->with('helpCategorys', $helpCategorys)
+            ->with('event', $event);
     }
 }

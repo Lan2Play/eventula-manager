@@ -80,7 +80,7 @@ class AuthController extends Controller
     public function prompt()
     {
         return view('auth.login')
-            ->withActiveLoginMethods(Settings::getLoginMethods());
+            ->with('activeLoginMethods', Settings::getLoginMethods());
     }
 
     /**
@@ -108,10 +108,10 @@ class AuthController extends Controller
                 ) {
                     return redirect('/'); // redirect to site
                 }
-                return view('auth.register', $user)->withLoginMethod('steam');
+                return view('auth.register', $user)->with('loginMethod', 'steam');
                 break;
             default:
-                return view('auth.register')->withLoginMethod('standard');
+                return view('auth.register')->with('loginMethod', 'standard');
                 break;
         }
     }
@@ -211,7 +211,7 @@ class AuthController extends Controller
 
         if (!$user->save()) {
             Auth::logout();
-            return Redirect('/')->withError('Something went wrong. Please Try again later');
+            return Redirect('/')->with('error', 'Something went wrong. Please Try again later');
         }
         Session::forget('user');
         Auth::login($user, true);

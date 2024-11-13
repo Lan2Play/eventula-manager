@@ -53,9 +53,9 @@ class TournamentsController extends Controller
         }
 
         return view('events.tournaments.show')
-            ->withTournament($tournament)
-            ->withEvent($event)
-            ->withUser($user);
+            ->with('tournament', $tournament)
+            ->with('event', $event)
+            ->with('user', $user);
     }
 
 
@@ -72,7 +72,7 @@ class TournamentsController extends Controller
             Session::flash('alert-danger', __('events.tournament_signups_not_permitted'));
             return Redirect::back();
         }
-        
+
 
 
         if (!$tournament->event->eventParticipants()->where('id', $request->event_participant_id)->first()) {
@@ -112,7 +112,7 @@ class TournamentsController extends Controller
             Session::flash('alert-danger', __('events.tournament_staff_not_permitted'));
             return Redirect::back();
         }
-    
+
         // Check if a freebie is trying to register
         if ($eventParticipant->free && !$event->tournaments_freebie) {
             Session::flash('alert-danger', __('events.tournament_freebie_not_permitted'));

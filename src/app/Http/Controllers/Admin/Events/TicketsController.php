@@ -37,16 +37,16 @@ class TicketsController extends Controller
         $totalFreeTickets = $systemtickets->sum(function($user) use ($event) {
         return $user->getFreeTickets($event->id)->count();
         });
-    
+
         $totalStaffTickets = $systemtickets->sum(function($user) use ($event) {
             return $user->getStaffTickets($event->id)->count();
         });
 
         return view('admin.events.tickets.index')
-            ->withEvent($event)
-            ->withTotalFreeTickets($totalFreeTickets)
-            ->withTotalStaffTickets($totalStaffTickets)
-            ->withUsers($users);
+            ->with('event', $event)
+            ->with('totalFreeTickets', $totalFreeTickets)
+            ->with('totalStaffTickets', $totalStaffTickets)
+            ->with('users', $users);
     }
 
     /**
@@ -58,8 +58,8 @@ class TicketsController extends Controller
     public function show(Event $event, EventTicket $ticket)
     {
         return view('admin.events.tickets.show')
-            ->withEvent($event)
-            ->withTicket($ticket);
+            ->with('event', $event)
+            ->with('ticket', $ticket);
     }
 
     /**
