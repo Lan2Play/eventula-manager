@@ -284,7 +284,7 @@ class EventTournament extends Model
      */
     public function event()
     {
-        return $this->belongsTo('App\Event')->withoutGlobalScopes();
+        return $this->belongsTo('App\Event')->with('outGlobalScopes', );
     }
     public function tournamentParticipants()
     {

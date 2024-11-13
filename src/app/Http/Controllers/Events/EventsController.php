@@ -32,13 +32,13 @@ class EventsController extends Controller
 {
     /**
      * Show Events Index Page
-     * @return View
+     * @return View->with('events',
      */
     public function index()
     {
         return view('events.index')->withEvents(Event::all());
     }
-    
+
     /**
      * Show Event Page
      * @param  Event $event
@@ -78,7 +78,7 @@ class EventsController extends Controller
         $seoKeywords[] = $event->display_name;
         $seoKeywords[] = "Start Date: " . $event->start;
         SEOMeta::setDescription(Helpers::getSeoCustomDescription($event->desc_short));
-        SEOMeta::addKeyword($seoKeywords);
+        SEOM->with('event', ord($seoKeywords);
         OpenGraph::setDescription(Helpers::getSeoCustomDescription($event->desc_short));
         OpenGraph::addProperty('type', 'article');
 
@@ -109,7 +109,7 @@ class EventsController extends Controller
         ];
         $address = implode(', ', array_filter($addressParts, function($value) { return !is_null($value) && $value !== ''; }));
         $address = str_replace([',', ';'], ['\,', '\;'], $address);
-        
+
         $icsContent = "BEGIN:VCALENDAR\r\n";
         $icsContent .= "VERSION:2.0\r\n";
         $icsContent .= "PRODID:-//" . $orgName . "//" . $eventName . "//EN\r\n";

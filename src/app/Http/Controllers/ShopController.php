@@ -33,8 +33,8 @@ class ShopController extends Controller
             $featuredItems = $featuredItems->merge(ShopItem::inRandomOrder()->where('featured', false)->paginate($count));
         }
         return view('shop.index')
-            ->withAllCategories(ShopItemCategory::all()->sortBy('order'))
-            ->withFeaturedItems($featuredItems);
+            ->with('allCategories', ShopItemCategory::all()->sortBy('order'))
+            ->with('featuredItems', $featuredItems);
     }
 
     /**
@@ -49,8 +49,8 @@ class ShopController extends Controller
             $basket = 'Empty';
         }
         return view('shop.basket')
-            ->withAllCategories(ShopItemCategory::all()->sortBy('order'))
-            ->withBasket($basket);
+            ->with('allCategories', ShopItemCategory::all()->sortBy('order'))
+            ->with('basket', $basket);
     }
 
     /**
@@ -135,8 +135,8 @@ class ShopController extends Controller
     public function showAllOrders()
     {
         return view('shop.orders.index')
-            ->withAllCategories(ShopItemCategory::all()->sortBy('order'))
-            ->withOrders(Auth::user()->getOrders());
+            ->with('allCategories', ShopItemCategory::all()->sortBy('order'))
+            ->with('orders', Auth::user()->getOrders());
     }
 
     /**
@@ -146,8 +146,8 @@ class ShopController extends Controller
     public function showOrder(ShopOrder $order)
     {
         return view('shop.orders.show')
-            ->withAllCategories(ShopItemCategory::all()->sortBy('order'))
-            ->withOrder($order);
+            ->with('allCategories', ShopItemCategory::all()->sortBy('order'))
+            ->with('order', $order);
     }
 
     /**
@@ -157,7 +157,7 @@ class ShopController extends Controller
     public function showCheckout()
     {
         return view('shop.checkout')
-            ->withAllCategories(ShopItemCategory::all()->sortBy('order'));
+            ->with('allCategories', ShopItemCategory::all()->sortBy('order'));
     }
 
     /**
@@ -168,9 +168,9 @@ class ShopController extends Controller
     public function showCategory(ShopItemCategory $category)
     {
         return view('shop.category')
-            ->withCategory($category)
-            ->withCategoryItems($category->items()->paginate(20))
-            ->withAllCategories(ShopItemCategory::all()->sortBy('order'));
+            ->with('category', $category)
+            ->with('categoryItems', $category->items()->paginate(20))
+            ->with('allCategories', ShopItemCategory::all()->sortBy('order'));
     }
 
     /**
@@ -182,9 +182,9 @@ class ShopController extends Controller
     public function showItem(ShopItemCategory $category, ShopItem $item)
     {
         return view('shop.item')
-            ->withCategory($category)
-            ->withItem($item)
-            ->withAllCategories(ShopItemCategory::all()->sortBy('order'));
+            ->with('category', $category)
+            ->with('item', $item)
+            ->with('allCategories', ShopItemCategory::all()->sortBy('order'));
     }
 
 }

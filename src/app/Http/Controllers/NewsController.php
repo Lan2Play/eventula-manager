@@ -35,7 +35,7 @@ class NewsController extends Controller
         SEOMeta::addKeyword($seoKeywords);
         OpenGraph::addProperty('type', 'article');
         return view('news.index')
-            ->withNewsArticles(NewsArticle::paginate(20));
+            ->with('newsArticles', NewsArticle::paginate(20));
     }
 
     /**
@@ -55,7 +55,7 @@ class NewsController extends Controller
         OpenGraph::setDescription(Helpers::getSeoCustomDescription($newsArticle->title));
         OpenGraph::addProperty('type', 'article');
         return view('news.show')
-            ->withNewsArticle($newsArticle);
+            ->with('newsArticle', $newsArticle);
     }
 
     /**
@@ -75,8 +75,8 @@ class NewsController extends Controller
             $newsArticles[] = $newsTag->newsArticle;
         }
         return view('news.tag')
-            ->withTag($newsTag->tag)
-            ->withNewsArticles($newsArticles);
+            ->with('tag', $newsTag->tag)
+            ->with('newsArticles', $newsArticles);
     }
 
     /**

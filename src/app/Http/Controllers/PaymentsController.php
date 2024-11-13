@@ -45,8 +45,8 @@ class PaymentsController extends Controller
             return Redirect::to('/');
         }
         return view('payments.checkout')
-            ->withBasket(Helpers::formatBasket(Session::get(Settings::getOrgName() . '-basket')))
-            ->withActivePaymentGateways(Settings::getPaymentGateways())
+            ->with('basket', Helpers::formatBasket(Session::get(Settings::getOrgName() . '-basket')))
+            ->with('activePaymentGateways', Settings::getPaymentGateways())
         ;
     }
 
@@ -77,9 +77,9 @@ class PaymentsController extends Controller
             }
         }
         return view('payments.review')
-            ->withPaymentGateway($paymentGateway)
-            ->withBasket(Helpers::formatBasket($basket))
-            ->withNextEventFlag($nextEventFlag)
+            ->with('paymentGateway', $paymentGateway)
+            ->with('basket', Helpers::formatBasket($basket))
+            ->with('nextEventFlag', $nextEventFlag)
         ;
     }
 
@@ -102,10 +102,10 @@ class PaymentsController extends Controller
             }
         }
         return view('payments.details')
-            ->withPaymentGateway($paymentGateway)
-            ->withBasket(Helpers::formatBasket($basket, true))
-            ->withDelivery($delivery)
-            ->withDeliveryDetails($deliveryDetails)
+            ->with('paymentGateway', $paymentGateway)
+            ->with('basket', Helpers::formatBasket($basket, true))
+            ->with('delivery', $delivery)
+            ->with('deliveryDetails', $deliveryDetails)
         ;
     }
 
@@ -120,8 +120,8 @@ class PaymentsController extends Controller
             return Redirect::back();
         }
         return view('payments.delivery')
-            ->withPaymentGateway($paymentGateway)
-            ->withBasket(Helpers::formatBasket($basket, true))
+            ->with('paymentGateway', $paymentGateway)
+            ->with('basket', Helpers::formatBasket($basket, true))
         ;
     }
 
@@ -367,7 +367,7 @@ class PaymentsController extends Controller
                 return Redirect::back();
             }
             $responseStripe = $response->getData();
-            
+
             $purchaseParams = [
                 'user_id'           => Auth::id(),
                 'type'              => 'Stripe',
@@ -500,12 +500,12 @@ class PaymentsController extends Controller
         Session::forget('params');
         Session::forget(Settings::getOrgName() . '-basket');
         return view('payments.successful')
-            ->withType($type)
-            ->withBasket($basket)
-            ->withPurchase($purchase)
+            ->with('type', $type)
+            ->with('basket', $basket)
+            ->with('purchase', $purchase)
         ;
-    }    
-    
+    }
+
     /**
      * Pending Payment Page
      * @param  Purchase $purchase
@@ -525,9 +525,9 @@ class PaymentsController extends Controller
         Session::forget('params');
         Session::forget(Settings::getOrgName() . '-basket');
         return view('payments.pending')
-            ->withType($type)
-            ->withBasket($basket)
-            ->withPurchase($purchase)
+            ->with('type', $type)
+            ->with('basket', $basket)
+            ->with('purchase', $purchase)
         ;
     }
 
@@ -639,7 +639,7 @@ class PaymentsController extends Controller
 		if($paymentGateway == 'free' && (Helpers::formatBasket($basket)->total > 0 || Helpers::formatBasket($basket)->total_credit > 0)) {
 			Session::flash('alert-danger', __('payments.payment_method_not_allowed'));
 			return false;
-		}		
+		}
         if ($paymentGateway != 'credit' && $paymentGateway != 'free' && $paymentGateway != 'onsite' && !Helpers::formatBasket($basket)->allow_payment) {
             Session::flash('alert-danger', __('payments.payment_method_not_allowed'));
             return false;

@@ -33,14 +33,14 @@ class NewsController extends Controller
     public function index()
     {
         return view('admin.news.index')
-            ->withNewsArticles(NewsArticle::paginate(10))
-            ->withFacebookLinked(Facebook::isLinked())
-            ->withCommentsToApprove(
+            ->with('newsArticles', NewsArticle::paginate(10))
+            ->with('facebookLinked', Facebook::isLinked())
+            ->with('commentsToApprove',
                 NewsComment::where([['approved', '=', false], ['reviewed', '=', false]])
                     ->get()
                     ->reverse()
             )
-            ->withCommentsReported(NewsCommentReport::where('reviewed', false)->get()->reverse())
+            ->with('commentsReported', NewsCommentReport::where('reviewed', false)->get()->reverse())
         ;
     }
 
@@ -51,8 +51,8 @@ class NewsController extends Controller
     public function show(NewsArticle $newsArticle)
     {
         return view('admin.news.show')
-            ->withNewsArticle($newsArticle)
-            ->withComments($newsArticle->comments()->paginate(10, ['*'], 'cm'))
+            ->with('newsArticle', $newsArticle)
+            ->with('comments', $newsArticle->comments()->paginate(10, ['*'], 'cm'))
         ;
     }
 

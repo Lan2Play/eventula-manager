@@ -26,8 +26,8 @@ class ParticipantsController extends Controller
     public function index(Event $event)
     {
         return view('admin.events.participants.index')
-            ->withEvent($event)
-            ->withParticipants($event->allEventParticipants()->paginate(20));
+            ->with('event', $event)
+            ->with('participants', $event->allEventParticipants()->paginate(20));
     }
 
     /**
@@ -39,8 +39,8 @@ class ParticipantsController extends Controller
     public function show(Event $event, EventParticipant $participant)
     {
         return view('admin.events.participants.show')
-            ->withEvent($event)
-            ->withParticipant($participant);
+            ->with('event', $event)
+            ->with('participant', $participant);
     }
 
     /**
@@ -66,7 +66,7 @@ class ParticipantsController extends Controller
         if ($participant->event->slug != $event->slug)
         {
             Session::flash('alert-danger', 'The selected participant does not belong to the selected event!');
-            return Redirect::to('admin/events/' . $event->slug . '/participants/'); 
+            return Redirect::to('admin/events/' . $event->slug . '/participants/');
         }
         if ($participant->ticket && $participant->purchase->status != "Success") {
             Session::flash('alert-danger', 'Cannot sign in Participant because the payment is not completed!');
@@ -89,7 +89,7 @@ class ParticipantsController extends Controller
         if ($participant->event->slug != $event->slug)
         {
             Session::flash('alert-danger', 'The selected participant does not belong to the selected event!');
-            return Redirect::to('admin/events/' . $event->slug . '/participants/'); 
+            return Redirect::to('admin/events/' . $event->slug . '/participants/');
         }
         if ($participant->ticket && $participant->purchase->status != "Success") {
             Session::flash('alert-danger', 'Cannot sign in Participant because the payment is not completed!');
@@ -122,7 +122,7 @@ class ParticipantsController extends Controller
      * @return View
      */
     public function signoutall(Event $event)
-    {   
+    {
         foreach ($event->eventParticipants()->get() as $participant)
         {
             if (!$participant->setSignIn(false)) {
@@ -141,11 +141,11 @@ class ParticipantsController extends Controller
      * @return View
      */
     public function signout(Event $event, EventParticipant $participant)
-    {   
+    {
         if ($participant->event->slug != $event->slug)
         {
             Session::flash('alert-danger', 'The selected participant does not belong to the selected event!');
-            return Redirect::to('admin/events/' . $event->slug . '/participants/'); 
+            return Redirect::to('admin/events/' . $event->slug . '/participants/');
         }
         if ($participant->revoked) {
             Session::flash('alert-danger', 'Cannot sign out a revoked Participant!');
@@ -165,7 +165,7 @@ class ParticipantsController extends Controller
         if ($participant->event->slug != $event->slug)
         {
             Session::flash('alert-danger', 'The selected participant does not belong to the selected event!');
-            return Redirect::to('admin/events/' . $event->slug . '/participants/'); 
+            return Redirect::to('admin/events/' . $event->slug . '/participants/');
         }
         if (!$participant->setRevoked()) {
             Session::flash('alert-danger', 'Cannot revoke Participant!');
@@ -180,7 +180,7 @@ class ParticipantsController extends Controller
         if ($participant->event->slug != $event->slug)
         {
             Session::flash('alert-danger', 'The selected participant does not belong to the selected event!');
-            return Redirect::to('admin/events/' . $event->slug . '/participants/'); 
+            return Redirect::to('admin/events/' . $event->slug . '/participants/');
         }
         if (!$participant->delete()) {
             Session::flash('alert-danger', 'Cannot delete participant');

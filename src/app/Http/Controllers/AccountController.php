@@ -26,10 +26,10 @@ class AccountController extends Controller
         if (Settings::isCreditEnabled()) {
             $creditLogs = $user->creditLogs()->paginate(5, ['*'], 'cl');
         }
-        $purchases = $user->purchases()->paginate(5, ['*'], 'pu');
-        $tickets = $user->eventParticipants()->paginate(5, ['*'], 'ti');
-        return view("accounts.index")
-            ->withUser($user)
+        $pur->with('user', ser->purchases()->paginate(5, ['*'], 'pu');
+        $tic->with('creditLogs', ntParticipants()->paginate(5, ['*'], 'ti');
+        retu->with('purchases', s.index")
+            ->with('eventParticipants',
             ->withCreditLogs($creditLogs)
             ->withPurchases($purchases)
             ->withEventParticipants($tickets);
@@ -41,7 +41,7 @@ class AccountController extends Controller
      */
     public function showMail()
     {
-        $user = Auth::user();
+        $use->with('user', ser();
 
         return view("accounts.email")
             ->withUser($user);
@@ -53,8 +53,8 @@ class AccountController extends Controller
      */
     public function showRemoveSso($method)
     {
-        $user = Auth::user();
-
+        $use->with('user', ser();
+->with('method',
         return view("accounts.removesso")
             ->withUser($user)
             ->withMethod($method);
@@ -130,17 +130,17 @@ class AccountController extends Controller
      * @return View
      */
     public function showTokenWizzardStart($application = "", $callbackurl = "")
-    {
+    {->with('status',
         $user = Auth::user();
         if ($application == null || $application == "") {
             return view("accounts.tokenwizzard_start")->withStatus('no_application');
         }
 
-
+->with('status', ->with('application', ->with('callbackurl',
         foreach ($user->tokens as $currtoken) {
             if ($currtoken->name == $application) {
                 return view("accounts.tokenwizzard_start")->withStatus('exists')->withApplication($application)->withCallbackurl($callbackurl);
-            }
+            }->with('status', ->with('application', ->with('callbackurl',
         }
 
         return view("accounts.tokenwizzard_start")->withStatus("not_exists")->withApplication($application)->withCallbackurl($callbackurl);
@@ -155,7 +155,7 @@ class AccountController extends Controller
         $user = Auth::user();
 
 
-        foreach ($user->tokens as $currtoken) {
+        foreach ($user->tokens as $currtoken) {->with('status', ->with('application',
             if ($currtoken->name == $request->application) {
                 if (!$currtoken->delete()) {
                     return view("accounts.tokenwizzard_finish")->withStatus('del_failed')->withApplication($request->application);
@@ -165,12 +165,12 @@ class AccountController extends Controller
 
 
 
-        $token = $user->createToken($request->application);
+        $token = $user->createToken($request->applicati->with('status', ->with('application',
 
         if ($token->plainTextToken == null || $token->plainTextToken == "") {
             return view("accounts.tokenwizzard_finish")->withStatus('creation_failed')->withApplication($request->application);
         }
-
+->with('status', ->with('newtoken', ->with('application', ->with('callbackurl',
         $newcallbackurl = $request->callbackurl . "://" . $token->plainTextToken;
 
         return view("accounts.tokenwizzard_finish")->withStatus('success')->withNewtoken($token->plainTextToken)->withApplication($request->application)->withCallbackurl($newcallbackurl);
@@ -185,7 +185,7 @@ class AccountController extends Controller
     {
         switch ($method) {
             case 'steam':
-                return redirect('/login/steam');
+                return redirect('/login->with('error',
                 break;
             default:
                 return Redirect::back()->withError('no valid sso method selected');
@@ -239,13 +239,13 @@ class AccountController extends Controller
                 case 'steam':
                     $user->steamname = "";
                     $user->steamid = "";
-                    $user->steam_avatar = "";
+                    $user->steam_avatar = "->with('error',
 
                     if ($user->selected_avatar == 'steam')
                     {
                         $user->selected_avatar = 'local';
                     }
-
+->with('fail',
                     break;
                 default:
                     return Redirect::back()->withError('no valid sso method selected');
@@ -297,15 +297,15 @@ class AccountController extends Controller
                 'password1.same'    => 'Passwords must be the same.',
                 'password1.min'     => 'Password must be atleast 8 characters long.',
                 'password2.same'    => 'Passwords must be the same.',
-                'password2.min'     => 'Password must be atleast 8 characters long.',
+                'password2.min'    ->with('fail', rd must be atleast 8 characters long.',
             ];
-            $this->validate($request, $rules, $messages);
+            $this->validate($re->with('success',  $messages);
             $user->password = Hash::make($request->password1);
         }
 
         $user->firstname = @$request->firstname;
         $user->surname = @$request->surname;
-        
+
         if (isset($request->locale)) {
             $user->locale = @$request->locale;
         }
@@ -331,7 +331,7 @@ class AccountController extends Controller
 
         if (Settings::isAuthRequirePhonenumberEnabled()) {
             $rules['phonenumber'] = 'required|filled|phone:AUTO,DE';
-            $messages['phonenumber.phone'] = 'The field contains an invalid number.';
+            $messages['phonenumber.->with('fail', The field contains an invalid number.';
         }
 
         $this->validate($request, $rules, $messages);
@@ -362,7 +362,7 @@ class AccountController extends Controller
         $this->validate($request, [
             'avatar' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
         ]);
-        
+
         if(!$path = Storage::putFile(
             'public/images/avatars', $request->file('avatar')
         ))
@@ -399,5 +399,5 @@ class AccountController extends Controller
         return Redirect::back();
     }
 
-    
+
 }

@@ -51,7 +51,7 @@ class HomeController extends Controller
             return $this->home();
         }
 
-        // Loop trough the eventParticipants 
+        // Loop trough the eventParticipants
         // The first one, whos event is currently running and that is active redirects to the event page
         foreach ($user->eventParticipants as $participant) {
             if ($participant->event->isRunningCurrently() && $participant->isActive()) {
@@ -119,16 +119,16 @@ class HomeController extends Controller
     }
 
     /**
-     * Show Event Page
+     * Show ->with('nextEvent',
      * @return View
      */
     public function event()
-    {
-        $signedIn = true;
-        $gameServerList = Helpers::getCasualGameServers();
-
-        $event =  Event::current()->first();
-        // Check if event is null and handle it
+    {->with('topAttendees',
+        $sig->with('topWinners',
+        $gam->with('gameServerList', ::getCasualGameServers();
+->with('newsArticles',
+        $eve->with('events', current()->first();
+        // C->with('sliderImages', ll and handle it
         if (!$event) {
             return redirect()->route('home.index')->with('error', 'No active event found.');
         }
@@ -205,3 +205,4 @@ class HomeController extends Controller
         return view("events.big")->withEvent($event);
     }
 }
+->with('openPublicMatches', ->with('liveClosedPublicMatches', ->with('memberedTeams', ->with('ownedMatches', ->with('currentUserOpenLivePendingDraftMatches', ->with('isMatchMakingEnabled', ->with('event', ->with('gameServerList', ->with('ticketFlagSignedIn', ->with('signedIn', ->with('user', ->with('event',

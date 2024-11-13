@@ -33,8 +33,8 @@ class HelpController extends Controller
     public function index()
     {
         return view('admin.help.index')
-            ->withHelpCategorys(HelpCategory::paginate(20))
-            ->withisHelpEnabled(Settings::isHelpEnabled())
+            ->with('helpCategorys', HelpCategory::paginate(20))
+            ->with('isHelpEnabled', Settings::isHelpEnabled())
         ;
     }
 
@@ -45,9 +45,9 @@ class HelpController extends Controller
     public function show(HelpCategory $helpCategory)
     {
         return view('admin.help.show')
-            ->withHelpCategory($helpCategory)
-            ->withEntrys($helpCategory->entrys()->paginate(10))
-            ->withisHelpEnabled(Settings::isHelpEnabled())
+            ->with('helpCategory', $helpCategory)
+            ->with('entrys', $helpCategory->entrys()->paginate(10))
+            ->with('isHelpEnabled', Settings::isHelpEnabled())
         ;
     }
 
@@ -263,8 +263,8 @@ class HelpController extends Controller
 
             if ($attachment->save()){
                 $uploadcount++;
-            }       
-                 
+            }
+
         }
         if ($uploadcount != $fileCount) {
             Session::flash('alert-danger', 'Upload unsuccessful check attachments!');
@@ -285,7 +285,7 @@ class HelpController extends Controller
     public function destroyFile(HelpCategory $helpCategory, HelpCategoryEntry $entry, HelpCategoryEntryAttachment $attachment)
     {
         $destinationPathFile = '/attachments/help/' . $entry->id . '/' . $attachment->display_name;
-        
+
         if (!$attachment->delete()) {
             Session::flash('alert-danger', 'Cannot delete Attachment!');
             return Redirect::back();

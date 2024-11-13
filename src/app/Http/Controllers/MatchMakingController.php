@@ -55,12 +55,12 @@ class MatchMakingController extends Controller
         }
 
         return view('matchmaking.index')
-            ->withOpenPublicMatches($openpublicmatches)
-            ->withLiveClosedPublicMatches($liveclosedpublicmatches)
-            ->withMemberedTeams($memberedteams)
-            ->withOwnedMatches($ownedmatches)
-            ->withCurrentUserOpenLivePendingDraftMatches($currentuseropenlivependingdraftmatches)
-            ->withisMatchMakingEnabled(Settings::isMatchMakingEnabled());
+            ->with('openPublicMatches', $openpublicmatches)
+            ->with('liveClosedPublicMatches', $liveclosedpublicmatches)
+            ->with('memberedTeams', $memberedteams)
+            ->with('ownedMatches', $ownedmatches)
+            ->with('currentUserOpenLivePendingDraftMatches', $currentuseropenlivependingdraftmatches)
+            ->with('isMatchMakingEnabled', Settings::isMatchMakingEnabled());
     }
 
     /**
@@ -125,11 +125,11 @@ class MatchMakingController extends Controller
 
 
         return view('matchmaking.show')
-            ->withMatch($match)
-            ->withAvailableUsers($availableusers)
-            ->withUsers($selectallusers)
-            ->withTeamJoin($teamjoin)
-            ->withInvite($invite);
+            ->with('match', $match)
+            ->with('availableUsers', $availableusers)
+            ->with('users', $selectallusers)
+            ->with('teamJoin', $teamjoin)
+            ->with('invite', $invite);
     }
 
     /**

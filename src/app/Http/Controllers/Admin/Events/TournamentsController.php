@@ -40,8 +40,8 @@ class TournamentsController extends Controller
     public function index(Event $event)
     {
         return view('admin.events.tournaments.index')
-            ->withEvent($event)
-            ->withTournaments($event->tournaments()->paginate(10))
+            ->with('event', $event)
+            ->with('tournaments', $event->tournaments()->paginate(10))
         ;
     }
 
@@ -54,8 +54,8 @@ class TournamentsController extends Controller
     public function show(Event $event, EventTournament $tournament)
     {
         return view('admin.events.tournaments.show')
-            ->withEvent($event)
-            ->withTournament($tournament);
+            ->with('event', $event)
+            ->with('tournament', $tournament);
     }
 
     /**
@@ -169,7 +169,7 @@ class TournamentsController extends Controller
             $tournament->rules          = $request->rules;
             $tournament->bestof         = $request->bestof;
 
-            
+
             $disallowed_array = ['OPEN', 'CLOSED', 'LIVE', 'COMPLETED'];
             if (!in_array($tournament->status, $disallowed_array)) {
                 $game_id = null;
@@ -300,7 +300,7 @@ class TournamentsController extends Controller
 
         if (isset($tournament->game) && $tournament->match_autostart)
         {
-            
+
 
             $nextmatches = $tournament->getNextMatches();
 
@@ -309,7 +309,7 @@ class TournamentsController extends Controller
                 GameServerAsign::dispatch(null,$tournament,$nextmatch->id)->onQueue('gameserver');
 
             }
-            
+
 
         }
 
@@ -437,7 +437,7 @@ class TournamentsController extends Controller
                     Session::flash('alert-danger', __('events.tournament_cannot_join_thirdparty'));
                     return Redirect::back();
                 }
-    
+
             }
         }
 
@@ -497,7 +497,7 @@ class TournamentsController extends Controller
 
             }
         }
-        
+
         // TODO - Refactor
         $tournamentParticipant                              = new EventTournamentParticipant();
         $tournamentParticipant->event_participant_id        = $participant->id;
@@ -522,7 +522,7 @@ class TournamentsController extends Controller
      */
     public function addTeam(Event $event, EventTournament $tournament, Request $request)
     {
-   
+
         $tournamentTeam                         = new EventTournamentTeam();
         $tournamentTeam->event_tournament_id    = $tournament->id;
         $tournamentTeam->name                   = $request->team_name;
@@ -600,7 +600,7 @@ class TournamentsController extends Controller
 
         if (isset($tournament->game) && $tournament->match_autostart)
         {
-            
+
 
             $nextmatches = $tournament->getNextMatches();
 
@@ -609,7 +609,7 @@ class TournamentsController extends Controller
                 GameServerAsign::dispatch(null,$tournament,$nextmatch->id)->onQueue('gameserver');
 
             }
-            
+
 
         }
 
@@ -622,12 +622,12 @@ class TournamentsController extends Controller
                 Session::flash('alert-danger', 'Cannot delete EventTournamentMatchServer entry, you have to remove the assignment manually');
                 return Redirect::back();
             }
-        
-        
+
+
         }
-        
-        
-        
+
+
+
 
         Session::flash('alert-success', 'Successfully updated match scores!');
         return Redirect::back();

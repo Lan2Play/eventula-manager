@@ -31,9 +31,9 @@ class CreditController extends Controller
             $selectallusers[$user->id] = $user->username;
         }
         return view('admin.credit.index')
-            ->withIsCreditEnabled(Settings::isCreditEnabled())
-            ->withCreditLogs(CreditLog::paginate(10, ['*'], 'cl'))
-            ->withUsers($selectallusers);
+            ->with('isCreditEnabled', Settings::isCreditEnabled())
+            ->with('creditLogs', CreditLog::paginate(10, ['*'], 'cl'))
+            ->with('users', $selectallusers);
     }
 
     /**

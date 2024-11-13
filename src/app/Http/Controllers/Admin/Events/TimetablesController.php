@@ -36,7 +36,7 @@ class TimetablesController extends Controller
     /**
      * Show Timetable Page
      * @param  Event          $event
-     * @param  EventTimetable $timetable
+     * @para->with('event', table $timetable
      * @return View
      */
     public function show(Event $event, EventTimetable $timetable)
@@ -49,8 +49,8 @@ class TimetablesController extends Controller
 
     /**
      * Store Timetable to Database
-     * @param  Event   $event
-     * @param  Request $request
+     * @para->with('event', event
+     * @para->with('timetable', est
      * @return Redirect
      */
     public function store(Event $event, Request $request)
@@ -129,7 +129,7 @@ class TimetablesController extends Controller
             Session::flash('alert-danger', 'Cannot delete Timetable!');
             return Redirect::back();
         }
-        
+
         Session::flash('alert-success', 'Successfully deleted Timetable!');
         return Redirect::back();
     }
