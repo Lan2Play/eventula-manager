@@ -140,21 +140,6 @@ else
 	echo 'OK'
 fi
 
-file_env 'FACEBOOK_APP_ID'
-if [ -z "$FACEBOOK_APP_ID" ];
-then
-	echo 'NOT SET'
-else
-	echo 'OK'
-fi
-
-file_env 'FACEBOOK_APP_SECRET'
-if [ -z "$FACEBOOK_APP_SECRET" ];
-then
-	echo 'NOT SET'
-else
-	echo 'OK'
-fi
 file_env 'STRIPE_PUBLIC_KEY'
 if [ -z "$STRIPE_PUBLIC_KEY" ];
 then
@@ -195,37 +180,6 @@ else
 	echo 'OK'
 fi
 
-file_env 'ANALYTICS_TRACKING_ID'
-if [ -z "$ANALYTICS_TRACKING_ID" ];
-then
-	echo 'NOT SET'
-else
-	echo 'OK'
-fi
-
-file_env 'ANALYTICS_TRACKING_ID'
-if [ -z "$ANALYTICS_TRACKING_ID" ];
-then
-	echo 'NOT SET'
-else
-	echo 'OK'
-fi
-
-file_env 'ANALYTICS_TRACKING_ID'
-if [ -z "$ANALYTICS_TRACKING_ID" ];
-then
-	echo 'NOT SET'
-else
-	echo 'OK'
-fi
-
-file_env 'ANALYTICS_TRACKING_ID'
-if [ -z "$ANALYTICS_TRACKING_ID" ];
-then
-	echo 'NOT SET'
-else
-	echo 'OK'
-fi
 
 file_env 'APPEAR_DISABLE_CUSTOM_CSS_LINKING'
 if [ -z "$APPEAR_DISABLE_CUSTOM_CSS_LINKING" ];

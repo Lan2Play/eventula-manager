@@ -35,11 +35,6 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
-    'facebook' => [
-        'client_id' =>  '',
-        'client_secret' => '',
-        'redirect' => env('FACEBOOK_REDIRECT'),
-    ],
     'igdb' => [
         'key' => env('IGDB_API_KEY'),
         'url' => env('IGDB_API_URL'),

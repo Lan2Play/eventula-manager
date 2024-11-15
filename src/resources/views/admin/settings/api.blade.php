@@ -75,33 +75,6 @@
 				{{ Form::close() }}
 			</div>
 		</div>
-		<!-- Facebook -->
-		<div class="card mb-3">
-			<div class="card-header">
-				<i class="fa fa-wrench fa-fw"></i> Facebook
-			</div>
-			<div class="card-body">
-				{{ Form::open(array('url'=>'/admin/settings/api', 'onsubmit' => 'return ConfirmSubmit()', 'files' => 'true')) }}
-					<div class="row">
-						<div class="col-12 col-md-6">
-							<div class="mb-3">
-								{{ Form::label('facebook_app_id','App Id',array('id'=>'','class'=>'')) }}
-								{{ Form::text('facebook_app_id', $facebookAppId, array('id'=>'facebook_app_id','class'=>'form-control')) }}
-							</div>
-							<div class="mb-3">
-								{{ Form::label('facebook_app_secret','App Secret',array('id'=>'','class'=>'')) }}
-								{{ Form::text('facebook_app_secret', $facebookAppSecret, array('id'=>'','class'=>'form-control')) }}
-							</div>
-							<button type="submit" class="btn btn-success btn-block">Submit</button>
-						</div>
-						<div class="col-12 col-md-6">
-							<p>Facebook API Documentation</p>
-							<p>Without this key Facebook Posting will be disabled</p>
-						</div>
-					</div>
-				{{ Form::close() }}
-			</div>
-		</div>
 	</div>
 	<!-- Paypal -->
 	<div class="col-12 col-md-6">

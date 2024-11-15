@@ -148,7 +148,7 @@ class Settings
         return \App\Setting::setDiscordId($text);
     }
 
-    /**
+     /**
      * Get Facebook Link
      * @return String
      */
@@ -446,24 +446,6 @@ class Settings
     }
 
     /**
-     * Get Facebook Page Access Tokens
-     * @return Array
-     */
-    public static function getSocialFacebookPageAccessTokens()
-    {
-        return \App\Setting::getSocialFacebookPageAccessTokens();
-    }
-
-    /**
-     * Set Facebook Page Access Tokens
-     * @param Array $facebook_access_tokens
-     */
-    public static function setSocialFacebookPageAccessTokens($facebook_access_tokens)
-    {
-        return \App\Setting::setSocialFacebookPageAccessTokens($facebook_access_tokens);
-    }
-
-    /**
      * Get Active Payment Gateways
      * @return Array
      */
@@ -607,7 +589,7 @@ class Settings
 
     /**
      * Get Credit Tournament Participation Amount
-     * @return Integer $amount
+     * @return int $amount
      */
     public static function getCreditTournamentParticipation()
     {
@@ -616,7 +598,7 @@ class Settings
 
     /**
      * Get Credit Tournament First Amount
-     * @return Integer $amount
+     * @return int $amount
      */
     public static function getCreditTournamentFirst()
     {
@@ -625,7 +607,7 @@ class Settings
 
     /**
      * Get Credit Tournament Second Amount
-     * @return Integer $amount
+     * @return int $amount
      */
     public static function getCreditTournamentSecond()
     {
@@ -634,7 +616,7 @@ class Settings
 
     /**
      * Get Credit Tournament Third Amount
-     * @return Integer $amount
+     * @return int $amount
      */
     public static function getCreditTournamentThird()
     {
@@ -643,7 +625,7 @@ class Settings
 
     /**
      * Get Credit Site Registration Amount
-     * @return Integer $amount
+     * @return int $amount
      */
     public static function getCreditRegistrationEvent()
     {
@@ -652,7 +634,7 @@ class Settings
 
     /**
      * Get Credit Event Registration Amount
-     * @return Integer $amount
+     * @return int $amount
      */
     public static function getCreditRegistrationSite()
     {
@@ -726,7 +708,7 @@ class Settings
 
     /**
      * Get Shop Closed Message
-     * @return Integer $amount
+     * @return int $amount
      */
     public static function getShopClosedMessage()
     {
@@ -927,7 +909,7 @@ class Settings
 
     /**
      * Get SEO Keywords
-     * @return Integer $amount
+     * @return int $amount
      */
     public static function getSeoKeywords()
     {

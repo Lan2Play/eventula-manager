@@ -139,66 +139,6 @@ class ApiKey extends Model
         return true;
     }
 
-    /**
-     * Set Facebook App ID
-     * @param String $appId
-     * @return Boolean
-     */
-    public static function setFacebookAppId($appId)
-    {
-        $key = self::where('key', 'facebook_app_id')->first();
-        $key->value = $appId;
-        if (!$key->save()) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Set Facebook App Secret
-     * @param String $appId
-     * @return Boolean
-     */
-    public static function setFacebookAppSecret($appSecret)
-    {
-        $key = self::where('key', 'facebook_app_secret')->first();
-        $key->value = $appSecret;
-        if (!$key->save()) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Set Facebook Pixel ID
-     * @param String $pixelId
-     * @return Boolean
-     */
-    public static function setFacebookPixelId($pixelId)
-    {
-        $key = self::where('key', 'facebook_pixel_id')->first();
-        $key->value = $pixelId;
-        if (!$key->save()) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Set Facebook Pixel ID
-     * @param String $pixelId
-     * @return Boolean
-     */
-    public static function setGoogleAnalyticsId($analyticsId)
-    {
-        $key = self::where('key', 'google_analytics_tracking_id')->first();
-        $key->value = $analyticsId;
-        if (!$key->save()) {
-            return false;
-        }
-        return true;
-    }
-
     public function getValueAttribute($value)
     {
         if ($value == null) {

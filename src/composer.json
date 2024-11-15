@@ -68,7 +68,8 @@
         "symfony/http-client": "7.1.8",
         "spatie/backtrace": "1.6.2",
         "haydenpierce/class-finder": "^0.5.3",
-        "dompdf/dompdf": "3.0.0"
+        "dompdf/dompdf": "3.0.0",
+        "barryvdh/laravel-ide-helper": "^3.2"
     },
     "require-dev": {
         "mockery/mockery": "1.6.12",

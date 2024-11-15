@@ -236,7 +236,7 @@ class Event extends Model
 
     /**
      * Get Total Ticket Sales
-     * @return Integer
+     * @return int
      */
     public function getTicketSalesCount()
     {
@@ -251,7 +251,7 @@ class Event extends Model
 
     /**
      * Get Total Seated
-     * @return Integer
+     * @return int
      */
     public function getSeatedCount()
     {
@@ -264,7 +264,7 @@ class Event extends Model
 
     /**
      * Get Seating Capacity
-     * @return Integer
+     * @return int
      */
     public function getSeatingCapacity()
     {
@@ -317,7 +317,7 @@ class Event extends Model
 
     /**
      * Get Timetable Data Count
-     * @return Integer
+     * @return int
      */
     public function getTimetableDataCount()
     {

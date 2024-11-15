@@ -217,13 +217,6 @@ class SettingsTableSeeder extends Seeder
             ]
         );
         Setting::firstOrCreate(
-            ['setting'          => 'social_facebook_page_access_token'],
-            [
-                'value'         => null,
-                'default'       => true,
-            ]
-        );
-        Setting::firstOrCreate(
             ['setting'          => 'payment_gateway_stripe'],
             [
                 'value'         => true,

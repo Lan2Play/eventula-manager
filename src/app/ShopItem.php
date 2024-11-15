@@ -113,7 +113,7 @@ class ShopItem extends Model
 
     /**
      * Get Default Image Url
-     * @return Integer
+     * @return int
      */
     public function getDefaultImageUrl()
     {
@@ -135,7 +135,7 @@ class ShopItem extends Model
 
     /**
      * Get Total Sales
-     * @return Integer
+     * @return int
      */
     public function getTotalSales()
     {

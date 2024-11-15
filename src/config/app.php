@@ -58,7 +58,7 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        App\Providers\FacebookServiceProvider::class,
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
     ],
 
     /*
@@ -113,12 +113,11 @@ return [
         'Settings'              => App\Libraries\Settings::class,
         'Colors'                => App\Libraries\Colors::class,
         'Helpers'               => App\Libraries\Helpers::class,
-        'FacebookPageWrapper'   => App\Libraries\Facebook\FacebookPageWrapper::class,
         'Image'                 => Intervention\Image\Laravel\Facades\Image::class,
         'SEOMeta'               => Artesaos\SEOTools\Facades\SEOMeta::class,
         'OpenGraph'             => Artesaos\SEOTools\Facades\OpenGraph::class,
         'Twitter'               => Artesaos\SEOTools\Facades\TwitterCard::class,
         'JsonLd'                => Artesaos\SEOTools\Facades\JsonLd::class,
-        'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'Debugbar'              => Barryvdh\Debugbar\Facades\Debugbar::class,
     ],
 ];

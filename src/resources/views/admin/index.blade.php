@@ -259,15 +259,7 @@
                                         @endif
                                     </span></strong></li>
                         @endforeach
-                        <li
-                            class="list-group-item @if ($facebookCallback != null) list-group-item-success @else list-group-item-danger @endif">
-                            <strong>Facebook News Link: <span class="float-end">
-                                    @if ($facebookCallback != null)
-                                        Active
-                                    @else
-                                        Inactive
-                                    @endif
-                                </span></strong></li>
+
                         @foreach ($supportedPaymentGateways as $gateway)
                             <li
                                 class="list-group-item @if (in_array($gateway, $activePaymentGateways)) list-group-item-success @else list-group-item-danger @endif">

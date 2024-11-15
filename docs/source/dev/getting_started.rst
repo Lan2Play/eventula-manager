@@ -182,3 +182,9 @@ recreate the database from scratch
 If you want to recreate the databse, you can simply use:
 
 ``make database-renew``
+
+regenerate PHPDoc (intelliphense) and PHPStorm Definitions
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+If you want to recreate the PHPDoc (intelliphense) and PHPStorm Definitions, you can simply use:
+
+``make regenerate-idehelper``

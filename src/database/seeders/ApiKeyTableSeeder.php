@@ -22,7 +22,7 @@ class ApiKeyTableSeeder extends Seeder
         $faker = Faker::create();
 
         \DB::table('api_keys')->delete();
-        
+
         ## Api Keys
         factory(ApiKey::class)->create([
             'key'          => 'paypal_username',
@@ -45,24 +45,8 @@ class ApiKeyTableSeeder extends Seeder
             'value'         => env('STRIPE_SECRET_KEY', null),
         ]);
         factory(ApiKey::class)->create([
-            'key'          => 'facebook_app_id',
-            'value'         => env('FACEBOOK_APP_ID', null),
-        ]);
-        factory(ApiKey::class)->create([
-            'key'          => 'facebook_app_secret',
-            'value'         => env('FACEBOOK_APP_SECRET', null),
-        ]);
-        factory(ApiKey::class)->create([
             'key'          => 'challonge_api_key',
             'value'         => env('CHALLONGE_API_KEY', null),
-        ]);
-        factory(ApiKey::class)->create([
-            'key'          => 'google_analytics_tracking_id',
-            'value'         => env('GOOGLE_ANALYTICS_TRACKING_ID', null),
-        ]);
-        factory(ApiKey::class)->create([
-            'key'          => 'facebook_pixel_id',
-            'value'         => env('FACEBOOK_PIXEL_ID', null),
         ]);
         factory(ApiKey::class)->create([
             'key'          => 'steam_api_key',
@@ -70,5 +54,3 @@ class ApiKeyTableSeeder extends Seeder
         ]);
     }
 }
-
-

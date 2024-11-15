@@ -8,7 +8,6 @@ use Session;
 use Redirect;
 use Settings;
 use Colors;
-use FacebookPageWrapper as Facebook;
 
 use App\ApiKey;
 use App\User;
@@ -38,11 +37,6 @@ class SettingsController extends Controller
      */
     public function index()
     {
-
-        $facebookCallback = null;
-        if (Facebook::isEnabled() && !Facebook::isLinked()) {
-            $facebookCallback = Facebook::getLoginUrl();
-        }
         return view('admin.settings.index')
             ->withSettings(Setting::all())
             ->withIsShopEnabled(Settings::isShopEnabled())
@@ -50,8 +44,6 @@ class SettingsController extends Controller
             ->withisHelpEnabled(Settings::isHelpEnabled())
             ->withisMatchMakingEnabled(Settings::isMatchMakingEnabled())
             ->withIsCreditEnabled(Settings::isCreditEnabled())
-            ->withFacebookCallback($facebookCallback)
-            ->withFacebookIsLinked(Facebook::isLinked())
             ->withSupportedLoginMethods(Settings::getSupportedLoginMethods())
             ->withActiveLoginMethods(Settings::getLoginMethods());
     }
@@ -135,10 +127,7 @@ class SettingsController extends Controller
             ->withPaypalSignature(ApiKey::where('key', 'paypal_signature')->first()->value)
             ->withStripePublicKey(ApiKey::where('key', 'stripe_public_key')->first()->value)
             ->withStripeSecretKey(ApiKey::where('key', 'stripe_secret_key')->first()->value)
-            ->withFacebookAppId(ApiKey::where('key', 'facebook_app_id')->first()->value)
-            ->withFacebookAppSecret(ApiKey::where('key', 'facebook_app_secret')->first()->value)
             ->withChallongeApiKey(ApiKey::where('key', 'challonge_api_key')->first()->value)
-            ->withGoogleAnalyticsTrackingId(ApiKey::where('key', 'google_analytics_tracking_id')->first()->value)
             ->withSteamApiKey(ApiKey::where('key', 'steam_api_key')->first()->value);
     }
 
@@ -154,14 +143,6 @@ class SettingsController extends Controller
             return Redirect::back();
         }
         if (isset($request->steam_api_key) && !ApiKey::setSteamApiKey($request->steam_api_key)) {
-            Session::flash('alert-danger', 'Could not update!');
-            return Redirect::back();
-        }
-        if (isset($request->facebook_app_id) && !ApiKey::setFacebookAppId($request->facebook_app_id)) {
-            Session::flash('alert-danger', 'Could not update!');
-            return Redirect::back();
-        }
-        if (isset($request->facebook_app_secret) && !ApiKey::setFacebookAppSecret($request->facebook_app_secret)) {
             Session::flash('alert-danger', 'Could not update!');
             return Redirect::back();
         }
@@ -455,15 +436,6 @@ class SettingsController extends Controller
             return Redirect::back();
         }
 
-        if (isset($request->analytics_google_id) && !ApiKey::setGoogleAnalyticsId($request->analytics_google_id)) {
-            Session::flash('alert-danger', 'Could not update!');
-            return Redirect::back();
-        }
-        if (isset($request->analytics_facebook_pixel) && !ApiKey::setFacebookPixelId($request->analytics_facebook_pixel)) {
-            Session::flash('alert-danger', 'Could not update!');
-            return Redirect::back();
-        }
-
         if ($request->file('org_logo') && !Settings::setOrgLogo($request->file('org_logo'))) {
             Session::flash('alert-danger', 'Could not update!');
             return Redirect::back();
@@ -480,67 +452,6 @@ class SettingsController extends Controller
         }
 
         Session::flash('alert-success', 'Successfully updated!');
-        return Redirect::back();
-    }
-
-    /**
-     * Link Social Platform for posting Images & News
-     * @param  String $social
-     * @return Redirect
-     */
-    public function linkSocial($social)
-    {
-        if ($social == 'facebook' && (!Facebook::isEnabled())) {
-            Session::flash('alert-danger', 'Facebook App is not configured.');
-            return Redirect::back();
-        }
-        if ($social == 'facebook' && (Facebook::isLinked())) {
-            Session::flash('alert-danger', 'Facebook is already Linked.');
-            return Redirect::back();
-        }
-        $acceptedSocial = array(
-            'facebook',
-            // 'twitter',
-            // 'instagram',
-        );
-        if (!in_array($social, $acceptedSocial)) {
-            Session::flash('alert-danger', "{$social} is not supported by the Lan Manager.");
-            return Redirect::back();
-        }
-
-        if ($social == 'facebook' && (Facebook::isEnabled() && !Facebook::isLinked())) {
-            if (!$userAccessToken = Facebook::getUserAccessToken()) {
-                Session::flash('alert-danger', 'Facebook: 401 Unauthorized Request.');
-                return Redirect::back();
-            }
-            if (!$pageAccessToken = Facebook::getPageAccessTokens($userAccessToken)) {
-                Session::flash('alert-danger', "Facebook: Error getting long-lived access token");
-                return Redirect::back();
-            }
-            if (!Settings::setSocialFacebookPageAccessTokens($pageAccessToken)) {
-                Session::flash('alert-danger', "Could not Link {$social}!");
-                return Redirect::back();
-            }
-        }
-        Session::flash('alert-success', "Successfully Linked {$social}!");
-        return Redirect::back();
-    }
-
-    /**
-     * Unlink Social Platform
-     * @param  String $social
-     * @return Redirect
-     */
-    public function unlinkSocial($social)
-    {
-        if (!Settings::setSocialFacebookPageAccessTokens(null)) {
-            Session::flash('alert-danger', "Could not Unlink {$social}!");
-            return Redirect::back();
-        }
-        Session::flash(
-            'alert-success',
-            "Successfully Uninked {$social}. You will still need to remove the app access on Facebook!"
-        );
         return Redirect::back();
     }
 

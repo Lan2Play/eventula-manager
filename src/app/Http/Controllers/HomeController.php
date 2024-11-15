@@ -34,7 +34,6 @@ use Artesaos\SEOTools\Facades\OpenGraph;
 use Artesaos\SEOTools\Facades\TwitterCard;
 use Artesaos\SEOTools\Facades\JsonLd;
 
-use Facebook\Facebook;
 use Debugbar;
 
 class HomeController extends Controller
@@ -175,8 +174,10 @@ class HomeController extends Controller
         $memberedteams = Auth::user()->matchMakingTeams()->orderByDesc('created_at')->paginate(4, ['*'], 'memberedmatches')->fragment('memberedmatches');
         $currentuseropenlivependingdraftmatches = array();
 
-        foreach (MatchMaking::where(['status' => 'OPEN'])->orWhere(['status' => 'LIVE'])->orWhere(['status' => 'DRAFT'])->orWhere(['status' => 'PENDING'])->get() as $match) {
-            if ($match->getMatchTeamPlayer(Auth::id())) {
+        foreach (MatchMaking::where(['status' => 'OPEN'])->orWhere(['status' => 'LIVE'])->orWhere(['status' => 'DRAFT'])->orWhere(['status' => 'PENDING'])->get() as $match)
+        {
+            if ($match->getMatchTeamPlayer(Auth::id()))
+            {
                 $currentuseropenlivependingdraftmatches[$match->id] = $match->id;
             }
         }

@@ -769,10 +769,10 @@ use Debugbar;
 														{{ Helpers::getLatinAlphabetUpperLetterByIndex($row) . $column }} - @lang('events.empty')
 													</button>
 													@else
-													@if (Auth::user() 
-															&& $event->getEventParticipant() 
-															&& ($event->getEventParticipant()->staff 
-																|| $event->getEventParticipant()->free 
+													@if (Auth::user()
+															&& $event->getEventParticipant()
+															&& ($event->getEventParticipant()->staff
+																|| $event->getEventParticipant()->free
 																|| $event->getEventParticipant()->ticket->seatable
 															)
 														)

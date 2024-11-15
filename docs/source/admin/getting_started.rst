@@ -79,7 +79,7 @@ Fill in the APP_KEY from the last step and all other empty Variables (if not opt
     FORCE_APP_HTTPS=true
     # HTTPS Only Cookies - By setting this option to true, session cookies will only be sent back to the server if the browser has a HTTPS connection. This will keep the cookie from being sent to you if it can not be done securely.
     SESSION_SECURE_COOKIE=true
-    # ENV Overide If set to true, the App will take its API Keys from the ENV instead of the database. This includes Paypal, Stripe, Facebook, Challonge, Google Analytics, Facebook Analytics and Steam. With the default setting, you have to configure those credentials in the admin menu.
+    # ENV Overide If set to true, the App will take its API Keys from the ENV instead of the database. This includes Paypal, Stripe, Challonge,and Steam. With the default setting, you have to configure those credentials in the admin menu.
     ENV_OVERRIDE=false
 
 
@@ -196,18 +196,11 @@ Fill in the APP_KEY from the last step and all other empty Variables (if not opt
     ## Third Party Services ##
     ##########################
 
-    ## Google Analytics (Optional) - https://api.google.com
-    GOOGLE_ANALYTICS_TRACKING_ID=
-
-    ## Steam (optional) - https://steamcommunity.com/dev/apikey
+     ## Steam (optional) - https://steamcommunity.com/dev/apikey
     STEAM_API_KEY=
 
     ## Tournaments (optional) - https://challonge.com/settings/developer
     CHALLONGE_API_KEY=
-
-    ## Facebook (optional) - https://developers.facebook.com
-    FACEBOOK_APP_ID=
-    FACEBOOK_APP_SECRET=
 
 
 
@@ -387,17 +380,11 @@ Caveats
   - ``CHALLONGE_API_KEY``
   - ``APP_KEY``
   - ``CHALLONGE_API_KEY``
-  - ``FACEBOOK_APP_ID``
-  - ``FACEBOOK_APP_SECRET``
   - ``STRIPE_PUBLIC_KEY``
   - ``STRIPE_SECRET_KEY``
   - ``PAYPAL_USERNAME``
   - ``PAYPAL_PASSWORD``
   - ``PAYPAL_SIGNATURE``
-  - ``ANALYTICS_TRACKING_ID``
-  - ``ANALYTICS_TRACKING_ID``
-  - ``ANALYTICS_TRACKING_ID``
-  - ``ANALYTICS_TRACKING_ID``
   - ``APPEAR_DISABLE_CUSTOM_CSS_LINKING``
   - ``APPEAR_DISABLE_ADMIN_APPEARANCE_CSS_SETTINGS``
   - ``ENV_OVERRIDE``

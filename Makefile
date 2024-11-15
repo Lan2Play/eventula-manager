@@ -57,6 +57,9 @@ app-build-dep: composer-install npm-install mix
 # Build Dev App & Dependencies
 app-build-dep-dev: composer-install-dev npm-install-dev mix-dev
 
+# Regenerate Idehelper (Update PHPdoc and PHPStorm definitions)
+regenerate-idehelper: clear-config-cache idehelper-generate idehelper-meta idehelper-models
+
 # Make Documentation
 docs-html:
 	docker run --rm -v $(currentDir)/docs:/docs lan2play/docker-sphinxbuild:latest
@@ -145,6 +148,18 @@ database-seed:
 database-rollback:
 	docker exec eventula_manager_app php artisan migrate:rollback
 
+# Generates PHPDoc for Laravel Facades (nessecary for intelliphense)
+idehelper-generate:
+	docker exec eventula_manager_app php artisan ide-helper:generate
+
+# Generates PhpStorm Meta file 
+idehelper-meta:
+	docker exec eventula_manager_app php artisan ide-helper:meta
+
+# Generates PHPDocs for models (nessecary for intelliphense)
+idehelper-models:
+	docker exec eventula_manager_app php artisan ide-helper:models --nowrite
+
 # show newly generated Application Key
 generate-key-show-newkey:
 	docker run --rm composer:latest /bin/bash -c "echo 'generating key..' && composer create-project laravel/laravel example-app >/dev/null 2>/dev/null && cd example-app && php artisan key:generate >/dev/null 2>/dev/null && cat .env | grep APP_KEY=b"
@@ -209,6 +224,10 @@ clear-views:
 # clear cache
 clear-cache:
 	docker exec eventula_manager_app php artisan cache:clear
+
+# clear configuration cache
+clear-config-cache:
+	docker exec eventula_manager_app php artisan config:cache
 
 
 # Create Default Folder structure

@@ -381,7 +381,7 @@ class Setting extends Model
 
     /**
      * Get Participant Count Offset
-     * @return Integer
+     * @return int
      */
     public static function getParticipantCountOffset()
     {
@@ -404,7 +404,7 @@ class Setting extends Model
 
     /**
      * Get Lan Count Offset
-     * @return Integer
+     * @return int
      */
     public static function getEventCountOffset()
     {
@@ -428,7 +428,7 @@ class Setting extends Model
 
     /**
      * Get Frontpage Alot Tagline
-     * @return Integer
+     * @return int
      */
     public static function getFrontpageAlotTagline()
     {
@@ -634,29 +634,6 @@ class Setting extends Model
     {
         $setting = self::where('setting', 'privacy_policy')->first();
         $setting->value = $text;
-        if (!$setting->save()) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Get Facebook Page Access Tokens
-     * @return String
-     */
-    public static function getSocialFacebookPageAccessTokens()
-    {
-        return unserialize(self::where('setting', 'social_facebook_page_access_token')->first()->value);
-    }
-
-    /**
-     * Set Facebook Page Access Tokens
-     * @param Array $facebookAccessTokens
-     */
-    public static function setSocialFacebookPageAccessTokens($facebookAccessTokens)
-    {
-        $setting = self::where('setting', 'social_facebook_page_access_token')->first();
-        $setting->value = serialize($facebookAccessTokens);
         if (!$setting->save()) {
             return false;
         }
@@ -875,7 +852,7 @@ class Setting extends Model
 
     /**
      * Get Credit Tournament Participation Amount
-     * @return Integer $amount
+     * @return int $amount
      */
     public static function getCreditTournamentParticipation()
     {
@@ -884,7 +861,7 @@ class Setting extends Model
 
     /**
      * Get Credit Tournament First Amount
-     * @return Integer $amount
+     * @return int $amount
      */
     public static function getCreditTournamentFirst()
     {
@@ -893,7 +870,7 @@ class Setting extends Model
 
     /**
      * Get Credit Tournament Second Amount
-     * @return Integer $amount
+     * @return int $amount
      */
     public static function getCreditTournamentSecond()
     {
@@ -902,7 +879,7 @@ class Setting extends Model
 
     /**
      * Get Credit Tournament Third Amount
-     * @return Integer $amount
+     * @return int $amount
      */
     public static function getCreditTournamentThird()
     {
@@ -911,7 +888,7 @@ class Setting extends Model
 
     /**
      * Get Credit Site Registration Amount
-     * @return Integer $amount
+     * @return int $amount
      */
     public static function getCreditRegistrationEvent()
     {
@@ -920,7 +897,7 @@ class Setting extends Model
 
     /**
      * Get Credit Event Registration Amount
-     * @return Integer $amount
+     * @return int $amount
      */
     public static function getCreditRegistrationSite()
     {
@@ -1211,7 +1188,7 @@ class Setting extends Model
 
     /**
      * Get MatchMaking System Maxopenperuser
-     * @return Integer
+     * @return int
      */
     public static function getSystemsMatchMakingMaxopenperuser()
     {

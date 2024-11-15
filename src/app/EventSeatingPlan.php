@@ -115,7 +115,7 @@ class EventSeatingPlan extends Model
 
     /**
      * Get Total Seated
-     * @return Integer
+     * @return int
      */
     public function getSeatedCount()
     {
@@ -124,7 +124,7 @@ class EventSeatingPlan extends Model
 
     /**
      * Get Seating Capacity
-     * @return Integer
+     * @return int
      */
     public function getSeatingCapacity()
     {

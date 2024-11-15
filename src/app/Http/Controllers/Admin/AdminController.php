@@ -7,7 +7,6 @@ use Auth;
 use Settings;
 use Colors;
 use Helpers;
-use FacebookPageWrapper as Facebook;
 use \Carbon\Carbon as Carbon;
 
 use App\User;
@@ -46,10 +45,6 @@ class AdminController extends Controller
         $comments = NewsComment::getNewComments('login');
         $tickets = EventTicket::all();
         $activePolls = Poll::where('end', '==', null)->orWhereBetween('end', ['0000-00-00 00:00:00', date("Y-m-d H:i:s")]);
-        $facebookCallback = null;
-        if (Facebook::isEnabled() && !Facebook::isLinked()) {
-            $facebookCallback = Facebook::getLoginUrl();
-        }
         $userLastLoggedIn = User::where('id', '!=', Auth::id())->latest('last_login')->first();
         $loginSupportedGateways = Settings::getSupportedLoginMethods();
         foreach ($loginSupportedGateways as $gateway) {
@@ -89,7 +84,6 @@ class AdminController extends Controller
             ->withActiveLoginMethods(Settings::getLoginMethods())
             ->withSupportedPaymentGateways(Settings::getSupportedPaymentGateways())
             ->withActivePaymentGateways(Settings::getPaymentGateways())
-            ->withFacebookCallback($facebookCallback)
             ->withUserLastLoggedIn($userLastLoggedIn)
             ->withUserCount($users->count())
             ->withUserLoginMethodCount($userLoginMethodCount)
