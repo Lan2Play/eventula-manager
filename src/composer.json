@@ -34,7 +34,7 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": "8.3.*",
+        "php": "8.4.*",
         "laravel/framework": "11.33.2",
         "laravelcollective/html": "dev-6x",
         "laravel/legacy-factories": "1.4.0",
