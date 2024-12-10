@@ -92,4 +92,9 @@ return [
     'new_token_wizzard_del_failed' => 'Borttagande av den gamle token fallerade. Var vänlig försök igen.',
     'new_token_wizzard_creation_failed' => 'Skapande av token fallerade. Var vänlig försök igen.',
     'new_token_wizzard_clickoncallback' => 'Du kan nu klicka på Anslut tillbaka till-knappen eller kopiera din token manuellt för din applikation.',
+    'locale' => 'Språk',
+    'avatardescription' => 'Du kan använda din Steam-avatar eller ladda upp en egen.',
+    'avatarsettings' => 'Avatarinställningar',
+    'avatarsteam' => 'Använd Steam-avatar',
+    'avatarlocal' => 'Ladda upp en egen Avatar',
 ];

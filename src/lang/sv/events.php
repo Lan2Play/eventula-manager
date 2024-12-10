@@ -119,4 +119,7 @@ return [
     'tournament_cannot_join_thirdparty' => 'du kan inte registrera dig för den här turneringen eftersom den nödvändiga tredjepartskontolänken på din användare saknas. Kontrollera dina inställningar för enkel inloggning i din profil.',
     /* Ticket Partial*/
     'remove_seating' => 'Ta bort plats',
+    'time_delimiter' => 'på',
+    'savetocalendar' => 'Spara i Kalender',
+    'seatingplannotaccessable' => 'Sittplan inte tillgänglig (ännu)!',
 ];
