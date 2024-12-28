@@ -1,7 +1,7 @@
 ![Eventula Logo](resources/images/eventula_sample_logo.png)
 
-> **Announcement**
-> The development on Eventula will follow new paths in the future, since we forked off. This also means current users maybe have to take action. Read everything about it in our [related Issue](https://github.com/Lan2Play/eventula-manager/issues/842)
+> **WARNING**
+> The development on Eventula will follow new paths in the future, since we forked off. This also means current users maybe have to take action. Read everything about it in our [related Issue](https://github.com/Lan2Play/eventula-manager/issues/842). This is the legacy branch which does not get updated anymore!
 
 
 The Eventula Event Manager / ECO System is a fully featured White labeled Event Management system. The only prerequisite is `docker and/or docker-compose`. Everything is self contained. The purpose of this application is to unify Event Management (Venue, attendees, seating), Ticket Sales, Tournament Management, Shop Management and Credit Management. It was initially forked off of [th0rn0`s](https://github.com/th0rn0) [lanops-manager](https://github.com/th0rn0/lanops-manager).
@@ -43,19 +43,19 @@ Hop over to our [admin documentation](https://eventula.lan2play.de/admin/getting
 ## Screenshots
 ##### Home Page:
 
-![Manager front page](https://raw.githubusercontent.com/Lan2Play/eventula-manager/main/resources/images/home-page.png)
+![Manager front page](https://raw.githubusercontent.com/Lan2Play/eventula-manager/legacy/resources/images/home-page.png)
 ##### Event Page:
-![Event Page](https://raw.githubusercontent.com/Lan2Play/eventula-manager/main/resources/images/events-page.png)
+![Event Page](https://raw.githubusercontent.com/Lan2Play/eventula-manager/legacy/resources/images/events-page.png)
 ##### Successful Payment Page
-![Successful Payment](https://raw.githubusercontent.com/Lan2Play/eventula-manager/main/resources/images/success-payment-page.png)
+![Successful Payment](https://raw.githubusercontent.com/Lan2Play/eventula-manager/legacy/resources/images/success-payment-page.png)
 ##### Event Management
-![Event Admin Page](https://raw.githubusercontent.com/Lan2Play/eventula-manager/main/resources/images/events-management-page.png)
+![Event Admin Page](https://raw.githubusercontent.com/Lan2Play/eventula-manager/legacy/resources/images/events-management-page.png)
 ##### Ticket Management
-![Tickets Breakdown](https://raw.githubusercontent.com/Lan2Play/eventula-manager/main/resources/images/tickets-management-page.png)
+![Tickets Breakdown](https://raw.githubusercontent.com/Lan2Play/eventula-manager/legacy/resources/images/tickets-management-page.png)
 ##### Tournament Management
-![Tournament Management](https://raw.githubusercontent.com/Lan2Play/eventula-manager/main/resources/images/tournaments-management-page.png)
+![Tournament Management](https://raw.githubusercontent.com/Lan2Play/eventula-manager/legacy/resources/images/tournaments-management-page.png)
 ##### Tournament Brakcets
-![Tournament Brackets](https://raw.githubusercontent.com/Lan2Play/eventula-manager/main/resources/images/tournaments-brackets-page.png)
+![Tournament Brackets](https://raw.githubusercontent.com/Lan2Play/eventula-manager/legacy/resources/images/tournaments-brackets-page.png)
 
 ## Features
 
