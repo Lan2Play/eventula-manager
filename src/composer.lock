@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "863cd09a635adb168b3e4aba2a85aa95",
+    "content-hash": "9c2e46e66eeaf0ac48a3689ea8ecddb4",
     "packages": [
         {
             "name": "artesaos/seotools",
@@ -785,16 +785,16 @@
         },
         {
             "name": "cviebrock/eloquent-sluggable",
-            "version": "11.0.0",
+            "version": "11.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cviebrock/eloquent-sluggable.git",
-                "reference": "8fafec4b3c61e1b87ec9cbe728a75ce3b6ca1c06"
+                "reference": "a4281cf0284a21efc1031a065b112ddd6c826eea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cviebrock/eloquent-sluggable/zipball/8fafec4b3c61e1b87ec9cbe728a75ce3b6ca1c06",
-                "reference": "8fafec4b3c61e1b87ec9cbe728a75ce3b6ca1c06",
+                "url": "https://api.github.com/repos/cviebrock/eloquent-sluggable/zipball/a4281cf0284a21efc1031a065b112ddd6c826eea",
+                "reference": "a4281cf0284a21efc1031a065b112ddd6c826eea",
                 "shasum": ""
             },
             "require": {
@@ -847,7 +847,7 @@
             ],
             "support": {
                 "issues": "https://github.com/cviebrock/eloquent-sluggable/issues",
-                "source": "https://github.com/cviebrock/eloquent-sluggable/tree/11.0.0"
+                "source": "https://github.com/cviebrock/eloquent-sluggable/tree/11.0.1"
             },
             "funding": [
                 {
@@ -855,7 +855,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-03-13T02:44:01+00:00"
+            "time": "2024-11-29T01:32:17+00:00"
         },
         {
             "name": "dasprid/enum",
