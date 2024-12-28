@@ -12371,16 +12371,16 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "laravelcollective/html": 20,
         "invisnik/laravel-steam-auth": 20,
-        "team-reflex/challonge-php": 20,
-        "maniaplanet/dedicated-server-api": 20
+        "laravelcollective/html": 20,
+        "maniaplanet/dedicated-server-api": 20,
+        "team-reflex/challonge-php": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
         "php": "8.4.*"
     },
-    "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "platform-dev": {},
+    "plugin-api-version": "2.6.0"
 }
