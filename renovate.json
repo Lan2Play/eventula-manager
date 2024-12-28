@@ -1,39 +1,70 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:base"],
+  "extends": [
+    "config:recommended"
+  ],
   "lockFileMaintenance": {
     "enabled": true,
     "branchTopic": "lock-file-maintenance-{{baseBranch}}"
   },
   "forkProcessing": "enabled",
-  "baseBranches": ["dev", "master"],
+  "baseBranches": [
+    "dev",
+    "master"
+  ],
   "packageRules": [
     {
-      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
-      "matchBaseBranches": ["dev"],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "pin",
+        "digest"
+      ],
+      "matchBaseBranches": [
+        "dev"
+      ],
       "automerge": true
     },
     {
-      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
-      "matchBaseBranches": ["master"],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "pin",
+        "digest"
+      ],
+      "matchBaseBranches": [
+        "master"
+      ],
       "automerge": false
     },
     {
-      "matchUpdateTypes": ["major"],
+      "matchUpdateTypes": [
+        "major"
+      ],
       "automerge": false
     },
     {
-      "matchBaseBranches": ["dev"],
-      "matchUpdateTypes": ["lockFileMaintenance"],
+      "matchBaseBranches": [
+        "dev"
+      ],
+      "matchUpdateTypes": [
+        "lockFileMaintenance"
+      ],
       "automerge": true
     },
     {
-      "matchBaseBranches": ["master"],
-      "matchUpdateTypes": ["lockFileMaintenance"],
+      "matchBaseBranches": [
+        "master"
+      ],
+      "matchUpdateTypes": [
+        "lockFileMaintenance"
+      ],
       "automerge": false
     }
   ],
   "automergeType": "pr",
   "automergeStrategy": "auto",
-  "automergeSchedule": ["at any time"]
+  "automergeSchedule": [
+    "at any time"
+  ]
 }
