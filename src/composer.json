@@ -65,7 +65,7 @@
         "laravel/sanctum": "4.0.7",
         "propaganistas/laravel-phone": "5.3.3",
         "symfony/mailgun-mailer": "7.2.0",
-        "symfony/http-client": "7.2.1",
+        "symfony/http-client": "7.2.2",
         "spatie/backtrace": "1.7.1",
         "haydenpierce/class-finder": "^0.5.3",
         "dompdf/dompdf": "3.0.2",
