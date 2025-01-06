@@ -346,6 +346,18 @@ echo "set nginx tmp permissions..."
 mkdir -p /var/lib/nginx/tmp/client_body
 chown -R $UUID:$GUID /var/lib/nginx/tmp
 
+# handle URL overwrite
+APP_URL="${APP_URL#http://}"
+APP_URL="${APP_URL#https://}"
+
+if { [ -n "$ENABLE_HTTPS" ] && [ "$ENABLE_HTTPS" = "true" ]; } || { [ -n "$FORCE_APP_HTTPS" ] && [ "$FORCE_APP_HTTPS" = "true" ]; }; then
+  APP_URL="https://${APP_URL}"
+else
+  APP_URL="http://${APP_URL}"
+fi
+export APP_URL
+
+
 # Database Wait check
 echo "---------------"
 echo "WAITING FOR $DB_HOST:$DB_PORT..."
