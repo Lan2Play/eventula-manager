@@ -49,7 +49,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Build Linux Image
         if: ${{ github.event_name == 'pull_request' }}
-        uses: docker/build-push-action@v6.10.0
+        uses: docker/build-push-action@v6.11.0
         with:
           context: .
           file: ./Dockerfile
@@ -66,7 +66,7 @@ jobs:
           push: false      
       - name: Build and push Linux Image
         if: ${{ startsWith(github.ref, 'refs/heads/main') && github.event_name == 'push' }}
-        uses: docker/build-push-action@v6.10.0
+        uses: docker/build-push-action@v6.11.0
         with:
           context: .
           file: ./Dockerfile
@@ -84,7 +84,7 @@ jobs:
           push: true
       - name: Build and push Linux legacy Image
         if: ${{ startsWith(github.ref, 'refs/heads/legacy') && github.event_name == 'push' }}
-        uses: docker/build-push-action@v6.10.0
+        uses: docker/build-push-action@v6.11.0
         with:
           context: .
           file: ./Dockerfile
@@ -101,7 +101,7 @@ jobs:
           push: true
       - name: Build and push Linux Image dev
         if: ${{ startsWith(github.ref, 'refs/heads/dev') && github.event_name == 'push' }}
-        uses: docker/build-push-action@v6.10.0
+        uses: docker/build-push-action@v6.11.0
         with:
           context: .
           file: ./Dockerfile
