@@ -63,6 +63,11 @@ class OrdersController extends Controller
     */
     public function setAsShipped(Request $request, ShopOrder $order)
     {
+        if ($order->purchase->status != "Success") {
+            Session::flash('alert-danger', 'Cannot set as shipped because the payment is not completed!');
+            return Redirect::to('admin/orders/' . $order->id);
+        }
+
         if (!$order->setAsShipped($request)) {
             Session::flash('alert-danger', 'Cannot mark as Shipped!');
             return Redirect::back();
@@ -79,6 +84,10 @@ class OrdersController extends Controller
     */
     public function setAsComplete(Request $request, ShopOrder $order)
     {
+        if ($order->purchase->status != "Success") {
+            Session::flash('alert-danger', 'Cannot set as shipped because the payment is not completed!');
+            return Redirect::to('admin/orders/' . $order->id);
+        }
         if (!$order->setAsComplete($request)) {
             Session::flash('alert-danger', 'Cannot mark as Complete!');
             return Redirect::back();

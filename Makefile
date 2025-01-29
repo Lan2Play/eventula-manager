@@ -204,9 +204,13 @@ generate-cs2mm:
 generate-demos-tournament:
 	docker exec -e democount=$(democount) -e challongematchid=$(challongematchid) eventula_manager_app php artisan db:seed --class=TestTournamentDemoSeeder
 
-# Generate event - This will generate a sample event!
+# Generate games - This will generate samle games!
 generate-games:
 	docker exec eventula_manager_app php artisan db:seed --class=GamesTableSeeder
+
+# Generate shop - This will generate a sample shop data!
+generate-shop:
+	docker exec eventula_manager_app php artisan db:seed --class=ShopSeeder
 
 # Generate requireddatabase - This will erase your current settings!
 generate-requireddatabase:

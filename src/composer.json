@@ -69,7 +69,7 @@
         "spatie/backtrace": "1.7.1",
         "haydenpierce/class-finder": "^0.5.3",
         "dompdf/dompdf": "3.0.2",
-        "barryvdh/laravel-ide-helper": "3.4.0"
+        "barryvdh/laravel-ide-helper": "3.5.3"
     },
     "require-dev": {
         "mockery/mockery": "1.6.12",

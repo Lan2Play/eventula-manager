@@ -2,6 +2,7 @@
 	<div class="container-fluid">
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
+				<li class="nav-item @if(Route::current()->uri == 'shop') active @endif"><a class="nav-link" href="/shop">All</a></li>
 				@foreach ($allCategories as $c)
 					@if (isset($category) && $c->id == $category->id)
 						<li class="nav-item active"><a class="nav-link" href="/shop/{{ $c->slug }}">{{ $c->name }}</a></li>

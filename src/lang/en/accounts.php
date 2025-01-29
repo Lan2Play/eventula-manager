@@ -35,6 +35,7 @@ return [
     'purchases_method' => 'Method',
     'purchases_time' => 'Time',
     'purchases_basket' => 'Basket',
+    'purchases_total' => 'Total',
     'no_purchases' => 'You have no purchases',
     'show_shop_orders' => 'View shop orders',
     'remove_steam_account' => 'Remove Steam account',

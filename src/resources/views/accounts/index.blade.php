@@ -171,16 +171,16 @@
                     <div class="card-body">
                         <p>@lang('accounts.avatardescription')</p>
                         <div class="btn-group mb-3" role="group" aria-label="avatar selector">
-							{{ Form::open(['url' => '/account/avatar/selected']) }}
+                            {{ Form::open(['url' => '/account/avatar/selected']) }}
                             @if ($user->steamid && $user->steamname)
-                                <input type="radio" class="btn-check" name="selected_avatar" id="selected_avatar1" value="steam" autocomplete="off"
-								onclick="this.form.submit()">
+                                <input type="radio" class="btn-check" name="selected_avatar" id="selected_avatar1"
+                                    value="steam" autocomplete="off" onclick="this.form.submit()">
                                 <label class="btn btn-outline-primary" for="selected_avatar1">@lang('accounts.avatarsteam')</label>
                             @endif
-                            <input type="radio" class="btn-check" name="selected_avatar" id="selected_avatar2" value="local" autocomplete="off"
-							onclick="this.form.submit()" >
+                            <input type="radio" class="btn-check" name="selected_avatar" id="selected_avatar2"
+                                value="local" autocomplete="off" onclick="this.form.submit()">
                             <label class="btn btn-outline-primary" for="selected_avatar2">@lang('accounts.avatarlocal')</label>
-							{{ Form::close() }}
+                            {{ Form::close() }}
                         </div>
                         <div class="row" style="display: flex; align-items: center;">
                             <div class="col-md-4 col-sm-12">
@@ -315,6 +315,9 @@
                                         <th>
                                             @lang('accounts.purchases_basket')
                                         </th>
+                                        <th>
+                                            @lang('accounts.purchases_total')
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -365,6 +368,29 @@
                                                         @endif
                                                     @endforeach
                                                 @endif
+                                            </td>
+                                            <td>
+                                                @if ($purchase->order != null)
+                                                    @if ($purchase->order->getTotalPrice() != 0)
+                                                        {{ Settings::getCurrencySymbol() }}{{ number_format($purchase->order->getTotalPrice(), 2) }}
+                                                        @if ($purchase->order->getTotalCreditPrice() != 0 && Settings::isCreditEnabled())
+                                                            /
+                                                        @endif
+                                                    @endif
+                                                    @if ($purchase->order->getTotalCreditPrice() != 0 && Settings::isCreditEnabled())
+                                                        {{ number_format($purchase->order->getTotalCreditPrice(), 2) }}
+                                                        Credits
+                                                    @endif
+                                                @endif
+
+                                                @if (!$purchase->participants->isEmpty())
+                                                    @if ($purchase->getTotalTicketPrice() != 0)
+                                                        {{ Settings::getCurrencySymbol() }}{{ number_format($purchase->getTotalTicketPrice(), 2) }}
+                                                    @endif
+                                                @endif
+
+
+
                                             </td>
                                         </tr>
                                     @endforeach

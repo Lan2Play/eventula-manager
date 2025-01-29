@@ -22,7 +22,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3.2.0
+        uses: docker/setup-qemu-action@v3.3.0
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
       - name: setup prereq
@@ -59,14 +59,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Create Pull Request
-        if: env.has_changes == 'true'
-        uses: peter-evans/create-pull-request@v5
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ env.branch_name }}
-          base: dev
-          title: "Regenerate IDE helper files"
-          body: |
-            This PR regenerates IDE helper files.
-            Changes were automatically detected and pushed by the workflow.
+     

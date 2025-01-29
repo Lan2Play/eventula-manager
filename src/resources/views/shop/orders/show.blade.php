@@ -81,11 +81,23 @@
 							@if ($item->price_credit != null && Settings::isCreditEnabled())
 								{{ $item->price_credit * $item->quantity }} Credits
 							@endif
-							@if (!$loop->last)
 								<hr>
-							@endif
+							
 						@endforeach
 					@endif
+					<div>
+						<strong>Total:</strong>
+								@if ($order->getTotalPrice() != 0)
+									{{ Settings::getCurrencySymbol() }}{{ number_format($order->getTotalPrice(), 2) }}
+									@if ($order->getTotalCreditPrice() != 0 && Settings::isCreditEnabled())
+										/
+									@endif
+								@endif
+								@if ($order->getTotalCreditPrice() != 0 && Settings::isCreditEnabled())
+									{{ number_format($order->getTotalCreditPrice(), 2) }} Credits
+								@endif
+					</div>
+
 				</div>
 			</div>
 		</div>

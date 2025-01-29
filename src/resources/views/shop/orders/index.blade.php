@@ -21,6 +21,7 @@
 				<th>Payment Type</th>
 				<th>Ordered At</th>
 				<th>Basket</th>
+				<th>Total</th>
 				<th></th>
 			</tr>
 		</thead>
@@ -67,6 +68,17 @@
 								@endif
 							@endforeach
 						@endif
+					</td>
+					<td>
+						@if ($order->getTotalPrice() != 0)
+									{{ Settings::getCurrencySymbol() }}{{ number_format($order->getTotalPrice(), 2) }}
+									@if ($order->getTotalCreditPrice() != 0 && Settings::isCreditEnabled())
+										/
+									@endif
+								@endif
+								@if ($order->getTotalCreditPrice() != 0 && Settings::isCreditEnabled())
+									{{ number_format($order->getTotalCreditPrice(), 2) }} Credits
+								@endif
 					</td>
 					<td>
 						<a href="/shop/orders/{{ $order->id }}"><button class="btn btn-success btn-sm btn-block">Details</button></a>

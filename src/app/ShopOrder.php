@@ -187,4 +187,35 @@ class ShopOrder extends Model
         }
         return true;
     }
+
+    /**
+     * Get total price of the order
+     * @return float
+     */
+    public function getTotalPrice()
+    {
+        $total = 0.0;
+
+        foreach ($this->items as $item) {
+            $total += $item->price * $item->quantity;
+        }
+        return $total; 
+
+    }
+
+    /**
+     * Get total credit price of the order
+     * @return float
+     */
+    public function getTotalCreditPrice()
+    {
+        $total = 0.0;
+
+        foreach ($this->items as $item) {
+            $total += $item->price_credit * $item->quantity;
+        }
+        return $total; 
+
+    }
+
 }

@@ -95,4 +95,28 @@ class Purchase extends Model
         return true;
     }
 
+    /**
+     * Get total price of the orders Tickets
+     * @return float
+     */
+    public function getTotalTicketPrice()
+    {
+        $total = 0.0;
+
+        if (!$this->participants->isEmpty())
+        {
+            foreach ($this->participants as $participant)
+            {
+                if (!$participant->free && !$participant->staff)
+                {
+                    $total += $participant->ticket->price;
+                }
+            }
+        }
+        return $total; 
+
+    }
+
+
+
 }

@@ -35,6 +35,7 @@ return [
     'purchases_method' => 'Zahlungsmethode',
     'purchases_time' => 'Zeitpunkt',
     'purchases_basket' => 'Warenkorb',
+    'purchases_total' => 'Gesamt',
     'no_purchases' => 'Du hast bisher keine Käufe getätigt.',
     'show_shop_orders' => 'Käufe aus dem Shop anzeigen',
     'remove_steam_account' => 'Steam Account entfernen',
