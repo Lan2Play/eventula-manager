@@ -97,6 +97,7 @@ namespace App{
  * @property string $slug
  * @property string $status
  * @property int $capacity
+ * @property int|null $no_tickets_per_user
  * @property int|null $event_venue_id
  * @property string $start
  * @property string $end
@@ -156,6 +157,7 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereMatchmakingEnabled($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereNiceName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereNoTicketsPerUser($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereOnlineEvent($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Event wherePrivateParticipants($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereSlug($value)
@@ -410,6 +412,7 @@ namespace App{
  * @property string $type
  * @property float $price
  * @property int|null $no_tickets_per_user
+ * @property int|null $event_ticket_group_id
  * @property int|null $price_credit
  * @property int $seatable
  * @property int $quantity
@@ -428,6 +431,7 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTicket ungrouped()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTicket whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTicket whereEventId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTicket whereEventTicketGroupId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTicket whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTicket whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTicket whereNoTicketsPerUser($value)
@@ -447,12 +451,24 @@ namespace App{
 /**
  * 
  *
- * @property-read \App\Event|null $event
+ * @property int $id
+ * @property int $event_id
+ * @property string $name
+ * @property int $tickets_per_user
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Event $event
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\EventTicket> $tickets
  * @property-read int|null $tickets_count
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTicketGroup newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTicketGroup newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTicketGroup query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTicketGroup whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTicketGroup whereEventId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTicketGroup whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTicketGroup whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTicketGroup whereTicketsPerUser($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTicketGroup whereUpdatedAt($value)
  */
 	class EventTicketGroup extends \Eloquent {}
 }
