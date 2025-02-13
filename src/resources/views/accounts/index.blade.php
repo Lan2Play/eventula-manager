@@ -227,7 +227,7 @@
                                             <td>{{ $creditLog->amount }}</td>
                                             <td>
                                                 @if (strtolower($creditLog->action) == 'buy')
-                                                    @if (!$creditLog->purchase->participants->isEmpty())
+                                                    @if ($creditLog->purchase->getPurchaseContentType() == 'eventTickets')
                                                         @foreach ($creditLog->purchase->participants as $participant)
                                                             {{ $participant->event->display_name }} -
                                                             {{ $participant->ticket->name }}
@@ -235,7 +235,7 @@
                                                                 <hr>
                                                             @endif
                                                         @endforeach
-                                                    @elseif ($creditLog->purchase->order != null)
+                                                    @elseif ($creditLog->purchase->getPurchaseContentType() == 'shopOrder')
                                                         @foreach ($creditLog->purchase->order->items as $item)
                                                             @if ($item->item)
                                                                 {{ $item->item->name }}
@@ -333,7 +333,7 @@
                                                 {{ date('d-m-y H:i', strtotime($purchase->created_at)) }}
                                             </td>
                                             <td>
-                                                @if (!$purchase->participants->isEmpty())
+                                                @if (!$purchase->getPurchaseContentType() == 'eventTickets')
                                                     @foreach ($purchase->participants as $participant)
                                                         @if ($participant->free)
                                                             {{ $participant->event->display_name }} - Freebie
@@ -347,7 +347,7 @@
                                                             <hr>
                                                         @endif
                                                     @endforeach
-                                                @elseif ($purchase->order != null)
+                                                @elseif ($purchase->getPurchaseContentType() == 'shopOrder')
                                                     @foreach ($purchase->order->items as $item)
                                                         @if ($item->item)
                                                             {{ $item->item->name }}
@@ -370,7 +370,7 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                @if ($purchase->order != null)
+                                                @if ($purchase->getPurchaseContentType() == 'shopOrder')
                                                     @if ($purchase->order->getTotalPrice() != 0)
                                                         {{ Settings::getCurrencySymbol() }}{{ number_format($purchase->order->getTotalPrice(), 2) }}
                                                         @if ($purchase->order->getTotalCreditPrice() != 0 && Settings::isCreditEnabled())
@@ -383,7 +383,7 @@
                                                     @endif
                                                 @endif
 
-                                                @if (!$purchase->participants->isEmpty())
+                                                @if (!$purchase->getPurchaseContentType() == 'eventTickets')
                                                     @if ($purchase->getTotalTicketPrice() != 0)
                                                         {{ Settings::getCurrencySymbol() }}{{ number_format($purchase->getTotalTicketPrice(), 2) }}
                                                     @endif

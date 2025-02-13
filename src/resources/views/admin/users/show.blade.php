@@ -91,7 +91,7 @@
 										{{  date('d-m-y H:i', strtotime($purchase->created_at)) }}
 									</td>
 									<td>
-										@if (!$purchase->participants->isEmpty())
+										@if ($purchase->getPurchaseContentType() == 'eventTickets')
 											@foreach ($purchase->participants as $participant)
 											    {{ $participant->event->display_name }} - 
 											    @php
@@ -114,7 +114,7 @@
 											        <hr>
 											    @endif
 											@endforeach
-										@elseif ($purchase->order != null)
+										@elseif ($purchase->getPurchaseContentType() == 'shopOrder')
 											@foreach ($purchase->order->items as $item)
 												@if ($item->item)
 													{{ $item->item->name }}
@@ -277,14 +277,14 @@
 								<td>{{ $creditLog->amount }}</td>
 								<td>
 									@if (strtolower($creditLog->action) == 'buy')
-										@if (!$creditLog->purchase->participants->isEmpty())
+										@if (!$creditLog->purchase->getPurchaseContentType() == 'eventTickets')
 											@foreach ($creditLog->purchase->participants as $participant)
 												{{ $participant->event->display_name }} - {{ $participant->ticket->name }}
 												@if (!$loop->last)
 													<hr>
 												@endif
 											@endforeach
-										@elseif ($creditLog->purchase->order != null)
+										@elseif ($creditLog->purchase->getPurchaseContentType() == 'shopOrder')
 											@foreach ($creditLog->purchase->order->items as $item)
 												@if ($item->item)
 													{{ $item->item->name }}

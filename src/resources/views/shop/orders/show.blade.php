@@ -65,7 +65,7 @@
 					<h3 class="card-title">Basket</h3>
 				</div>
 				<div class="card-body">
-					@if ($order->purchase->order != null)
+					@if ($order->purchase->getPurchaseContentType() == 'shopOrder')
 						@foreach ($order->purchase->order->items as $item)
 							@if ($item->item)
 								{{ $item->item->name }}

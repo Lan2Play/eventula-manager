@@ -12,14 +12,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Mail\EventulaTicketOrderPaymentFinishedMail;
-
+use App\Mail\EventulaShopOrderPaymentFinishedMail;
 
 class PurchaseController extends Controller
 {
     /**
      * set Purchase Success
      * @param Purchase $purchase
-     * @return View
+     * @return array
      */
     public function setSuccess(Purchase $purchase)
     {
@@ -40,7 +40,15 @@ class PurchaseController extends Controller
         }
         if (isset($purchase->user))
         {
-            Mail::to($purchase->user)->queue(new EventulaTicketOrderPaymentFinishedMail($purchase->user, $purchase));
+            if ($purchase->getPurchaseContentType() == 'eventTickets')
+            {
+                Mail::to($purchase->user)->queue(new EventulaTicketOrderPaymentFinishedMail($purchase->user, $purchase));
+
+            }
+            if ($purchase->getPurchaseContentType() == 'shopOrder')
+            {
+                Mail::to($purchase->user)->queue(new EventulaShopOrderPaymentFinishedMail($purchase->user, $purchase));
+            }
         }
 
         return [

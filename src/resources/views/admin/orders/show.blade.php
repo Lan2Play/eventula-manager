@@ -73,7 +73,6 @@
                     </table>
 					<div class="text-end">
 					<strong style="font-weight: bold;">Total:</strong>
-                    @if ($order != null)
                         @if ($order->getTotalPrice() != 0)
                             {{ Settings::getCurrencySymbol() }}{{ number_format($order->getTotalPrice(), 2) }}
                             @if ($order->getTotalCreditPrice() != 0 && Settings::isCreditEnabled())
@@ -84,7 +83,6 @@
                             {{ number_format($order->getTotalCreditPrice(), 2) }}
                             Credits
                         @endif
-                    @endif
 					</div>
 
                 </div>

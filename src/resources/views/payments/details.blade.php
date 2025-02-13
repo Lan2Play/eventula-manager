@@ -83,18 +83,18 @@
 					<div class="card-body">
 						@if ($deliveryDetails && $deliveryDetails['type'] == 'shipping')
 							<address>
-								<strong>{{ $delivery['shipping_first_name']}} {{ $delivery['shipping_last_name'] }}</strong><br>
-								{{ $delivery['shipping_address_1'] }}<br>
-								@if (trim($delivery['shipping_address_2']) != '')
-									{{ $delivery['shipping_address_2'] }}<br>
+								<strong>{{ $deliveryDetails['shipping_first_name']}} {{ $deliveryDetails['shipping_last_name'] }}</strong><br>
+								{{ $deliveryDetails['shipping_address_1'] }}<br>
+								@if (trim($deliveryDetails['shipping_address_2']) != '')
+									{{ $deliveryDetails['shipping_address_2'] }}<br>
 								@endif
-								@if (trim($delivery['shipping_country']) != '')
-									{{ $delivery['shipping_country'] }}<br>
+								@if (trim($deliveryDetails['shipping_country']) != '')
+									{{ $deliveryDetails['shipping_country'] }}<br>
 								@endif
-								@if (trim($delivery['shipping_state']) != '')
-									{{ $delivery['shipping_state'] }}<br>
+								@if (trim($deliveryDetails['shipping_state']) != '')
+									{{ $deliveryDetails['shipping_state'] }}<br>
 								@endif
-								{{ $delivery['shipping_postcode'] }}
+								{{ $deliveryDetails['shipping_postcode'] }}
 							</address>
 						@else
 							<strong>@lang('payments.delivery_next_event')</strong>

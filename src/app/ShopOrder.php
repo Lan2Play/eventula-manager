@@ -5,6 +5,8 @@ namespace App;
 use Auth;
 
 use App\ShopOrderItem;
+use App\Events\ShopOrderStatusUpdated;
+use App\Events\ShopOrderTrackingDetailsUpdated;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -128,6 +130,7 @@ class ShopOrder extends Model
         if (!$this->save()) {
             return false;
         }
+        ShopOrderStatusUpdated::dispatch($this);
         return true;
     }
 
@@ -142,6 +145,7 @@ class ShopOrder extends Model
         if (!$this->save()) {
             return false;
         }
+        ShopOrderStatusUpdated::dispatch($this);
         return true;
     }
 
@@ -156,6 +160,7 @@ class ShopOrder extends Model
         if (!$this->save()) {
             return false;
         }
+        ShopOrderStatusUpdated::dispatch($this);
         return true;
     }
 
@@ -170,6 +175,7 @@ class ShopOrder extends Model
         if (!$this->save()) {
             return false;
         }
+        ShopOrderStatusUpdated::dispatch($this);
         return true;
     }
 
@@ -185,6 +191,7 @@ class ShopOrder extends Model
         if (!$this->save()) {
             return false;
         }
+        ShopOrderTrackingDetailsUpdated::dispatch($this);
         return true;
     }
 

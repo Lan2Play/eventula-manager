@@ -33,7 +33,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if ($purchase->order != null)
+                            @if ($purchase->getPurchaseContentType() == 'shopOrder')
                                 @foreach ($purchase->order->items as $item)
                                     <tr>
                                         <td>
@@ -66,7 +66,7 @@
                                         </td>
                                     </tr>
                                 @endforeach
-                            @elseif (!$purchase->participants->isEmpty())
+                            @elseif ($purchase->getPurchaseContentType() == 'eventTickets')
                                 @foreach ($purchase->participants as $participant)
                                     <tr @class(['table-warning' => $participant->revoked])>
                                         <td>
@@ -118,7 +118,7 @@
                     </table>
                     <div class="text-end">
                         <strong style="font-weight: bold;">Total:</strong>
-                        @if ($purchase->order != null)
+                        @if ($purchase->getPurchaseContentType() == 'shopOrder')
                             @if ($purchase->order->getTotalPrice() != 0)
                                 {{ Settings::getCurrencySymbol() }}{{ number_format($purchase->order->getTotalPrice(), 2) }}
                                 @if ($purchase->order->getTotalCreditPrice() != 0 && Settings::isCreditEnabled())
@@ -131,7 +131,7 @@
                             @endif
                         @endif
 
-                        @if (!$purchase->participants->isEmpty())
+                        @if ($purchase->getPurchaseContentType() == 'eventTickets')
                             @if ($purchase->getTotalTicketPrice() != 0)
                                 {{ Settings::getCurrencySymbol() }}{{ number_format($purchase->getTotalTicketPrice(), 2) }}
                             @endif

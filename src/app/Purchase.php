@@ -117,6 +117,25 @@ class Purchase extends Model
 
     }
 
+    /**
+     * Get Purchase Content Type
+     * @param String
+     */
+    public function getPurchaseContentType()
+    {
+
+        if ($this->order != null)
+        {
+            return 'shopOrder';
+        }
+
+        if (!$this->participants->isEmpty())
+        {
+            return 'eventTickets';
+        }
+
+        return 'none';
+    }
 
 
 }

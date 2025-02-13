@@ -77,17 +77,13 @@ class EventulaTicketOrderMail extends TemplateMailable
         {
             $tempbasket = Helpers::formatBasket($basket);
             $this->basket = array(); 
-
             foreach($tempbasket->all() as $item)
             {
-                if (get_class($item) == "App\ShopItem")
-                {
-                    $this->basket[] = new MustacheModelHelper(ShopItem::where('id', $item->id)->first());
-                }
-
                 if (get_class($item) == "App\EventTicket")
                 {
-                    $this->basket[] = new MustacheModelHelper(EventTicket::where('id', $item->id)->first());
+                    $shitem = EventTicket::where('id', $item->id)->first();
+                    $shitem->quantity = $item->quantity;
+                    $this->basket[] = new MustacheModelHelper($shitem );
                 }
             }
 

@@ -80,14 +80,12 @@ class EventulaTicketOrderPendingMail extends TemplateMailable
 
             foreach($tempbasket->all() as $item)
             {
-                if (get_class($item) == "App\ShopItem")
-                {
-                    $this->basket[] = new MustacheModelHelper($item);
-                }
 
                 if (get_class($item) == "App\EventTicket")
                 {
-                    $this->basket[] = new MustacheModelHelper($item);
+                    $shitem = EventTicket::where('id', $item->id)->first();
+                    $shitem->quantity = $item->quantity;
+                    $this->basket[] = new MustacheModelHelper($shitem );
                 }
             }
 

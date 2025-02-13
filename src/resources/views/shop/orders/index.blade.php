@@ -47,7 +47,7 @@
 					<td>{{ $order->purchase->type }}</td>
 					<td>{{ $order->created_at }}</td>
 					<td>
-						@if ($order->purchase->order != null)
+						@if ($order->purchase->getPurchaseContentType() == 'shopOrder')
 							@foreach ($order->purchase->order->items as $item)
 								@if ($item->item)
 									{{ $item->item->name }}
