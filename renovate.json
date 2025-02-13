@@ -10,7 +10,6 @@
   "forkProcessing": "enabled",
   "baseBranches": [
     "dev",
-    "legacy",
     "main"
   ],
   "packageRules": [
