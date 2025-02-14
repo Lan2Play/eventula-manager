@@ -60,3 +60,13 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
      
+      - name: Create Pull Request
+        if: env.has_changes == 'true'
+        run: |
+          gh pr create \
+            --base dev \
+            --head ${{ env.branch_name }} \
+            --title "Auto-generated IDE helper update" \
+            --body "This PR updates the IDE helper files automatically."
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
