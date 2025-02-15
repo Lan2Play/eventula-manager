@@ -1,0 +1,18 @@
+{
+  "image": "mcr.microsoft.com/devcontainers/php:8.3",
+  "portsAttributes": {
+		"80": {
+			"label": "Eventula http",
+			"onAutoForward": "notify"
+		},
+    "3306": {
+			"label": "Eventula database",
+			"onAutoForward": "notify"
+		},
+  "postCreateCommand": "make",
+  "extensions": [
+                     "bmewburn.vscode-intelephense-client",
+                     "EditorConfig.EditorConfig"
+	]
+	}
+}
