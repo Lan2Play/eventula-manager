@@ -94,7 +94,7 @@ jobs:
 
       - name: Clean up old branches
         run: |
-          for branch in $(git branch -r | grep 'origin/maint/update-ide-helper-' | sed 's/origin\///'); do
+          for branch in $(git ls-remote --heads origin "maint/update-ide-helper-*" | awk '{print $2}' | sed 's#refs/heads/##'); do
             if [[ "$branch" != "$branch_name" ]]; then
               echo "Deleting old branch: $branch"
               git push origin --delete "$branch"
