@@ -1,5 +1,9 @@
 {
   "image": "mcr.microsoft.com/devcontainers/php:8.3",
+  "features": {
+      "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+  },
+  "forwardPorts": [80,3306],
   "portsAttributes": {
 		"80": {
 			"label": "Eventula http",
@@ -12,7 +16,8 @@
   "postCreateCommand": "make",
   "extensions": [
                      "bmewburn.vscode-intelephense-client",
-                     "EditorConfig.EditorConfig"
+                     "EditorConfig.EditorConfig",
+	  	     "github.vscode-github-actions"
 	]
 	}
 }
