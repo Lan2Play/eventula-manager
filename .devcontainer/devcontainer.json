@@ -17,7 +17,7 @@
       "onAutoForward": "notify"
     }
   },
-  "postCreateCommand": "make",
+  "postCreateCommand": "make start-devcontainer-dev",
   "customizations": {
     "vscode": {
       "extensions": [

@@ -29,6 +29,9 @@ endif
 # Run local dev
 start-local-dev: env-file-dev docker-lan app-build-clean-dev logs
 
+# Run devcontainer dev
+start-devcontainer-dev: env-file-dev docker-lan app-build-clean-dev
+
 switch-database: purge-containers dev-database wait-mysql database-import stop interactive
 
 dev:
