@@ -74,15 +74,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Update existing PR (if found)
+     - name: Close existing PR (if found)
         if: env.pr_number != ''
         run: |
-          gh pr edit ${{ env.pr_number }} --head ${{ env.branch_name }}
+          gh pr close ${{ env.pr_number }} --delete-branch
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Create Pull Request (if no existing PR)
-        if: env.has_changes == 'true' && env.pr_number == ''
+      - name: Create Pull Request (always create a new PR)
+        if: env.has_changes == 'true'
         run: |
           gh pr create \
             --base dev \
