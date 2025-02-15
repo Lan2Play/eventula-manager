@@ -18,6 +18,7 @@
     }
   },
   "postCreateCommand": "make start-devcontainer-dev",
+  "postStartCommand": "make dev",
   "customizations": {
     "vscode": {
       "extensions": [
