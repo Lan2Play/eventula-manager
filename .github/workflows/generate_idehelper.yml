@@ -60,13 +60,45 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
      
-      - name: Create Pull Request
+      - name: Check for existing PR
         if: env.has_changes == 'true'
+        id: check_pr
+        run: |
+          PR_NUMBER=$(gh pr list --base dev --state open --search "Auto-generated IDE helper update" --json number --jq '.[0].number' || echo "")
+          if [[ -n "$PR_NUMBER" ]]; then
+            echo "Existing PR found: #$PR_NUMBER"
+            echo "pr_number=$PR_NUMBER" >> $GITHUB_ENV
+          else
+            echo "No existing PR found."
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update existing PR (if found)
+        if: env.pr_number != ''
+        run: |
+          gh pr edit ${{ env.pr_number }} --head ${{ env.branch_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create Pull Request (if no existing PR)
+        if: env.has_changes == 'true' && env.pr_number == ''
         run: |
           gh pr create \
             --base dev \
             --head ${{ env.branch_name }} \
             --title "Auto-generated IDE helper update" \
             --body "This PR updates the IDE helper files automatically."
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Clean up old branches
+        run: |
+          for branch in $(git branch -r | grep 'origin/maint/update-ide-helper-' | sed 's/origin\///'); do
+            if [[ "$branch" != "$branch_name" ]]; then
+              echo "Deleting old branch: $branch"
+              git push origin --delete "$branch"
+            fi
+          done
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
