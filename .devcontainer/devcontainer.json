@@ -1,23 +1,31 @@
 {
   "image": "mcr.microsoft.com/devcontainers/php:8.3",
   "features": {
-      "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
   },
-  "forwardPorts": [80,3306],
+  "forwardPorts": [
+    80,
+    3306
+  ],
   "portsAttributes": {
-		"80": {
-			"label": "Eventula http",
-			"onAutoForward": "notify"
-		},
+    "80": {
+      "label": "Eventula http",
+      "onAutoForward": "notify"
+    },
     "3306": {
-			"label": "Eventula database",
-			"onAutoForward": "notify"
-		},
+      "label": "Eventula database",
+      "onAutoForward": "notify"
+    }
+  },
   "postCreateCommand": "make",
-  "extensions": [
-                     "bmewburn.vscode-intelephense-client",
-                     "EditorConfig.EditorConfig",
-	  	     "github.vscode-github-actions"
-	]
-	}
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "bmewburn.vscode-intelephense-client",
+        "EditorConfig.EditorConfig",
+        "github.vscode-github-actions",
+        "xdebug.php-debug"
+      ]
+    }
+  }
 }
