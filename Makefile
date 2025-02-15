@@ -315,64 +315,64 @@ composer-add-dep-dev:
 # Install JS Dependencies via NPM
 npm-install:
 	docker run --rm --name js-maintainence --interactive \
-	-v $(currentDir)/src:/usr/src/app \
-	-w /usr/src/app \
+	-v $(currentDir)/src:/usr/src \
+	-w /usr/src \
     --user 82:82 \
 	node:22.9 /bin/bash -ci "npm install --no-audit && npm run production"
 
 # Install PRD JS Dependencies via NPM locally
 npm-install-local:
 	docker run --rm --name js-maintainence-dev --interactive \
-	-v $(currentDir)/src:/usr/src/app \
-	-w /usr/src/app \
+	-v $(currentDir)/src:/usr/src \
+	-w /usr/src \
 	$(user) \
 	node:22.9 /bin/bash -ci "npm install --no-audit && npm run production"
 
 # Install JS Dependencies via NPM
 npm-install-gh:
 	docker run --rm --name js-maintainence --interactive \
-	-v $(currentDir)/src:/usr/src/app \
-	-w /usr/src/app \
+	-v $(currentDir)/src:/usr/src \
+	-w /usr/src \
     --user 0 \
 	node:22.9 /bin/bash -ci "npm install --no-audit && npm run production && chown -R $(userId):$(groupId) /usr/src/app"
 
 # Install Dev JS Dependencies via NPM
 npm-install-dev:
 	docker run --rm --name js-maintainence-dev --interactive \
-	-v $(currentDir)/src:/usr/src/app \
-	-w /usr/src/app \
+	-v $(currentDir)/src:/usr/src \
+	-w /usr/src \
 	$(user) \
 	node:22.9 /bin/bash -ci "npm install --no-audit && npm run dev"
 
 #list npm package - usage make npm-ls module=module
 npm-ls:
 	docker run --rm --name js-maintainence-list --interactive \
-	-v $(currentDir)/src:/usr/src/app \
-	-w /usr/src/app \
+	-v $(currentDir)/src:/usr/src \
+	-w /usr/src \
 	$(user) \
 	node:22.9 /bin/bash -ci "npm ls $(module)"
 
 #update npm packages - usage make npm-update
 npm-update:
 	docker run --rm --name js-maintainence-list --interactive \
-	-v $(currentDir)/src:/usr/src/app \
-	-w /usr/src/app \
+	-v $(currentDir)/src:/usr/src \
+	-w /usr/src \
 	$(user) \
 	node:22.9 /bin/bash -ci "npm update"
 
 #audit npm packages - usage make npm-audit
 npm-audit:
 	docker run --rm --name js-maintainence-list --interactive \
-	-v $(currentDir)/src:/usr/src/app \
-	-w /usr/src/app \
+	-v $(currentDir)/src:/usr/src \
+	-w /usr/src \
 	$(user) \
 	node:22.9 /bin/bash -ci "npm audit"
 
 #audit fix npm packages - usage make npm-audit-fix
 npm-audit-fix:
 	docker run --rm --name js-maintainence-list --interactive \
-	-v $(currentDir)/src:/usr/src/app \
-	-w /usr/src/app \
+	-v $(currentDir)/src:/usr/src \
+	-w /usr/src \
 	$(user) \
 	node:22.9 /bin/bash -ci "npm audit fix"
 
@@ -380,31 +380,31 @@ npm-audit-fix:
 #list outdated npm packages
 npm-outdated:
 	docker run --rm --name js-maintainence-outdated --interactive \
-	-v $(currentDir)/src:/usr/src/app \
-	-w /usr/src/app \
+	-v $(currentDir)/src:/usr/src \
+	-w /usr/src \
 	$(user) \
 	node:22.9 /bin/bash -ci "npm outdated"
 
 #rebuild node
 npm-rebuild:
 	docker run --rm --name js-maintainence-outdated --interactive \
-	-v $(currentDir)/src:/usr/src/app \
-	-w /usr/src/app \
+	-v $(currentDir)/src:/usr/src \
+	-w /usr/src \
 	$(user) \
 	node:22.9 /bin/bash -ci "npm rebuild"
 
 # npm mix Runner
 mix:
 	docker run --rm --name js-maintainence-dev --interactive \
-	-v $(currentDir)/src:/usr/src/app \
-	-w /usr/src/app \
+	-v $(currentDir)/src:/usr/src \
+	-w /usr/src \
     --user 82:82 \
 	node:22.9 /bin/bash -ci "npm run production"
 
 mix-dev:
 	docker run --rm --name js-maintainence-dev --interactive \
-	-v $(currentDir)/src:/usr/src/app \
-	-w /usr/src/app \
+	-v $(currentDir)/src:/usr/src \
+	-w /usr/src \
 	$(user) \
 	node:22.9 /bin/bash -ci "npm run development"
 
