@@ -17,6 +17,7 @@
       "onAutoForward": "notify"
     }
   },
+  "otherPortsAttributes": { "onAutoForward" : "ignore" },
   "postCreateCommand": "make start-devcontainer-dev",
   "postStartCommand": "make dev",
   "customizations": {
