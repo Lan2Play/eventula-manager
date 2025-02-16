@@ -10,6 +10,8 @@ services:
       - $PWD/resources/secrets:/run/secrets
     env_file: $PWD/src/.env
     container_name: eventula_manager_app
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     networks:
       - lan
     ports:

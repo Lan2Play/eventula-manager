@@ -358,6 +358,15 @@ fi
 export APP_URL
 
 
+# handle xdebug
+if [ "$ENABLE_XDEBUG" = 'true' ]; then
+	sed -i 's|xdebug.mode = off|xdebug.mode = debug|g' /usr/local/etc/php/conf.d/xdebug.ini
+	sed -i 's|xdebug.start_with_request = trigger|xdebug.start_with_request = yes|g' /usr/local/etc/php/conf.d/xdebug.ini
+	touch /var/log/xdebug.log
+	chown -R $UUID:$GUID /var/log/xdebug.log
+fi 
+
+
 # Database Wait check
 echo "---------------"
 echo "WAITING FOR $DB_HOST:$DB_PORT..."
