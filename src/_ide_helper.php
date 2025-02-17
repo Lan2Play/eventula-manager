@@ -24286,6 +24286,27 @@ namespace Illuminate\Routing {
         }
 
             }
+    /**
+     * 
+     *
+     */
+    class ResponseFactory {
+        /**
+         * 
+         *
+         * @see \Intervention\Image\Laravel\ServiceProvider::boot()
+         * @param \Intervention\Image\Image $image
+         * @param \Intervention\Image\Format|\Intervention\Image\MediaType|\Intervention\Image\FileExtension|string|null $format
+         * @param mixed|null $options
+         * @return \Illuminate\Http\Response 
+         * @static 
+         */
+        public static function image($image, $format = null, ...$options)
+        {
+            return \Illuminate\Routing\ResponseFactory::image($image, $format, ...$options);
+        }
+
+            }
     }
 
 namespace Illuminate\Database\Eloquent {
