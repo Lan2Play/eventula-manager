@@ -34,13 +34,13 @@
 				<div class="row">
 					<div class="col-sm-6 col-12">
 						<h4>Purchase Breakdown</h4>
-						<div class="w-100 h-100">
+						<div class="h-75 w-75">
 							<canvas id="purchaseBreakdownChart"></canvas>
 						</div>
 					</div>
 					<div class="col-sm-6 col-12">
 						<h4>Income Breakdown</h4>
-						<div class="w-100 h-100">
+						<div class="w-75">
 							<canvas id="incomeBreakdownChart"></canvas>
 						</div>
 					</div>

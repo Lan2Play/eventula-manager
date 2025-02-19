@@ -118,7 +118,9 @@
                     <i class="fa fa-ticket fa-fw"></i> Ticket Sales Per Month
                 </div>
                 <div class="card-body">
-                    <canvas id="ticketBreakdownChart"></canvas>
+                    <div class="d-flex justify-content-center" style="height: 250px;">
+                        <canvas id="ticketBreakdownChart"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
@@ -129,7 +131,9 @@
                     <i class="fa fa-credit-card fa-fw"></i> Orders Per Month
                 </div>
                 <div class="card-body">
-                    <canvas id="ordersBreakdownChart"></canvas>
+                    <div class="d-flex justify-content-center" style="height: 250px;">
+                        <canvas id="ordersBreakdownChart"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
