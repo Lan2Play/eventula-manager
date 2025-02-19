@@ -42,11 +42,27 @@ class TicketsController extends Controller
             return $user->getStaffTickets($event->id)->count();
         });
 
+        $purchaseBreakDown = $event->tickets()->withCount('participants')->get()->map(function ($ticket) {
+            return [
+                'name' => $ticket->name,
+                'count' => $ticket->participants_count,
+            ];
+        })->toArray();
+
+        $incomeBreakDown = $event->tickets()->withCount('participants')->get()->map(function ($ticket) {
+            return [
+                'name' => $ticket->name,
+                'income' => $ticket->price * $ticket->participants_count,
+            ];
+        })->toArray();
+
         return view('admin.events.tickets.index')
             ->with('event', $event)
             ->with('totalFreeTickets', $totalFreeTickets)
             ->with('totalStaffTickets', $totalStaffTickets)
-            ->with('users', $users);
+            ->with('users', $users)
+            ->with('purchaseBreakdownData', $purchaseBreakDown)
+            ->with('incomeBreakdownData', $incomeBreakDown);
     }
 
     /**
