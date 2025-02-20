@@ -35,7 +35,7 @@
     "type": "project",
     "require": {
         "php": "8.4.*",
-        "laravel/framework": "11.42.1",
+        "laravel/framework": "11.43.2",
         "laravelcollective/html": "dev-6x",
         "laravel/legacy-factories": "1.4.1",
         "webonyx/graphql-php": "15.19.1",
@@ -74,7 +74,7 @@
     "require-dev": {
         "mockery/mockery": "1.6.12",
         "fakerphp/faker": "1.24.1",
-        "phpunit/phpunit": "12.0.2",
+        "phpunit/phpunit": "12.0.3",
         "kitloong/laravel-migrations-generator": "7.0.7",
         "symfony/css-selector": "7.2.0",
         "symfony/dom-crawler": "7.2.3",

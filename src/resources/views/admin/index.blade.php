@@ -112,24 +112,28 @@
     </div>
 
     <div class="row">
-        <div class="col-md-6 col-12 d-none">
+        <div class="col-md-6 col-12">
             <div class="card mb-3">
                 <div class="card-header">
                     <i class="fa fa-ticket fa-fw"></i> Ticket Sales Per Month
                 </div>
                 <div class="card-body">
-                    <div id="ticket-breakdown"></div>
+                    <div class="d-flex justify-content-center" style="height: 250px;">
+                        <canvas id="ticketBreakdownChart"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-6 col-12 d-none mb-3">
+        <div class="col-md-6 col-12 mb-3">
             <div class="card mb-3">
                 <div class="card-header">
                     <i class="fa fa-credit-card fa-fw"></i> Orders Per Month
                 </div>
                 <div class="card-body">
-                    <div id="orders-breakdown"></div>
+                    <div class="d-flex justify-content-center" style="height: 250px;">
+                        <canvas id="ordersBreakdownChart"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
@@ -301,44 +305,44 @@
 
     </div>
 
-    {{-- TODO: Replace Morris --}}
-    {{-- <script>
-        Morris.Bar({
-            element: 'ticket-breakdown',
-            data: [
-                @foreach ($ticketBreakdown as $key => $month)
-                    {
-                        month: '{{ $key }}',
-                        value: {{ count($month) }}
-                    },
-                @endforeach
-            ],
-            // The name of the data record attribute that contains x-values.
-            xkey: 'month',
-            // A list of names of data record attributes that contain y-values.
-            ykeys: ['value'],
-            // Labels for the ykeys -- will be displayed when you hover over the
-            // chart.
-            labels: ['Number of Tickets']
+    <script>
+			
+        const ticketBreakdownChartCanvas = document.getElementById('ticketBreakdownChart');
+        const ordersBreakdownChartCanvas = document.getElementById('ordersBreakdownChart');  
+        
+        const ticketBreakdown = @json($ticketBreakdown);
+        const ordersBreakdown = @json($orderBreakdown);
+
+        const ticketBreakdownLabels = Object.keys(ticketBreakdown);
+        const ticketBreakdownData = Object.values(ticketBreakdown);
+        const ordersBreakdownLabels = Object.keys(ordersBreakdown);
+        const ordersBreakdownData = Object.values(ordersBreakdown);
+                  
+        // Ticket Breakdown
+        
+        new Chart(ticketBreakdownChartCanvas, {
+            type: 'bar',
+            data: {
+                labels: ticketBreakdownLabels.map(label => `${label}`),
+                datasets: [{
+                label: 'Ticket Breakdown',
+                data: ticketBreakdownData,
+                }]
+            }
         });
-        Morris.Bar({
-            element: 'orders-breakdown',
-            data: [
-                @foreach ($orderBreakdown as $key => $month)
-                    {
-                        month: '{{ $key }}',
-                        value: {{ count($month) }}
-                    },
-                @endforeach
-            ],
-            // The name of the data record attribute that contains x-values.
-            xkey: 'month',
-            // A list of names of data record attributes that contain y-values.
-            ykeys: ['value'],
-            // Labels for the ykeys -- will be displayed when you hover over the
-            // chart.
-            labels: ['Number of Orders']
+
+        // Orders Breakdown
+
+        new Chart(ordersBreakdownChartCanvas, {
+            type: 'bar',
+            data: {
+                labels: ordersBreakdownLabels,
+                datasets: [{
+                    label: 'Orders Breakdown',
+                    data: ordersBreakdownData,
+                }]
+            }
         });
-    </script> --}}
+      </script>
 
 @endsection
