@@ -47,7 +47,7 @@
         "php-http/guzzle7-adapter": "1.1.0",
         "team-reflex/challonge-php": "dev-master",
         "intervention/image": "3.11.1",
-        "intervention/image-laravel": "1.5.1",
+        "intervention/image-laravel": "1.5.2",
         "laravel/tinker": "2.10.1",
         "scssphp/scssphp": "2.0.1",
         "omnipay/paypal": "3.0.2",
