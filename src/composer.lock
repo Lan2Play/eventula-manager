@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "44081b12938befe90570959682f173ba",
+    "content-hash": "8c143773bfd7ba2efbe63446d444db6c",
     "packages": [
         {
             "name": "artesaos/seotools",
@@ -2174,20 +2174,20 @@
         },
         {
             "name": "ignited/laravel-omnipay",
-            "version": "3.6.0",
+            "version": "3.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ignited/laravel-omnipay.git",
-                "reference": "87f8db1fe06f608c41cb42d4e1257bb2c313c95b"
+                "reference": "3ba19626e11c89ae94335903022b000f681d1665"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ignited/laravel-omnipay/zipball/87f8db1fe06f608c41cb42d4e1257bb2c313c95b",
-                "reference": "87f8db1fe06f608c41cb42d4e1257bb2c313c95b",
+                "url": "https://api.github.com/repos/ignited/laravel-omnipay/zipball/3ba19626e11c89ae94335903022b000f681d1665",
+                "reference": "3ba19626e11c89ae94335903022b000f681d1665",
                 "shasum": ""
             },
             "require": {
-                "illuminate/support": "~6|~7|~8|~9|~10|~11",
+                "illuminate/support": "~6|~7|~8|~9|~10|~11|~12",
                 "omnipay/common": "~3.0",
                 "php": "^7.2.5|^8.0"
             },
@@ -2228,9 +2228,9 @@
             ],
             "support": {
                 "issues": "https://github.com/ignited/laravel-omnipay/issues",
-                "source": "https://github.com/ignited/laravel-omnipay/tree/3.6.0"
+                "source": "https://github.com/ignited/laravel-omnipay/tree/3.7.0"
             },
-            "time": "2024-04-10T12:22:36+00:00"
+            "time": "2025-02-26T01:02:57+00:00"
         },
         {
             "name": "intervention/gif",
