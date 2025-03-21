@@ -5,7 +5,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 11.44.0.
+ * Generated for Laravel 11.44.1.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -24309,27 +24309,6 @@ namespace Illuminate\Routing {
         public static function emailVerification()
         {
             return \Illuminate\Routing\Router::emailVerification();
-        }
-
-            }
-    /**
-     * 
-     *
-     */
-    class ResponseFactory {
-        /**
-         * 
-         *
-         * @see \Intervention\Image\Laravel\ServiceProvider::boot()
-         * @param \Intervention\Image\Image $image
-         * @param \Intervention\Image\Format|\Intervention\Image\MediaType|\Intervention\Image\FileExtension|string|null $format
-         * @param mixed|null $options
-         * @return \Illuminate\Http\Response 
-         * @static 
-         */
-        public static function image($image, $format = null, ...$options)
-        {
-            return \Illuminate\Routing\ResponseFactory::image($image, $format, ...$options);
         }
 
             }
