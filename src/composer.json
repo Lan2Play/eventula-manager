@@ -46,7 +46,7 @@
         "guzzlehttp/guzzle": "7.9.3",
         "php-http/guzzle7-adapter": "1.1.0",
         "team-reflex/challonge-php": "dev-master",
-        "intervention/image": "3.11.2",
+        "intervention/image": "3.11.3",
         "intervention/image-laravel": "1.5.5",
         "laravel/tinker": "2.10.1",
         "scssphp/scssphp": "2.0.1",
