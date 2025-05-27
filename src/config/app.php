@@ -1,7 +1,10 @@
 <?php
 return [
 
-    'env'               => env('APP_ENV', 'production'),
+    'env'               => env('APP_E        /*
+         * Application Service Providers...
+         */
+        App\Providers\AppServiceProvider::class,'production'),
     'debug'             => env('APP_DEBUG', false),
     'url'               => env('APP_URL', 'localhost'),
     'timezone'          => 'UTC',
@@ -44,7 +47,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-        Collective\Html\HtmlServiceProvider::class,
+        Spatie\Html\HtmlServiceProvider::class,
         Invisnik\LaravelSteamAuth\SteamServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
@@ -105,15 +108,14 @@ return [
         'URL'                   => Illuminate\Support\Facades\URL::class,
         'Validator'             => Illuminate\Support\Facades\Validator::class,
         'View'                  => Illuminate\Support\Facades\View::class,
-        'Form'                  => Collective\Html\FormFacade::class,
-        'Html'                  => Collective\Html\HtmlFacade::class,
+        'Html'                  => Spatie\Html\Facades\Html::class,
+        'Form'                  => Spatie\Html\Facades\Html::class,
         'Socialize'             => Laravel\Socialite\Facades\Socialite::class,
         'Omnipay'               => Ignited\LaravelOmnipay\Facades\OmnipayFacade::class,
         'QrCode'                => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
         'Settings'              => App\Libraries\Settings::class,
         'Colors'                => App\Libraries\Colors::class,
         'Helpers'               => App\Libraries\Helpers::class,
-        'Image'                 => Intervention\Image\Laravel\Facades\Image::class,
         'SEOMeta'               => Artesaos\SEOTools\Facades\SEOMeta::class,
         'OpenGraph'             => Artesaos\SEOTools\Facades\OpenGraph::class,
         'Twitter'               => Artesaos\SEOTools\Facades\TwitterCard::class,

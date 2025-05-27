@@ -592,67 +592,44 @@ use Debugbar;
 					<button type="button" class="btn-close text-decoration-none" data-bs-dismiss="modal" aria-hidden="true"></button>
 				</div>
 				<div class="modal-body">
-					{{ Form::open(array('url'=>'/matchmaking/' )) }}
+					{!! Html::form('POST', '/matchmaking/') !!}
 					<div class="mb-3">
-						{{ Form::label('game_id',__('matchmaking.game').':',array('id'=>'','class'=>'')) }}
-						{{
-							Form::select(
-								'game_id',
-								Helpers::getMatchmakingGameSelectArray(),
-								null,
-								array(
-									'id'    => 'game_id',
-									'class' => 'form-control'
-								)
-							)
-						}}
+						{!! Html::label(__('matchmaking.game').':', 'game_id') !!}
+						<select id="game_id" name="game_id" class="form-control">
+							@foreach(Helpers::getMatchmakingGameSelectArray() as $key => $value)
+								<option value="{{ $key }}">{{ $value }}</option>
+							@endforeach
+						</select>
 					</div>
 					<div class="mb-3">
-						{{ Form::label('team1name',__('matchmaking.firstteamname'),array('id'=>'','class'=>'')) }}
-						{{ Form::text('team1name',NULL,array('id'=>'team1name','class'=>'form-control')) }}
+						{!! Html::label(__('matchmaking.firstteamname'), 'team1name') !!}
+						{!! Html::text('team1name', null)->id('team1name')->class('form-control') !!}
 						<small>@lang('matchmaking.thisisyourteam')</small>
 					</div>
 					<div class="mb-3">
-						{{ Form::label('team_size',__('matchmaking.teamsize'),array('id'=>'','class'=>'')) }}
-						{{
-							Form::select(
-								'team_size',
-								array(
-									'1v1' => '1v1',
-									'2v2' => '2v2',
-									'3v3' => '3v3',
-									'4v4' => '4v4',
-									'5v5' => '5v5',
-									'6v6' => '6v6'
-								),
-								null,
-								array(
-									'id'    => 'team_size',
-									'class' => 'form-control'
-								)
-							)
-						}}
+						{!! Html::label(__('matchmaking.teamsize'), 'team_size') !!}
+						<select id="team_size" name="team_size" class="form-control">
+							<option value="1v1">1v1</option>
+							<option value="2v2">2v2</option>
+							<option value="3v3">3v3</option>
+							<option value="4v4">4v4</option>
+							<option value="5v5">5v5</option>
+							<option value="6v6">6v6</option>
+						</select>
 					</div>
 					<div class="mb-3">
-						{{ Form::label('team_count',__('matchmaking.teamcounts'),array('id'=>'','class'=>'')) }}
-						{{
-							Form::number('team_count',
-								2,
-								array(
-									'id'    => 'team_size',
-									'class' => 'form-control'
-								))
-						}}
+						{!! Html::label(__('matchmaking.teamcounts'), 'team_count') !!}
+						{!! Html::number('team_count', 2)->id('team_size')->class('form-control') !!}
 					</div>
 					<div class="mb-3">
 						<div class="form-check">
 							<label class="form-check-label">
-								{{ Form::checkbox('ispublic', null, null, array('id'=>'ispublic')) }} is public (show match publicly for signup)
+								{!! Html::checkbox('ispublic', true, false)->id('ispublic') !!} is public (show match publicly for signup)
 							</label>
 						</div>
 					</div>
 					<button type="submit" class="btn btn-success btn-block">Submit</button>
-					{{ Form::close() }}
+					{!! Html::form()->close() !!}
 				</div>
 			</div>
 		</div>
@@ -812,18 +789,18 @@ use Debugbar;
 								<h5>@lang('events.yourseats')</h5>
 								@foreach ($user->getAllTickets($event->id) as $participant)
 									@if ($participant->seat && $participant->seat->event_seating_plan_id == $seatingPlan->id)
-										{{ Form::open(array('url'=>'/events/' . $event->slug . '/seating/' . $seatingPlan->slug)) }}
-											{{ Form::hidden('_method', 'DELETE') }}
-											{{ Form::hidden('user_id', $user->id, array('id'=>'user_id','class'=>'form-control')) }}
-											{{ Form::hidden('participant_id', $participant->id, array('id'=>'participant_id','class'=>'form-control')) }}
-											{{ Form::hidden('seat_column_delete', $participant->seat->column, array('id'=>'seat_column_delete','class'=>'form-control')) }}
-											{{ Form::hidden('seat_row_delete', $participant->seat->row, array('id'=>'seat_row_delete','class'=>'form-control')) }}
+										{!! Html::form('POST', '/events/' . $event->slug . '/seating/' . $seatingPlan->slug) !!}
+											{!! Html::hidden('_method', 'DELETE') !!}
+											{!! Html::hidden('user_id', $user->id)->id('user_id')->class('form-control') !!}
+											{!! Html::hidden('participant_id', $participant->id)->id('participant_id')->class('form-control') !!}
+											{!! Html::hidden('seat_column_delete', $participant->seat->column)->id('seat_column_delete')->class('form-control') !!}
+											{!! Html::hidden('seat_row_delete', $participant->seat->row)->id('seat_row_delete')->class('form-control') !!}
 											<h5>
 												<button class="btn btn-success btn-block">
 													@lang('events.remove') - {{ $participant->seat->getName() }}
 												</button>
 											</h5>
-										{{ Form::close() }}
+										{!! Html::form()->close() !!}
 									@endif
 								@endforeach
 								@elseif($user && !$user->hasSeatableTicket($event->id))
@@ -858,33 +835,27 @@ use Debugbar;
 					<button type="button" class="btn-close text-decoration-none" data-bs-dismiss="modal" aria-hidden="true"></button>
 				</div>
 				@if (Auth::user())
-				{{ Form::open(array('url'=>'/events/' . $event->slug . '/seating/', 'id'=>'pickSeatFormModal')) }}
+				{!! Html::form('POST', '/events/' . $event->slug . '/seating/')->id('pickSeatFormModal') !!}
 				<div class="modal-body">
 					<div class="mb-3">
 						<h4>@lang('events.wichtickettoseat')</h4>
-						{{
-									Form::select(
-										'participant_id',
-										$user->getTickets($event->id),
-										null,
-										array(
-											'id'    => 'format',
-											'class' => 'form-control'
-										)
-									)
-								}}
+						<select name="participant_id" id="format" class="form-control">
+							@foreach($user->getTickets($event->id) as $value => $text)
+								<option value="{{ $value }}">{{ $text }}</option>
+							@endforeach
+						</select>
 						<p class="pt-2">@lang('events.wantthisseat')</p>
 						<p>@lang('events.removeitanytime')</p>
 					</div>
 				</div>
-				{{ Form::hidden('user_id', $user->id, array('id'=>'user_id','class'=>'form-control')) }}
-				{{ Form::hidden('seat_column', null, array('id'=>'seat_column','class'=>'form-control')) }}
-				{{ Form::hidden('seat_row', null, array('id'=>'seat_row','class'=>'form-control')) }}
+				{!! Html::hidden('user_id', $user->id)->id('user_id')->class('form-control') !!}
+				{!! Html::hidden('seat_column', null)->id('seat_column')->class('form-control') !!}
+				{!! Html::hidden('seat_row', null)->id('seat_row')->class('form-control') !!}
 				<div class="modal-footer">
 					<button type="submit" class="btn btn-success">@lang('events.yes')</button>
 					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">@lang('events.no')</button>
 				</div>
-				{{ Form::close() }}
+				{!! Html::form()->close() !!}
 				@endif
 			</div>
 		</div>

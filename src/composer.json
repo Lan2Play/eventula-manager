@@ -18,12 +18,7 @@
             "no-api": true,
             "only": ["invisnik/laravel-steam-auth"]
         },
-        {
-            "type": "github",
-            "url": "https://github.com/Lan2Play/html.git",
-            "no-api": true,
-            "only": ["laravelcollective/html"]
-        },
+
         {
             "type": "github",
             "url": "https://github.com/Lan2Play/ChallongePHP.git",
@@ -36,7 +31,7 @@
     "require": {
         "php": "8.4.*",
         "laravel/framework": "11.42.1",
-        "laravelcollective/html": "dev-6x",
+        "spatie/laravel-html": "3.11",
         "laravel/legacy-factories": "1.4.1",
         "webonyx/graphql-php": "15.19.1",
         "invisnik/laravel-steam-auth": "dev-master",
@@ -129,7 +124,8 @@
          "allow-plugins": {
             "third-party/required-plugin": true,
             "my-organization/*": true,
-            "unnecessary/plugin": false
+            "unnecessary/plugin": false,
+            "php-http/discovery": true
         }
     }
 }

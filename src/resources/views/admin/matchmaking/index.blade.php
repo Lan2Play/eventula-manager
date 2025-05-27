@@ -69,9 +69,9 @@
 											@if(isset($match->game))
 												<button class="btn btn-primary btn-sm btn-block" data-bs-toggle="modal" data-bs-target="#selectServerModal{{ $match->id }}">Select Server</button>
 											@else
-												{{ Form::open(array('url'=>'/admin/matchmaking/'.$match->id.'/start' )) }}
+												{!! Html::form('POST', '/admin/matchmaking/'.$match->id.'/start') !!}
 												<button type="submit" class="btn btn-primary btn-sm btn-block">Start Match</button>
-												{{ Form::close() }}
+												{!! Html::form()->close() !!}
 											@endif
 										</td>
 										<td>
@@ -80,10 +80,10 @@
 											</a>
 										</td>
 										<td>
-											{{ Form::open(array('url'=>'/admin/matchmaking/' . $match->id, 'onsubmit' => 'return ConfirmDelete()')) }}
-												{{ Form::hidden('_method', 'DELETE') }}
+											{!! Html::form('POST', '/admin/matchmaking/' . $match->id)->attribute('onsubmit', 'return ConfirmDelete()') !!}
+												{!! Html::hidden('_method', 'DELETE') !!}
 												<button type="submit" class="btn btn-danger btn-sm btn-block">Delete</button>
-											{{ Form::close() }}
+											{!! Html::form()->close() !!}
 										</td>
 									</tr>
 								@endforeach
@@ -183,10 +183,10 @@
 											</a>
 										</td>
 										<td>
-											{{ Form::open(array('url'=>'/admin/matchmaking/' . $match->id, 'onsubmit' => 'return ConfirmDelete()')) }}
-												{{ Form::hidden('_method', 'DELETE') }}
+											{!! Html::form('POST', '/admin/matchmaking/' . $match->id)->attribute('onsubmit', 'return ConfirmDelete()') !!}
+												{!! Html::hidden('_method', 'DELETE') !!}
 												<button type="submit" class="btn btn-danger btn-sm btn-block">Delete</button>
-											{{ Form::close() }}
+											{!! Html::form()->close() !!}
 										</td>
 									</tr>
 								@endforeach
@@ -207,9 +207,7 @@
 							<h4 class="modal-title" id="selectServerModalLabel{{ $match->id }}">Select Server for Match #{{ $match->id }}</h4>
 							<button type="button" class="btn-close text-decoration-none" data-bs-dismiss="modal" aria-hidden="true"></button>
 						</div>
-						{{ Form::open(array('url'=>'/admin/matchmaking/' . $match->id . ((isset($match->matchMakingServer)) ? '/serverupdate':'/serverstore') , 'id'=>'selectServerModal')) }}
-
-
+						{!! Html::form('POST', '/admin/matchmaking/' . $match->id . ((isset($match->matchMakingServer)) ? '/serverupdate':'/serverstore'))->id('selectServerModal') !!}
 
 						<div class="modal-body">
 							@if (isset($match->game->matchmaking_autoapi) && $match->game->matchmaking_autoapi)
@@ -219,15 +217,19 @@
 							<br><br><p><small style="color: red">If you need to delete the current assignment, you can do that on the <a href="/admin/games/{{$match->game->slug}}/gameservers/{{$match->matchMakingServer->gameServer->slug}}">gameservers detail page</a></small></p>
 							@endif
 								<div class="mb-3">
-									{{ Form::label('gameServer','Server',array('id'=>'','class'=>'')) }}
-									{{ Form::select('gameServer', $match->game->getGameServerSelectArray(), null, array('id'=>'gameServer','class'=>'form-control')) }}
+									{!! Html::label('Server', 'gameServer') !!}
+									<select name="gameServer" id="gameServer" class="form-control">
+										@foreach($match->game->getGameServerSelectArray() as $value => $name)
+											<option value="{{ $value }}">{{ $name }}</option>
+										@endforeach
+									</select>
 								</div>
 							</div>
 							<div class="modal-footer">
 								<button type="submit" class="btn btn-success">Select</button>
 								<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
 							</div>
-						{{ Form::close() }}
+						{!! Html::form()->close() !!}
 					</div>
 				</div>
 
@@ -244,9 +246,7 @@
 							<h4 class="modal-title" id="selectServerModalLabel{{ $match->id }}">Select Server for Match #{{ $match->id }}</h4>
 							<button type="button" class="btn-close text-decoration-none" data-bs-dismiss="modal" aria-hidden="true"></button>
 						</div>
-						{{ Form::open(array('url'=>'/admin/matchmaking/' . $match->id . ((isset($match->matchMakingServer)) ? '/serverupdate':'/serverstore') , 'id'=>'selectServerModal')) }}
-
-
+						{!! Html::form('POST', '/admin/matchmaking/' . $match->id . ((isset($match->matchMakingServer)) ? '/serverupdate':'/serverstore'))->id('selectServerModal') !!}
 
 						<div class="modal-body">
 
@@ -257,15 +257,19 @@
 							<br><br><p><small style="color: red">If you need to delete the current assignment, you can do that on the <a href="/admin/games/{{$match->game->slug}}/gameservers/{{$match->matchMakingServer->gameServer->slug}}">gameservers detail page</a></small></p>
 							@endif
 								<div class="mb-3">
-									{{ Form::label('gameServer','Server',array('id'=>'','class'=>'')) }}
-									{{ Form::select('gameServer', $match->game->getGameServerSelectArray(), null, array('id'=>'gameServer','class'=>'form-control')) }}
+									{!! Html::label('Server', 'gameServer') !!}
+									<select name="gameServer" id="gameServer" class="form-control">
+										@foreach($match->game->getGameServerSelectArray() as $value => $name)
+											<option value="{{ $value }}">{{ $name }}</option>
+										@endforeach
+									</select>
 								</div>
 							</div>
 							<div class="modal-footer">
 								<button type="submit" class="btn btn-success">Select</button>
 								<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
 							</div>
-						{{ Form::close() }}
+						{!! Html::form()->close() !!}
 					</div>
 				</div>
 
@@ -281,11 +285,11 @@
 				</div>
 				<div class="modal-body">
 					<div class="mb-3">
-						{{ Form::open(array('url'=>'/admin/matchmaking/'.$match->id.'/finalize' )) }}
+						{!! Html::form('POST', '/admin/matchmaking/'.$match->id.'/finalize') !!}
 						@foreach ($match->teams as $team)
 		
-							{{ Form::label('teamscore_'. $team->id, 'Score of '.$team->name ,array('id'=>'','class'=>'')) }}
-							{{ Form::number('teamscore_'. $team->id, $team->team_score, array('id'=>'teamscore_'. $team->id,'class'=>'form-control mb-3')) }}
+							{!! Html::label('Score of '.$team->name, 'teamscore_'. $team->id) !!}
+							{!! Html::number('teamscore_'. $team->id, $team->team_score)->id('teamscore_'. $team->id)->class('form-control mb-3') !!}
 		
 						@endforeach
 					</div>
@@ -297,7 +301,7 @@
 						@else
 							<button type="submit" class="btn btn-success btn-block ">Finalize Match</button>
 					@endif
-					{{ Form::close() }}
+					{!! Html::form()->close() !!}
 					
 				</div>
 
@@ -320,18 +324,18 @@
 						@endif
 						<div class="row row-seperator">
 							<div class="col-12 col-md-3">
-								{{ Form::label("Command", NULL, array('id'=>'','class'=>'')) }}
+								{!! Html::label('Command') !!}
 							</div>
 							<div class="col-12 col-md-6">
-								{{ Form::label("parameter", NULL, array('id'=>'','class'=>'')) }}
+								{!! Html::label('parameter') !!}
 							</div>
 							<div class="col-12 col-md-3">
-								{{ Form::label("execute", NULL, array('id'=>'','class'=>'')) }}
+								{!! Html::label('execute') !!}
 							</div>
 						</div>
 						@foreach ($match->game->getMatchCommands() as $matchCommand)
-							{{ Form::open(array('url'=>'/admin/games/' . $match->game->slug . '/gameservercommands/execute/' . $match->matchMakingServer->gameServer->slug .'/matchmaking/' . $match->id, 'id'=>'executeServerCommandModal')) }}
-								{{ Form::hidden('command', $matchCommand->id) }}
+							{!! Html::form('POST', '/admin/games/' . $match->game->slug . '/gameservercommands/execute/' . $match->matchMakingServer->gameServer->slug .'/matchmaking/' . $match->id)->id('executeServerCommandModal') !!}
+								{!! Html::hidden('command', $matchCommand->id) !!}
 								<div class="row row-seperator">
 									<div class="col-12 col-md-3">
 										<h4>{{ $matchCommand->name }}</h4>
@@ -340,8 +344,12 @@
 										<div class="row">
 											@foreach(App\GameServerCommandParameter::getParameters($matchCommand->command) as $gameServerCommandParameter)
 												<div class="mb-3 col-sm-12  col-md-6">
-													{{ Form::label($gameServerCommandParameter->slug, $gameServerCommandParameter->name, array('id'=>'','class'=>'')) }}
-													{{ Form::select($gameServerCommandParameter->slug, $gameServerCommandParameter->getParameterSelectArray(), null, array('id'=>$gameServerCommandParameter->slug,'class'=>'form-control')) }}
+													{!! Html::label($gameServerCommandParameter->name, $gameServerCommandParameter->slug) !!}
+													<select name="{{ $gameServerCommandParameter->slug }}" id="{{ $gameServerCommandParameter->slug }}" class="form-control">
+														@foreach($gameServerCommandParameter->getParameterSelectArray() as $key => $value)
+															<option value="{{ $key }}">{{ $value }}</option>
+														@endforeach
+													</select>
 												</div>
 											@endforeach
 										</div>
@@ -350,7 +358,7 @@
 										<button type="submit" class="btn btn-success">Execute</button>
 									</div>
 								</div>
-							{{ Form::close() }}
+							{!! Html::form()->close() !!}
 						@endforeach
 					</div>
 					<div class="modal-footer">
@@ -373,9 +381,9 @@
 				</div>
 				<div class="card-body">
 					<p>The Matchmaking feature can be used to make matches by admins or users without the need of an event tournament.</p>
-						{{ Form::open(array('url'=>'/admin/settings/matchmaking/enable')) }}
+						{!! Html::form('POST', '/admin/settings/matchmaking/enable') !!}
 							<button type="submit" class="btn btn-block btn-success">Enable</button>
-						{{ Form::close() }}
+						{!! Html::form()->close() !!}
 				</div>
 			</div>
 		</div>
@@ -449,10 +457,10 @@
 										</a>
 									</td>
 									<td width="15%">
-										{{ Form::open(array('url'=>'/admin/matchmaking/' . $match->id, 'onsubmit' => 'return ConfirmDelete()')) }}
-											{{ Form::hidden('_method', 'DELETE') }}
+										{!! Html::form('DELETE', '/admin/matchmaking/' . $match->id)->attribute('onsubmit', 'return ConfirmDelete()') !!}
+											{!! Html::hidden('_method', 'DELETE') !!}
 											<button type="submit" class="btn btn-danger btn-sm btn-block">Delete</button>
-										{{ Form::close() }}
+										{!! Html::form()->close() !!}
 									</td>		
 								</tr>
 							@endforeach
@@ -470,95 +478,60 @@
 			</div>
 			<div class="card-body">
 				<div class="list-group">
-					{{ Form::open(array('url'=>'/admin/matchmaking/' )) }}
+					{!! Html::form('POST', '/admin/matchmaking/') !!}
 						<div class="mb-3">
-							{{ Form::label('game_id','Game',array('id'=>'','class'=>'')) }}
-							{{
-								Form::select(
-									'game_id',
-									Helpers::getMatchmakingGameSelectArray(),
-									null,
-									array(
-										'id'    => 'game_id',
-										'class' => 'form-control'
-									)
-								)
-							}}
+							{!! Html::label('Game', 'game_id') !!}
+							<select name="game_id" id="game_id" class="form-control">
+								@foreach(Helpers::getMatchmakingGameSelectArray() as $key => $value)
+									<option value="{{ $key }}">{{ $value }}</option>
+								@endforeach
+							</select>
 						</div>
 						<div class="mb-3">
-							{{ Form::label('team1name','Team 1 Name',array('id'=>'','class'=>'')) }}
-							{{ Form::text('team1name',NULL,array('id'=>'team1name','class'=>'form-control')) }}
+							{!! Html::label('Team 1 Name', 'team1name') !!}
+							{!! Html::text('team1name')->id('team1name')->class('form-control') !!}
 						</div>
 						<div class="mb-3">
-							{{ Form::label('team1owner','Team 1 Owner',array('id'=>'','class'=>'')) }}
-							{{
-								Form::select(
-									'team1owner',
-									$users,
-									null,
-									array(
-										'id'    => 'team1owner',
-										'class' => 'form-control'
-									)
-								)
-							}}
+							{!! Html::label('Team 1 Owner', 'team1owner') !!}
+							<select name="team1owner" id="team1owner" class="form-control">
+								@foreach($users as $key => $value)
+									<option value="{{ $key }}">{{ $value }}</option>
+								@endforeach
+							</select>
 						</div>
 						<div class="mb-3">
-							{{ Form::label('team_size','Team Size',array('id'=>'','class'=>'')) }}
-							{{
-								Form::select(
-									'team_size',
-									array(
-										'1v1' => '1v1',
-										'2v2' => '2v2',
-										'3v3' => '3v3',
-										'4v4' => '4v4',
-										'5v5' => '5v5',
-										'6v6' => '6v6'
-									),
-									null,
-									array(
-										'id'    => 'team_size',
-										'class' => 'form-control'
-									)
-								)
-							}}
+							{!! Html::label('Team Size', 'team_size') !!}
+							<select name="team_size" id="team_size" class="form-control">
+								<option value="1v1">1v1</option>
+								<option value="2v2">2v2</option>
+								<option value="3v3">3v3</option>
+								<option value="4v4">4v4</option>
+								<option value="5v5">5v5</option>
+								<option value="6v6">6v6</option>
+							</select>
 						</div>
 						<div class="mb-3">
-							{{ Form::label('team_count','Team count',array('id'=>'','class'=>'')) }}
-							{{
-								Form::number('team_count',
-									2,
-									array(
-										'id'    => 'team_size',
-										'class' => 'form-control'
-									))
-							}}
+							{!! Html::label('Team count', 'team_count') !!}
+							{!! Html::number('team_count', '2')->id('team_count')->class('form-control') !!}
 						</div>
 						<div class="mb-3">
-							{{ Form::label('ownerid','Match Owner',array('id'=>'','class'=>'')) }}
-							{{
-								Form::select(
-									'ownerid',
-									$users,
-									null,
-									array(
-										'id'    => 'ownerid',
-										'class' => 'form-control'
-									)
-								)
-							}}
+							{!! Html::label('Match Owner', 'ownerid') !!}
+							<select name="ownerid" id="ownerid" class="form-control">
+								@foreach($users as $key => $value)
+									<option value="{{ $key }}">{{ $value }}</option>
+								@endforeach
+							</select>
 						</div>
 						<div class="mb-3">
 							<div class="form-check">
 									<label class="form-check-label">
-										{{ Form::checkbox('ispublic', null, null, array('id'=>'ispublic')) }} is public (show match publicly for signup)
+										{!! Html::checkbox('ispublic')->id('ispublic') !!} is public (show match publicly for signup)
 									</label>
 							</div>
 						</div>
 
 						<button type="submit" class="btn btn-success btn-block">Submit</button>
-					{{ Form::close() }}
+					{!! Html::form()->close() !!}
 				</div>
 			</div>
 		</div>

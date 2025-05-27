@@ -53,10 +53,10 @@
 									</a>
 								</td>
 								<td width="15%">
-									{{ Form::open(array('url'=>'/admin/polls/' . $poll->slug, 'onsubmit' => 'return ConfirmDelete()')) }}
-										{{ Form::hidden('_method', 'DELETE') }}
+									{!! Html::form('POST', '/admin/polls/' . $poll->slug)->attribute('onsubmit', 'return ConfirmDelete()') !!}
+										{!! Html::hidden('_method', 'DELETE') !!}
 										<button type="submit" class="btn btn-danger btn-sm btn-block">Delete</button>
-									{{ Form::close() }}
+									{!! Html::form()->close() !!}
 								</td>
 							</tr>
 						@endforeach
@@ -72,49 +72,43 @@
 				<i class="fa fa-plus fa-fw"></i> Create Poll
 			</div>
 			<div class="card-body">
-				{{ Form::open(array('url'=>'/admin/polls/', 'files' => 'true')) }}
+				{!! Html::form('POST', '/admin/polls/')->acceptsFiles() !!}
 					<div class="mb-3">
-						{{ Form::label('name','Name',array('id'=>'','class'=>'')) }}
-						{{ Form::text('name', NULL ,array('id'=>'name','class'=>'form-control')) }}
+						{!! Html::label('Name', 'name') !!}
+						{!! Html::text('name', null)->id('name')->class('form-control') !!}
 					</div>
 					<div class="mb-3">
-						{{ Form::label('description','Description',array('id'=>'','class'=>'')) }}
-						{{ Form::textarea('description', '', array('id'=>'','class'=>'form-control', 'rows'=>'3')) }}
+						{!! Html::label('Description', 'description') !!}
+						{!! Html::textarea('description', '')->class('form-control')->rows(3) !!}
 					</div>
 					<div class="mb-3">
-						{{ Form::label('event_id','Link to Event',array('id'=>'','class'=>'')) }}
-						{{
-							Form::select(
-								'event_id',
-								Helpers::getEventNames('DESC', 0, true),
-								'',
-								array(
-									'id'=>'event_id',
-									'class'=>'form-control'
-								)
-							)
-						}}
+						{!! Html::label('Link to Event', 'event_id') !!}
+						<select id="event_id" name="event_id" class="form-control">
+							@foreach(Helpers::getEventNames('DESC', 0, true) as $key => $value)
+								<option value="{{ $key }}">{{ $value }}</option>
+							@endforeach
+						</select>
 					</div>
-					{{ Form::label('options','Options',array('id'=>'','class'=>'')) }}
+					{!! Html::label('Options', 'options') !!}
 					@include ('layouts._partials._polls.add-options')
 					<div class="row mt-3">
 						<div class="col-lg-6 col-sm-12 mb-3">
 							<div class="form-check">
 								<label class="form-check-label">
-									{{ Form::checkbox('allow_options_user', null, true, array('id'=>'allow_options_user')) }} Allow users to add their own options?
+									{!! Html::checkbox('allow_options_user', true, true)->id('allow_options_user') !!} Allow users to add their own options?
 								</label>
 							</div>
 						</div>
 						<div class="col-lg-6 col-sm-12 mb-3">
 							<div class="form-check">
 								<label class="form-check-label">
-									{{ Form::checkbox('allow_options_multi', null, true, array('id'=>'allow_options_multi')) }} Allow multiple options?
+									{!! Html::checkbox('allow_options_multi', true, true)->id('allow_options_multi') !!} Allow multiple options?
 								</label>
 							</div>
 						</div>
 					</div>
 					<button type="submit" class="btn btn-success btn-block">Submit</button>
-				{{ Form::close() }}
+				{!! Html::form()->close() !!}
 			</div>
 		</div>
 	</div>

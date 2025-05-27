@@ -41,7 +41,7 @@
 					@lang('accounts.new_token_wizzard_application_not_set')
 				</div>
 			@endif
-			{{ Form::open(array('url'=>'/account/tokens/wizzard/finish' )) }}							
+			{!! Html::form('POST', '/account/tokens/wizzard/finish') !!}							
 
 			@if ($status ==  "exists")
 				<div class="alert alert-warning">
@@ -52,15 +52,15 @@
 				@lang('accounts.new_token_wizzard_application_authenticate_1') <b>{{ $application }}</b> @lang('accounts.new_token_wizzard_application_authenticate_2')
 				<br>
 				<br>
-				{{ Form::hidden('application', $application) }}
-				{{ Form::hidden('callbackurl', $callbackurl) }}
+				{!! Html::hidden('application', $application) !!}
+				{!! Html::hidden('callbackurl', $callbackurl) !!}
 
 				<button type="submit" class="btn btn-primary btn-block">@lang('accounts.add_token')</button>
 
 							
 			@endif
 
-			{{ Form::close() }}
+			{!! Html::form()->close() !!}
 
 		</div>
 		</div>

@@ -24,9 +24,9 @@
 				</div>
 				<div class="card-body">
 					<p>The Shop can be used for buying merch, consumables etc. It is not recommended you do event ticket sales through this system.</p>
-						{{ Form::open(array('url'=>'/admin/settings/shop/enable')) }}
+						{!! Html::form('POST', '/admin/settings/shop/enable') !!}
 							<button type="submit" class="btn btn-block btn-success">Enable</button>
-						{{ Form::close() }}
+						{!! Html::form()->close() !!}
 				</div>
 			</div>
 		</div>
@@ -43,47 +43,41 @@
 						</div>
 						<div class="card-body">
 							<div class="list-group">
-								{{ Form::open(array('url'=>'/admin/shop/item' )) }}
+								{!! Html::form('POST', '/admin/shop/item') !!}
 										<div class="mb-3">
-											{{ Form::label('name','Name',array('id'=>'','class'=>'')) }}
-											{{ Form::text('name',NULL,array('id'=>'name','class'=>'form-control')) }}
+											{!! Html::label('Name', 'name') !!}
+											{!! Html::text('name', null)->id('name')->class('form-control') !!}
 										</div>
 									<div class="row">
 										<div class="mb-3 col-12 col-sm-6">
-											{{ Form::label('stock','Stock',array('id'=>'','class'=>'')) }}
-											{{ Form::number('stock',NULL,array('id'=>'stock','class'=>'form-control')) }}
+											{!! Html::label('Stock', 'stock') !!}
+											{!! Html::number('stock', null)->id('stock')->class('form-control') !!}
 										</div>
 										<div class="mb-3 col-12 col-sm-6">
-											{{ Form::label('category_id','Category',array('id'=>'','class'=>'')) }}
-											{{
-												Form::select(
-													'category_id',
-													Helpers::getShopCategoriesSelectArray(),
-													'',
-													array(
-														'id'=>'category_id',
-														'class'=>'form-control'
-													)
-												)
-											}}
+											{!! Html::label('Category', 'category_id') !!}
+											<select name="category_id" id="category_id" class="form-control">
+												@foreach(Helpers::getShopCategoriesSelectArray() as $value => $label)
+													<option value="{{ $value }}">{{ $label }}</option>
+												@endforeach
+											</select>
 										</div>
 									</div>
 									<div class="row">
 										<div class="mb-3 col-12 col-sm-6">
-											{{ Form::label('price','Price (Real)',array('id'=>'','class'=>'')) }}
-											{{ Form::text('price',NULL,array('id'=>'price','class'=>'form-control')) }}
+											{!! Html::label('Price (Real)', 'price') !!}
+											{!! Html::text('price', null)->id('price')->class('form-control') !!}
 										</div>
 										<div class="mb-3 col-12 col-sm-6">
-											{{ Form::label('price_credit','Price Credit',array('id'=>'','class'=>'')) }}
-											{{ Form::text('price_credit',NULL,array('id'=>'price_credit','class'=>'form-control')) }}
+											{!! Html::label('Price Credit', 'price_credit') !!}
+											{!! Html::text('price_credit', null)->id('price_credit')->class('form-control') !!}
 										</div>
 									</div>
 									<div class="mb-3">
-										{{ Form::label('description','Description',array('id'=>'','class'=>'')) }}
-										{{ Form::textarea('description', NULL,array('id'=>'description','class'=>'form-control wysiwyg-editor', 'rows'=>'2')) }}
+										{!! Html::label('Description', 'description') !!}
+										{!! Html::textarea('description', null)->id('description')->class('form-control wysiwyg-editor')->rows(2) !!}
 									</div>
 									<button type="submit" class="btn btn-block btn-success">Submit</button>
-								{{ Form::close() }}
+								{!! Html::form()->close() !!}
 							</div>
 						</div>
 					</div>
@@ -151,13 +145,13 @@
 				</div>
 				<div class="card-body">
 					<div class="list-group">
-						{{ Form::open(array('url'=>'/admin/shop/category' )) }}
+						{!! Html::form('POST', '/admin/shop/category') !!}
 							<div class="mb-3">
-								{{ Form::label('name','Name',array('id'=>'','class'=>'')) }}
-								{{ Form::text('name',NULL,array('id'=>'name','class'=>'form-control')) }}
+								{!! Html::label('Name', 'name') !!}
+								{!! Html::text('name', null)->id('name')->class('form-control') !!}
 							</div>
 							<button type="submit" class="btn btn-block btn-success">Submit</button>
-						{{ Form::close() }}
+						{!! Html::form()->close() !!}
 					</div>
 				</div>
 			</div>
@@ -175,9 +169,9 @@
 				</div>
 				<div class="card-body">
 					<p>The Shop can be used for buying merch, consumables etc. It is not recommended you do event ticket sales through this system.</p>
-						{{ Form::open(array('url'=>'/admin/settings/shop/disable')) }}
+						{!! Html::form('POST', '/admin/settings/shop/disable') !!}
 							<button type="submit" class="btn btn-block btn-danger">Disable</button>
-						{{ Form::close() }}
+						{!! Html::form()->close() !!}
 				</div>
 			</div>
 		</div>

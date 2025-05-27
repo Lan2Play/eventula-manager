@@ -41,15 +41,15 @@
 						<tbody>
 							@foreach ($entrys as $entry)
 								<tr>
-									{{ Form::open(array('url'=>'/admin/help/' . $helpCategory->slug . '/' . $entry->id, 'files' => true )) }}
+									{!! Html::form('POST', '/admin/help/' . $helpCategory->slug . '/' . $entry->id)->acceptsFiles() !!}
 										<td>
 											<div class="mb-3">
-												{{ Form::text('name', $entry->display_name,array('id'=>'name','class'=>'form-control')) }}
+												{!! Html::text('name', $entry->display_name)->id('name')->class('form-control') !!}
 											</div>
 										</td>
 										<td>
 											<div class="mb-3">
-												{{ Form::textarea('content', $entry->content,array('id'=>'content','class'=>'form-control wysiwyg-editor-small', 'rows'=>'2')) }}
+												{!! Html::textarea('content', $entry->content)->id('content')->class('form-control wysiwyg-editor-small')->rows(2) !!}
 											</div>
 										</td>
 										<td>
@@ -57,7 +57,7 @@
 										</td>
 										<td width="15%">
 											<button type="submit" class="btn btn-primary btn-sm btn-block">Update</button>
-												{{ Form::close() }}
+												{!! Html::form()->close() !!}
 												<button
 												class="btn btn-primary btn-sm btn-block"
 											 data-bs-toggle="modal"
@@ -67,10 +67,10 @@
 											</button>
 										</td>
 									<td width="15%">
-										{{ Form::open(array('url'=>'/admin/help/' . $helpCategory->slug . '/' . $entry->id, 'files' => true, 'onsubmit' => 'return ConfirmDelete()')) }}
-										{{ Form::hidden('_method', 'DELETE') }}
+										{!! Html::form('POST', '/admin/help/' . $helpCategory->slug . '/' . $entry->id)->acceptsFiles()->attribute('onsubmit', 'return ConfirmDelete()') !!}
+										{!! Html::hidden('_method', 'DELETE') !!}
 											<button type="submit" class="btn btn-danger btn-sm btn-block">Delete</button>
-										{{ Form::close() }}
+										{!! Html::form()->close() !!}
 									</td>
 								</tr>								
 							@endforeach
@@ -90,17 +90,17 @@
 				<i class="fa fa-upload fa-fw"></i> Add Entry
 			</div>
 			<div class="card-body">
-				{{ Form::open(array('url'=>'/admin/help/' . $helpCategory->slug . '/add',)) }}
+				{!! Html::form('POST', '/admin/help/' . $helpCategory->slug . '/add') !!}
 					<div class="mb-3">
-						{{ Form::label('name','Entry Name',array('id'=>'','class'=>'')) }}
-						{{ Form::text('name', NULL ,array('id'=>'name','class'=>'form-control')) }}
+						{!! Html::label('Entry Name', 'name') !!}
+						{!! Html::text('name', null)->id('name')->class('form-control') !!}
 					</div>
 					<div class="mb-3">
-						{{ Form::label('content','Entry Content',array('id'=>'','class'=>'')) }}
-						{{ Form::textarea('content', NULL ,array('id'=>'content','class'=>'form-control wysiwyg-editor', 'rows'=>'2')) }}
+						{!! Html::label('Entry Content', 'content') !!}
+						{!! Html::textarea('content', null)->id('content')->class('form-control wysiwyg-editor')->rows(2) !!}
 					</div>
 					<button type="submit" class="btn btn-primary btn-block">Add</button>
-				{{ Form::close() }}
+				{!! Html::form()->close() !!}
 			</div>
 		</div>
 		<div class="card mb-3">
@@ -109,55 +109,39 @@
 			</div>
 			<div class="card-body">
 				<div class="list-group">
-					{{ Form::open(array('url'=>'/admin/help/' . $helpCategory->slug)) }}
+					{!! Html::form('POST', '/admin/help/' . $helpCategory->slug) !!}
 						<div class="mb-3">
-							{{ Form::label('name','Album Name',array('id'=>'','class'=>'')) }}
-							{{ Form::text('name',$helpCategory->name,array('id'=>'name','class'=>'form-control')) }}
+							{!! Html::label('Album Name', 'name') !!}
+							{!! Html::text('name', $helpCategory->name)->id('name')->class('form-control') !!}
 						</div>
 						<div class="mb-3">
-							{{ Form::label('description','Content',array('id'=>'','class'=>'')) }}
-							{{ Form::textarea('description', $helpCategory->description,array('id'=>'description','class'=>'form-control', 'rows'=>'2')) }}
+							{!! Html::label('Content', 'description') !!}
+							{!! Html::textarea('description', $helpCategory->description)->id('description')->class('form-control')->rows(2) !!}
 						</div>
 						<div class="row">
 							<div class="col-lg-6 col-sm-12 mb-3">
-								{{ Form::label('status','Status',array('id'=>'','class'=>'')) }}
-								{{
-									Form::select(
-										'status',
-										array(
-											'draft'=>'Draft',
-											'published'=>'Published',
-										),
-										strtolower($helpCategory->status),
-										array(
-											'id'=>'status',
-											'class'=>'form-control'
-										)
-									)
-								}}
+								{!! Html::label('Status', 'status') !!}
+								<select name="status" id="status" class="form-control">
+									<option value="draft" {{ strtolower($helpCategory->status) == 'draft' ? 'selected' : '' }}>Draft</option>
+									<option value="published" {{ strtolower($helpCategory->status) == 'published' ? 'selected' : '' }}>Published</option>
+								</select>
 							</div>
 							 <div class="col-lg-6 col-sm-12 mb-3">
-								{{ Form::label('event_id','Event',array('id'=>'','class'=>'')) }}
-								{{
-									Form::select(
-										'event_id',
-										Helpers::getEventNames('DESC', 0),
-										strtolower($helpCategory->event_id),
-										array(
-											'id'=>'event_id',
-											'class'=>'form-control'
-										)
-									)
-								}}
+								{!! Html::label('Event', 'event_id') !!}
+								<select name="event_id" id="event_id" class="form-control">
+									@foreach(Helpers::getEventNames('DESC', 0) as $value => $name)
+										<option value="{{ $value }}" {{ strtolower($helpCategory->event_id) == $value ? 'selected' : '' }}>{{ $name }}</option>
+									@endforeach
+								</select>
 							</div>
 						</div>
 						<button type="submit" class="btn btn-success btn-block">Submit</button>
-					{{ Form::close() }}
+					{!! Html::form()->close() !!}
 					<hr>
-					{{ Form::open(array('url'=>'/admin/help/' . $helpCategory->slug, 'onsubmit' => 'return ConfirmDelete()')) }}
-						{{ Form::hidden('_method', 'DELETE') }}
+					{!! Html::form('POST', '/admin/help/' . $helpCategory->slug)->attribute('onsubmit', 'return ConfirmDelete()') !!}
+						{!! Html::hidden('_method', 'DELETE') !!}
 						<button type="submit" class="btn btn-danger btn-block">Delete</button>
-					{{ Form::close() }}
+					{!! Html::form()->close() !!}
 				</div>
 			</div>
 		</div>
@@ -188,22 +172,22 @@
 											<div>{{ $attachment->display_name }}</div>
 										</td>
 										<td>
-											{{ Form::open(array('url'=>'/admin/help/' . $helpCategory->slug . '/' . $entry->id . '/' . $attachment->id, 'files' => true, 'onsubmit' => 'return ConfirmDelete()')) }}
-												{{ Form::hidden('_method', 'DELETE') }}
+											{!! Html::form('POST', '/admin/help/' . $helpCategory->slug . '/' . $entry->id . '/' . $attachment->id)->acceptsFiles()->attribute('onsubmit', 'return ConfirmDelete()') !!}
+												{!! Html::hidden('_method', 'DELETE') !!}
 												<button type="submit" class="btn btn-danger btn-block">Delete</button>
-											{{ Form::close() }}
+											{!! Html::form()->close() !!}
 										</td>
 									</tr>
 								@endforeach
 							</tbody>
 						</table>
-						{{ Form::open(array('url'=>'/admin/help/' . $helpCategory->slug . '/' . $entry->id . '/upload', 'files' => 'true')) }}
+						{!! Html::form('POST', '/admin/help/' . $helpCategory->slug . '/' . $entry->id . '/upload')->acceptsFiles() !!}
 							<div class="mb-3">
-								{{ Form::label('attachments','Upload new attachments',array('id'=>'','class'=>'')) }}
-								{{ Form::file('attachments[]',array('id'=>'attachments','class'=>'form-control', 'multiple'=>true)) }}
+								{!! Html::label('Upload new attachments', 'attachments') !!}
+								{!! Html::file('attachments[]')->id('attachments')->class('form-control')->attribute('multiple', true) !!}
 							</div>
 							<button type="submit" class="btn btn-primary btn-block">Upload</button>
-						{{ Form::close() }}
+						{!! Html::form()->close() !!}
 					</div>
 				</div>
 			</div>

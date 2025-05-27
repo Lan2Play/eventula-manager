@@ -9,39 +9,39 @@
         <h1>@lang('auth.register_details')</h1>
     </div>
     <div class="row">
-        {{ Form::open(array('url'=>'/register/' . $loginMethod )) }}
-        {{ Form::hidden('method', $loginMethod, array('id'=>'method','class'=>'form-control')) }}
+        {!! Html::form('POST', '/register/' . $loginMethod) !!}
+        {!! Html::hidden('method', $loginMethod)->id('method')->class('form-control') !!}
         @if ($loginMethod == "steam")
-        {{ Form::hidden('avatar', $steam_avatar, array('id'=>'avatar','class'=>'form-control')) }}
-        {{ Form::hidden('steamid', $steamid, array('id'=>'steamid','class'=>'form-control')) }}
-        {{ Form::hidden('steamname', $steamname, array('id'=>'steamname','class'=>'form-control')) }}
+        {!! Html::hidden('avatar', $steam_avatar)->id('avatar')->class('form-control') !!}
+        {!! Html::hidden('steamid', $steamid)->id('steamid')->class('form-control') !!}
+        {!! Html::hidden('steamname', $steamname)->id('steamname')->class('form-control') !!}
         @endif
         <div class="col-12 col-md-6">
             <div class="row">
                 <div class="col-12 col-md-6">
                     <div class="mb-3 @error('firstname') is-invalid @enderror">
-                        {{ Form::label('firstname',__('auth.firstname'),array('id'=>'','class'=>'')) }}
-                        <input id="firstname" type="firstname" class="form-control" name="firstname" value="{{ old('firstname') }}" required autocomplete="firstname">
+                        {!! Html::label(__('auth.firstname'), 'firstname') !!}
+                        {!! Html::text('firstname', old('firstname'))->id('firstname')->class('form-control')->required()->attribute('autocomplete', 'firstname') !!}
                     </div>
                 </div>
                 <div class="col-12 col-md-6">
                     <div class="mb-3  @error('surname') is-invalid @enderror">
-                        {{ Form::label('surname',__('auth.surname'),array('id'=>'','class'=>'')) }}
-                        <input id="surname" type="surname" class="form-control" name="surname" value="{{ old('surname') }}" required autocomplete="surname">
+                        {!! Html::label(__('auth.surname'), 'surname') !!}
+                        {!! Html::text('surname', old('surname'))->id('surname')->class('form-control')->required()->attribute('autocomplete', 'surname') !!}
                     </div>
                 </div>
             </div>
             <div class="mb-3 @error('username') is-invalid @enderror">
-                {{ Form::label('username',__('auth.username'),array('id'=>'','class'=>'')) }}
-                <input id="username" type="username" class="form-control" name="username" value="{{ old('username') }}" required autocomplete="username">
+                {!! Html::label(__('auth.username'), 'username') !!}
+                {!! Html::text('username', old('username'))->id('username')->class('form-control')->required()->attribute('autocomplete', 'username') !!}
             </div>
 
 
             @if($loginMethod == "standard" || ($loginMethod == "steam" && Settings::isAuthSteamRequireEmailEnabled()))
 
             <div class="mb-3 @error('email') is-invalid @enderror">
-                {{ Form::label('email',__('auth.email'),array('id'=>'','class'=>'')) }}
-                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autocomplete="email">
+                {!! Html::label(__('auth.email'), 'email') !!}
+                {!! Html::email('email', old('email'))->id('email')->class('form-control')->required()->attribute('autocomplete', 'email') !!}
             </div>
 
             @endif
@@ -49,8 +49,8 @@
             @if(Settings::isAuthRequirePhonenumberEnabled())
 
             <div class="mb-3 @error('phonenumber') is-invalid @enderror">
-                {{ Form::label('phonenumber',__('auth.phonenumber'),array('id'=>'','class'=>'')) }}
-                <input id="phonenumber" type="phonenumber" class="form-control" name="phonenumber" value="{{ old('phonenumber') }}" required autocomplete="phonenumber">
+                {!! Html::label(__('auth.phonenumber'), 'phonenumber') !!}
+                {!! Html::text('phonenumber', old('phonenumber'))->id('phonenumber')->class('form-control')->required()->attribute('autocomplete', 'phonenumber') !!}
             </div>
 
             @endif
@@ -58,20 +58,20 @@
             @if ($loginMethod == "standard")
 
             <div class="mb-3 @error('password1') is-invalid @enderror">
-                {{ Form::label('password1',__('auth.password'),array('id'=>'','class'=>'')) }}
-                <input id="password1" type="password" class="form-control" name="password1" required autocomplete="new-password">
+                {!! Html::label(__('auth.password'), 'password1') !!}
+                {!! Html::password('password1')->id('password1')->class('form-control')->required()->attribute('autocomplete', 'new-password') !!}
             </div>
             <div class="mb-3 @error('password2') is-invalid @enderror">
-                {{ Form::label('password2',__('auth.confirm_password'),array('id'=>'','class'=>'')) }}
-                <input id="password2" type="password" class="form-control" name="password2" required autocomplete="new-password">
+                {!! Html::label(__('auth.confirm_password'), 'password2') !!}
+                {!! Html::password('password2')->id('password2')->class('form-control')->required()->attribute('autocomplete', 'new-password') !!}
             </div>
-            <input id="url" type="hidden" class="form-control" name="url">
+            {!! Html::hidden('url')->id('url')->class('form-control') !!}
 
             @endif
             @if ($loginMethod == "steam")
             <div class="mb-3">
-                {{ Form::label('steamname',__('auth.steamname'),array('id'=>'','class'=>'')) }}
-                {{ Form::text('steamname', $steamname, array('id'=>'steamname','class'=>'form-control', 'disabled'=>'true')) }}
+                {!! Html::label(__('auth.steamname'), 'steamname') !!}
+                {!! Html::text('steamname', $steamname)->id('steamname')->class('form-control')->disabled() !!}
             </div>
             @endif
         </div>
@@ -80,7 +80,7 @@
             <h5>@lang('auth.register_confirmtext') {!! Settings::getOrgName() !!}</h5>
             <button type="submit" class="btn btn-block btn-primary">@lang('auth.register')</button>
         </div>
-        {{ Form::close() }}
+        {!! Html::form()->close() !!}
     </div>
 </div>
 

@@ -33,12 +33,12 @@
 				<i class="fa fa-wrench fa-fw"></i> Challonge
 			</div>
 			<div class="card-body">
-				{{ Form::open(array('url'=>'/admin/settings/api', 'onsubmit' => 'return ConfirmSubmit()', 'files' => 'true')) }}
+				{!! Html::form('POST', '/admin/settings/api')->attribute('onsubmit', 'return ConfirmSubmit()')->acceptsFiles() !!}
 					<div class="row">
 						<div class="col-12 col-md-6">
 							<div class="mb-3">
-								{{ Form::label('challonge_api_key','API Key',array('id'=>'','class'=>'')) }}
-								{{ Form::text('challonge_api_key', $challongeApiKey, array('id'=>'challonge_api_key','class'=>'form-control')) }}
+								{!! Html::label('API Key', 'challonge_api_key') !!}
+								{!! Html::text('challonge_api_key', $challongeApiKey)->id('challonge_api_key')->class('form-control') !!}
 							</div>
 							<button type="submit" class="btn btn-success btn-block">Submit</button>
 						</div>
@@ -48,7 +48,7 @@
 							<p>https://challonge.com/settings/developer</p>
 						</div>
 					</div>
-				{{ Form::close() }}
+				{!! Html::form()->close() !!}
 			</div>
 		</div>
 		<!-- Steam API Key -->
@@ -57,12 +57,12 @@
 				<i class="fa fa-wrench fa-fw"></i> Steam API Key
 			</div>
 			<div class="card-body">
-				{{ Form::open(array('url'=>'/admin/settings/api', 'onsubmit' => 'return ConfirmSubmit()', 'files' => 'true')) }}
+				{!! Html::form('POST', '/admin/settings/api')->attribute('onsubmit', 'return ConfirmSubmit()')->acceptsFiles() !!}
 					<div class="row">
 						<div class="col-12 col-md-6">
 							<div class="mb-3">
-								{{ Form::label('steam_api_key','API Key',array('id'=>'','class'=>'')) }}
-								{{ Form::text('steam_api_key', $steamApiKey, array('id'=>'steam_api_key','class'=>'form-control')) }}
+								{!! Html::label('API Key', 'steam_api_key') !!}
+								{!! Html::text('steam_api_key', $steamApiKey)->id('steam_api_key')->class('form-control') !!}
 							</div>
 							<button type="submit" class="btn btn-success btn-block">Submit</button>
 						</div>
@@ -72,7 +72,7 @@
 							<p>https://steamcommunity.com/dev/apikey</p>
 						</div>
 					</div>
-				{{ Form::close() }}
+				{!! Html::form()->close() !!}
 			</div>
 		</div>
 	</div>
@@ -83,20 +83,20 @@
 				<i class="fa fa-wrench fa-fw"></i> Paypal
 			</div>
 			<div class="card-body">
-				{{ Form::open(array('url'=>'/admin/settings/api', 'onsubmit' => 'return ConfirmSubmit()', 'files' => 'true')) }}
+				{!! Html::form('POST', '/admin/settings/api')->attribute('onsubmit', 'return ConfirmSubmit()')->acceptsFiles() !!}
 					<div class="row">
 						<div class="col-12 col-md-6">
 							<div class="mb-3">
-								{{ Form::label('paypal_username','Username',array('id'=>'','class'=>'')) }}
-								{{ Form::text('paypal_username', $paypalUsername, array('id'=>'paypal_username','class'=>'form-control')) }}
+								{!! Html::label('Username', 'paypal_username') !!}
+								{!! Html::text('paypal_username', $paypalUsername)->id('paypal_username')->class('form-control') !!}
 							</div>
 							<div class="mb-3">
-								{{ Form::label('paypal_password','Password',array('id'=>'','class'=>'')) }}
-								{{ Form::text('paypal_password', $paypalPassword, array('id'=>'paypal_password','class'=>'form-control')) }}
+								{!! Html::label('Password', 'paypal_password') !!}
+								{!! Html::text('paypal_password', $paypalPassword)->id('paypal_password')->class('form-control') !!}
 							</div>
 							<div class="mb-3">
-								{{ Form::label('paypal_signature','Signature',array('id'=>'','class'=>'')) }}
-								{{ Form::text('paypal_signature', $paypalSignature, array('id'=>'paypal_signature','class'=>'form-control')) }}
+								{!! Html::label('Signature', 'paypal_signature') !!}
+								{!! Html::text('paypal_signature', $paypalSignature)->id('paypal_signature')->class('form-control') !!}
 							</div>
 							<button type="submit" class="btn btn-success btn-block">Submit</button>
 						</div>
@@ -105,7 +105,7 @@
 							<p>Without this key Paypal Payments will be disabled</p>
 						</div>
 					</div>
-				{{ Form::close() }}
+				{!! Html::form()->close() !!}
 			</div>
 		</div>
 		<!-- Stripe -->
@@ -114,16 +114,16 @@
 				<i class="fa fa-wrench fa-fw"></i> Stripe
 			</div>
 			<div class="card-body">
-				{{ Form::open(array('url'=>'/admin/settings/api', 'onsubmit' => 'return ConfirmSubmit()', 'files' => 'true')) }}
+				{!! Html::form('POST', '/admin/settings/api')->attribute('onsubmit', 'return ConfirmSubmit()')->acceptsFiles() !!}
 					<div class="row">
 						<div class="col-12 col-md-6">
 							<div class="mb-3">
-								{{ Form::label('stripe_public_key','Public Key',array('id'=>'','class'=>'')) }}
-								{{ Form::text('stripe_public_key', $stripePublicKey, array('id'=>'stripe_public_key','class'=>'form-control')) }}
+								{!! Html::label('Public Key', 'stripe_public_key') !!}
+								{!! Html::text('stripe_public_key', $stripePublicKey)->id('stripe_public_key')->class('form-control') !!}
 							</div>
 							<div class="mb-3">
-								{{ Form::label('stripe_secret_key','Secret Key',array('id'=>'','class'=>'')) }}
-								{{ Form::text('stripe_secret_key', $stripeSecretKey, array('id'=>'stripe_secret_key','class'=>'form-control')) }}
+								{!! Html::label('Secret Key', 'stripe_secret_key') !!}
+								{!! Html::text('stripe_secret_key', $stripeSecretKey)->id('stripe_secret_key')->class('form-control') !!}
 							</div>
 							<button type="submit" class="btn btn-success btn-block">Submit</button>
 						</div>
@@ -132,7 +132,7 @@
 							<p>Without this key Card Payments will be disabled</p>
 						</div>
 					</div>
-				{{ Form::close() }}
+				{!! Html::form()->close() !!}
 			</div>
 		</div>
 	</div>

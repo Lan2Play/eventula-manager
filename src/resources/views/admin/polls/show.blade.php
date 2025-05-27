@@ -53,10 +53,10 @@
 									<td width="25%"><small>{{ $option->user->username }}</small></td>
 									<td>
 										@if ($option->getTotalVotes() <= 0)
-											{{ Form::open(array('url'=>'/admin/polls/' . $poll->slug . '/options/' . $option->id, 'onsubmit' => 'return ConfirmDelete()')) }}
-												{{ Form::hidden('_method', 'DELETE') }}
+											{!! Html::form('POST', '/admin/polls/' . $poll->slug . '/options/' . $option->id)->attribute('onsubmit', 'return ConfirmDelete()') !!}
+												{!! Html::hidden('_method', 'DELETE') !!}
 												<button type="submit" class="btn btn-danger btn-sm btn-block">Delete</button>
-											{{ Form::close() }}
+											{!! Html::form()->close() !!}
 										@endif
 									</td>
 								</tr>
@@ -74,72 +74,56 @@
 				<i class="fa fa-pencil fa-fw"></i> Edit {{ $poll->name }}
 			</div>
 			<div class="card-body">
-					{{ Form::label('name','Poll Link:',array('id'=>'','class'=>'')) }}
+					{!! Html::label('Poll Link:', 'name') !!}
 				<a href="{{ $_SERVER['REQUEST_SCHEME'] }}://{{ $_SERVER['HTTP_HOST'] }}/polls/{{ $poll->slug }}">
 					{{ $_SERVER['REQUEST_SCHEME'] }}://{{ $_SERVER['HTTP_HOST'] }}/polls/{{ $poll->slug }}
 				</a>
-				{{ Form::open(array('url'=>'/admin/polls/' . $poll->slug, 'files' => 'true')) }}
+				{!! Html::form('POST', '/admin/polls/' . $poll->slug)->acceptsFiles() !!}
 					<div class="mb-3">
-						{{ Form::label('name','Name',array('id'=>'','class'=>'')) }}
-						{{ Form::text('name', $poll->name, array('id'=>'name','class'=>'form-control')) }}
+						{!! Html::label('Name', 'name') !!}
+						{!! Html::text('name', $poll->name)->id('name')->class('form-control') !!}
 					</div>
 					<div class="mb-3">
-						{{ Form::label('description','Description',array('id'=>'','class'=>'')) }}
-						{{ Form::textarea('description', $poll->description, array('id'=>'','class'=>'form-control', 'rows'=>'3')) }}
+						{!! Html::label('Description', 'description') !!}
+						{!! Html::textarea('description', $poll->description)->class('form-control')->rows(3) !!}
 					</div>
 					<div class="mb-3">
-						{{ Form::label('status','Status',array('id'=>'','class'=>'')) }}
-						{{
-							Form::select(
-								'status',
-								array(
-									'draft'=>'Draft',
-									'preview'=>'Preview',
-									'published'=>'Published'
-								),
-								strtolower($poll->status),
-								array(
-									'id'=>'status',
-									'class'=>'form-control'
-								)
-							)
-						}}
+						{!! Html::label('Status', 'status') !!}
+						<select id="status" name="status" class="form-control">
+							<option value="draft" @if(strtolower($poll->status) == 'draft') selected @endif>Draft</option>
+							<option value="preview" @if(strtolower($poll->status) == 'preview') selected @endif>Preview</option>
+							<option value="published" @if(strtolower($poll->status) == 'published') selected @endif>Published</option>
+						</select>
 					</div>
 					<div class="mb-3">
-						{{ Form::label('event_id','Link to Event',array('id'=>'','class'=>'')) }}
-						{{
-							Form::select(
-								'event_id',
-								Helpers::getEventNames('DESC', 0, true),
-								$poll->event_id,
-								array(
-									'id'=>'event_id',
-									'class'=>'form-control'
-								)
-							)
-						}}
+						{!! Html::label('Link to Event', 'event_id') !!}
+						<select id="event_id" name="event_id" class="form-control">
+							@foreach(Helpers::getEventNames('DESC', 0, true) as $key => $value)
+								<option value="{{ $key }}" @if($poll->event_id == $key) selected @endif>{{ $value }}</option>
+							@endforeach
+						</select>
 					</div>
 					<div class="mb-3">
-						{{ Form::label('allow_options_users','Allow User to Add Options',array('id'=>'','class'=>'')) }} @if ($poll->allow_options_user) True @else False @endif
+						{!! Html::label('Allow User to Add Options', 'allow_options_users') !!} @if ($poll->allow_options_user) True @else False @endif
 						<br>
-						{{ Form::label('allow_options_multi','Allow User to Select Multiple Options',array('id'=>'','class'=>'')) }} @if ($poll->allow_options_multi) True @else False @endif
+						{!! Html::label('Allow User to Select Multiple Options', 'allow_options_multi') !!} @if ($poll->allow_options_multi) True @else False @endif
 					</div>
 					<div class="mb-3">
 						<button type="submit" class="btn btn-success btn-block">Submit</button>
 					</div>
-				{{ Form::close() }}
+				{!! Html::form()->close() !!}
 				@if (!$poll->hasEnded())
 					<div class="mb-3">
-						{{ Form::open(array('url'=>'/admin/polls/' . $poll->slug . '/end')) }}
+						{!! Html::form('POST', '/admin/polls/' . $poll->slug . '/end') !!}
 							<button type="submit" class="btn btn-primary btn-block">End Poll</button>
-						{{ Form::close() }}
+						{!! Html::form()->close() !!}
 					</div>
 				@endif
 				<hr>
-				{{ Form::open(array('url'=>'/admin/polls/' . $poll->slug, 'onsubmit' => 'return ConfirmDelete()')) }}
-					{{ Form::hidden('_method', 'DELETE') }}
+				{!! Html::form('POST', '/admin/polls/' . $poll->slug)->attribute('onsubmit', 'return ConfirmDelete()') !!}
+					{!! Html::hidden('_method', 'DELETE') !!}
 					<button type="submit" class="btn btn-danger btn-block">Delete</button>
-				{{ Form::close() }}
+				{!! Html::form()->close() !!}
 			</div>
 		</div>
 		@if (!$poll->hasEnded())
@@ -148,12 +132,12 @@
 					<i class="fa fa-plus fa-fw"></i> Add Options
 				</div>
 				<div class="card-body">
-					{{ Form::open(array('url'=>'/admin/polls/' . $poll->slug . '/options', 'files' => 'true')) }}
+					{!! Html::form('POST', '/admin/polls/' . $poll->slug . '/options')->acceptsFiles() !!}
 						<div class="mb-3">
 							@include ('layouts._partials._polls.add-options')
 						</div>
 						<button type="submit" class="btn btn-secondary btn-block">Submit</button>
-					{{ Form::close() }}
+					{!! Html::form()->close() !!}
 				</div>
 			</div>
 		@endif

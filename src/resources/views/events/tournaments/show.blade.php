@@ -182,11 +182,11 @@
 									<div class="row">
 										@foreach ($tournament->tournamentTeams as $tournamentTeam)
 											<div class="col-6 col-sm-6">
-												{{ Form::open(array('url'=>'/events/' . $event->slug . '/tournaments/' . $tournament->slug . '/register', 'files' => true )) }}
+												{!! Html::form('POST', '/events/' . $event->slug . '/tournaments/' . $tournament->slug . '/register')->acceptsFiles() !!}
 													<input type="hidden" name="event_participant_id" value="{{ $user->active_event_participant->id }}">
 													<input type="hidden" name="event_tournament_team_id" value="{{ $tournamentTeam->id }}">
 													<button type="submit" name="action" value="sign_up" class="btn btn-secondary btn-block">{{ $tournamentTeam->name }}</button>
-												{{ Form::close() }}
+												{!! Html::form()->close() !!}
 												<br>
 											</div>
 										@endforeach
@@ -195,23 +195,23 @@
 								<div class="col-12 col-sm-6">
 									@if (!$tournament->random_teams)
 										<label>@lang('events.createateam')</label>
-										{{ Form::open(array('url'=>'/events/' . $event->slug . '/tournaments/' . $tournament->slug . '/register/team', 'files' => true )) }}
+										{!! Html::form('POST', '/events/' . $event->slug . '/tournaments/' . $tournament->slug . '/register/team')->acceptsFiles() !!}
 											<div class="row">
 												<div class="mb-3 col-sm-6 col-12">
-													{{ Form::text('team_name', '',array('id'=>'team_name','class'=>'form-control', 'required' => 'required', 'placeholder' => 'Team Name')) }}
+													{!! Html::text('team_name', '')->id('team_name')->class('form-control')->required()->placeholder('Team Name') !!}
 												</div>
 												<div class="mb-3 col-sm-6 col-12">
 													<button type="submit" class="btn btn-primary btn-block">@lang('events.createteam')</button>
 												</div>
 											</div>
 											<input type="hidden" name="event_participant_id" value="{{ $user->active_event_participant->id }}">
-										{{ Form::close() }}
+										{!! Html::form()->close() !!}
 										<hr>
 									@endif
-									{{ Form::open(array('url'=>'/events/' . $event->slug . '/tournaments/' . $tournament->slug . '/register/pug', 'files' => true )) }}
+									{!! Html::form('POST', '/events/' . $event->slug . '/tournaments/' . $tournament->slug . '/register/pug')->acceptsFiles() !!}
 										<input type="hidden" name="event_participant_id" value="{{ $user->active_event_participant->id }}">
 										<button type="submit" class="btn btn-primary btn-block">@lang('events.signinaspug')</button>
-									{{ Form::close() }}
+									{!! Html::form()->close() !!}
 								</div>
 							</div>
 						@endif
@@ -219,16 +219,16 @@
 						@if (!$tournament->getParticipant($user->active_event_participant->id) && $tournament->team_size == '1v1')
 							<div class="row">
 								<div class="col-6 col-sm-6">
-									{{ Form::open(array('url'=>'/events/' . $event->slug . '/tournaments/' . $tournament->slug . '/register', 'files' => true )) }}
+									{!! Html::form('POST', '/events/' . $event->slug . '/tournaments/' . $tournament->slug . '/register')->acceptsFiles() !!}
 										<input type="hidden" name="event_participant_id" value="{{ $user->active_event_participant->id }}">
 										<button type="submit" class="btn btn-primary btn-block">@lang('events.signup')</button>
-									{{ Form::close() }}
+									{!! Html::form()->close() !!}
 								</div>
 							</div>
 						@endif
 						<!-- Signed up -->
 						@if ($tournament->getParticipant($user->active_event_participant->id))
-							{{ Form::open(array('url'=>'/events/' . $event->slug . '/tournaments/' . $tournament->slug . '/register/remove', 'files' => true )) }}
+							{!! Html::form('POST', '/events/' . $event->slug . '/tournaments/' . $tournament->slug . '/register/remove')->acceptsFiles() !!}
 								<div class="row">
 									<div class="col-12 col-md-6">
 										@if ($tournament->team_size != '1v1')
@@ -244,7 +244,7 @@
 										<button type="submit" class="btn btn-danger btn-block">@lang('events.removesignup')</button>
 									</div>
 								</div>
-							{{ Form::close() }}
+							{!! Html::form()->close() !!}
 						@endif
 					@endif
 				@endif

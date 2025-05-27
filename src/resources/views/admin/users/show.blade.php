@@ -161,23 +161,23 @@
 				<div class="row">
 					<div class="col-12 col-sm-6">
 						@if ($userShow->admin)
-							{{ Form::open(array('url'=>'/admin/users/' . $userShow->id . '/admin')) }}
-								{{ Form::hidden('_method', 'DELETE') }}
+							{!! Html::form('DELETE', '/admin/users/' . $userShow->id . '/admin') !!}
+								{!! Html::hidden('_method', 'DELETE') !!}
 								<button type="submit" class="btn btn-block btn-info">Remove Admin</button>
-							{{ Form::close() }}
+							{!! Html::form()->close() !!}
 						@else
-							{{ Form::open(array('url'=>'/admin/users/' . $userShow->id . '/admin')) }}
+							{!! Html::form('POST', '/admin/users/' . $userShow->id . '/admin') !!}
 								<button type="submit" class="btn btn-block btn-success">Make Admin</button>
-							{{ Form::close() }}
+							{!! Html::form()->close() !!}
 						@endif
 						<small>This will add or remove access to this admin panel. This means they can access everything! BE CAREFUL!</small>
 					</div>
 					@if ($userShow->email != null && $userShow->password != null)
 						<div class="col-12 col-sm-6">
-							{{ Form::open(array('url'=>'/login/forgot')) }}
+							{!! Html::form('POST', '/login/forgot') !!}
 								<input type="hidden" name="email" value="{{ $userShow->email }}">
 								<button type="submit" class="btn btn-block btn-success">Reset Password</button>
-							{{ Form::close() }}
+							{!! Html::form()->close() !!}
 							<small>This will reset the users password and sent a verification link to their email. If they are using a 3rd party Login this will do nothing.</small>
 						</div>
 					@endif
@@ -198,13 +198,13 @@
 				<div class="row">
 					<div class="col-12 col-sm-6 mb-4">
 						@if (!$userShow->banned)
-							{{ Form::open(array('url'=>'/admin/users/' . $userShow->id . '/ban')) }}
+							{!! Html::form('POST', '/admin/users/' . $userShow->id . '/ban') !!}
 								<button type="submit" class="btn btn-block btn-danger">Ban</button>
-							{{ Form::close() }}
+							{!! Html::form()->close() !!}
 						@else
-							{{ Form::open(array('url'=>'/admin/users/' . $userShow->id . '/unban')) }}
+							{!! Html::form('POST', '/admin/users/' . $userShow->id . '/unban') !!}
 								<button type="submit" class="btn btn-block btn-success">Un-Ban</button>
-							{{ Form::close() }}
+							{!! Html::form()->close() !!}
 						@endif
 					</div>
 					<div class="col-12 col-sm-6 mb-4">

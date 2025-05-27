@@ -198,8 +198,8 @@
                     @if (strtolower($purchase->status) == 'pending')
                         <div class="mb-3">
 
-                            {{ Form::open(['url' => '/admin/purchases/' . $purchase->id . '/setSuccess', 'onsubmit' => 'return ConfirmSubmit()']) }}
-                            {{ Form::hidden('_method', 'GET') }}
+                            {!! Html::form('GET', '/admin/purchases/' . $purchase->id . '/setSuccess')->attribute('onsubmit', 'return ConfirmSubmit()') !!}
+                            {!! Html::hidden('_method', 'GET') !!}
 
                             <button type="submit"
                                 class="btn btn-block @if (isset($purchase->user)) btn-success	@else btn-warning @endif">Mark
@@ -207,7 +207,7 @@
                             @if (!isset($purchase->user))
                                 <small>caution, the user is already deleted!</small>
                             @endif
-                            {{ Form::close() }}
+                            {!! Html::form()->close() !!}
                         </div>
                     @endif
                     @if ($purchase->order)
@@ -245,18 +245,15 @@
                 <div class="card mb-3">
                     <div class="card-header">Super Danger Zone</div>
                     <div class="card-body">
-                        {{ Form::open([
-                            'url' => '/admin/purchases/' . $purchase->id,
-                            'onSubmit' => 'return ConfirmDelete()',
-                        ]) }}
-                        {{ Form::hidden('_method', 'DELETE') }}
+                        {!! Html::form('POST', '/admin/purchases/' . $purchase->id)->attribute('onSubmit', 'return ConfirmDelete()') !!}
+                        {!! Html::hidden('_method', 'DELETE') !!}
                         <div class="mb-3">
                             <div class="alert alert-danger">Deleting a purchase will also remove related data, like event
                                 participants. This has the potential to break stuff!<br />Having a backup is highly
                                 recommended!</div>
                             <button type="submit" class="btn btn-danger btn-block">Delete purchase</button>
                         </div>
-                        {{ Form::close() }}
+                        {!! Html::form()->close() !!}
                     </div>
                 </div>
             @endif

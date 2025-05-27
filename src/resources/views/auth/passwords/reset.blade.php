@@ -15,12 +15,12 @@
             <div class="col-md-8">
                 <div class="card mb-3">
                     <div class="card-body">
-                        {{ Form::open(array('url'=> route('password.update') )) }}
+                        {!! Html::form('POST', route('password.update')) !!}
 
-                        {{ Form::hidden('token', $token) }}
+                        {!! Html::hidden('token', $token) !!}
 
                             <div class="mb-3 row">
-								{{ Form::label('email',__('auth.email'),array('id'=>'','class'=>'col-md-4 col-form-label text-md-end')) }}
+								{!! Html::label(__('auth.email'), 'email')->class('col-md-4 col-form-label text-md-end') !!}
                                 <div class="col-md-6">
                                     <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus>
 
@@ -33,7 +33,7 @@
                             </div>
 
                             <div class="mb-3 row">
-								{{ Form::label('password',__('auth.password'),array('id'=>'','class'=>'col-md-4 col-form-label text-md-end')) }}
+								{!! Html::label(__('auth.password'), 'password')->class('col-md-4 col-form-label text-md-end') !!}
 
                                 <div class="col-md-6">
                                     <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
@@ -47,7 +47,7 @@
                             </div>
 
                             <div class="mb-3 row">
-								{{ Form::label('password-confirm',__('auth.confirm_password'),array('id'=>'','class'=>'')) }}
+								{!! Html::label(__('auth.confirm_password'), 'password-confirm') !!}
 
                                 <div class="col-md-6">
                                     <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
@@ -61,7 +61,7 @@
                                     </button>
                                 </div>
                             </div>
-                        {{ Form::close() }}
+                        {!! Html::form()->close() !!}
                     </div>
                 </div>
             </div>

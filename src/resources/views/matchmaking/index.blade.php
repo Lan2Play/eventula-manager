@@ -145,67 +145,44 @@
 					<button type="button" class="btn-close text-decoration-none" data-bs-dismiss="modal" aria-hidden="true"></button>
 				</div>
 				<div class="modal-body">
-					{{ Form::open(array('url'=>'/matchmaking/' )) }}
+					{!! Html::form('POST', '/matchmaking/') !!}
 					<div class="mb-3">
-						{{ Form::label('game_id',__('matchmaking.game').':',array('id'=>'','class'=>'')) }}
-						{{
-							Form::select(
-								'game_id',
-								Helpers::getMatchmakingGameSelectArray(),
-								null,
-								array(
-									'id'    => 'game_id',
-									'class' => 'form-control'
-								)
-							)
-						}}
+						{!! Html::label(__('matchmaking.game').':', 'game_id') !!}
+						<select id="game_id" name="game_id" class="form-control">
+							@foreach(Helpers::getMatchmakingGameSelectArray() as $key => $value)
+								<option value="{{ $key }}">{{ $value }}</option>
+							@endforeach
+						</select>
 					</div>
 					<div class="mb-3">
-						{{ Form::label('team1name',__('matchmaking.firstteamname'),array('id'=>'','class'=>'')) }}
-						{{ Form::text('team1name',NULL,array('id'=>'team1name','class'=>'form-control')) }}
+						{!! Html::label(__('matchmaking.firstteamname'), 'team1name') !!}
+						{!! Html::text('team1name', null)->id('team1name')->class('form-control') !!}
 						<small>@lang('matchmaking.thisisyourteam')</small>
 					</div>
 					<div class="mb-3">
-						{{ Form::label('team_size',__('matchmaking.teamsize'),array('id'=>'','class'=>'')) }}
-						{{
-							Form::select(
-								'team_size',
-								array(
-									'1v1' => '1v1',
-									'2v2' => '2v2',
-									'3v3' => '3v3',
-									'4v4' => '4v4',
-									'5v5' => '5v5',
-									'6v6' => '6v6'
-								),
-								null,
-								array(
-									'id'    => 'team_size',
-									'class' => 'form-control'
-								)
-							)
-						}}
+						{!! Html::label(__('matchmaking.teamsize'), 'team_size') !!}
+						<select id="team_size" name="team_size" class="form-control">
+							<option value="1v1">1v1</option>
+							<option value="2v2">2v2</option>
+							<option value="3v3">3v3</option>
+							<option value="4v4">4v4</option>
+							<option value="5v5">5v5</option>
+							<option value="6v6">6v6</option>
+						</select>
 					</div>
 					<div class="mb-3">
-						{{ Form::label('team_count',__('matchmaking.teamcounts'),array('id'=>'','class'=>'')) }}
-						{{
-							Form::number('team_count',
-								2,
-								array(
-									'id'    => 'team_count',
-									'class' => 'form-control'
-								))
-						}}
+						{!! Html::label(__('matchmaking.teamcounts'), 'team_count') !!}
+						{!! Html::number('team_count', 2)->id('team_count')->class('form-control') !!}
 					</div>
 					<div class="mb-3">
 						<div class="form-check">
 								<label class="form-check-label">
-									{{ Form::checkbox('ispublic', null, null, array('id'=>'ispublic')) }} @lang('matchmaking.ispublic')
+									{!! Html::checkbox('ispublic', true, false)->id('ispublic') !!} @lang('matchmaking.ispublic')
 								</label>
 						</div>
 					</div>
 					<button type="submit" class="btn btn-success btn-block">@lang('matchmaking.submit')</button>
-				{{ Form::close() }}
+				{!! Html::form()->close() !!}
 				</div>
 			</div>
 		</div>

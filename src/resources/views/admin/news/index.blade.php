@@ -21,22 +21,22 @@
 				<i class="fa fa-plus fa-fw"></i> Post News
 			</div>
 			<div class="card-body">
-				{{ Form::open(array('url'=>'/admin/news/', 'files' => 'true')) }}
+				{!! Html::form('POST', '/admin/news/')->acceptsFiles() !!}
 					<div class="mb-3">
-						{{ Form::label('title','Title',array('id'=>'','class'=>'')) }}
-						{{ Form::text('title', NULL ,array('id'=>'title','class'=>'form-control')) }}
+						{!! Html::label('Title', 'title') !!}
+						{!! Html::text('title', NULL)->id('title')->class('form-control') !!}
 					</div>
 					<div class="mb-3">
-						{{ Form::label('article','Article',array('id'=>'','class'=>'')) }}
-						{{ Form::textarea('article', NULL,array('id'=>'','class'=>'form-control wysiwyg-editor')) }}
+						{!! Html::label('Article', 'article') !!}
+						{!! Html::textarea('article', NULL)->class('form-control wysiwyg-editor') !!}
 					</div>
 					<div class="mb-3">
-						{{ Form::label('tags','Tags',array('id'=>'','class'=>'')) }}<small> - Separate with a comma</small>
-						{{ Form::text('tags', '', array('id'=>'', 'class'=>'form-control')) }}
+						{!! Html::label('Tags', 'tags') !!}<small> - Separate with a comma</small>
+						{!! Html::text('tags', '')->class('form-control') !!}
 					</div>
 
 					<button type="submit" class="btn btn-success btn-block">Submit</button>
-				{{ Form::close() }}
+				{!! Html::form()->close() !!}
 			</div>
 		</div>
 		<div class="card mb-3">
@@ -118,10 +118,10 @@
 									<a href="/admin/news/{{ $newsArticle->slug }}"><button type="button" class="btn btn-primary btn-sm btn-block">Edit</button></a>
 								</td>
 								<td width="15%">
-									{{ Form::open(array('url'=>'/admin/news/' . $newsArticle->slug, 'onsubmit' => 'return ConfirmDelete()')) }}
-										{{ Form::hidden('_method', 'DELETE') }}
+									{!! Html::form('POST', '/admin/news/' . $newsArticle->slug)->attribute('onsubmit', 'return ConfirmDelete()') !!}
+										{!! Html::hidden('_method', 'DELETE') !!}
 										<button type="submit" class="btn btn-danger btn-sm btn-block">Delete</button>
-									{{ Form::close() }}
+									{!! Html::form()->close() !!}
 								</td>
 							</tr>
 						@endforeach

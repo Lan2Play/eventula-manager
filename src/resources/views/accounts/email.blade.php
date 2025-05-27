@@ -1,4 +1,10 @@
-@extends ('layouts.default')
+@extends ('layouts.defa							@if (Set							@if (Settings::isAuthRequirePhonenumberEnabled())
+							<div class="mb-3">
+								{!! Html::label(__('accounts.phonenumber'), 'phonenumber') !!}
+								<input type="phonenumber" class="form-control" name="phonenumber" id="phonenumber @error('phonenumber') is-invalid @enderror" aria-describedby="phonenumber" value="{{ $user->phonenumber }}" placeholder="@lang('accounts.phonenumber')">"s::isAuthAllowEmailChangeEnabled() || (!$user->email && Settings::isAuthSteamRequireEmailEnabled()))
+							<div class="mb-3">
+								{!! Html::label(__('accounts.email'), 'email') !!}
+								<input type="email" class="form-control" name="email" id="email @error('email') is-invalid @enderror" aria-describedby="email" value="{{ $user->email }}" placeholder="@lang('accounts.email')">)
 
 @section ('page_title', __('accounts.accounts_title'))
 
@@ -14,7 +20,7 @@
 					<h3 class="card-title">@lang('accounts.contactdetails')</h3>
 				</div>
 				<div class="card-body">
-					{{ Form::open(array('url'=>'/account/email' )) }}
+					{!! Html::form('POST', '/account/email') !!}
 					<div class="row" style="display: flex; align-items: center;">
 						<div class="col-md-2 col-sm-12">
 							@lang('accounts.emailmessage')
@@ -23,7 +29,7 @@
 
 							@if (Settings::isAuthAllowEmailChangeEnabled() || (!$user->email && Settings::isAuthSteamRequireEmailEnabled()))
 							<div class="mb-3">
-								{{ Form::label('email',__('accounts.email'),array('id'=>'','class'=>'')) }}
+								{!! Html::label(__('accounts.email'), 'email') !!}
 								<input type="email" class="form-control" name="email" id="email @error('email') is-invalid @enderror" aria-describedby="email" value="{{ $user->email }}" placeholder="@lang('accounts.email')">
 								@error('email')
 								<span class="invalid-feedback" role="alert">
@@ -35,7 +41,7 @@
 
 							@if (Settings::isAuthRequirePhonenumberEnabled())
 							<div class="mb-3">
-								{{ Form::label('phonenumber',__('accounts.phonenumber'),array('id'=>'','class'=>'')) }}
+								{!! Html::label(__('accounts.phonenumber'), 'phonenumber') !!}
 								<input type="phonenumber" class="form-control" name="phonenumber" id="phonenumber @error('phonenumber') is-invalid @enderror" aria-describedby="phonenumber" value="{{ $user->phonenumber }}" placeholder="@lang('accounts.phonenumber')">
 								@error('phonenumber')
 								<span class="invalid-feedback" role="alert">
@@ -51,7 +57,7 @@
 							@endif
 						</div>
 					</div>
-					{{ Form::close() }}
+					{!! Html::form()->close() !!}
 				</div>
 			</div>
 		</div>

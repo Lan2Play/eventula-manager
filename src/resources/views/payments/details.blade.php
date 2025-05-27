@@ -14,24 +14,24 @@
 		<div class="col-12 col-md-8">
 			@if ($paymentGateway == 'stripe')
 
-				{{ Form::open(array('url'=>'/payment/post', 'id'=>'payment-form')) }}
+				{!! Html::form('POST', '/payment/post')->id('payment-form') !!}
 					<div class="row">
 						<div class="mb-3 col-sm-6 col-12">
-							{{ Form::label('card_first_name', __('payments.firstname').' *' , array('id'=>'','class'=>'')) }}
-							{{ Form::text('card_first_name', '', array('id'=>'card_first_name','class'=>'form-control')) }}
+							{!! Html::label(__('payments.firstname').' *', 'card_first_name') !!}
+							{!! Html::text('card_first_name', '')->id('card_first_name')->class('form-control') !!}
 						</div>
 						<div class="mb-3 col-sm-6 col-12">
-							{{ Form::label('card_last_name', __('payments.lastname').' *' , array('id'=>'','class'=>'')) }}
-							{{ Form::text('card_last_name', '', array('id'=>'card_last_name','class'=>'form-control')) }}
+							{!! Html::label(__('payments.lastname').' *', 'card_last_name') !!}
+							{!! Html::text('card_last_name', '')->id('card_last_name')->class('form-control') !!}
 						</div>
 					</div>
-					{{ Form::label('card_number', __('payments.card_details'), array('id'=>'','class'=>'')) }}
+					{!! Html::label(__('payments.card_details'), 'card_number') !!}
 					<div class="form-control" id="card-element"></div>
 			  		<div id="card-errors" role="alert"></div>
 					<p><small>@lang('payments.delivery_required_fields')</small></p>
-					{{ Form::hidden('gateway', $paymentGateway) }}
+					{!! Html::hidden('gateway', $paymentGateway) !!}
 					<button type="button" id="checkout_btn" class="btn btn-primary btn-block">@lang('payments.confirm_order')</button>
-				{{ Form::close() }}
+				{!! Html::form()->close() !!}
 			@else ($paymentGateway == 'credit' && Settings::isCreditEnabled())
 				<h5>Credit: {{ $user->credit_total }}</h5>
 				<h5>Credit After Purchase: {{ $user->credit_total - $basket->total_credit }}</h5>
@@ -40,11 +40,11 @@
 					<div class="alert alert-warning">
 						<h5>@lang('payments.enough_credits')</h5>
 					</div>
-					{{ Form::open(array('url'=>'/payment/post')) }}
-					{{ Form::hidden('gateway', $paymentGateway) }}
-					{{ Form::hidden('confirm', true) }}
+					{!! Html::form('POST', '/payment/post') !!}
+					{!! Html::hidden('gateway', $paymentGateway) !!}
+					{!! Html::hidden('confirm', true) !!}
 						<button class="btn btn-primary btn-block">@lang('payments.confirm_order')</button>
-					{{ Form::close() }}
+					{!! Html::form()->close() !!}
 				@elseif (!$basket->allow_credit)
 					<hr>
 					<div class="alert alert-warning">

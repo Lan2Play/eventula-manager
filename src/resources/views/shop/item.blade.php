@@ -53,14 +53,14 @@
 			</h5>
 			@if (Settings::getShopStatus() == 'OPEN')
 				@if ($item->hasStockByItemId($item->id))
-					{{ Form::open(array('url'=>'/shop/basket/')) }}
+					{!! Html::form('POST', '/shop/basket/') !!}
 						<div class="mb-3">
-							{{ Form::label('quantity','Quantity',array('id'=>'','class'=>'')) }}
-							{{ Form::number('quantity', 1, array('id'=>'quantity','class'=>'form-control')) }}
+							{!! Html::label('Quantity', 'quantity') !!}
+							{!! Html::number('quantity', 1)->id('quantity')->class('form-control') !!}
 						</div>
-						{{ Form::hidden('shop_item_id', $item->id) }}
+						{!! Html::hidden('shop_item_id', $item->id) !!}
 						<button type="submit" class="btn btn-primary btn-block">Add to Cart</button>
-					{{ Form::close() }}
+					{!! Html::form()->close() !!}
 				@else
 					<div class="alert alert-info">
 						Not in Stock

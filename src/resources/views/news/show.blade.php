@@ -41,12 +41,12 @@
 				</h3>
 			</div>
 			@if (Auth::user())
-				{{ Form::open(array('url'=>'/news/' . $newsArticle->slug . '/comments')) }}
+				{!! Html::form('POST', '/news/' . $newsArticle->slug . '/comments') !!}
 					<div class="mb-3">
-						{{ Form::textarea('comment', '',array('id'=>'comment','class'=>'form-control', 'rows'=>'4', 'placeholder'=>__('news.post_comment'))) }}
+						{!! Html::textarea('comment', '')->id('comment')->class('form-control')->rows(4)->placeholder(__('news.post_comment')) !!}
 					</div>
 					<button type="submit" class="btn btn-secondary">@lang('news.submit')</button>
-				{{ Form::close() }}
+				{!! Html::form()->close() !!}
 			@else
 				<p>@lang('news.login_to_post_comment')</p>
 			@endif

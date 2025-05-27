@@ -45,16 +45,16 @@
 				<button type="button" class="btn-close text-decoration-none" data-bs-dismiss="modal" aria-hidden="true"></button>
 			</div>
 			@if (Auth::user())
-				{{ Form::open(array('url'=>'/news/' . $newsArticle->slug . '/comments', 'id'=>'edit_comment_modal_form')) }}
+				{!! Html::form('POST', '/news/' . $newsArticle->slug . '/comments')->id('edit_comment_modal_form') !!}
 					<div class="modal-body">
 						<div class="mb-3">
-							{{ Form::textarea('comment_modal', '',array('id'=>'comment_modal','class'=>'form-control', 'rows'=>'4', 'placeholder'=>__('layouts.post_a_comment'))) }}
+							{!! Html::textarea('comment_modal', '')->id('comment_modal')->class('form-control')->rows('4')->placeholder(__('layouts.post_a_comment')) !!}
 						</div>
 						<div class="modal-footer">
 							<button type="submit" class="btn btn-success">@lang('layouts.edit')</button>
 						</div>
 					</div>
-				{{ Form::close() }}
+				{!! Html::form()->close() !!}
 			@else
 				<div class="modal-body">
 					<p>@lang('layouts.please_logon_for_comment')</p>

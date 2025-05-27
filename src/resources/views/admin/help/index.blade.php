@@ -24,9 +24,9 @@
 				</div>
 				<div class="card-body">
 					<p>The Help System can be used to populate help articles.</p>
-						{{ Form::open(array('url'=>'/admin/settings/help/enable')) }}
+						{!! Html::form('POST', '/admin/settings/help/enable') !!}
 							<button type="submit" class="btn btn-block btn-success">Enable</button>
-						{{ Form::close() }}
+						{!! Html::form()->close() !!}
 				</div>
 			</div>
 		</div>
@@ -65,10 +65,10 @@
 										</a>
 									</td>
 									<td width="15%">
-										{{ Form::open(array('url'=>'/admin/help/' . $helpCategory->slug, 'onsubmit' => 'return ConfirmDelete()')) }}
-											{{ Form::hidden('_method', 'DELETE') }}
+										{!! Html::form('POST', '/admin/help/' . $helpCategory->slug)->attribute('onsubmit', 'return ConfirmDelete()') !!}
+											{!! Html::hidden('_method', 'DELETE') !!}
 											<button type="submit" class="btn btn-danger btn-sm btn-block">Delete</button>
-										{{ Form::close() }}
+										{!! Html::form()->close() !!}
 									</td>
 								</tr>
 							@endforeach
@@ -86,17 +86,17 @@
 			</div>
 			<div class="card-body">
 				<div class="list-group">
-					{{ Form::open(array('url'=>'/admin/help/')) }}
+					{!! Html::form('POST', '/admin/help/') !!}
 						<div class="mb-3">
-							{{ Form::label('name','Category Name',array('id'=>'','class'=>'')) }}
-							{{ Form::text('name',NULL,array('id'=>'name','class'=>'form-control')) }}
+							{!! Html::label('Category Name', 'name') !!}
+							{!! Html::text('name', null)->id('name')->class('form-control') !!}
 						</div>
 						<div class="mb-3">
-							{{ Form::label('description','Description',array('id'=>'','class'=>'')) }}
-							{{ Form::textarea('description', NULL,array('id'=>'description','class'=>'form-control', 'rows'=>'2')) }}
+							{!! Html::label('Description', 'description') !!}
+							{!! Html::textarea('description', null)->id('description')->class('form-control')->rows(2) !!}
 						</div>
 						<button type="submit" class="btn btn-success btn-block">Submit</button>
-					{{ Form::close() }}
+					{!! Html::form()->close() !!}
 				</div>
 			</div>
 		</div>
@@ -106,9 +106,9 @@
 			</div>
 			<div class="card-body">
 				<p>The Help System can be used to populate help articles.</p>
-					{{ Form::open(array('url'=>'/admin/settings/help/disable')) }}
+					{!! Html::form('POST', '/admin/settings/help/disable') !!}
 						<button type="submit" class="btn btn-block btn-danger">Disable</button>
-					{{ Form::close() }}
+					{!! Html::form()->close() !!}
 			</div>
 		</div>
 	</div>

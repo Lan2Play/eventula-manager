@@ -23,16 +23,16 @@
             </div>
             <div class="col-sm-12 col-md-6">
                 @if (in_array('standard', $activeLoginMethods))
-                    {{ Form::open(array('url'=>route('login.standard') )) }}
+                    {!! Html::form('POST', route('login.standard')) !!}
 
                         <div class="mb-3 row">
-                            {{ Form::label('email',__('auth.email_short'),array('id'=>'','class'=>'col-sm-2 col-form-label')) }}
+                            {!! Html::label(__('auth.email_short'), 'email')->class('col-sm-2 col-form-label') !!}
                             <div class="col-sm-10 @error('email') is-invalid @enderror">
                                 <input type="email" id="email" name="email" class="form-control" placeholder="@lang('auth.email')" required autofocus>
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            {{ Form::label('password',__('auth.password'),array('id'=>'','class'=>'col-sm-2 col-form-label')) }}
+                            {!! Html::label(__('auth.password'), 'password')->class('col-sm-2 col-form-label') !!}
                             <div class="col-sm-10 @error('password') is-invalid @enderror">
                                 <input type="password" id="password" name="password" class="form-control" placeholder="@lang('auth.password')" required>
                             </div>
@@ -58,7 +58,7 @@
                                 </a>
                             </div>
                         </div>
-					{{ Form::close() }}
+					{!! Html::form()->close() !!}
                 @endif
             </div>
         </div>

@@ -15,7 +15,7 @@
                         <h3 class="card-title">@lang('accounts.removesso'): {{ $method }}</h3>
                     </div>
                     <div class="card-body">
-                        {{ Form::open(['url' => "/account/sso/remove/$method/"]) }}
+                        {{ Html::form('POST', "/account/sso/remove/$method/") }}
                         <div class="row" style="align-items: center;">
                             <div class="col ms-4 alert alert-warning">
                                 @lang('accounts.removessowarning')
@@ -60,7 +60,7 @@
 
                                 @if ($user->email)
                                     <div class="mb-3">
-                                        {{ Form::label('email', __('accounts.email'), ['id' => '', 'class' => '']) }}
+                                        {!! Html::label(__('accounts.email'), 'email') !!}
                                         @if (Settings::isAuthAllowEmailChangeEnabled())
                                             <input type="email" class="form-control" name="email"
                                                 id="email @error('email') is-invalid @enderror" aria-describedby="email"
@@ -82,7 +82,7 @@
                                     </div>
                                 @else
                                     <div class="mb-3">
-                                        {{ Form::label('email', __('accounts.email'), ['id' => '', 'class' => '']) }}
+                                        {!! Html::label(__('accounts.email'), 'email') !!}
                                         <input type="email" class="form-control" name="email"
                                             id="email @error('email') is-invalid @enderror" aria-describedby="email"
                                             value="{{ $user->email }}" placeholder="@lang('accounts.email')">
@@ -139,7 +139,7 @@
                             <button type="submit" class="btn btn-primary btn-block">@lang('accounts.submit')</button>
 
                         </div>
-                        {{ Form::close() }}
+                        {!! Html::form()->close() !!}
                     </div>
                 </div>
             </div>

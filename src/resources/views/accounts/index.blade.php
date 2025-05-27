@@ -32,33 +32,33 @@
                         <h3 class="card-title">@lang('accounts.account_details')</h3>
                     </div>
                     <div class="card-body">
-                        {{ Form::open(['url' => '/account/']) }}
+                        {!! Html::form('POST', '/account/') !!}
                         <div class="row" style="display: flex; align-items: center;">
                             <div class="col-md-7 col-sm-12">
                                 <div class="row">
                                     <div class="col-12 col-md-6">
                                         <div class="mb-3 @error('firstname') is-invalid @enderror">
-                                            {{ Form::label('firstname', __('accounts.firstname'), ['id' => '', 'class' => '']) }}
+                                            {!! Html::label(__('accounts.firstname'), 'firstname') !!}
                                             <input id="firstname" type="firstname" class="form-control" name="firstname"
                                                 value="{{ $user->firstname }}" required autocomplete="firstname">
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-6">
                                         <div class="mb-3  @error('surname') is-invalid @enderror">
-                                            {{ Form::label('surname', __('accounts.surname'), ['id' => '', 'class' => '']) }}
+                                            {!! Html::label(__('accounts.surname'), 'surname') !!}
                                             <input id="surname" type="surname" class="form-control" name="surname"
                                                 value="{{ $user->surname }}" required autocomplete="surname">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="mb-3">
-                                    {{ Form::label('Username', __('accounts.username'), ['id' => '', 'class' => '']) }}
-                                    {{ Form::text('name', $user->username, ['id' => 'name', 'class' => 'form-control', 'disabled' => 'disabled']) }}
+                                    {!! Html::label(__('accounts.username'), 'name') !!}
+                                    {!! Html::text('name', $user->username)->id('name')->class('form-control')->disabled() !!}
                                 </div>
                                 @if ($user->steamid && $user->steamname)
                                     <div class="mb-3">
-                                        {{ Form::label('steamname', __('accounts.steamname'), ['id' => '', 'class' => '']) }}
-                                        {{ Form::text('steamname', $user->steamname, ['id' => 'steamname', 'class' => 'form-control', 'disabled' => 'true']) }}
+                                        {!! Html::label(__('accounts.steamname'), 'steamname') !!}
+                                        {!! Html::text('steamname', $user->steamname)->id('steamname')->class('form-control')->disabled() !!}
                                     </div>
                                 @endif
                                 @if ($user->password)
@@ -87,7 +87,7 @@
                                     @if (Settings::isUserLocaleEnabled())
                                         <div class="col-12 col-md-6">
                                             <div class="mb-3 @error('locale') is-invalid @enderror">
-                                                {{ Form::label('locale', __('accounts.locale'), ['class' => '']) }}
+                                                {!! Html::label(__('accounts.locale'), 'locale') !!}
                                                 <select name="locale" id="locale"
                                                     class="form-control @error('locale') is-invalid @enderror" required
                                                     autocomplete="locale">
@@ -111,7 +111,7 @@
                                 <button type="submit" class="btn btn-primary btn-block">@lang('accounts.submit')</button>
                             </div>
                         </div>
-                        {{ Form::close() }}
+                        {!! Html::form()->close() !!}
                     </div>
                 </div>
                 <!-- Email -->
@@ -120,14 +120,14 @@
                         <h3 class="card-title">@lang('accounts.contactdetails')</h3>
                     </div>
                     <div class="card-body">
-                        {{ Form::open(['url' => '/account/email']) }}
+                        {!! Html::form('POST', '/account/email') !!}
                         <div class="row" style="display: flex; align-items: center;">
                             <div class="col-md-2 col-sm-12">
 
                             </div>
                             <div class="col-md-10 col-sm-12">
                                 <div class="mb-3">
-                                    {{ Form::label('email', __('accounts.email'), ['id' => '', 'class' => '']) }}
+                                    {!! Html::label(__('accounts.email'), 'email') !!}
                                     <input type="email" class="form-control" name="email"
                                         id="email @error('email') is-invalid @enderror" aria-describedby="email"
                                         value="{{ $user->email }}" @if (!Settings::isAuthAllowEmailChangeEnabled()) readonly @endif
@@ -141,7 +141,7 @@
 
                                 @if (Settings::isAuthRequirePhonenumberEnabled())
                                     <div class="mb-3">
-                                        {{ Form::label('phonenumber', __('accounts.phonenumber'), ['id' => '', 'class' => '']) }}
+                                        {!! Html::label(__('accounts.phonenumber'), 'phonenumber') !!}
                                         <input type="phonenumber" class="form-control" name="phonenumber"
                                             id="phonenumber @error('phonenumber') is-invalid @enderror"
                                             aria-describedby="phonenumber" value="{{ $user->phonenumber }}"
@@ -159,7 +159,7 @@
                                 @endif
                             </div>
                         </div>
-                        {{ Form::close() }}
+                        {!! Html::form()->close() !!}
                     </div>
                 </div>
 
@@ -171,7 +171,7 @@
                     <div class="card-body">
                         <p>@lang('accounts.avatardescription')</p>
                         <div class="btn-group mb-3" role="group" aria-label="avatar selector">
-                            {{ Form::open(['url' => '/account/avatar/selected']) }}
+                            {!! Html::form('POST', '/account/avatar/selected') !!}
                             @if ($user->steamid && $user->steamname)
                                 <input type="radio" class="btn-check" name="selected_avatar" id="selected_avatar1"
                                     value="steam" autocomplete="off" onclick="this.form.submit()">
@@ -180,26 +180,26 @@
                             <input type="radio" class="btn-check" name="selected_avatar" id="selected_avatar2"
                                 value="local" autocomplete="off" onclick="this.form.submit()">
                             <label class="btn btn-outline-primary" for="selected_avatar2">@lang('accounts.avatarlocal')</label>
-                            {{ Form::close() }}
+                            {!! Html::form()->close() !!}
                         </div>
                         <div class="row" style="display: flex; align-items: center;">
                             <div class="col-md-4 col-sm-12">
                                 <!-- Avatar display area -->
                                 <img src="{{ $user->avatar }}" alt="{{ $user->username }}'s Avatar"
                                     class="img-fluid img-thumbnail mb-3" />
-                                {{ Form::open(['url' => '/account/avatar', 'files' => 'true']) }}
+                                {!! Html::form('POST', '/account/avatar')->acceptsFiles() !!}
 
                                 <!-- File upload for Custom Avatar -->
                                 <div class="mb-3 custom-avatar-upload">
-                                    {{ Form::label('custom_image', 'Select Images', ['id' => '', 'class' => '']) }}
-                                    {{ Form::file('avatar', ['id' => 'avatar', 'class' => 'form-control']) }}
+                                    {!! Html::label('Select Images', 'custom_image') !!}
+                                    {!! Html::file('avatar')->id('avatar')->class('form-control') !!}
                                 </div>
 
                                 <button type="submit" class="btn btn-primary btn-block">@lang('accounts.submit')</button>
 
                             </div>
                         </div>
-                        {{ Form::close() }}
+                        {!! Html::form()->close() !!}
                     </div>
                 </div>
 
@@ -458,11 +458,11 @@
                                                 {{ date('d-m-y H:i', strtotime($token->created_at)) }}
                                             </td>
                                             <td>
-                                                {{ Form::open(['url' => '/account/tokens/remove/' . $token->id, 'onsubmit' => 'return ConfirmDeleteToken()']) }}
-                                                {{ Form::hidden('_method', 'DELETE') }}
+                                                {!! Html::form('POST', '/account/tokens/remove/' . $token->id)->attribute('onsubmit', 'return ConfirmDeleteToken()') !!}
+                                                {!! Html::hidden('_method', 'DELETE') !!}
                                                 <button type="submit"
                                                     class="btn btn-danger btn-sm btn-block">@lang('accounts.token_remove_button')</button>
-                                                {{ Form::close() }}
+                                                {!! Html::form()->close() !!}
                                             </td>
                                         </tr>
                                     @endforeach
@@ -550,7 +550,7 @@
                     <button type="button" class="btn-close text-decoration-none" data-bs-dismiss="modal"
                         aria-hidden="true"></button>
                 </div>
-                {{ Form::open(['url' => '/account/delete/', 'id' => 'confirmDeleteFormModal']) }}
+                {!! Html::form('POST', '/account/delete/')->id('confirmDeleteFormModal') !!}
                 <div class="modal-body">
                     <div class="mb-3">
                         <p>@lang('accounts.remove_account_line1')</p>
@@ -567,7 +567,7 @@
                     <button type="button" class="btn btn-danger"
                         data-bs-dismiss="modal">@lang('accounts.remove_account_cancel')Cancel</button>
                 </div>
-                {{ Form::close() }}
+                {!! Html::form()->close() !!}
             </div>
         </div>
     </div>

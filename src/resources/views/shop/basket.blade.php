@@ -48,11 +48,11 @@
 									@endif
 								</td>
 								<td>
-									{{ Form::open(array('url'=>'/shop/basket')) }}
-										{{ Form::hidden('shop_item_id', $item->id) }}
-										{{ Form::hidden('action', 'remove') }}
+									{!! Html::form('POST', '/shop/basket') !!}
+										{!! Html::hidden('shop_item_id', $item->id) !!}
+										{!! Html::hidden('action', 'remove') !!}
 										<button type="submit" class="btn btn-primary">X</button>
-									{{ Form::close() }}
+									{!! Html::form()->close() !!}
 								</td>
 							</tr>
 						@endforeach

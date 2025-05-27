@@ -25,26 +25,26 @@
 				<i class="fa fa-pencil fa-fw"></i> Edit {{ $newsArticle->title }}
 			</div>
 			<div class="card-body">
-				{{ Form::open(array('url'=>'/admin/news/' . $newsArticle->slug, 'files' => 'true')) }}
+				{!! Html::form('POST', '/admin/news/' . $newsArticle->slug)->acceptsFiles() !!}
 					<div class="mb-3">
-						{{ Form::label('title','Title',array('id'=>'','class'=>'')) }}
-						{{ Form::text('title', $newsArticle->title ,array('id'=>'title','class'=>'form-control')) }}
+						{!! Html::label('Title', 'title') !!}
+						{!! Html::text('title', $newsArticle->title)->id('title')->class('form-control') !!}
 					</div>
 					<div class="mb-3">
-						{{ Form::label('article','Article',array('id'=>'','class'=>'')) }}
-						{{ Form::textarea('article', $newsArticle->article, array('id'=>'','class'=>'form-control wysiwyg-editor')) }}
+						{!! Html::label('Article', 'article') !!}
+						{!! Html::textarea('article', $newsArticle->article)->class('form-control wysiwyg-editor') !!}
 					</div>
 					<div class="mb-3">
-						{{ Form::label('tags','Tags',array('id'=>'','class'=>'')) }}<small> - Separate with a comma</small>
-						{{ Form::text('tags', $newsArticle->getTags(), array('id'=>'', 'class'=>'form-control')) }}
+						{!! Html::label('Tags', 'tags') !!}<small> - Separate with a comma</small>
+						{!! Html::text('tags', $newsArticle->getTags())->class('form-control') !!}
 					</div>
 					<button type="submit" class="btn btn-success btn-block">Submit</button>
-				{{ Form::close() }}
+				{!! Html::form()->close() !!}
 				<hr>
-				{{ Form::open(array('url'=>'/admin/news/' . $newsArticle->slug, 'onsubmit' => 'return ConfirmDelete()')) }}
-					{{ Form::hidden('_method', 'DELETE') }}
+				{!! Html::form('POST', '/admin/news/' . $newsArticle->slug)->attribute('onsubmit', 'return ConfirmDelete()') !!}
+					{!! Html::hidden('_method', 'DELETE') !!}
 					<button type="submit" class="btn btn-danger btn-block">Delete</button>
-				{{ Form::close() }}
+				{!! Html::form()->close() !!}
 			</div>
 		</div>
 	</div>
