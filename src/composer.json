@@ -41,7 +41,7 @@
         "webonyx/graphql-php": "15.19.1",
         "invisnik/laravel-steam-auth": "dev-master",
         "laravel/socialite": "5.18.0",
-        "ignited/laravel-omnipay": "3.6.0",
+        "ignited/laravel-omnipay": "3.7.0",
         "simplesoftwareio/simple-qrcode": "4.2.0",
         "guzzlehttp/guzzle": "7.9.2",
         "php-http/guzzle7-adapter": "1.1.0",
