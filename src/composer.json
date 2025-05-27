@@ -66,7 +66,7 @@
         "propaganistas/laravel-phone": "5.3.3",
         "symfony/mailgun-mailer": "7.2.0",
         "symfony/http-client": "7.2.3",
-        "spatie/backtrace": "1.7.1",
+        "spatie/backtrace": "1.7.4",
         "haydenpierce/class-finder": "^0.5.3",
         "dompdf/dompdf": "3.1.0",
         "barryvdh/laravel-ide-helper": "3.5.4"
