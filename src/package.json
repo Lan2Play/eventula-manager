@@ -24,6 +24,6 @@
         "@popperjs/core": "2.11.8",
         "summernote": "0.9.1",
         "slick-carousel": "1.8.1",
-        "chart.js": "4.4.8"
+        "chart.js": "4.4.9"
     }
 }
