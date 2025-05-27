@@ -5,7 +5,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 11.44.0.
+ * Generated for Laravel 11.44.2.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -20035,7 +20035,7 @@ namespace Intervention\Image\Laravel\Facades {
         /**
          * Create image manager with given driver
          *
-         * @link https://image.intervention.io/v3/basics/image-manager
+         * @link https://image.intervention.io/v3/basics/configuration-drivers#static-constructor
          * @param string|\Intervention\Image\Interfaces\DriverInterface $driver
          * @param mixed $options
          * @throws DriverException
@@ -20051,7 +20051,7 @@ namespace Intervention\Image\Laravel\Facades {
         /**
          * Create image manager with GD driver
          *
-         * @link https://image.intervention.io/v3/basics/image-manager#static-gd-driver-constructor
+         * @link https://image.intervention.io/v3/basics/configuration-drivers#static-gd-driver-constructor
          * @param mixed $options
          * @throws DriverException
          * @throws InputException
@@ -20066,7 +20066,7 @@ namespace Intervention\Image\Laravel\Facades {
         /**
          * Create image manager with Imagick driver
          *
-         * @link https://image.intervention.io/v3/basics/image-manager#static-imagick-driver-constructor
+         * @link https://image.intervention.io/v3/basics/configuration-drivers#static-imagick-driver-constructor
          * @param mixed $options
          * @throws DriverException
          * @throws InputException
@@ -20082,7 +20082,7 @@ namespace Intervention\Image\Laravel\Facades {
          * Create new image instance with given width & height
          *
          * @see ImageManagerInterface::create()
-         * @link https://image.intervention.io/v3/basics/instantiation#creating-new-images
+         * @link https://image.intervention.io/v3/basics/instantiation#create-new-images
          * @param int $width
          * @param int $height
          * @throws RuntimeException
@@ -20119,7 +20119,7 @@ namespace Intervention\Image\Laravel\Facades {
          * with all available decoders of the driver.
          *
          * @see ImageManagerInterface::read()
-         * @link https://image.intervention.io/v3/basics/instantiation#reading-images
+         * @link https://image.intervention.io/v3/basics/instantiation#read-image-sources
          * @param mixed $input
          * @param string|array<string|DecoderInterface>|\Intervention\Image\Interfaces\DecoderInterface $decoders
          * @throws RuntimeException
@@ -20136,7 +20136,7 @@ namespace Intervention\Image\Laravel\Facades {
          * Create new animated image by given callback
          *
          * @see ImageManagerInterface::animate()
-         * @link https://image.intervention.io/v3/basics/instantiation#creating-animations
+         * @link https://image.intervention.io/v3/basics/instantiation#create-animations
          * @param callable $init
          * @throws RuntimeException
          * @return \Intervention\Image\Interfaces\ImageInterface 
@@ -24312,27 +24312,6 @@ namespace Illuminate\Routing {
         }
 
             }
-    /**
-     * 
-     *
-     */
-    class ResponseFactory {
-        /**
-         * 
-         *
-         * @see \Intervention\Image\Laravel\ServiceProvider::boot()
-         * @param \Intervention\Image\Image $image
-         * @param \Intervention\Image\Format|\Intervention\Image\MediaType|\Intervention\Image\FileExtension|string|null $format
-         * @param mixed|null $options
-         * @return \Illuminate\Http\Response 
-         * @static 
-         */
-        public static function image($image, $format = null, ...$options)
-        {
-            return \Illuminate\Routing\ResponseFactory::image($image, $format, ...$options);
-        }
-
-            }
     }
 
 namespace Illuminate\Database\Eloquent {
@@ -24953,7 +24932,7 @@ namespace  {
          * @param string $pageName
          * @param int|null $page
          * @param \Closure|int|null $total
-         * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator 
+         * @return \Illuminate\Pagination\LengthAwarePaginator 
          * @throws \InvalidArgumentException
          * @static 
          */
