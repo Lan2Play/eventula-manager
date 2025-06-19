@@ -51,7 +51,7 @@
         "laravel/tinker": "2.10.1",
         "scssphp/scssphp": "2.0.1",
         "omnipay/paypal": "3.0.2",
-        "cviebrock/eloquent-sluggable": "11.0.1",
+        "cviebrock/eloquent-sluggable": "12.0.0",
         "barryvdh/laravel-debugbar": "3.15.4",
         "omnipay/stripe": "3.2.0",
         "symfony/routing": "7.2.3",
