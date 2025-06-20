@@ -92,4 +92,11 @@ return [
     'new_token_wizzard_del_failed' => 'Error al eliminar el token anterior. Inténtalo de nuevo.',
     'new_token_wizzard_creation_failed' => 'La creación del token falló. Inténtalo de nuevo.',
     'new_token_wizzard_clickoncallback' => 'Ahora puede hacer clic en el botón Volver a conectar o puede copiar el token manualmente en su aplicación.',
+    'locale' => '',
+    'credit' => '',
+    'purchases_total' => '',
+    'avatarsettings' => '',
+    'avatardescription' => '',
+    'avatarsteam' => '',
+    'avatarlocal' => '',
 ];
