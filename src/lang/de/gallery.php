@@ -1,7 +1,5 @@
 <?php
-
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Default Text/Messages Lines
@@ -9,10 +7,8 @@ return [
     |
     |
     */
-
     'gallery' => 'Galerie',
     'event' => 'Veranstaltung:',
     'view_album' => 'Album anzeigen',
-    'date' => 'Datum:'
-
+    'date' => 'Datum:',
 ];
