@@ -607,16 +607,18 @@ class PaymentsController extends Controller
     {
         if (array_key_exists('tickets', $basket)) {
             foreach ($basket['tickets'] as $ticketId => $quantity) {
-                $ticket = TicketType::where('id', $ticketId)->first();
+                $ticketType = TicketType::where('id', $ticketId)->first();
                 for ($i = 1; $i <= $quantity; $i++) {
-                    //Add Participant to database
-                    $participant = [
+                    //Add Ticket to database
+                    $ticket = [
                         'user_id'       => Auth::id(),
-                        'event_id'      => $ticket->event->id,
-                        'ticket_id'     => $ticket->id,
+                        'owner_id'      => Auth::id(),
+                        'manager_id'    => Auth::id(),
+                        'event_id'      => $ticketType->event->id,
+                        'ticket_type_id'     => $ticketType->id,
                         'purchase_id'   => $purchaseId,
                     ];
-                    Ticket::create($participant);
+                    Ticket::create($ticket);
                 }
             }
         } elseif(array_key_exists('shop', $basket)) {
