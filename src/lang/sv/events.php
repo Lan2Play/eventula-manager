@@ -122,4 +122,8 @@ return [
     'time_delimiter' => 'på',
     'savetocalendar' => 'Spara i Kalender',
     'seatingplannotaccessable' => 'Sittplan inte tillgänglig (ännu)!',
+    'tournament_freebie_not_permitted' => '',
+    'time_suffix' => '',
+    'tournament_staff_not_permitted' => '',
+    'ticketgroup' => '',
 ];
