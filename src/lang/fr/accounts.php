@@ -92,4 +92,11 @@ return [
     'new_token_wizzard_del_failed' => 'La suppression de l\'ancien token a échoué. Veuillez réessayer.',
     'new_token_wizzard_creation_failed' => 'La création du token a échoué. Veuillez réessayer.',
     'new_token_wizzard_clickoncallback' => 'Vous pouvez maintenant cliquer sur le bouton de reconnexion ou vous pouvez copier le token manuellement dans votre application.',
+    'credit' => '',
+    'purchases_total' => '',
+    'locale' => '',
+    'avatarsettings' => '',
+    'avatardescription' => '',
+    'avatarsteam' => '',
+    'avatarlocal' => '',
 ];
