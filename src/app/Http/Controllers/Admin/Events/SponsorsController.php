@@ -6,10 +6,10 @@ use DB;
 
 use App\User;
 use App\Event;
-use App\EventTicket;
+use App\TicketType;
 use App\EventSponsor;
 use App\EventSeating;
-use App\EventParticipant;
+use App\Ticket;
 use App\EventParticipantType;
 
 use App\Http\Requests;

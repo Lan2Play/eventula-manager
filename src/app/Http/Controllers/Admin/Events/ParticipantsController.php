@@ -8,8 +8,8 @@ use Session;
 
 use App\User;
 use App\Event;
-use App\EventParticipant;
-use App\EventTicket;
+use App\Ticket;
+use App\TicketType;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -33,10 +33,10 @@ class ParticipantsController extends Controller
     /**
      * Show Participants Page
      * @param  Event            $event
-     * @param  EventParticipant $participant
+     * @param  Ticket $participant
      * @return View
      */
-    public function show(Event $event, EventParticipant $participant)
+    public function show(Event $event, Ticket $participant)
     {
         return view('admin.events.participants.show')
             ->with('event', $event)
@@ -46,10 +46,10 @@ class ParticipantsController extends Controller
     /**
      * Update Participant
      * @param  Event            $event
-     * @param  EventParticipant $participant
+     * @param  Ticket $participant
      * @param  Request          $request
      */
-    public function update(Event $event, EventParticipant $participant, Request $request)
+    public function update(Event $event, Ticket $participant, Request $request)
     {
         //DEBUG
         dd('edit me');
@@ -58,10 +58,10 @@ class ParticipantsController extends Controller
     /**
      * Sign in to Event
      * @param  Event            $event
-     * @param  EventParticipant $participant
+     * @param  Ticket $participant
      * @return Redirect
      */
-    public function signIn(Event $event, EventParticipant $participant)
+    public function signIn(Event $event, Ticket $participant)
     {
         if ($participant->event->slug != $event->slug)
         {
@@ -84,7 +84,7 @@ class ParticipantsController extends Controller
         return Redirect::to('admin/events/' . $event->slug . '/participants/');
     }
 
-    public function transfer(Event $event, EventParticipant $participant, Request $request)
+    public function transfer(Event $event, Ticket $participant, Request $request)
     {
         if ($participant->event->slug != $event->slug)
         {
@@ -137,10 +137,10 @@ class ParticipantsController extends Controller
     /**
      * Sign out a single participant for the event
      * @param  Event  $event
-     * @param  EventParticipant $participant
+     * @param  Ticket $participant
      * @return View
      */
-    public function signout(Event $event, EventParticipant $participant)
+    public function signout(Event $event, Ticket $participant)
     {
         if ($participant->event->slug != $event->slug)
         {
@@ -160,7 +160,7 @@ class ParticipantsController extends Controller
         return Redirect::to('admin/events/' . $event->slug . '/participants/');
     }
 
-    function revoke(Event $event, EventParticipant $participant)
+    function revoke(Event $event, Ticket $participant)
     {
         if ($participant->event->slug != $event->slug)
         {
@@ -175,7 +175,7 @@ class ParticipantsController extends Controller
         return Redirect::to('admin/events/' . $event->slug . '/participants/');
     }
 
-    function delete(Event $event, EventParticipant $participant)
+    function delete(Event $event, Ticket $participant)
     {
         if ($participant->event->slug != $event->slug)
         {

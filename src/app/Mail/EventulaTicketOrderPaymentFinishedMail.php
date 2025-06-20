@@ -5,10 +5,10 @@ use URL;
 use Helpers;
 use App\User;
 use App\Event;
-use App\EventTicket;
+use App\TicketType;
 use App\ShopItem;
 use App\Purchase;
-use App\EventParticipant;
+use App\Ticket;
 use App\Libraries\MustacheModelHelper;
 use Spatie\MailTemplates\TemplateMailable;
 use Spatie\MailTemplates\Interfaces\MailTemplateInterface;
@@ -60,7 +60,7 @@ class EventulaTicketOrderPaymentFinishedMail extends TemplateMailable
 
             foreach($purchase->participants as $participant)
             {
-                $this->purchase_participants[] = new MustacheModelHelper(EventParticipant::with('event','ticket')->where('id', $participant->id)->first());
+                $this->purchase_participants[] = new MustacheModelHelper(Ticket::with('event','ticket')->where('id', $participant->id)->first());
             }
         }
     } 

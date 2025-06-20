@@ -9,10 +9,10 @@ use Helpers;
 
 use App\User;
 use App\Event;
-use App\EventTicket;
+use App\TicketType;
 use App\EventSeating;
 use App\EventSeatingPlan;
-use App\EventParticipant;
+use App\Ticket;
 use App\EventParticipantType;
 
 use App\Http\Requests;

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Events;
 
-use App\EventParticipant;
-use App\EventTicket;
+use App\Ticket;
+use App\TicketType;
 use App\Http\Controllers\Controller;
 use Auth;
 use Illuminate\Http\Request;
@@ -20,11 +20,11 @@ class ParticipantsController extends Controller
 {
     /**
      * Gift Ticket
-     * @param  EventParticipant $participant
+     * @param  Ticket $participant
      * @param  Request          $request
      * @return Redirect
      */
-    public function gift(EventParticipant $participant, Request $request)
+    public function gift(Ticket $participant, Request $request)
     {
         if ($participant->gift != true && $participant->gift_sendee == null) {
             $participant->gift = true;
@@ -47,11 +47,11 @@ class ParticipantsController extends Controller
 
     /**
      * Revoke Gifted Ticket
-     * @param  EventParticipant $participant
+     * @param  Ticket $participant
      * @param  boolean          $accepted
      * @return Redirect
      */
-    public function revokeGift(EventParticipant $participant, $accepted = false)
+    public function revokeGift(Ticket $participant, $accepted = false)
     {
         if ($participant->gift == true) {
             if ($participant->gift_accepted != true) {
@@ -80,12 +80,12 @@ class ParticipantsController extends Controller
     {
         $user = Auth::user();
         if ($user) {
-            $participant = EventParticipant::where(['gift_accepted_url' => $request->url])->first();
+            $participant = Ticket::where(['gift_accepted_url' => $request->url])->first();
             if ($participant != null) {
 
                 /* check if maximum count of tickets for event ticket is already owned */
                 $clauses = ['id' => $participant->ticket_id, 'event_id' => $participant->event_id];
-                $ticket = EventTicket::where($clauses)->get()->first();
+                $ticket = TicketType::where($clauses)->get()->first();
 
                 $no_of_owned_tickets = 0;
 
@@ -120,7 +120,7 @@ class ParticipantsController extends Controller
         return Redirect::to('login');
     }
 
-    public function exportParticipantAsFile(EventParticipant $participant, string $fileType): Response|StreamedResponse {
+    public function exportParticipantAsFile(Ticket $participant, string $fileType): Response|StreamedResponse {
         $user = Auth::user();
         if ($user->id != $participant->user_id) {
             $viewErrorBag = (new ViewErrorBag())->put('default',

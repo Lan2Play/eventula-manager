@@ -2,7 +2,7 @@
 
 namespace App\Libraries;
 
-use App\EventTicketGroup;
+use App\TicketGroup;
 use App\Event;
 use App\EventSeatingPlan;
 use Session;
@@ -11,10 +11,10 @@ use Exception;
 use DB;
 use App\GameServerCommandParameter;
 use App\EventTournament;
-use App\EventParticipant;
+use App\Ticket;
 use App\User;
 use App\GameServer;
-use App\EventTicket;
+use App\TicketType;
 use GuzzleHttp\Client;
 use \Carbon\Carbon as Carbon;
 use GrahamCampbell\ResultType\Result;
@@ -239,7 +239,7 @@ class Helpers
      */
     public static function getEventParticipantTotal()
     {
-        $participants = \App\EventParticipant::count();
+        $participants = \App\Ticket::count();
         return Settings::getParticipantCountOffset() + $participants;
     }
 
@@ -302,7 +302,7 @@ class Helpers
     {
         $return = 0;
         foreach ($basket as $ticket_id => $quantity) {
-            $ticket = \App\EventTicket::where('id', $ticket_id)->first();
+            $ticket = \App\TicketType::where('id', $ticket_id)->first();
             $return += ($ticket->price * $quantity);
         }
         return $return;
@@ -425,7 +425,7 @@ class Helpers
             $formattedBasket = \App\ShopItem::whereIn('id', array_keys($basket['shop']))->get();
         }
         if (array_key_exists('tickets', $basket)) {
-            $formattedBasket = \App\EventTicket::whereIn('id', array_keys($basket['tickets']))->get();
+            $formattedBasket = \App\TicketType::whereIn('id', array_keys($basket['tickets']))->get();
         }
         if (!$formattedBasket) {
             return false;
@@ -779,7 +779,7 @@ class Helpers
      * Get Ticket quatntity for Select
      * @return array
      */
-    public static function getTicketQuantitySelection(EventTicket $ticket, $remainingcapacity, $defaultCapacity = 10)
+    public static function getTicketQuantitySelection(TicketType $ticket, $remainingcapacity, $defaultCapacity = 10)
     {
         $ticketCount = min(
             $remainingcapacity > 0 ? $remainingcapacity : $defaultCapacity,
@@ -800,7 +800,7 @@ class Helpers
     public static function getTicketGroupSelection()
     {
         $result = ['' => '-- ungrouped --'];
-        foreach (EventTicketGroup::all(['id', 'name']) as $row) {
+        foreach (TicketGroup::all(['id', 'name']) as $row) {
             $result[$row['id']] = $row['name'];
         }
 

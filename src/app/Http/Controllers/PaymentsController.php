@@ -12,11 +12,11 @@ use Mail;
 use App\Purchase;
 use App\User;
 use App\Event;
-use App\EventTicket;
+use App\TicketType;
 use App\ShopItem;
 use App\ShopOrder;
 use App\ShopOrderItem;
-use App\EventParticipant;
+use App\Ticket;
 
 use App\Mail\EventulaTicketOrderMail;
 use App\Mail\EventulaShopOrderMail;
@@ -64,7 +64,7 @@ class PaymentsController extends Controller
         $nextEventFlag = true;
         if (array_key_exists('tickets', $basket)) {
             foreach ($basket['tickets'] as $ticketId => $quantity) {
-                if (EventTicket::where('id', $ticketId)
+                if (TicketType::where('id', $ticketId)
                     ->first()
                     ->event
                     ->id
@@ -139,7 +139,7 @@ class PaymentsController extends Controller
         }
         if (array_key_exists('tickets', $basket)) {
             foreach ($basket['tickets'] as $ticketId => $quantity) {
-                $ticket = EventTicket::where('id', $ticketId)->first();
+                $ticket = TicketType::where('id', $ticketId)->first();
                 if ($ticket->event->capacity <= $ticket->event->EventParticipants->count()) {
                     Session::flash('alert-danger', __('payments.sold_out', ['eventname' => $ticket->event->display_name]));
                     return Redirect::back();
@@ -607,7 +607,7 @@ class PaymentsController extends Controller
     {
         if (array_key_exists('tickets', $basket)) {
             foreach ($basket['tickets'] as $ticketId => $quantity) {
-                $ticket = EventTicket::where('id', $ticketId)->first();
+                $ticket = TicketType::where('id', $ticketId)->first();
                 for ($i = 1; $i <= $quantity; $i++) {
                     //Add Participant to database
                     $participant = [
@@ -616,7 +616,7 @@ class PaymentsController extends Controller
                         'ticket_id'     => $ticket->id,
                         'purchase_id'   => $purchaseId,
                     ];
-                    EventParticipant::create($participant);
+                    Ticket::create($participant);
                 }
             }
         } elseif(array_key_exists('shop', $basket)) {

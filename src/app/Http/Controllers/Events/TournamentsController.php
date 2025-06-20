@@ -9,7 +9,7 @@ use DateTime;
 
 use App\User;
 use App\Event;
-use App\EventParticipant;
+use App\Ticket;
 use App\EventTournament;
 use App\EventTournamentParticipant;
 use App\EventTournamentTeam;
@@ -97,7 +97,7 @@ class TournamentsController extends Controller
 
         if ($tournament->game->gamematchapihandler != 0 && $tournament->match_autoapi)
         {
-            if (!Helpers::checkUserFields(User::where('id', '=', EventParticipant::where('id', '=', $request->event_participant_id)->first()->user_id)->first(),(new GameMatchApiHandler())->getGameMatchApiHandler($tournament->game->gamematchapihandler)->getuserthirdpartyrequirements()))
+            if (!Helpers::checkUserFields(User::where('id', '=', Ticket::where('id', '=', $request->event_participant_id)->first()->user_id)->first(),(new GameMatchApiHandler())->getGameMatchApiHandler($tournament->game->gamematchapihandler)->getuserthirdpartyrequirements()))
             {
                 Session::flash('alert-danger', __('events.tournament_cannot_join_thirdparty'));
                 return Redirect::back();
@@ -160,7 +160,7 @@ class TournamentsController extends Controller
 
         if ($tournament->game->gamematchapihandler != 0 && $tournament->match_autoapi)
         {
-            if (!Helpers::checkUserFields(User::where('id', '=', EventParticipant::where('id', '=', $request->event_participant_id)->first()->user_id)->first(),(new GameMatchApiHandler())->getGameMatchApiHandler($tournament->game->gamematchapihandler)->getuserthirdpartyrequirements()))
+            if (!Helpers::checkUserFields(User::where('id', '=', Ticket::where('id', '=', $request->event_participant_id)->first()->user_id)->first(),(new GameMatchApiHandler())->getGameMatchApiHandler($tournament->game->gamematchapihandler)->getuserthirdpartyrequirements()))
             {
                 Session::flash('alert-danger', __('events.tournament_cannot_join_thirdparty'));
                 return Redirect::back();
@@ -218,7 +218,7 @@ class TournamentsController extends Controller
 
         if ($tournament->game->gamematchapihandler != 0 && $tournament->match_autoapi)
         {
-            if (!Helpers::checkUserFields(User::where('id', '=', EventParticipant::where('id', '=', $request->event_participant_id)->first()->user_id)->first(),(new GameMatchApiHandler())->getGameMatchApiHandler($tournament->game->gamematchapihandler)->getuserthirdpartyrequirements()))
+            if (!Helpers::checkUserFields(User::where('id', '=', Ticket::where('id', '=', $request->event_participant_id)->first()->user_id)->first(),(new GameMatchApiHandler())->getGameMatchApiHandler($tournament->game->gamematchapihandler)->getuserthirdpartyrequirements()))
             {
                 Session::flash('alert-danger', __('events.tournament_cannot_join_thirdparty'));
                 return Redirect::back();

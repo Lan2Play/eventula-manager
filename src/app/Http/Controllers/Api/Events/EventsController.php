@@ -8,7 +8,7 @@ use Auth;
 use App\Event;
 use App\EventTimetable;
 use App\EventTimetableData;
-use App\EventParticipant;
+use App\Ticket;
 use App\EventParticipantType;
 
 use App\Http\Requests;

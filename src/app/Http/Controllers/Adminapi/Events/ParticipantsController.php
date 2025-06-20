@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Adminapi\Events;
 
 
 use App\Event;
-use App\EventParticipant;
+use App\Ticket;
 
 use App\Http\Controllers\Controller;
 
@@ -62,24 +62,24 @@ class ParticipantsController extends Controller
 
     /**
      * Get participant
-     * @param  EventParticipant $participant
+     * @param  Ticket $participant
      * @return Redirect
      */
-    public function getParticipant(EventParticipant $participant)
+    public function getParticipant(Ticket $participant)
     {
             return [
             'successful' => true,
             'reason' => '',
-            'participant' => EventParticipant::with(['user','ticket', 'purchase','seat'])->where('id',$participant->id)->get()->first(),
+            'participant' => Ticket::with(['user','ticket', 'purchase','seat'])->where('id',$participant->id)->get()->first(),
         ];
     }
 
     /**
      * Sign in to user to current Event
-     * @param  EventParticipant $participant
+     * @param  Ticket $participant
      * @return Redirect
      */
-    public function signIn(EventParticipant $participant)
+    public function signIn(Ticket $participant)
     {
         if ($participant->revoked) {
             return [

@@ -10,8 +10,8 @@ use Colors;
 
 use App\User;
 use App\Event;
-use App\EventParticipant;
-use App\EventTicket;
+use App\Ticket;
+use App\TicketType;
 
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
@@ -54,8 +54,8 @@ class TicketsController extends Controller
     /**
      * Show Event Ticket
      * @param  $event
-     * @param  EventTicket $ticket
-     * @return EventTicket
+     * @param  TicketType $ticket
+     * @return TicketType
      */
     public function show($event, $ticket)
     {

@@ -35,7 +35,7 @@ class EventSeating extends Model
     }
     public function eventParticipant()
     {
-        return $this->belongsTo('App\EventParticipant');
+        return $this->belongsTo('App\Ticket');
     }
 
     /**

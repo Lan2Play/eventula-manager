@@ -12,7 +12,7 @@ use Debugbar;
 use App\User;
 use App\Event;
 use App\Game;
-use App\EventParticipant;
+use App\Ticket;
 use App\EventTournament;
 use App\EventTournamentMatchServer;
 use App\EventTournamentParticipant;
@@ -412,11 +412,11 @@ class TournamentsController extends Controller
      * Add Pug to Tournament
      * @param  Event           $event
      * @param  EventTournament $tournament
-     * @param  EventParticipant $participant
+     * @param  Ticket $participant
      * @param  Request         $request
      * @return Redirect
      */
-    public function addPug(Event $event, EventTournament $tournament, EventParticipant $participant, Request $request)
+    public function addPug(Event $event, EventTournament $tournament, Ticket $participant, Request $request)
     {
          if (!$tournament->event->eventParticipants()->where('id', $participant->id)->first()) {
             Session::flash('alert-danger', __('events.tournament_not_signed_in'));
@@ -463,7 +463,7 @@ class TournamentsController extends Controller
      * @param  Request         $request
      * @return [type]
      */
-    public function addSingle(Event $event, EventTournament $tournament, EventParticipant $participant, Request $request)
+    public function addSingle(Event $event, EventTournament $tournament, Ticket $participant, Request $request)
     {
         if (!$tournament->event->eventParticipants()->where('id', $participant->id)->first()) {
             Session::flash('alert-danger', __('events.tournament_not_signed_in'));
@@ -542,10 +542,10 @@ class TournamentsController extends Controller
      * @param  Event           $event
      * @param  EventTournament $tournament
      * @param  Request         $request
-     * @param  EventParticipant $participant
+     * @param  Ticket $participant
      * @return Redirect
      */
-    public function unregisterParticipant(Event $event, EventTournament $tournament, EventParticipant $participant, Request $request)
+    public function unregisterParticipant(Event $event, EventTournament $tournament, Ticket $participant, Request $request)
     {
 
 

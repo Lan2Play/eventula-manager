@@ -16,7 +16,7 @@ use App\SliderImage;
 use App\NewsArticle;
 use App\EventTimetable;
 use App\EventTimetableData;
-use App\EventParticipant;
+use App\Ticket;
 use App\EventTournamentTeam;
 use App\EventTournamentParticipant;
 

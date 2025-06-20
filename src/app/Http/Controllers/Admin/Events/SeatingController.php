@@ -9,11 +9,11 @@ use Storage;
 
 use App\User;
 use App\Event;
-use App\EventTicket;
+use App\TicketType;
 use App\EventSeating;
 use App\EventSeatingPlan;
 use app\EventSeatingPlanSeat;
-use App\EventParticipant;
+use App\Ticket;
 use App\EventParticipantType;
 
 use App\Http\Requests;
@@ -363,7 +363,7 @@ class SeatingController extends Controller
         //Check if ticket is even seatable
         if (isset($request->participant_select_modal) && trim($request->participant_select_modal) != '') {
             $clauses = ['id' => $request->participant_select_modal];
-            $participant = EventParticipant::where($clauses)->first();
+            $participant = Ticket::where($clauses)->first();
             if (($participant->ticket && !$participant->ticket->seatable)) {
                 Session::flash('alert-danger', 'Ticket is not eligible for a seat!');
                 return Redirect::back();

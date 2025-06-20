@@ -84,7 +84,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function eventParticipants()
     {
-        return $this->hasMany('App\EventParticipant');
+        return $this->hasMany('App\Ticket');
     }
     public function matchMakingTeamplayers()
     {
@@ -126,8 +126,8 @@ class User extends Authenticatable implements MustVerifyEmail
             $clauses = ['user_id' => $this->id, 'signed_in' => true];
         }
 
-        $payedparticipant = EventParticipant::whereRelation('purchase', 'status', '=', 'Success')->where($clauses)->orderBy('updated_at', 'DESC')->first();
-        $freeparticipant = EventParticipant::where('free', true)->where($clauses)->orderBy('updated_at', 'DESC')->first();
+        $payedparticipant = Ticket::whereRelation('purchase', 'status', '=', 'Success')->where($clauses)->orderBy('updated_at', 'DESC')->first();
+        $freeparticipant = Ticket::where('free', true)->where($clauses)->orderBy('updated_at', 'DESC')->first();
 
 
         if (isset($payedparticipant) && isset($freeparticipant)) {
@@ -155,7 +155,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getFreeTickets($eventId)
     {
         $clauses = ['user_id' => $this->id, 'free' => true, 'event_id' => $eventId];
-        return EventParticipant::where($clauses)->get();
+        return Ticket::where($clauses)->get();
     }
 
     /**
@@ -166,7 +166,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getStaffTickets($eventId)
     {
         $clauses = ['user_id' => $this->id, 'staff' => true, 'event_id' => $eventId];
-        return EventParticipant::where($clauses)->get();
+        return Ticket::where($clauses)->get();
     }
 
     /**
@@ -178,25 +178,25 @@ class User extends Authenticatable implements MustVerifyEmail
         if (!$includeRevoked) {
             $clauses['revoked'] = 0;
         }
-        $eventParticipants = EventParticipant::where($clauses)->get();
+        $eventParticipants = Ticket::where($clauses)->get();
         return $eventParticipants;
     }
 
-    public function getAllTicketsOfType(Event $event, EventTicket $ticket) {
-        return EventParticipant::where([
+    public function getAllTicketsOfType(Event $event, TicketType $ticket) {
+        return Ticket::where([
             'user_id' => $this->id,
             'event_id' => $event->id,
             'ticket_id' => $ticket->id
         ])->get();
     }
 
-    public function getAllTicketsInTicketGroup(Event $event, EventTicket $ticket) {
+    public function getAllTicketsInTicketGroup(Event $event, TicketType $ticket) {
         if (empty($ticket->ticketGroup)) {
             return $this->getAllTicketsOfType($event, $ticket);
         }
-        $ticketIds = EventTicket::where(['event_ticket_group_id' => $ticket->ticketGroup->id])->pluck('id')->toArray();
+        $ticketIds = TicketType::where(['event_ticket_group_id' => $ticket->ticketGroup->id])->pluck('id')->toArray();
 
-        return EventParticipant::where([
+        return Ticket::where([
             'user_id' => $this->id,
             'event_id' => $event->id,
         ])
@@ -231,7 +231,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getTickets($eventId, $obj = false)
     {
         $clauses = ['user_id' => $this->id, 'event_id' => $eventId, 'revoked' => 0];
-        $eventParticipants = EventParticipant::where($clauses)->get();
+        $eventParticipants = Ticket::where($clauses)->get();
         $return = array();
         foreach ($eventParticipants as $eventParticipant) {
             if (($eventParticipant->ticket && $eventParticipant->ticket->seatable) ||

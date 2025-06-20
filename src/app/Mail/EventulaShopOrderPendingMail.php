@@ -5,7 +5,7 @@ use URL;
 use Helpers;
 use App\User;
 use App\ShopOrder;
-use App\EventTicket;
+use App\TicketType;
 use App\ShopItem;
 use App\Purchase;
 use App\Libraries\MustacheModelHelper;

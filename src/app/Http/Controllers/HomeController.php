@@ -15,7 +15,7 @@ use App\SliderImage;
 use App\NewsArticle;
 use App\EventTimetable;
 use App\EventTimetableData;
-use App\EventParticipant;
+use App\Ticket;
 use App\EventTournamentTeam;
 use App\EventTournamentParticipant;
 use App\MatchMaking;
@@ -142,7 +142,7 @@ class HomeController extends Controller
         $user = Auth::user();
         if ($user) {
             $clauses = ['user_id' => $user->id, 'event_id' => $event->id];
-            $user->eventParticipation = EventParticipant::where($clauses)->get();
+            $user->eventParticipation = Ticket::where($clauses)->get();
         }
 
         $ticketFlagSignedIn = false;

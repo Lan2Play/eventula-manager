@@ -9,8 +9,8 @@ use Helpers;
 
 use App\User;
 use App\Event;
-use App\EventParticipant;
-use App\EventTicket;
+use App\Ticket;
+use App\TicketType;
 use App\EventAnnouncement;
 use App\EventVenue;
 use App\Purchase;
@@ -98,12 +98,11 @@ class EventsController extends Controller
         $event->event_venue_id              = @$request->venue;
         $event->capacity                    = $request->capacity;
         $event->no_tickets_per_user         = empty($request->no_tickets_per_user) ? null : $request->no_tickets_per_user;
-        $event->online_event  = ($request->online_event ? true : false);
-        $event->private_participants  = ($request->private_participants ? true : false);
-        $event->matchmaking_enabled  = ($request->matchmaking_enabled ? true : false);
-        $event->tournaments_freebies  = ($request->tournaments_freebies ? true : false);
-        $event->tournaments_staff  = ($request->tournaments_staff ? true : false);
-
+        $event->online_event                = (bool)$request->online_event;
+        $event->private_participants        = (bool)$request->private_participants;
+        $event->matchmaking_enabled         = (bool)$request->matchmaking_enabled;
+        $event->tournaments_freebies        = (bool)$request->tournaments_freebies;
+        $event->tournaments_staff           = (bool)$request->tournaments_staff;
         if (!$event->save()) {
             Session::flash('alert-danger', 'Cannot Save Event!');
             return Redirect::to('admin/events/' . $event->slug);
@@ -202,7 +201,6 @@ class EventsController extends Controller
         $event->tournaments_freebies  = ($request->tournaments_freebies ? true : false);
         $event->tournaments_staff  = ($request->tournaments_staff ? true : false);
 
-
         if (isset($request->capacity)) {
             $event->capacity        = $request->capacity;
         }
@@ -261,7 +259,7 @@ class EventsController extends Controller
             Session::flash('alert-danger', 'Could not save "system" purchase!');
         }
 
-        $participant                            = new EventParticipant();
+        $participant                            = new Ticket();
         $participant->user_id                   = $request->user_id;
         $participant->event_id                  = $event->id;
         $participant->free                      = 1;
@@ -299,7 +297,7 @@ class EventsController extends Controller
             Session::flash('alert-danger', 'Could not save "system" purchase!');
         }
 
-        $participant = new EventParticipant();
+        $participant = new Ticket();
 
         $participant->user_id                = $request->user_id;
         $participant->event_id               = $event->id;

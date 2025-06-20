@@ -11,7 +11,7 @@ use App\Setting;
 use App\Event;
 use App\EventTimetable;
 use App\EventTimetableData;
-use App\EventParticipant;
+use App\Ticket;
 use App\EventParticipantType;
 
 use App\Http\Requests;
@@ -66,7 +66,7 @@ class EventsController extends Controller
         }
         if ($user) {
             $clauses = ['user_id' => $user->id, 'event_id' => $event->id];
-            $user->eventParticipation = EventParticipant::where($clauses)->get();
+            $user->eventParticipation = Ticket::where($clauses)->get();
             $user->setActiveEventParticipant($event);
         }
         if (!$event->polls->isEmpty()) {

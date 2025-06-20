@@ -41,7 +41,7 @@ class Purchase extends Model
     }
     public function participants()
     {
-        return $this->hasMany('App\EventParticipant', 'purchase_id');
+        return $this->hasMany('App\Ticket', 'purchase_id');
     }
     public function order()
     {

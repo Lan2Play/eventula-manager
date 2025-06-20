@@ -7,9 +7,9 @@ use Session;
 
 use App\User;
 use App\Event;
-use App\EventTicket;
+use App\TicketType;
 use App\EventSeating;
-use App\EventParticipant;
+use App\Ticket;
 use App\EventParticipantType;
 
 use App\Http\Requests;
@@ -68,10 +68,10 @@ class TicketsController extends Controller
     /**
      * Show Tickets Page
      * @param  Event       $event
-     * @param  EventTicket $ticket
+     * @param  TicketType $ticket
      * @return View
      */
-    public function show(Event $event, EventTicket $ticket)
+    public function show(Event $event, TicketType $ticket)
     {
         return view('admin.events.tickets.show')
             ->with('event', $event)
@@ -129,7 +129,7 @@ class TicketsController extends Controller
             );
         }
 
-        $ticket             = new EventTicket();
+        $ticket             = new TicketType();
         $ticket->event_id   = $event->id;
         $ticket->name       = $request->name;
         $ticket->type       = $request->type;
@@ -155,10 +155,10 @@ class TicketsController extends Controller
      * Update Ticket
      * @param  Request     $request
      * @param  Event       $event
-     * @param  EventTicket $ticket
+     * @param  TicketType $ticket
      * @return Redirect
      */
-    public function update(Request $request, Event $event, EventTicket $ticket)
+    public function update(Request $request, Event $event, TicketType $ticket)
     {
         $rules = [
             'price'             => 'numeric',
@@ -249,10 +249,10 @@ class TicketsController extends Controller
     /**
      * Delete Ticket from Database
      * @param  Event       $event
-     * @param  EventTicket $ticket
+     * @param  TicketType $ticket
      * @return redirect
      */
-    public function destroy(Event $event, EventTicket $ticket)
+    public function destroy(Event $event, TicketType $ticket)
     {
         if ($ticket->participants && $ticket->participants()->count() > 0) {
             Session::flash('alert-danger', 'Cannot delete Ticket, Purchases have been made!');

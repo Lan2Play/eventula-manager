@@ -127,22 +127,22 @@ class Event extends Model
      */
     public function eventParticipants()
     {
-        return $this->hasMany('App\EventParticipant')->where('revoked', '=', 0);
+        return $this->hasMany('App\Ticket')->where('revoked', '=', 0);
     }
     public function allEventParticipants()
     {
-        return $this->hasMany('App\EventParticipant');
+        return $this->hasMany('App\Ticket');
     }
     public function timetables()
     {
         return $this->hasMany('App\EventTimetable');
     }
     public function ticketGroups() {
-        return $this->hasMany('App\EventTicketGroup');
+        return $this->hasMany('App\TicketGroup');
     }
     public function tickets()
     {
-        return $this->hasMany('App\EventTicket');
+        return $this->hasMany('App\TicketType');
     }
     public function seatingPlans()
     {
@@ -224,7 +224,7 @@ class Event extends Model
     /**
      * Get Event Participant
      * @param  $userId
-     * @return EventParticipant
+     * @return Ticket
      */
     public function getEventParticipant($userId = null)
     {
@@ -371,7 +371,7 @@ class Event extends Model
 
     /**
      * Get ungrouped tickets of Eventvent
-     * @return \Illuminate\Database\Eloquent\Collection|\App\EventTicket[]
+     * @return \Illuminate\Database\Eloquent\Collection|\App\TicketType[]
      */
     public function getUngroupedTickets() {
         return $this->tickets()->ungrouped()->get();;

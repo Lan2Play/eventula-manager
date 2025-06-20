@@ -7,7 +7,7 @@ use Auth;
 use Session;
 use App\User;
 use App\Event;
-use App\EventParticipant;
+use App\Ticket;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;

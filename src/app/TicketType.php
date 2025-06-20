@@ -5,14 +5,14 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
-class EventTicket extends Model
+class TicketType extends Model
 {
     /**
      * The name of the table.
      *
      * @var string
      */
-    protected $table = 'event_tickets';
+    protected $table = 'ticket_types';
     
     /**
      * The attributes excluded from the model's JSON form.
@@ -33,7 +33,7 @@ class EventTicket extends Model
     }
     public function participants()
     {
-        return $this->hasMany('App\EventParticipant', 'ticket_id');
+        return $this->hasMany('App\Ticket', 'ticket_id');
     }
     public function creditLogs()
     {
@@ -41,7 +41,7 @@ class EventTicket extends Model
     }
 
     public function ticketGroup() {
-        return $this->belongsTo('App\EventTicketGroup', 'event_ticket_group_id');
+        return $this->belongsTo('App\TicketGroup', 'event_ticket_group_id');
     }
 
     public function hasTicketGroup():bool {

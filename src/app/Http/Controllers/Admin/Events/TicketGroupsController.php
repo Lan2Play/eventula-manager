@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\Events;
 
 use App\Event;
-use App\EventTicketGroup;
+use App\TicketGroup;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -14,7 +14,7 @@ use Session;
 
 class TicketGroupsController extends Controller
 {
-    protected function updateTicketGroup(TicketGroupRequest $request, EventTicketGroup $group): void
+    protected function updateTicketGroup(TicketGroupRequest $request, TicketGroup $group): void
     {
         $group->name = $request->get('ticket-group-name');
         $group->tickets_per_user = $request->get('ticket-group-tickets');
@@ -24,7 +24,7 @@ class TicketGroupsController extends Controller
     {
         $this->verifyRequestValues($request);
 
-        $group = new EventTicketGroup();
+        $group = new TicketGroup();
         $group->event_id = $event->id;
         $this->updateTicketGroup($request, $group);
 
@@ -37,14 +37,14 @@ class TicketGroupsController extends Controller
         return Redirect::to("/admin/events/{$event->slug}/tickets");
     }
 
-    public function show(Event $event, EventTicketGroup $ticketGroup): View
+    public function show(Event $event, TicketGroup $ticketGroup): View
     {
         return view('admin.events.ticketgroups.show')
             ->withEvent($event)
             ->withTicketGroup($ticketGroup);
     }
 
-    public function update(TicketGroupRequest $request, Event $event, EventTicketGroup $ticketGroup): RedirectResponse
+    public function update(TicketGroupRequest $request, Event $event, TicketGroup $ticketGroup): RedirectResponse
     {
         $this->verifyRequestValues($request);
         $this->updateTicketGroup($request, $ticketGroup);
@@ -58,7 +58,7 @@ class TicketGroupsController extends Controller
         return Redirect::back();
     }
 
-    public function delete(Request $request, Event $event, EventTicketGroup $ticketGroup): RedirectResponse
+    public function delete(Request $request, Event $event, TicketGroup $ticketGroup): RedirectResponse
     {
         if ($ticketGroup->delete()) {
             Session::flash('alert-success', "Ticket group \"{$ticketGroup->name}\" deleted successfully");

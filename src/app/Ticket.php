@@ -16,14 +16,14 @@ use Colors;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class EventParticipant extends Model
+class Ticket extends Model
 {
     /**
      * The name of the table.
      *
      * @var string
      */
-    protected $table = 'event_participants';
+    protected $table = 'tickets';
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -85,7 +85,7 @@ class EventParticipant extends Model
     }
     public function ticket()
     {
-        return $this->belongsTo('App\EventTicket', 'ticket_id');
+        return $this->belongsTo('App\TicketType', 'ticket_id');
     }
     public function purchase()
     {
@@ -181,7 +181,7 @@ class EventParticipant extends Model
     /**
      * Get New Participants
      * @param $type
-     * @return EventParticipant
+     * @return Ticket
      */
     public static function getNewParticipants($type = 'all')
     {

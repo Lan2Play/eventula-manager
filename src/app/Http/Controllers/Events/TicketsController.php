@@ -11,8 +11,8 @@ use Colors;
 
 use App\User;
 use App\Event;
-use App\EventParticipant;
-use App\EventTicket;
+use App\Ticket;
+use App\TicketType;
 
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
@@ -26,10 +26,10 @@ class TicketsController extends Controller
     /**
      * Purchase Ticket
      * @param  Request     $request
-     * @param  EventTicket $ticket
+     * @param  TicketType $ticket
      * @return RedirectResponse
      */
-    public function purchase(Request $request, EventTicket $ticket)
+    public function purchase(Request $request, TicketType $ticket)
     {
         /** @var User $user */
         $user = User::where('id', $request->user_id)->first();
@@ -132,10 +132,10 @@ class TicketsController extends Controller
 
     /**
      * Retrieve ticket via QR code
-     * @param  EventParticipant $participant
+     * @param  Ticket $participant
      * @return Redirect
      */
-    public function retrieve(EventParticipant $participant)
+    public function retrieve(Ticket $participant)
     {
         $user = Auth::user();
         if ($user->admin == 1) {

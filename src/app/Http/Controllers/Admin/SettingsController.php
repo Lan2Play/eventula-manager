@@ -13,8 +13,8 @@ use App\ApiKey;
 use App\User;
 use App\Setting;
 use App\Event;
-use App\EventParticipant;
-use App\EventTicket;
+use App\Ticket;
+use App\TicketType;
 use App\CreditLog;
 
 use App\Http\Requests;

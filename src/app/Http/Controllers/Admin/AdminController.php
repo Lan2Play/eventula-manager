@@ -14,10 +14,10 @@ use App\Event;
 use App\ShopOrder;
 use App\Poll;
 use App\PollOptionVote;
-use App\EventParticipant;
+use App\Ticket;
 use App\EventTournament;
 use App\NewsComment;
-use App\EventTicket;
+use App\TicketType;
 use App\EventTournamentParticipant;
 
 use App\Http\Requests;
@@ -37,13 +37,13 @@ class AdminController extends Controller
         $users = User::all();
         $events = Event::all();
         $orders = ShopOrder::getNewOrders('login');
-        $participants = EventParticipant::getNewParticipants('login');
-        $participantCount = EventParticipant::all()->count();
+        $participants = Ticket::getNewParticipants('login');
+        $participantCount = Ticket::all()->count();
         $tournamentCount = EventTournament::all()->count();
         $tournamentParticipantCount = EventTournamentParticipant::all()->count();
         $votes = PollOptionVote::getNewVotes('login');
         $comments = NewsComment::getNewComments('login');
-        $tickets = EventTicket::all();
+        $tickets = TicketType::all();
         $activePolls = Poll::where('end', '==', null)->orWhereBetween('end', ['0000-00-00 00:00:00', date("Y-m-d H:i:s")]);
         $userLastLoggedIn = User::where('id', '!=', Auth::id())->latest('last_login')->first();
         $loginSupportedGateways = Settings::getSupportedLoginMethods();
@@ -77,7 +77,7 @@ class AdminController extends Controller
             return [Carbon::now()->startOfYear()->addMonthsNoOverflow($month)->format('F') => 0];
         })
         ->merge(
-            EventParticipant::where('created_at', '>=', Carbon::now()->subMonths(12))
+            Ticket::where('created_at', '>=', Carbon::now()->subMonths(12))
                 ->get()
                 ->groupBy(function ($participant) {
                     return Carbon::parse($participant->created_at)->format('F');
