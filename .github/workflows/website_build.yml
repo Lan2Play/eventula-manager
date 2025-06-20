@@ -6,10 +6,11 @@ on:
     paths:
     - 'docs/**'
     - '.github/workflows/website_build.yml'
+  release:
+    types: [published] # Triggers when a release is published
   pull_request:
     branches: 
     - main
-    - dev
     - 'feature/**'
     paths:
     - 'docs/**'
@@ -19,7 +20,7 @@ jobs:
 
   build_only:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'pull_request' }}
+    if: ${{ github.event_name == 'pull_request' || (github.event_name == 'push' && startsWith(github.ref, 'refs/heads/main')) }}
     steps:
     - uses: actions/checkout@v4
     - name: build
@@ -28,7 +29,7 @@ jobs:
 
   publish_prd:
     runs-on: ubuntu-latest
-    if: ${{ startsWith(github.ref, 'refs/heads/main') && github.event_name == 'push' }}
+    if: ${{ github.event_name == 'release' }}
     steps:
     - uses: actions/checkout@v4
     - name: build
