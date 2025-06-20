@@ -288,6 +288,8 @@
                 </div>
                 <div class="card-body">
                     <ul class="list-group">
+                        <li class="list-group-item list-group-item-info"><strong>VERSION: <span
+                                    class="float-end">{{ env('VERSION', 'dev') }}</span></strong></li>
                         <li class="list-group-item list-group-item-info"><strong>BUILDNUMBER: <span
                                     class="float-end">{{ env('BUILDNUMBER', 'dev') }}</span></strong></li>
                         <li class="list-group-item list-group-item-info"><strong>BUILDID: <span
