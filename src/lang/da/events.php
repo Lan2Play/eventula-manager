@@ -119,4 +119,11 @@ return [
     'timetable-created-at' => 'Skabt klokken:',
     'timetable-updated-at' => 'Opdateret klokken:',
     'timetable-primary-pill' => 'Primær Tidstabel',
+    'seatingplannotaccessable' => '',
+    'tournament_staff_not_permitted' => '',
+    'tournament_freebie_not_permitted' => '',
+    'time_delimiter' => '',
+    'time_suffix' => '',
+    'savetocalendar' => '',
+    'ticketgroup' => '',
 ];
