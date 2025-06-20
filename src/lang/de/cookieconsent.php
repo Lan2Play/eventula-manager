@@ -1,7 +1,5 @@
 <?php
-
 return [
-
     /*
     |--------------------------------------------------------------------------
     | cookie consent
@@ -12,9 +10,6 @@ return [
     | these language lines according to your application's requirements.
     |
     */
-
     'message' => 'Diese Seite verwendet Cookies um das Nutzererlebnis zu steigern. Weitere Informationen findest du auf unserer Seite',
     'agree' => 'Akzeptieren',
-
-
 ];
