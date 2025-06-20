@@ -85,4 +85,13 @@ return [
     'delivery_type_in' => 'Le type de livraison doit être un événement ou une expédition',
     'tickets_pending_active' => 'Vos billets sont maintenant actifs, mais vous devez payer sur place en espèces pour vous enregistrer ! La commande est juridiquement contraignante !',
     'purchase_id' => 'ID d\'achat :',
+    'payment_credit_not_allowed' => '',
+    'payment_method_not_allowed' => '',
+    'items' => '',
+    'basket_sold_out' => '',
+    'payment_no_basket' => '',
+    'pay_by_2' => '',
+    'payment_pending_linktext1' => '',
+    'payment_pending_text2' => '',
+    'payment_pending_linktext2' => '',
 ];
