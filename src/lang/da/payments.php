@@ -93,4 +93,5 @@ return [
     'payment_gateways_required' => 'Der kræves en betalingsgateway: :paymentGateways',
     'payment_method_not_allowed' => 'Du kan ikke bruge den metode til at købe denne kurv!',
     'tickets_pending_active' => 'Dine billetter er nu aktive, men du skal betale kontant på stedet for at logge ind! Ordren er juridisk bindende!',
+    'pay_by_2' => '',
 ];
