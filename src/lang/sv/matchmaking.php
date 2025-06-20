@@ -1,7 +1,5 @@
 <?php
-
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Matchmaking Language Lines
@@ -61,13 +59,12 @@ return [
     'teamcounts' => 'Antal lag',
     'teamname' => 'Lagnamn',
     'games' => 'Spel',
-    'scoreof' =>'Poäng av',
+    'scoreof' => 'Poäng av',
     'thisisyourteam' => 'Detta är ditt lag!',
     'nopermissions' => 'Du har ingen tillgång till denna match! Du behöver antingen en inbjudningslänk från en matchägare eller lagägare, eller så måste matchägaren göra matchen offentlig!',
     'matchmakinghome' => 'Klicka här för att hitta andra matcher.',
     'maxopened' => 'Du har redan fler öppna matcher än tillåtet. Vänligen slutför dina matcher först!',
     'error' => 'Fel',
-
     'team_size_required' => 'Lagstorlek krävs',
     'team_size_mustbeoneof' => 'Lagstorlek måste vara en av: 1v1, 2v2, 3v3, 4v4, 5v5, 6v6',
     'team_count_required' => 'Antal lag krävs',
@@ -102,7 +99,7 @@ return [
     'cannotdeleteteamplayers' => 'Kan inte ta bort lagspelare!',
     'cannotdeleteteam' => 'Kan inte ta bort lag!',
     'deletedteam' => 'lag raderat!',
-    'cannnotjoinstatus'=> 'du kan inte gå med i laget medan matchen är live eller avslutad!',
+    'cannnotjoinstatus' => 'du kan inte gå med i laget medan matchen är live eller avslutad!',
     'cannotjoinalreadyfull' => 'Laget är redan fullt!',
     'cannotcreateteamplayer' => 'Kan inte skapa lagspelare!',
     'successfiullyaddedteamplayer' => 'Gick med i laget framgångsrikt!',
@@ -143,5 +140,5 @@ return [
     'ReplayName' => 'Namn',
     'ReplaySize' => 'Storlek',
     'ReplayCreated' => 'Skapad',
-
+    'nonegame_disabled' => '',
 ];
