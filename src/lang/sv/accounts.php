@@ -98,4 +98,5 @@ return [
     'avatarsteam' => 'Använd Steam-avatar',
     'avatarlocal' => 'Ladda upp en egen Avatar',
     'purchases_total' => 'Totalt',
+    'credit' => '',
 ];
