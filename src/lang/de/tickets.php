@@ -1,7 +1,5 @@
 <?php
-
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Authentication Language Lines
@@ -12,23 +10,20 @@ return [
     | these language lines according to your application's requirements.
     |
     */
-
     'max_ticket_event_count_reached' => 'Du kannst :ticketname nicht :ticketamount mal kaufen, da sonst das Limit von insgesamt :maxamount Ticket(s) für das Event überschritten würde. Du hast aktuell insgesamt :currentamount Ticket(s) für das Event.',
     'max_ticket_group_count_reached' => 'Du kannst :ticketname nicht :ticketamount Mal kaufen, da sonst das Limit von :maxamount Ticket(s) aus der Gruppe :ticketgroup pro Nutzer überschritten würde. Du hast aktuell :currentamount Ticket(s).',
     'max_ticket_type_count_reached' => 'Du kannst :ticketname nicht :ticketamount Mal kaufen, da sonst das Limit von :maxamount Ticket(s) pro Nutzer überschritten würde. Du hast aktuell :currentamount Ticket(s).',
     'ticket_not_yet' => 'Das Ticket kann noch nicht gekauft werden.',
     'ticket_not_anymore' => 'Das Ticket kann nicht mehr gekauft werden.',
-
     /* Ticket Partial*/
     'has_been_gifted' => 'Dieses Ticket wurde verschenkt!',
     'not_eligable_for_seat' => 'Mit diesem Ticket kann kein Sitzplatz gebucht werden',
     'has_been_revoked' => 'Dieses Ticket wurde zurückgerufen!',
-    'gift_ticket' => 'Verschenke Ticket', 
+    'gift_ticket' => 'Verschenke Ticket',
     'gift_url' => 'Geschenk URL:',
     'revoke_gift' => 'Geschenk zurückziehen',
     'staff_ticket' => 'Team Ticket',
     'free_ticket' => 'Kostenloses Ticket',
-
     /* Ticket PDF */
     'pdf_header' => 'Dein Ticket für :name',
     'ticket_name' => 'Ticket Name',
@@ -39,7 +34,6 @@ return [
     'realname_format' => ':firstname :lastname',
     'present_qr_code' => 'Bitte zeige den QR Code am Einlass vor.',
     'generated_at' => 'Dieses Dokument wurde erstellt am :date um :time',
-
     /* Ticket PDF views */
     'not_allowed' => 'Du bist nicht berechtigt dieses Ticket anzusehen',
     'wrong_file_format' => 'Nicht unterstützter Dateityp',
