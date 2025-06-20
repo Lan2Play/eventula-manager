@@ -1,7 +1,5 @@
 <?php
-
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Authentication Language Lines
@@ -12,9 +10,7 @@ return [
     | these language lines according to your application's requirements.
     |
     */
-
     'termsandconditions' => 'Villkor',
     'registrationtermsandconditions' => 'Villkor vid registrering',
     'purchaseandconditions' => 'Villkor vid köp',
-
 ];
