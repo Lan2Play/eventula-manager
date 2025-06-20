@@ -92,4 +92,11 @@ return [
     'new_token_wizzard_del_failed' => 'Sletning af det gamle token mislykkedes. Prøv igen.',
     'new_token_wizzard_creation_failed' => 'Oprettelse af token mislykkedes. Prøv igen.',
     'new_token_wizzard_clickoncallback' => 'Du kan nu klikke på knappen Tilslut tilbage, eller du kan kopiere tokenet manuelt til din applikation.',
+    'credit' => '',
+    'purchases_total' => '',
+    'locale' => '',
+    'avatarsettings' => '',
+    'avatardescription' => '',
+    'avatarsteam' => '',
+    'avatarlocal' => '',
 ];
