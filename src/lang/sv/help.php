@@ -1,7 +1,5 @@
 <?php
-
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Default Text/Messages Lines
@@ -9,7 +7,6 @@ return [
     |
     |
     */
-
     'help' => 'Hjälp',
     'event' => 'Event:',
     'copylink' => 'Kopiera Länk:',
@@ -20,5 +17,4 @@ return [
     'attachment' => 'Bifogad fil',
     'attachments' => 'Bifogade filer',
     'filename' => 'Filnamn',
-
 ];
