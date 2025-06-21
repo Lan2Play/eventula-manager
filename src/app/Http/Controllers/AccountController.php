@@ -332,8 +332,7 @@ class AccountController extends Controller
         }
 
         if (Settings::isAuthRequirePhonenumberEnabled()) {
-            $rules['phonenumber'] = 'required|filled|phone:AUTO,DE';
-            $messages['phonenumber.phone'] = 'The field contains an invalid number.';
+            $rules['phonenumber'] = 'required|filled|phone:INTERNATIONAL,DE';
         }
 
         $this->validate($request, $rules, $messages);
