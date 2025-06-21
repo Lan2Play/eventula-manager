@@ -24263,7 +24263,7 @@ namespace Illuminate\Validation {
         /**
          * 
          *
-         * @see \Propaganistas\LaravelPhone\PhoneServiceProvider::registerValidator()
+         * @see \Propaganistas\LaravelPhone\PhoneServiceProvider::register()
          * @static 
          */
         public static function phone()
