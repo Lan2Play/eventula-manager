@@ -187,7 +187,7 @@ class AppearanceController extends Controller
     public function sliderUpload(Request $request)
     {
         $rules = [
-            'image.*'   => 'image',
+            'image.*'   => 'image:allow_svg',
         ];
         $messages = [
             'image.*.image' => 'Item Image must be of Image type',
