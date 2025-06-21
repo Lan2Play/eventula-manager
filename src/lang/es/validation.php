@@ -54,6 +54,7 @@ return [
     ],
     'not_in' => 'El :attribute seleccionado es inválido.',
     'numeric' => ':attribute debe ser un número.',
+    'phone' => 'El campo :attribute debe ser un número válido.',
     'regex' => 'El formato de :attribute es inválido.',
     'required' => 'Se requiere el campo :attribute.',
     'required_if' => 'Se requiere el campo :attribute cuando :other es :value.',
