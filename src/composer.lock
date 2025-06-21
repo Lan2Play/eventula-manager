@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8efc62616f5d36bcdb0441f348f306d3",
+    "content-hash": "d13c3c572c4921992dfea76a41cf5d8c",
     "packages": [
         {
             "name": "artesaos/seotools",
@@ -5677,16 +5677,16 @@
         },
         {
             "name": "propaganistas/laravel-phone",
-            "version": "6.0.0",
+            "version": "6.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Propaganistas/Laravel-Phone.git",
-                "reference": "ff202dd085088aa0e1ea975ec2aa7b623da4414c"
+                "reference": "433d07645e7ac11f1aa62e2a7f33a0c93a1ad61d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Propaganistas/Laravel-Phone/zipball/ff202dd085088aa0e1ea975ec2aa7b623da4414c",
-                "reference": "ff202dd085088aa0e1ea975ec2aa7b623da4414c",
+                "url": "https://api.github.com/repos/Propaganistas/Laravel-Phone/zipball/433d07645e7ac11f1aa62e2a7f33a0c93a1ad61d",
+                "reference": "433d07645e7ac11f1aa62e2a7f33a0c93a1ad61d",
                 "shasum": ""
             },
             "require": {
@@ -5737,7 +5737,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Propaganistas/Laravel-Phone/issues",
-                "source": "https://github.com/Propaganistas/Laravel-Phone/tree/6.0.0"
+                "source": "https://github.com/Propaganistas/Laravel-Phone/tree/6.0.1"
             },
             "funding": [
                 {
@@ -5745,7 +5745,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-04-29T11:19:46+00:00"
+            "time": "2025-05-05T17:53:39+00:00"
         },
         {
             "name": "psr/clock",
@@ -12216,16 +12216,16 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "laravelcollective/html": 20,
         "invisnik/laravel-steam-auth": 20,
-        "team-reflex/challonge-php": 20,
-        "maniaplanet/dedicated-server-api": 20
+        "laravelcollective/html": 20,
+        "maniaplanet/dedicated-server-api": 20,
+        "team-reflex/challonge-php": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
         "php": "8.4.*"
     },
-    "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "platform-dev": {},
+    "plugin-api-version": "2.6.0"
 }
