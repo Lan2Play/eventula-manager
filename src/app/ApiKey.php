@@ -6,12 +6,14 @@ use DB;
 use Storage;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Builder;
 
 use Illuminate\Contracts\Encryption\DecryptException;
 
 class ApiKey extends Model
 {
+    use HasFactory;
     /**
      * The name of the table.
      *

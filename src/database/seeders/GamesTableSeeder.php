@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Game;
 use Helpers;
-use Faker\Factory as Faker;
 use HaydenPierce\ClassFinder\ClassFinder;
 
 
@@ -18,12 +17,10 @@ class GamesTableSeeder extends Seeder
      */
     public function run()
     {
-        $faker = Faker::create();
-
         ## House Cleaning
         \DB::table('games')->delete();
 
-        factory(Game::class)->create([
+        Game::factory()->create([
             'name'          => 'Quake',
             'description'   => 'Best game ever',
             'version'       => 'latest',

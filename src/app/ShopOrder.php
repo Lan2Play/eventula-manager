@@ -9,11 +9,13 @@ use App\Events\ShopOrderStatusUpdated;
 use App\Events\ShopOrderTrackingDetailsUpdated;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use Cviebrock\EloquentSluggable\Sluggable;
 
 class ShopOrder extends Model
 {
+    use HasFactory;
     /**
      * The name of the table.
      *

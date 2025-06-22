@@ -3,9 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class HelpCategoryEntryAttachment extends Model
 {
+    use HasFactory;
     /**
      * The name of the table.
      *

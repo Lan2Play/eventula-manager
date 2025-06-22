@@ -6,10 +6,12 @@ use Auth;
 use App\NewsCommentReport;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Builder;
 
 class NewsComment extends Model
 {
+    use HasFactory;
     /**
      * The name of the table.
      *

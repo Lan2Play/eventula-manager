@@ -20,11 +20,12 @@ use Illuminate\Database\Eloquent\Builder;
 
 use Debugbar;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
 
-    use Notifiable, HasApiTokens;
+    use Notifiable, HasApiTokens, HasFactory;
 
     /**
      * The attributes that are mass assignable.

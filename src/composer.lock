@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "89cc664be16dafade442561d5ed13b08",
+    "content-hash": "dfc2bdbdcaeadd7f19b604322a018ed3",
     "packages": [
         {
             "name": "artesaos/seotools",
@@ -2730,62 +2730,6 @@
                 "source": "https://github.com/laravel/framework"
             },
             "time": "2025-06-18T12:56:23+00:00"
-        },
-        {
-            "name": "laravel/legacy-factories",
-            "version": "v1.4.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laravel/legacy-factories.git",
-                "reference": "cd0f8c77d116bac121e9779fcff1f71801aaac50"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laravel/legacy-factories/zipball/cd0f8c77d116bac121e9779fcff1f71801aaac50",
-                "reference": "cd0f8c77d116bac121e9779fcff1f71801aaac50",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/macroable": "^8.0|^9.0|^10.0|^11.0|^12.0",
-                "php": "^7.3|^8.0",
-                "symfony/finder": "^3.4|^4.0|^5.0|^6.0|^7.0"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Illuminate\\Database\\Eloquent\\LegacyFactoryServiceProvider"
-                    ]
-                },
-                "branch-alias": {
-                    "dev-master": "1.x-dev"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "helpers.php"
-                ],
-                "psr-4": {
-                    "Illuminate\\Database\\Eloquent\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Taylor Otwell",
-                    "email": "taylor@laravel.com"
-                }
-            ],
-            "description": "The legacy version of the Laravel Eloquent factories.",
-            "homepage": "http://laravel.com",
-            "support": {
-                "issues": "https://github.com/laravel/framework/issues",
-                "source": "https://github.com/laravel/framework"
-            },
-            "time": "2025-01-24T15:41:36+00:00"
         },
         {
             "name": "laravel/prompts",

@@ -3,11 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use Cviebrock\EloquentSluggable\Sluggable;
 
 class ShopOrderItem extends Model
 {
+    use HasFactory;
     /**
      * The name of the table.
      *

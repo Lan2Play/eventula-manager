@@ -7,12 +7,14 @@ use Auth;
 use App\PollOption;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Builder;
 
 use Cviebrock\EloquentSluggable\Sluggable;
 
 class Poll extends Model
 {
+    use HasFactory;
     use Sluggable;
 
     /**

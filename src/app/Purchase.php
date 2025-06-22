@@ -3,9 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Purchase extends Model
 {
+    use HasFactory;
     /**
      * The name of the table.
      *

@@ -9,7 +9,6 @@ use App\EventTicket;
 use App\EventTimetable;
 use App\EventInformation;
 use App\EventSeatingPlan;
-use Faker\Factory as Faker;
 
 class EventsSeeder extends Seeder
 {
@@ -20,8 +19,6 @@ class EventsSeeder extends Seeder
      */
     public function run()
     {
-        $faker = Faker::create();
-
         ## House Cleaning
         \DB::table('events')->delete();
         \DB::table('event_tickets')->delete();
@@ -31,25 +28,25 @@ class EventsSeeder extends Seeder
         \DB::table('event_information')->delete();
 
         ## Venue
-        $venue = factory(EventVenue::class)->create();
+        $venue = EventVenue::factory()->create();
 
         ## Events
-        factory(Event::class)->create([
+        Event::factory()->create([
             'event_venue_id'    => $venue->id,
             'status'            => 'PUBLISHED',
             'capacity'          => 30,
         ])->each(
             function ($event) {
-                factory(EventTicket::class)->create([
+                EventTicket::factory()->create([
                     'event_id' => $event->id,
                 ]);
-                factory(EventTimetable::class)->create([
+                EventTimetable::factory()->create([
                     'event_id' => $event->id,
                 ]);
-                factory(EventInformation::class, 5)->create([
+                EventInformation::factory()->count(5)->create([
                     'event_id' => $event->id,
                 ]);
-                factory(EventSeatingPlan::class)->create([
+                EventSeatingPlan::factory()->create([
                     'event_id' => $event->id,
                 ]);
             }

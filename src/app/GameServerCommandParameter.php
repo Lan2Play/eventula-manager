@@ -5,6 +5,7 @@ namespace App;
 use Storage;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use GuzzleHttp\Client;
 use Lanops\Challonge\Challonge;
@@ -13,6 +14,7 @@ use Cviebrock\EloquentSluggable\Sluggable;
 
 class GameServerCommandParameter extends Model
 {
+    use HasFactory;
     use Sluggable;
 
     /**

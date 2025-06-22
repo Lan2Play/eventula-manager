@@ -6,6 +6,7 @@ use DB;
 use Auth;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Carbon\Carbon;
 
@@ -13,7 +14,8 @@ use Cviebrock\EloquentSluggable\Sluggable;
 
 class Event extends Model
 {
-    use Sluggable;
+    use HasFactory;
+    use Sluggable, HasFactory;
 
     /**
      * The name of the table.

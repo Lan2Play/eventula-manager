@@ -8,10 +8,12 @@ use Auth;
 use App\PollOptionVote as Vote;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Builder;
 
 class PollOption extends Model
 {
+    use HasFactory;
 
     /**
      * The name of the table.

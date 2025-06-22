@@ -7,6 +7,7 @@ use Settings;
 use Auth;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use GuzzleHttp\Client;
 use Lanops\Challonge\Challonge;
@@ -15,6 +16,7 @@ use Cviebrock\EloquentSluggable\Sluggable;
 
 class Game extends Model
 {
+    use HasFactory;
     use Sluggable;
 
     /**

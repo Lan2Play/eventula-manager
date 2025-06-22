@@ -7,6 +7,7 @@ use Colors;
 use Helpers;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use GuzzleHttp;
 // use Lanops\Challonge\Challonge;
@@ -14,6 +15,7 @@ use Reflex\Challonge\Challonge;
 
 class EventTournamentParticipant extends Model
 {
+    use HasFactory;
     /**
      * The name of the table.
      *

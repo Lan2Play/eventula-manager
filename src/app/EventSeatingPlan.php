@@ -6,12 +6,14 @@ use DB;
 use Auth;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Builder;
 
 use Cviebrock\EloquentSluggable\Sluggable;
 
 class EventSeatingPlan extends Model
 {
+    use HasFactory;
     use Sluggable;
 
     /**

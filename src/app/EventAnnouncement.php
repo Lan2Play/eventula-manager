@@ -5,9 +5,11 @@ namespace App;
 use DB;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class EventAnnouncement extends Model
 {
+    use HasFactory;
     /**
      * The name of the table.
      *

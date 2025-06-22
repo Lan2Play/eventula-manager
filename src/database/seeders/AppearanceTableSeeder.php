@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Appearance;
-use Faker\Factory as Faker;
 
 class AppearanceTableSeeder extends Seeder
 {
@@ -15,78 +14,76 @@ class AppearanceTableSeeder extends Seeder
      */
     public function run()
     {
-        $faker = Faker::create();
-
         ## House Cleaning
         \DB::table('appearance')->delete();
 
-        factory(Appearance::class)->create([
+        Appearance::factory()->create([
             'key'   => 'color_primary',
             'value' => 'orange',
             'type'  => 'CSS_VAR',
         ]);
 
-        factory(Appearance::class)->create([
+        Appearance::factory()->create([
             'key'   => 'color_primary_text',
             'value' => 'white',
             'type'  => 'CSS_VAR',
         ]);
 
-        factory(Appearance::class)->create([
+        Appearance::factory()->create([
             'key'   => 'color_secondary',
             'value' => '#333',
             'type'  => 'CSS_VAR',
         ]);
 
-        factory(Appearance::class)->create([
+        Appearance::factory()->create([
             'key'   => 'color_secondary_text',
             'value' => 'white',
             'type'  => 'CSS_VAR',
         ]);
 
-        factory(Appearance::class)->create([
+        Appearance::factory()->create([
             'key'   => 'color_body_links',
             'value' => 'orange',
             'type'  => 'CSS_VAR',
         ]);
 
-        factory(Appearance::class)->create([
+        Appearance::factory()->create([
             'key'   => 'color_body_background',
             'value' => '#fff',
             'type'  => 'CSS_VAR',
         ]);
 
-        factory(Appearance::class)->create([
+        Appearance::factory()->create([
             'key'   => 'color_body_text',
             'value' => '#333',
             'type'  => 'CSS_VAR',
         ]);
 
-        factory(Appearance::class)->create([
+        Appearance::factory()->create([
             'key'   => 'color_header_background',
             'value' => '#333',
             'type'  => 'CSS_VAR',
         ]);
 
-        factory(Appearance::class)->create([
+        Appearance::factory()->create([
             'key'   => 'color_header_text',
             'value' => '#9d9d9d',
             'type'  => 'CSS_VAR',
         ]);
 
-        factory(Appearance::class)->create([
+        Appearance::factory()->create([
             'key'   => 'color_header_links',
             'value' => '#fff',
             'type'  => 'CSS_VAR',
         ]);
 
-        factory(Appearance::class)->create([
+        Appearance::factory()->create([
             'key'   => 'color_header_links_hover',
             'value' => 'orange',
             'type'  => 'CSS_VAR',
         ]);        
         
-        factory(Appearance::class)->create([
+        Appearance::factory()->create([
             'key'   => 'color_header_line',
             'value' => 'orange',
             'type'  => 'CSS_VAR',

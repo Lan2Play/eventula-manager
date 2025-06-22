@@ -12,6 +12,7 @@ use App\EventTournamentMatchServer;
 use App\Jobs\GameServerAsign;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 
 use GuzzleHttp;
@@ -22,6 +23,7 @@ use Cviebrock\EloquentSluggable\Sluggable;
 
 class EventTournament extends Model
 {
+    use HasFactory;
     use sluggable;
 
     /**

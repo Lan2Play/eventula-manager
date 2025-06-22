@@ -5,12 +5,14 @@ namespace App;
 use Cache;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use ScssPhp\ScssPhp\Compiler;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 class Appearance extends Model
 {
+    use HasFactory;
     /**
      * The name of the table.
      *

@@ -37,7 +37,6 @@
         "php": "8.4.*",
         "laravel/framework": "12.19.3",
         "laravelcollective/html": "dev-6x",
-        "laravel/legacy-factories": "1.4.1",
         "webonyx/graphql-php": "15.20.0",
         "invisnik/laravel-steam-auth": "dev-master",
         "laravel/socialite": "5.21.0",

@@ -5,10 +5,12 @@ namespace App;
 use DB;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Builder;
 
 class EventInformation extends Model
 {
+    use HasFactory;
     /**
      * The name of the table.
      *
