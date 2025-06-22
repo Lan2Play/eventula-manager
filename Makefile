@@ -186,7 +186,7 @@ generate-appearance:
 
 # Generate Images - This will erase your current settings!
 generate-images:
-	docker exec eventula_manager_app php artisan db:seed --class=SliderImageTableSeeder
+	docker exec eventula_manager_app php artisan db:seed --class=SliderImagesTableSeeder
 
 # Generate testusers - This will spam 50 testuser to the Database!
 generate-testuser:
