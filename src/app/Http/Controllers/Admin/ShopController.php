@@ -290,7 +290,7 @@ class ShopController extends Controller
     public function uploadItemImage(ShopItemCategory $category, ShopItem $item, Request $request)
     {
         $rules = [
-            'image.*'   => 'image',
+            'image.*'   => 'image:allow_svg',
         ];
         $messages = [
             'image.*.image' => 'Item Image must be of Image type',

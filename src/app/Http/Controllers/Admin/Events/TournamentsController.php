@@ -78,7 +78,7 @@ class TournamentsController extends Controller
             'team_size'     => 'required|in:1v1,2v2,3v3,4v4,5v5,6v6',
             'description'   => 'required',
             'rules'         => 'required',
-            'image'         => 'image',
+            'image'         => 'image:allow_svg',
         ];
         $messages = [
             'name.required'                         => 'Tournament name is required',

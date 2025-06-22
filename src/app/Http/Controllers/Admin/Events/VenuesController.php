@@ -57,7 +57,7 @@ class VenuesController extends Controller
             'address_city'      => 'required',
             'address_postcode'  => 'required',
             'address_country'   => 'required',
-            'image.*'           => 'image',
+            'image.*'           => 'image:allow_svg',
         ];
         $messages = [
             'name.required'             => 'Venue Name is Required',
@@ -147,7 +147,7 @@ class VenuesController extends Controller
             'address_city'      => 'filled',
             'address_postcode'  => 'filled',
             'address_country'   => 'filled',
-            'image.*'           => 'image',
+            'image.*'           => 'image:allow_svg',
         ];
         $messages = [
             'name.filled'               => 'Venue Name cannot be empty',

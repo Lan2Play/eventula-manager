@@ -361,7 +361,7 @@ class AccountController extends Controller
 
     public function update_local_avatar(Request $request) {
         $this->validate($request, [
-            'avatar' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+            'avatar' => 'required|image:allow_svg|mimes:jpg,png,jpeg,gif,svg|max:2048',
         ]);
 
         if(!$path = Storage::putFile(
