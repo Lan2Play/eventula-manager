@@ -42,14 +42,15 @@ class TicketsController extends Controller
             return $user->getStaffTickets($event->id)->count();
         });
 
-        $purchaseBreakDown = $event->tickets()->withCount('participants')->get()->map(function ($ticket) {
+        //$purchaseBreakDown = $event->tickets()->withCount('participants')->get()->map(function ($ticket) {
+        $purchaseBreakDown = $event->ticketTypes()->withCount('tickets')->get()->map(function ($ticket) {
             return [
                 'name' => $ticket->name,
                 'count' => $ticket->participants_count,
             ];
         })->toArray();
 
-        $incomeBreakDown = $event->tickets()->withCount('participants')->get()->map(function ($ticket) {
+        $incomeBreakDown = $event->ticketTypes()->withCount('tickets')->get()->map(function ($ticket) {
             return [
                 'name' => $ticket->name,
                 'income' => $ticket->price * $ticket->participants_count,
@@ -157,6 +158,8 @@ class TicketsController extends Controller
      * @param  Event       $event
      * @param  TicketType $ticket
      * @return Redirect
+     * TODO need to check if tickettype was already sold (has at least one ticket referenced. If so forbid to change or
+     * build at least a warning + new logic to compensate pricing changes anywhere else)
      */
     public function update(Request $request, Event $event, TicketType $ticket)
     {
@@ -184,7 +187,7 @@ class TicketsController extends Controller
         ];
         $this->validate($request, $rules, $messages);
 
-        if (isset($request->price) && (!$ticket->participants->isEmpty() && $ticket->price != $request->price)) {
+        if (isset($request->price) && (!$ticket->tickets->isEmpty() && $ticket->price != $request->price)) {
             Session::flash('alert-danger', 'Cannot update Ticket price when tickets have been bought!');
             return Redirect::back();
         }

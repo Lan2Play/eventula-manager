@@ -177,7 +177,7 @@ Route::group(['middleware' => ['installed']], function () {
          */
         Route::group(['middleware' => ['auth', 'banned', 'verified', 'nophonenumber']], function () {
             Route::get('/tickets/retrieve/{participant}', 'Events\TicketsController@retrieve');
-            Route::post('/tickets/purchase/{ticket}', 'Events\TicketsController@purchase');
+            Route::post('/tickets/purchase/{ticketType}', 'Events\TicketsController@purchase');
         });
 
         /**

@@ -65,7 +65,7 @@ class TicketsController extends Controller
             $event = Event::where('slug', $event)->first();
         }
      	if (is_numeric($ticket)) {
-            $ticket =  $event->tickets()->where('id', $ticket)->first();
+            $ticket =  $event->ticketTypes()->where('id', $ticket)->first();
         }
         if (!$event || !$ticket) {
             abort(404, "Event not found.");

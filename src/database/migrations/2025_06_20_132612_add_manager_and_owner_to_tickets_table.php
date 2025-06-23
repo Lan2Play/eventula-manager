@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('tickets', function (Blueprint $table) {
-            $table->unsignedBigInteger('manager_id')->nullable()->after('user_id');
-            $table->unsignedBigInteger('owner_id')->nullable()->after('manager_id');
-
+            $table->unsignedInteger('manager_id')->nullable()->index()->after('user_id');
+            $table->unsignedInteger('owner_id')->nullable()->index()->after('manager_id');
+        
             $table->foreign('manager_id')
                 ->references('id')->on('users')
                 ->onDelete('set null');
@@ -23,16 +23,19 @@ return new class extends Migration
                 ->onDelete('set null');
         });
 
+        // Überprüfe zuerst die Existenz der Benutzer
+        DB::statement('
+        UPDATE tickets t
+        INNER JOIN users u ON t.user_id = u.id
+        SET t.manager_id = t.user_id,
+            t.owner_id = t.user_id
+        WHERE t.user_id IS NOT NULL
+    ');
 
-        DB::table('tickets')->update([
-            'manager_id' => DB::raw('user_id'),
-            'owner_id'   => DB::raw('user_id'),
-        ]);
-
-        Schema::table('tickets', function (Blueprint $table) {
-            $table->unsignedBigInteger('manager_id')->nullable(false)->change();
-            $table->unsignedBigInteger('owner_id')->nullable(false)->change();
-        });
+        // Überprüfe auf NULL-Werte vor der Änderung
+        if (DB::table('tickets')->whereNull('manager_id')->orWhereNull('owner_id')->exists()) {
+            throw new \RuntimeException('Tickets left with NULL-Values for manager_id or owner_id');
+        }
     }
 
     /**

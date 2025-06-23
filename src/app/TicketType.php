@@ -31,9 +31,9 @@ class TicketType extends Model
     {
         return $this->belongsTo('App\Event');
     }
-    public function participants()
+    public function tickets()
     {
-        return $this->hasMany('App\Ticket', 'ticket_id');
+        return $this->hasMany('App\Ticket', 'ticket_type_id');
     }
     public function creditLogs()
     {

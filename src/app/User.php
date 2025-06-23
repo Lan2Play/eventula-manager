@@ -186,7 +186,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return Ticket::where([
             'user_id' => $this->id,
             'event_id' => $event->id,
-            'ticket_id' => $ticket->id
+            'ticket_type_id' => $ticket->id
         ])->get();
     }
 

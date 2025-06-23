@@ -45,6 +45,11 @@ class Event extends Model
         'tournaments_staff'
     ];
 
+    public const STATUS_PUBLISHED = 'PUBLISHED';
+    public const STATUS_PRIVATE = 'PRIVATE';
+    public const STATUS_REGISTEREDONLY = 'REGISTEREDONLY';
+
+
     /**
      * The attributes excluded from the model's JSON form.
      *
@@ -140,7 +145,7 @@ class Event extends Model
     public function ticketGroups() {
         return $this->hasMany('App\TicketGroup');
     }
-    public function tickets()
+    public function ticketTypes()
     {
         return $this->hasMany('App\TicketType');
     }
@@ -374,7 +379,7 @@ class Event extends Model
      * @return \Illuminate\Database\Eloquent\Collection|\App\TicketType[]
      */
     public function getUngroupedTickets() {
-        return $this->tickets()->ungrouped()->get();;
+        return $this->ticketTypes()->ungrouped()->get();;
     }
 
     /**

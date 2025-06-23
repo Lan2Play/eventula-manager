@@ -6,7 +6,7 @@
 
 <div class="row">
 	<div class="col-lg-12">
-		<h3 class="pb-2 mt-4 mb-4 border-bottom">Tickets - {{ $ticket->name }}</h3>
+		<h3 class="pb-2 mt-4 mb-4 border-bottom">Ticket Type - {{ $ticket->name }}</h3>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item">
 				<a href="/admin/events/">Events</a>
@@ -35,7 +35,7 @@
 			</div>
 			<div class="card-body">
 				{{ Form::open(array('url'=>'/admin/events/' . $event->slug . '/tickets/' . $ticket->id)) }}
-					@if (isset($ticket) && !$ticket->participants->isEmpty()) @php $priceLock = true; @endphp @endif
+					@if (isset($ticket) && !$ticket->tickets->isEmpty()) @php $priceLock = true; @endphp @endif
 
 					@include ('layouts._partials._admin._event._tickets.form')
 				{{ Form::close() }}
@@ -53,9 +53,9 @@
 				<div class="list-group">
 					Chart me
 					<h4>Money Made</h4>
-					<p>{{ Settings::getCurrencySymbol() }}{{ $ticket->participants()->count() * $ticket->price }}</p>
+					<p>{{ Settings::getCurrencySymbol() }}{{ $ticket->tickets()->count() * $ticket->price }}</p>
 					<h4>Purchases</h4>
-					<p>{{ $ticket->participants()->count() }}</p>
+					<p>{{ $ticket->tickets()->count() }}</p>
 					@if ($ticket->quantity > 0)
 						<h4>Quantity</h4>
 						<p>{{ $ticket->quantity }}</p>
