@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Libraries\Helpers;
+
 use Illuminate\Database\Seeder;
 use App\Setting;
 use App\Appearance;
@@ -41,7 +43,7 @@ class RequiredDatabaseSeeder extends Seeder
         Setting::firstOrCreate(
             ['setting'          => 'org_name'],
             [
-                'value'         => env('APP_NAME', 'OrgNameHere'),
+                'value'         => Helpers::getEnvWithFallback('APP_NAME', 'OrgNameHere'),
                 'default'       => true,
                 'description'   => 'Name of the Organization'
             ]
@@ -49,7 +51,7 @@ class RequiredDatabaseSeeder extends Seeder
         Setting::firstOrCreate(
             ['setting'          => 'org_tagline'],
             [
-                'value'         => env('APP_TAGLINE', 'Tagline Here'),
+                'value'         => Helpers::getEnvWithFallback('APP_TAGLINE', 'Tagline Here'),
                 'default'       => true,
                 'description'   => 'Tagline of the Organization'
             ]
@@ -57,7 +59,7 @@ class RequiredDatabaseSeeder extends Seeder
         Setting::firstOrCreate(
             ['setting'          => 'seo_keywords'],
             [
-                'value'         => env('SEO_KEYWORDS', "Events,Eventula,Th0rn0"),
+                'value'         => Helpers::getEnvWithFallback('SEO_KEYWORDS', "Events,Eventula,Th0rn0"),
                 'default'       => true,
                 'description'   => 'Keywords for the Organization SEO'
             ]
@@ -65,7 +67,7 @@ class RequiredDatabaseSeeder extends Seeder
         Setting::firstOrCreate(
             ['setting'          => 'org_logo'],
             [
-                'value'         => env('APP_LOGO', '/storage/images/main/logo_main.png'),
+                'value'         => Helpers::getEnvWithFallback('APP_LOGO', '/storage/images/main/logo_main.png'),
                 'default'       => true,
                 'description'   => 'Organization Logo'
             ]
@@ -73,7 +75,7 @@ class RequiredDatabaseSeeder extends Seeder
         Setting::firstOrCreate(
             ['setting'          => 'org_favicon'],
             [
-                'value'         => env('APP_FAVICON', '/storage/images/main/favicon.ico'),
+                'value'         => Helpers::getEnvWithFallback('APP_FAVICON', '/storage/images/main/favicon.ico'),
                 'default'       => true,
                 'description'   => 'Organization Favicon'
             ]
@@ -586,47 +588,47 @@ class RequiredDatabaseSeeder extends Seeder
         ApiKey::firstOrCreate(
             ['key'          => 'paypal_username'],
             [
-                'value'         => env('PAYPAL_USERNAME', null),
+                'value'         => Helpers::getEnvWithFallback('PAYPAL_USERNAME', null),
             ]
         );
 
         ApiKey::firstOrCreate(
             ['key'          => 'paypal_password'],
             [
-                'value'         => env('PAYPAL_PASSWORD', null),
+                'value'         => Helpers::getEnvWithFallback('PAYPAL_PASSWORD', null),
             ]
         );
 
         ApiKey::firstOrCreate(
             ['key'          => 'paypal_signature'],
             [
-                'value'         => env('PAYPAL_SIGNATURE', null),
+                'value'         => Helpers::getEnvWithFallback('PAYPAL_SIGNATURE', null),
             ]
         );
 
         ApiKey::firstOrCreate(
             ['key'          => 'stripe_public_key'],
             [
-                'value'         => env('STRIPE_PUBLIC_KEY', null),
+                'value'         => Helpers::getEnvWithFallback('STRIPE_PUBLIC_KEY', null),
             ]
         );
 
         ApiKey::firstOrCreate(
             ['key'          => 'stripe_secret_key'],
             [
-                'value'         => env('STRIPE_SECRET_KEY', null),
+                'value'         => Helpers::getEnvWithFallback('STRIPE_SECRET_KEY', null),
             ]
         );
         ApiKey::firstOrCreate(
             ['key'          => 'challonge_api_key'],
             [
-                'value'         => env('CHALLONGE_API_KEY', null),
+                'value'         => Helpers::getEnvWithFallback('CHALLONGE_API_KEY', null),
             ]
             );
         ApiKey::firstOrCreate(
             ['key'          => 'steam_api_key'],
             [
-                'value'         => env('STEAM_API_KEY', null),
+                'value'         => Helpers::getEnvWithFallback('STEAM_API_KEY', null),
             ]
         );
 

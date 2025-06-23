@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Libraries\Helpers;
+
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
 use App\Game;
@@ -23,8 +25,8 @@ class TestTournamentDemoSeeder extends Seeder
      */
     public function run()
     {
-        $challongematchid = intval(env('challongematchid', 0));
-        $democount = intval(env('democount', 0));
+        $challongematchid = intval(Helpers::getEnvWithFallback('challongematchid', 0));
+        $democount = intval(Helpers::getEnvWithFallback('democount', 0));
 
         if ($challongematchid == 0)
         {

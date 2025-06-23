@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Libraries\Helpers;
+
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
 use App\Game;
@@ -23,10 +25,10 @@ class TestCs2MatchMakingSeeder extends Seeder
      */
     public function run()
     {
-        $playeroneid = intval(env('playeroneid', 53));
-        $playertwoid = intval(env('playertwoid', 54));
-        $democount = intval(env('democount', 0));
-        $status = env('status', "WAITFORPLAYERS");
+        $playeroneid = intval(Helpers::getEnvWithFallback('playeroneid', 53));
+        $playertwoid = intval(Helpers::getEnvWithFallback('playertwoid', 54));
+        $democount = intval(Helpers::getEnvWithFallback('democount', 0));
+        $status = Helpers::getEnvWithFallback('status', "WAITFORPLAYERS");
 
         if ($playeroneid == $playertwoid) {
             throw new \Exception("player ids cannot be the same");

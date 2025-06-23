@@ -1,5 +1,7 @@
 <?php
 
+use App\Libraries\Helpers;
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\Schema;
 use App\ApiKey;
@@ -34,25 +36,25 @@ return new class extends Migration
         ApiKey::firstOrCreate(
             ['key' => 'facebook_pixel_id'],
             [
-                'value' => env('FACEBOOK_PIXEL_ID', null),
+                'value' => Helpers::getEnvWithFallback('FACEBOOK_PIXEL_ID', null),
             ]
         );
         ApiKey::firstOrCreate(
             ['key' => 'facebook_app_id'],
             [
-                'value' => env('FACEBOOK_APP_ID', null),
+                'value' => Helpers::getEnvWithFallback('FACEBOOK_APP_ID', null),
             ]
         );
         ApiKey::firstOrCreate(
             ['key' => 'facebook_app_secret'],
             [
-                'value' => env('FACEBOOK_APP_SECRET', null),
+                'value' => Helpers::getEnvWithFallback('FACEBOOK_APP_SECRET', null),
             ]
         );
         ApiKey::firstOrCreate(
             ['key'          => 'google_analytics_tracking_id'],
             [
-                'value'     => env('GOOGLE_ANALYTICS_TRACKING_ID', null),
+                'value'     => Helpers::getEnvWithFallback('GOOGLE_ANALYTICS_TRACKING_ID', null),
             ]
         );
         Setting::firstOrCreate(
