@@ -3,6 +3,7 @@
 namespace App;
 
 use Auth;
+use OwenIt\Auditing\Contracts\Auditable;
 use URL;
 use Carbon\Carbon;
 use Dompdf\Dompdf;
@@ -16,7 +17,7 @@ use Colors;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class Ticket extends Model
+class Ticket extends Model implements Auditable
 {
     /**
      * The name of the table.
@@ -258,6 +259,9 @@ class Ticket extends Model
         }
         return $this->save();
     }
+
+    use \OwenIt\Auditing\Auditable;
+
 
     /**
      * Check if participant is active
