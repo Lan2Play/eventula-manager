@@ -21,10 +21,10 @@
 				<h3>@lang('payments.tickets')</h3>
 				<hr>
 				<div class="row">
-					@foreach ($purchase->participants as $participant)
+					@foreach ($purchase->tickets as $ticket)
 						<div class="col-lg-4 col-sm-6 col-12 text-center">
-							<h5>{{ $participant->event->display_name }}</h5>
-							<h5>{{ $participant->ticket->name }}</h5>
+							<h5>{{ $ticket->event->display_name }}</h5>
+							<h5>{{ $ticket->tickettype->name }}</h5>
 							<img class="img img-fluid" src="/{{ $participant->qrcode }}"/>
 						</div>
 					@endforeach
