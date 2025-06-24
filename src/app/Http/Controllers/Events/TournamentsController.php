@@ -75,7 +75,7 @@ class TournamentsController extends Controller
 
 
 
-        if (!$tournament->event->eventParticipants()->where('id', $request->event_participant_id)->first()) {
+        if (!$tournament->event->tickets()->where('id', $request->event_participant_id)->first()) {
             Session::flash('alert-danger', __('events.tournament_not_signed_in'));
             return Redirect::back();
         }
@@ -106,7 +106,7 @@ class TournamentsController extends Controller
         }
 
         // Get the EventParticipant only Once is better?
-        $eventParticipant = $event->eventParticipants()->where('id', $request->event_participant_id)->first();
+        $eventParticipant = $event->tickets()->where('id', $request->event_participant_id)->first();
         // Check if staff is trying to register
         if ($eventParticipant->staff && !$event->tournaments_staff) {
             Session::flash('alert-danger', __('events.tournament_staff_not_permitted'));
@@ -148,7 +148,7 @@ class TournamentsController extends Controller
             return Redirect::back();
         }
 
-        if (!$tournament->event->eventParticipants()->where('id', $request->event_participant_id)->first()) {
+        if (!$tournament->event->tickets()->where('id', $request->event_participant_id)->first()) {
             Session::flash('alert-danger', __('events.tournament_not_signed_in'));
             return Redirect::back();
         }
@@ -206,7 +206,7 @@ class TournamentsController extends Controller
             return Redirect::back();
         }
 
-        if (!$tournament->event->eventParticipants()->where('id', $request->event_participant_id)->first()) {
+        if (!$tournament->event->tickets()->where('id', $request->event_participant_id)->first()) {
             Session::flash('alert-danger', __('events.tournament_not_signed_in'));
             return Redirect::back();
         }

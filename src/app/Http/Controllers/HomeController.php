@@ -134,7 +134,7 @@ class HomeController extends Controller
 
         // Loading can be done like this in one call of load function
         $event->load(
-            'eventParticipants.user',
+            'tickets.user',
         );
 
 

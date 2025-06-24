@@ -357,7 +357,7 @@
 					<a href="/admin/events/{{ $event->slug }}/tickets#freebies" class="btn btn-info btn-sm float-right">Freebies</a>
 				</div>
 				<div class="card-body">
-					@if (!$event->eventParticipants->isEmpty())
+					@if (!$event->tickets->isEmpty())
 						<div class="list-group">
 							@foreach ($participants as $participant)
 								<a href="/admin/events/{{ $event->slug }}/participants/{{ $participant->id }}"

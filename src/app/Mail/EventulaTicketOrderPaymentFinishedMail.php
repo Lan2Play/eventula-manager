@@ -42,7 +42,7 @@ class EventulaTicketOrderPaymentFinishedMail extends TemplateMailable
     public $purchase_payment_method;    
 
     /** @var array */
-    public array $purchase_participants;   
+    public array $purchase_tickets;
 
     public function __construct(User $user, Purchase $purchase)
     {
@@ -56,11 +56,11 @@ class EventulaTicketOrderPaymentFinishedMail extends TemplateMailable
         {
             $this->purchase_id = $purchase->id;
             $this->purchase_payment_method = $purchase->getPurchaseType();
-            $this->purchase_participants = array();            
+            $this->purchase_tickets = array();
 
-            foreach($purchase->participants as $participant)
+            foreach($purchase->tickets as $participant)
             {
-                $this->purchase_participants[] = new MustacheModelHelper(Ticket::with('event','ticket')->where('id', $participant->id)->first());
+                $this->purchase_tickets[] = new MustacheModelHelper(Ticket::with('event','ticket')->where('id', $participant->id)->first());
             }
         }
     } 

@@ -140,7 +140,7 @@ class PaymentsController extends Controller
         if (array_key_exists('tickets', $basket)) {
             foreach ($basket['tickets'] as $ticketId => $quantity) {
                 $ticket = TicketType::where('id', $ticketId)->first();
-                if ($ticket->event->capacity <= $ticket->event->EventParticipants->count()) {
+                if ($ticket->event->capacity <= $ticket->event->tickets->count()) {
                     Session::flash('alert-danger', __('payments.sold_out', ['eventname' => $ticket->event->display_name]));
                     return Redirect::back();
                 }
@@ -606,8 +606,8 @@ class PaymentsController extends Controller
     private function processBasket($basket, $purchaseId)
     {
         if (array_key_exists('tickets', $basket)) {
-            foreach ($basket['tickets'] as $ticketId => $quantity) {
-                $ticketType = TicketType::where('id', $ticketId)->first();
+            foreach ($basket['tickets'] as $ticketTypeId => $quantity) {
+                $ticketType = TicketType::where('id', $ticketTypeId)->first();
                 for ($i = 1; $i <= $quantity; $i++) {
                     //Add Ticket to database
                     $ticket = [

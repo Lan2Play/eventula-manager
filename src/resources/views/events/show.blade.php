@@ -75,7 +75,7 @@
 			<div class="row">
 				<div class="col-12">
 					<h3>
-						<strong>{{ max($event->capacity - $event->eventParticipants->count(), 0) }}
+						<strong>{{ max($event->capacity - $event->tickets->count(), 0) }}
 							/{{ $event->capacity }}</strong> @lang('events.ticketsavailable')
 					</h3>
 				</div>
@@ -83,13 +83,13 @@
 					<div class="col-12">
 						<div class="progress">
 							<div class="progress-bar bg-danger" role="progressbar"
-								 aria-valuenow="{{ ($event->eventParticipants->count() / $event->capacity) * 100}}"
+								 aria-valuenow="{{ ($event->tickets->count() / $event->capacity) * 100}}"
 								 aria-valuemin="0" aria-valuemax="100"
-								 style="width: {{ ($event->eventParticipants->count() / $event->capacity) * 100}}%;">
+								 style="width: {{ ($event->tickets->count() / $event->capacity) * 100}}%;">
 								@lang('events.purchased')
 							</div>
 							<div class="progress-bar bg-success"
-								 style="width: {{ 100 - ($event->eventParticipants->count() / $event->capacity) * 100}}%;">
+								 style="width: {{ 100 - ($event->tickets->count() / $event->capacity) * 100}}%;">
 								<span class="visually-hidden">@lang('events.available')</span>
 								@lang('events.available')
 							</div>
@@ -114,7 +114,7 @@
 						<div class="col-12 col-sm-4">
 							<div class="card mb-3" disabled>
 								<div class="card-body d-flex flex-column">
-									<h3 class="card-title">{{$ticketType->name}} @if ($event->capacity <= $event->eventParticipants->count())
+									<h3 class="card-title">{{$ticketType->name}} @if ($event->capacity <= $event->tickets->count())
 											- <strong>@lang('events.soldout')</strong>
 										@endif</h3>
 									@if ($ticketType->quantity != 0)
@@ -138,7 +138,7 @@
 											@if ($user)
 												{{ Form::open(array('url'=>'/tickets/purchase/' . $ticketType->id)) }}
 												@if (
-                                                $event->capacity <= $event->eventParticipants->count()
+                                                $event->capacity <= $event->tickets->count()
                                                     || ($ticketType->tickets()->count() >= $ticketType->quantity && $ticketType->quantity != 0)
                                                     )
 													<div class="row">
@@ -591,7 +591,7 @@
 				</th>
 				</thead>
 				<tbody>
-				@foreach ($event->eventParticipants as $ticket)
+				@foreach ($event->tickets as $ticket)
 					<tr>
 						<td>
 							<img class="img-fluid rounded img-small" style="max-width: 30%;"

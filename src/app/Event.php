@@ -130,7 +130,7 @@ class Event extends Model
     /*
      * Relationships
      */
-    public function eventParticipants()
+    public function tickets()
     {
         return $this->hasMany('App\Ticket')->where('revoked', '=', 0);
     }
@@ -231,12 +231,12 @@ class Event extends Model
      * @param  $userId
      * @return Ticket
      */
-    public function getEventParticipant($userId = null)
+    public function getTicket($userId = null)
     {
         if ($userId == null) {
             $userId = Auth::id();
         }
-        return $this->eventParticipants()->where('user_id', $userId)->first();
+        return $this->tickets()->where('user_id', $userId)->first();
     }
 
     /**
@@ -246,9 +246,9 @@ class Event extends Model
     public function getTicketSalesCount()
     {
         $total = 0;
-        foreach ($this->eventParticipants as $participant) {
-            if ($participant->purchase && $participant->ticket) {
-                $total = $total + $participant->ticket->price;
+        foreach ($this->tickets as $ticket) {
+            if ($ticket->purchase && $ticket->ticket) {
+                $total = $total + $ticket->ticket->price;
             }
         }
         return $total;

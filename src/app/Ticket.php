@@ -41,7 +41,7 @@ class Ticket extends Model implements Auditable
         'manager_id',
         'owner_id',
         'event_id',
-        'ticket_id',
+        'ticket_type_id', //TODO FML the missing _type was me not understanding the relevance of $fillable
         'purchase_id',
         'staff',
         'free',
@@ -86,9 +86,9 @@ class Ticket extends Model implements Auditable
     {
         return $this->belongsTo('App\User');
     }
-    public function ticket()
+    public function ticketType()
     {
-        return $this->belongsTo('App\TicketType', 'ticket_id');
+        return $this->belongsTo('App\TicketType', 'ticket_type_id');
     }
     public function purchase()
     {

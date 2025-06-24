@@ -35,7 +35,7 @@ in_array('PREVIEW', $event->seatingPlans->pluck('status')->toArray())
                                     <td>
                                         <h4><strong>{{ Helpers::getLatinAlphabetUpperLetterByIndex($row) }}</strong></h4>
                                     </td>
-                                    @for ($column = 1; $column <= $seatingPlan->columns; $column++)
+                                @for ($column = 1; $column <= $seatingPlan->columns; $column++)
 
                                         <td style="padding-top:14px;">
                                             @if ($event->getSeat($seatingPlan->id, $column, $row))
@@ -56,11 +56,11 @@ in_array('PREVIEW', $event->seatingPlans->pluck('status')->toArray())
                                                 {{ Helpers::getLatinAlphabetUpperLetterByIndex($row) . $column }} - @lang('events.empty')
                                             </button>
                                             @else
-                                            @if (Auth::user() 
-                                                    && $event->getEventParticipant() 
-                                                    && ($event->getEventParticipant()->staff 
-                                                        || $event->getEventParticipant()->free 
-                                                        || $event->getEventParticipant()->ticket->seatable
+                                            @if (Auth::user() //TODO correct seatable check
+                                                    && $event->getTicket() 
+                                                    && ($event->getTicket()->staff 
+                                                        || $event->getTicket()->free 
+                                                        ||  $event->getTicket()->ticketType->seatable)
                                                     )
                                                 )
                                             <button class="btn btn-primary btn-sm" onclick="pickSeat(

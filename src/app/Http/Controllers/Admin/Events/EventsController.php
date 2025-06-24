@@ -46,7 +46,7 @@ class EventsController extends Controller
             ->with('user', Auth::user())
             ->with('event', $event)
             ->with('announcements', $event->announcements()->paginate(5, ['*'], 'an'))
-            ->with('participants', $event->eventParticipants()->paginate(10, ['*'], 'ep'));
+            ->with('participants', $event->tickets()->paginate(10, ['*'], 'ep'));
     }
 
     /**

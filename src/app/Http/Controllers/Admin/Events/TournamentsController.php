@@ -418,7 +418,7 @@ class TournamentsController extends Controller
      */
     public function addPug(Event $event, EventTournament $tournament, Ticket $participant, Request $request)
     {
-         if (!$tournament->event->eventParticipants()->where('id', $participant->id)->first()) {
+         if (!$tournament->event->tickets()->where('id', $participant->id)->first()) {
             Session::flash('alert-danger', __('events.tournament_not_signed_in'));
             return Redirect::back();
         }
@@ -465,7 +465,7 @@ class TournamentsController extends Controller
      */
     public function addSingle(Event $event, EventTournament $tournament, Ticket $participant, Request $request)
     {
-        if (!$tournament->event->eventParticipants()->where('id', $participant->id)->first()) {
+        if (!$tournament->event->tickets()->where('id', $participant->id)->first()) {
             Session::flash('alert-danger', __('events.tournament_not_signed_in'));
             return Redirect::back();
         }

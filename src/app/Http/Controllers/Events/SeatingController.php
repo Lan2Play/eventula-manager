@@ -65,7 +65,7 @@ class SeatingController extends Controller
         
         $this->validate($request, $rules, $messages);
         
-        $participant = $event->EventParticipants()->where('id', $request->participant_id)->first();
+        $participant = $event->tickets()->where('id', $request->participant_id)->first();
 
         if ($participant->ticket && !$participant->ticket->seatable) {
             // Ticket not seatable
