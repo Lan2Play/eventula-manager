@@ -56,13 +56,16 @@ in_array('PREVIEW', $event->seatingPlans->pluck('status')->toArray())
                                                 {{ Helpers::getLatinAlphabetUpperLetterByIndex($row) . $column }} - @lang('events.empty')
                                             </button>
                                             @else
-                                            @if (Auth::user() //TODO correct seatable check
-                                                    && $event->getTicket() 
-                                                    && ($event->getTicket()->staff 
-                                                        || $event->getTicket()->free 
-                                                        ||  $event->getTicket()->ticketType->seatable)
-                                                    )
-                                                )
+                                            @php
+                                            $ticket = $event->getTicket();
+                                            @endphp
+                                            @if (Auth::user()
+                                                && $ticket
+                                                && ($ticket->staff
+                                                    || $ticket->free
+                                                    || ($ticket->ticketType && $ticket->ticketType->seatable))
+                                            )
+
                                             <button class="btn btn-primary btn-sm" onclick="pickSeat(
                                                                             '{{ $seatingPlan->slug }}',
                                                                             '{{ $column }}',
@@ -152,7 +155,7 @@ in_array('PREVIEW', $event->seatingPlans->pluck('status')->toArray())
 					<h4>@lang('events.wichtickettoseat')</h4>
 					{{
 								Form::select(
-									'participant_id',
+									'ticket_id',
 									$user->getTickets($event->id),
 									null,
 									array(
@@ -185,7 +188,7 @@ in_array('PREVIEW', $event->seatingPlans->pluck('status')->toArray())
         jQuery("#seat_column_delete").val(seatColumn);
         jQuery("#seat_row_delete").val(seatRow);
         jQuery("#seat_number_modal").val(seatDisplay);
-        jQuery("#pickSeatModalLabel").html('Do you what to choose seat ' + seatDisplay);
+        jQuery("#pickSeatModalLabel").html('Do you what to choose seat ' + seatDisplay); // TODO add Language
         jQuery("#pickSeatFormModal").prop('action', '/events/{{ $event->slug }}/seating/' + seating_plan_slug);
     }
 </script>

@@ -82,7 +82,7 @@ class User extends Authenticatable implements MustVerifyEmail
     /*
      * Relationships
      */
-    public function eventParticipants()
+    public function tickets()
     {
         return $this->hasMany('App\Ticket');
     }
@@ -209,12 +209,11 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function hasSeatableTicket($eventId)
     {
-        $eventParticipants = $this->getAllTickets($eventId);
+        $eventTickets = $this->getAllTickets($eventId);
 
-        foreach ($eventParticipants as $eventParticipant) {
-
-            if (($eventParticipant->ticket && $eventParticipant->ticket->seatable) ||
-                ($eventParticipant->free || $eventParticipant->staff)
+        foreach ($eventTickets as $ticket) {
+            if ($ticket->ticketType()->where('seatable', true)->first()->seatable ||
+                ($ticket->free || $ticket->staff)
             ) {
                 return true;
             }
