@@ -26,6 +26,8 @@ Route::group(['middleware' => ['installed']], function () {
 
     /**
      * API
+     * TODO Replace path *participants* with *ticket*
+     * TODO Replace path *tickets* with *tickettype*
      */
     Route::group(['middleware' => ['api', 'nodebugbar']], function () {
         Route::get('/api/events/', 'Api\Events\EventsController@index');
@@ -68,6 +70,7 @@ Route::group(['middleware' => ['installed']], function () {
 
             /**
              * Admin API
+             * TODO replace path *participants* with *ticket*
              */
             Route::group(['middleware' => ['admin']], function () {
                 Route::get('/api/admin/event/participants/{participant}/signIn', 'Adminapi\Events\ParticipantsController@signIn');
@@ -462,7 +465,8 @@ Route::group(['middleware' => ['installed']], function () {
 
 
         /**
-         * Participants
+         * Ticketing: Ticket formerly known as Participants
+         * TODO replace path *participants* with *ticket*
          */
         Route::get('/admin/events/{event}/participants', 'Admin\Events\TicketController@index');
         Route::get('/admin/events/{event}/participants/signoutall', 'Admin\Events\TicketController@signoutall');
@@ -522,7 +526,8 @@ Route::group(['middleware' => ['installed']], function () {
 
 
         /**
-         * Tickets
+         * Ticketing: TicketType formerly known as Tickets
+         * TODO: replace path *tickets* with *tickettype*
          */
         Route::get('/admin/events/{event}/tickets', 'Admin\Events\TicketTypeController@index');
         Route::post('/admin/events/{event}/tickets', 'Admin\Events\TicketTypeController@store');

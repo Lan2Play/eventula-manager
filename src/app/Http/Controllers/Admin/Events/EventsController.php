@@ -250,7 +250,7 @@ class EventsController extends Controller
         $purchase                               = new Purchase();
         $purchase->user_id                      = $request->user_id;
         $purchase->type                         = 'system';
-        $purchase->status                       = "Success";
+        $purchase->status                       = Purchase::STATUS_SUCCESS;
         $purchase->transaction_id               = "Granted by ". $request->user()->username;
 
         $purchase->setSuccess();
@@ -288,7 +288,7 @@ class EventsController extends Controller
         $purchase                             = new Purchase();
         $purchase->user_id                    = $request->user_id;
         $purchase->type                       = 'system';
-        $purchase->status                     = "Success";
+        $purchase->status                     = Purchase::STATUS_SUCCESS;
         $purchase->transaction_id             = "Appointed by ". $request->user()->username;
 
         $purchase->setSuccess();
