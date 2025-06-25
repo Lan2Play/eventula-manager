@@ -16,22 +16,22 @@ use Illuminate\Support\ViewErrorBag;
 use Session;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-class ParticipantsController extends Controller
+class TicketController extends Controller
 {
     /**
      * Gift Ticket
-     * @param  Ticket $participant
+     * @param  Ticket $ticket
      * @param  Request          $request
      * @return Redirect
      */
-    public function gift(Ticket $participant, Request $request)
+    public function gift(Ticket $ticket, Request $request)
     {
-        if ($participant->gift != true && $participant->gift_sendee == null) {
-            $participant->gift = true;
-            $participant->gift_accepted = false;
-            $participant->gift_accepted_url = "gift_" . Str::random();
-            $participant->gift_sendee = $participant->user_id;
-            if ($participant->save()) {
+        if ($ticket->gift != true && $ticket->gift_sendee == null) {
+            $ticket->gift = true;
+            $ticket->gift_accepted = false;
+            $ticket->gift_accepted_url = "gift_" . Str::random();
+            $ticket->gift_sendee = $ticket->user_id;
+            if ($ticket->save()) {
                 $request->session()->flash(
                     'alert-success',
                     'Ticket gifted Successfully! - Give your friend the URL below.'
@@ -47,21 +47,21 @@ class ParticipantsController extends Controller
 
     /**
      * Revoke Gifted Ticket
-     * @param  Ticket $participant
+     * @param  Ticket $ticket
      * @param  boolean          $accepted
      * @return Redirect
      */
-    public function revokeGift(Ticket $participant, $accepted = false)
+    public function revokeGift(Ticket $ticket, $accepted = false)
     {
-        if ($participant->gift == true) {
-            if ($participant->gift_accepted != true) {
+        if ($ticket->gift == true) {
+            if ($ticket->gift_accepted != true) {
                 if ($accepted !== true) {
-                    $participant->gift = null;
-                    $participant->gift_accepted = null;
-                    $participant->gift_sendee = null;
+                    $ticket->gift = null;
+                    $ticket->gift_accepted = null;
+                    $ticket->gift_sendee = null;
                 }
-                $participant->gift_accepted_url = null;
-                if ($participant->save()) {
+                $ticket->gift_accepted_url = null;
+                if ($ticket->save()) {
                     Session::flash('alert-success', 'Ticket gift revoked Successfully!');
                     return Redirect::back();
                 }
@@ -80,27 +80,27 @@ class ParticipantsController extends Controller
     {
         $user = Auth::user();
         if ($user) {
-            $participant = Ticket::where(['gift_accepted_url' => $request->url])->first();
-            if ($participant != null) {
+            $ticket = Ticket::where(['gift_accepted_url' => $request->url])->first();
+            if ($ticket != null) {
 
-                /* check if maximum count of tickets for event ticket is already owned */
-                $clauses = ['id' => $participant->ticket_id, 'event_id' => $participant->event_id];
-                $ticket = TicketType::where($clauses)->get()->first();
+                /* check if maximum count of tickets for event ticketType is already owned */
+                $clauses = ['id' => $ticket->ticket_id, 'event_id' => $ticket->event_id];
+                $ticketType = TicketType::where($clauses)->get()->first();
 
                 $no_of_owned_tickets = 0;
 
-                $eventParticipants = $user->getAllTickets($participant->event_id);
+                $eventParticipants = $user->getAllTickets($ticket->event_id);
                 foreach ($eventParticipants as $eventParticipant){
-                    if ($ticket->id = $eventParticipant->ticket_id){
+                    if ($ticketType->id = $eventParticipant->ticket_id){
                         $no_of_owned_tickets++;
                     }
                 }
 
-                if ($no_of_owned_tickets + 1 <= $ticket->no_tickets_per_user) {
-                    $participant->gift_accepted = true;
-                    $participant->user_id = $user->id;
-                    $participant->gift_accepted_url = null;
-                    if ($participant->save()) {
+                if ($no_of_owned_tickets + 1 <= $ticketType->no_tickets_per_user) {
+                    $ticket->gift_accepted = true;
+                    $ticket->user_id = $user->id;
+                    $ticket->gift_accepted_url = null;
+                    if ($ticket->save()) {
                         $request->session()->flash(
                             'alert-success',
                             'Gift Successfully accepted! Please visit the event page to pick a seat'
@@ -110,7 +110,7 @@ class ParticipantsController extends Controller
                     $request->session()->flash('alert-danger', 'Something went wrong. Please try again later.');
                     return Redirect::to('account');
                 }
-                $request->session()->flash('alert-danger', "You already own the maximum allowed number of event ticket: '" .$ticket->name. "'.");
+                $request->session()->flash('alert-danger', "You already own the maximum allowed number of event ticketType: '" .$ticketType->name. "'.");
                 return Redirect::to('account');
             }
             $request->session()->flash('alert-danger', 'Redemption code not found.');
@@ -120,9 +120,9 @@ class ParticipantsController extends Controller
         return Redirect::to('login');
     }
 
-    public function exportParticipantAsFile(Ticket $participant, string $fileType): Response|StreamedResponse {
+    public function exportParticipantAsFile(Ticket $ticket, string $fileType): Response|StreamedResponse {
         $user = Auth::user();
-        if ($user->id != $participant->user_id) {
+        if ($user->id != $ticket->user_id) {
             $viewErrorBag = (new ViewErrorBag())->put('default',
                 new MessageBag([
                     0 => [__('tickets.not_allowed')]
@@ -135,8 +135,8 @@ class ParticipantsController extends Controller
         switch (strtolower($fileType)) {
             case 'pdf':
                 $response = response()->stream(
-                    function () use ($participant) {
-                        echo $participant->getPdf();
+                    function () use ($ticket) {
+                        echo $ticket->getPdf();
                     },
                     Response::HTTP_OK,
                     [

@@ -52,8 +52,8 @@ class HomeController extends Controller
 
         // Loop trough the eventParticipants
         // The first one, whos event is currently running and that is active redirects to the event page
-        foreach ($user->eventParticipants as $participant) {
-            if ($participant->event->isRunningCurrently() && $participant->isActive()) {
+        foreach ($user->eventParticipants as $ticket) {
+            if ($ticket->event->isRunningCurrently() && $ticket->isActive()) {
                 return $this->event();
             }
         }

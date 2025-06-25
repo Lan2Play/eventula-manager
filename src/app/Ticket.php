@@ -265,13 +265,25 @@ class Ticket extends Model implements Auditable
 
     /**
      * Check if participant is active
+     * TODO Refactoring? freebies should be signed in right?
      * @return Boolean
      */
-    public function isActive()
+    public function isActive(): bool
     {
+        return $this->hasValidAttendance() &&
+            $this->hasValidPaymentStatus() &&
+            !$this->revoked;
+    }
 
-        return ($this->signed_in || $this->event->online_event) &&
-            ($this->free || $this->staff || $this->purchase->status == "Success") &&
-            (!$this->revoked);
+    private function hasValidAttendance(): bool
+    {
+        return $this->signed_in || $this->event->online_event;
+    }
+
+    private function hasValidPaymentStatus(): bool
+    {
+        return $this->free ||
+            $this->staff ||
+            $this->purchase->status === Purchase::STATUS_SUCCESS;
     }
 }

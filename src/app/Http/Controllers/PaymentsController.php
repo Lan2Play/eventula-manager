@@ -318,7 +318,7 @@ class PaymentsController extends Controller
                 'type'              => 'Credit',
                 'transaction_id'    => '',
                 'token'             => '',
-                'status'            => 'Success'
+                'status'            => Purchase::STATUS_SUCCESS,
             ];
             $purchase = Purchase::create($purchaseParams);
             $this->processBasket($basket, $purchase->id);
@@ -346,7 +346,7 @@ class PaymentsController extends Controller
                 'type'              => 'free',
                 'transaction_id'    => '',
                 'token'             => '',
-                'status'            => 'Success'
+                'status'            => Purchase::STATUS_SUCCESS
             ];
             $purchase = Purchase::create($purchaseParams);
             $this->processBasket($basket, $purchase->id);
@@ -371,7 +371,7 @@ class PaymentsController extends Controller
                 'type'              => 'onsite',
                 'transaction_id'    => '',
                 'token'             => '',
-                'status'            => 'Pending'
+                'status'            => Purchase::STATUS_PENDING
             ];
             $purchase = Purchase::create($purchaseParams);
             $this->processBasket($basket, $purchase->id);
@@ -407,7 +407,7 @@ class PaymentsController extends Controller
                 'type'              => 'Stripe',
                 'transaction_id'    => $response->getTransactionReference() ?? $response->getPaymentIntentReference(),
                 'token'             => $response->getPaymentIntentReference(),
-                'status'            => 'Success'
+                'status'            => Purchase::STATUS_SUCCESS
             ];
             $purchase = Purchase::create($purchaseParams);
             $this->processBasket($basket, $purchase->id);
@@ -482,7 +482,7 @@ class PaymentsController extends Controller
                         'type'              => 'Stripe',
                         'transaction_id'    => $response->getTransactionReference() ?? $response->getPaymentIntentReference(),
                         'token'             => $response->getPaymentIntentReference(),
-                        'status'            => 'Success'
+                        'status'            => Purchase::STATUS_SUCCESS
                     ];
                     $successful = true;
                 }

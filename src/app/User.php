@@ -368,7 +368,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected function uniqueAttendedEventCount(): Attribute
     {
         $attribute =  Attribute::make(
-            get: fn() => $this->eventParticipants()
+            get: fn() => $this->tickets()
                 ->whereHas('event', function (Builder $query) {
                     $query->whereIn('status', ['PUBLISHED', 'REGISTEREDONLY'])
                         ->where('end', '<=', Carbon::today());

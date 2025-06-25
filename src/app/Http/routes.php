@@ -34,8 +34,8 @@ Route::group(['middleware' => ['installed']], function () {
         Route::get('/api/events/{event}/participants', 'Api\Events\ParticipantsController@index');
         Route::get('/api/events/{event}/timetables', 'Api\Events\TimetablesController@index');
         Route::get('/api/events/{event}/timetables/{timetable}', 'Api\Events\TimetablesController@show');
-        Route::get('/api/events/{event}/tickets', 'Api\Events\TicketsController@index');
-        Route::get('/api/events/{event}/tickets/{ticket}', 'Api\Events\TicketsController@show');
+        Route::get('/api/events/{event}/tickets', 'Api\Events\TicketTypeController@index');
+        Route::get('/api/events/{event}/tickets/{ticket}', 'Api\Events\TicketTypeController@show');
 
         Route::group(['middleware' => ['auth:sanctum']], function () {
             /**
@@ -157,7 +157,7 @@ Route::group(['middleware' => ['installed']], function () {
          */
         Route::get('/events', 'Events\EventsController@index');
         Route::group(['middleware' => ['auth', 'banned', 'verified', 'nophonenumber']], function () {
-            Route::get('/events/participants/{participant}/{fileType}', 'Events\ParticipantsController@exportParticipantAsFile');
+            Route::get('/events/participants/{participant}/{fileType}', 'Events\TicketController@exportParticipantAsFile');
         });
         Route::get('/events/{event}', 'Events\EventsController@show');
         Route::get('/events/{event}/big', 'HomeController@bigScreen');
@@ -176,17 +176,17 @@ Route::group(['middleware' => ['installed']], function () {
          * Tickets
          */
         Route::group(['middleware' => ['auth', 'banned', 'verified', 'nophonenumber']], function () {
-            Route::get('/tickets/retrieve/{participant}', 'Events\TicketsController@retrieve');
-            Route::post('/tickets/purchase/{ticketType}', 'Events\TicketsController@purchase');
+            Route::get('/tickets/retrieve/{ticket}', 'Events\TicketTypeController@retrieve');
+            Route::post('/tickets/purchase/{ticketType}', 'Events\TicketTypeController@purchase');
         });
 
         /**
          * Gifts
          */
         Route::group(['middleware' => ['auth', 'banned', 'verified', 'nophonenumber']], function () {
-            Route::get('/gift/accept', 'Events\ParticipantsController@acceptGift');
-            Route::post('/gift/{participant}', 'Events\ParticipantsController@gift');
-            Route::post('/gift/{participant}/revoke', 'Events\ParticipantsController@revokeGift');
+            Route::get('/gift/accept', 'Events\TicketController@acceptGift');
+            Route::post('/gift/{ticket}', 'Events\TicketController@gift');
+            Route::post('/gift/{ticket}/revoke', 'Events\TicketController@revokeGift');
         });
 
         /**

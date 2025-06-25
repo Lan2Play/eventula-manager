@@ -901,18 +901,18 @@ use Debugbar;
                                         <div class="col-12 col-md-4">
                                             @if ($user && !$user->getAllTickets($event->id)->isEmpty() && $user->hasSeatableTicket($event->id))
                                                 <h5>@lang('events.yourseats')</h5>
-                                                @foreach ($user->getAllTickets($event->id) as $participant)
-                                                    @if ($participant->seat && $participant->seat->event_seating_plan_id == $seatingPlan->id)
+                                                @foreach ($user->getAllTickets($event->id) as $ticket)
+                                                    @if ($ticket->seat && $ticket->seat->event_seating_plan_id == $seatingPlan->id)
                                                         {{ Form::open(array('url'=>'/events/' . $event->slug . '/seating/' . $seatingPlan->slug)) }}
                                                         {{ Form::hidden('_method', 'DELETE') }}
                                                         {{ Form::hidden('user_id', $user->id, array('id'=>'user_id','class'=>'form-control')) }}
-                                                        {{ Form::hidden('participant_id', $participant->id, array('id'=>'participant_id','class'=>'form-control')) }}
-                                                        {{ Form::hidden('seat_column_delete', $participant->seat->column, array('id'=>'seat_column_delete','class'=>'form-control')) }}
-                                                        {{ Form::hidden('seat_row_delete', $participant->seat->row, array('id'=>'seat_row_delete','class'=>'form-control')) }}
+                                                        {{ Form::hidden('ticket_id', $ticket->id, array('id'=>'participant_id','class'=>'form-control')) }}
+                                                        {{ Form::hidden('seat_column_delete', $ticket->seat->column, array('id'=>'seat_column_delete','class'=>'form-control')) }}
+                                                        {{ Form::hidden('seat_row_delete', $ticket->seat->row, array('id'=>'seat_row_delete','class'=>'form-control')) }}
                                                         <h5>
                                                             <button class="btn btn-success btn-block">
                                                                 @lang('events.remove')
-                                                                - {{ $participant->seat->getName() }}
+                                                                - {{ $ticket->seat->getName() }}
                                                             </button>
                                                         </h5>
                                                         {{ Form::close() }}
@@ -956,9 +956,10 @@ use Debugbar;
                         <div class="modal-body">
                             <div class="mb-3">
                                 <h4>@lang('events.wichtickettoseat')</h4>
+                                {{ Form::label('ticket_id',__('events.ticket'),array('id'=>'','class'=>'')) }}
                                 {{
                                             Form::select(
-                                                'participant_id',
+                                                'ticket_id',
                                                 $user->getTickets($event->id),
                                                 null,
                                                 array(

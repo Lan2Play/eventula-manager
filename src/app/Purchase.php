@@ -13,6 +13,11 @@ class Purchase extends Model
      */
     protected $table = 'purchases';
 
+
+    public const STATUS_SUCCESS = 'Success';
+    public const STATUS_PENDING = 'Pending';
+
+
     protected $fillable = [
         'user_id',
         'type',
@@ -82,13 +87,14 @@ class Purchase extends Model
     }
 
 
+
     /**
      * Set Purchase Success
      * @return boolean
      */
     public function setSuccess()
     {
-        $this->status = "Success";
+        $this->status = self::STATUS_SUCCESS;
         if (!$this->save()) {
             return false;
         }

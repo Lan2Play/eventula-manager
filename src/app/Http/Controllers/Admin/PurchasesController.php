@@ -85,7 +85,7 @@ class PurchasesController extends Controller
      */
     public function setSuccess(Purchase $purchase)
     {
-        if ($purchase->status != "Pending") {
+        if ($purchase->status != Purchase::STATUS_PENDING) {
             Session::flash('alert-danger', 'Purchase is not pending!');
             return Redirect::to('/admin/purchases/' . $purchase->id);
         }

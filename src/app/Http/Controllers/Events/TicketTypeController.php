@@ -21,7 +21,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PaymentController as Payment;
 
-class TicketsController extends Controller
+class TicketTypeController extends Controller
 {
     /**
      * Purchase Ticket
