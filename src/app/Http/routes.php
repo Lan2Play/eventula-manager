@@ -44,7 +44,7 @@ Route::group(['middleware' => ['installed']], function () {
              * User API
              */
             Route::get('/api/user/me', 'Userapi\MeController@getMe');
-            Route::get('/api/user/event/participants', 'Userapi\Events\ParticipantsController@getParticipants');
+            Route::get('/api/user/event/participants', 'Userapi\Events\TicketsController@getTickets');
 
             /**
              * Gameserver API
