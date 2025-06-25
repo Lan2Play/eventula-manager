@@ -62,8 +62,8 @@
 								<td>{{ $participant->user->firstname }} {{ $participant->user->surname }}</td>
 								<td>@if($participant->seat) {{ $participant->seat->seat }} @endif</td>
 								<td>
-									@if ($participant->ticket)
-										{{ $participant->ticket->name }}
+									@if ($participant->ticketType)
+										{{ $participant->ticketType->name }}
 									@else
 										No Ticket Bought / Free
 									@endif
@@ -96,8 +96,8 @@
 					<h4>User is signed in at present at the event</h4>
 				@endif
 				{{ Form::label('','Ticket',array('id'=>'','class'=>'')) }}
-				@if ($participant->ticket)
-					<p>{{ $participant->ticket->name }}</p>
+				@if ($participant->ticketType)
+					<p>{{ $participant->ticketType->name }}</p>
 				@else
 					<p>No Ticket Bought / Free</p>
 				@endif
@@ -111,7 +111,7 @@
 				@if (
         				(!$participant->revoked) &&
         				(!$participant->signed_in) &&
-        				((!$participant->ticket) || ($participant->purchase->status == "Success"))
+        				((!$participant->ticketType) || ($participant->purchase->status == "Success"))
 					)
 					{{ Form::open(array('url'=>'/admin/events/' . $event->slug . '/participants/' . $participant->id . '/transfer')) }}
 						<div class="mb-3">
@@ -153,7 +153,7 @@
 						</hr>
 				@endif
 				
-				@if ((!$participant->signed_in) && ($participant->ticket) && ($participant->purchase->status != "Success"))
+				@if ((!$participant->signed_in) && ($participant->ticketType) && ($participant->purchase->status != "Success"))
 				<div class="mb-3">
 					complete payment to transfer or sign in the user
 				</div>
