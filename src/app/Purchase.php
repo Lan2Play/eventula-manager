@@ -16,6 +16,7 @@ class Purchase extends Model
 
     public const STATUS_SUCCESS = 'Success';
     public const STATUS_PENDING = 'Pending';
+    public const STATUS_DANGER = 'Danger';
 
 
     protected $fillable = [

@@ -177,8 +177,15 @@
                                         User deleted
                                     @endif
                                 </span></strong></li>
+                        @php
+                            $statusClass = match (strtolower($purchase->status)) {
+                                strtolower(\App\Purchase::STATUS_SUCCESS) => 'list-group-item-success',
+                                strtolower(\App\Purchase::STATUS_PENDING) => 'list-group-item-warning',
+                                default => 'list-group-item-danger'
+                            };
+                        @endphp
                         <li
-                                class="list-group-item @if (strtolower($purchase->status) != 'success' && strtolower($purchase->status) != 'pending') list-group-item-danger @endif @if (strtolower($purchase->status) == 'success') list-group-item-success @endif @if (strtolower($purchase->status) == 'pending') list-group-item-warning @endif">
+                                class="list-group-item {{ $statusClass }}">
                             <strong>Status: <span class="float-end">{{ $purchase->status }}</span></strong></li>
                         <li class="list-group-item list-group-item-info"><strong>Type: <span
                                         class="float-end">{{ $purchase->type }}</span></strong></li>

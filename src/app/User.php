@@ -126,7 +126,7 @@ class User extends Authenticatable implements MustVerifyEmail
             $clauses = ['user_id' => $this->id, 'signed_in' => true];
         }
 
-        $payedparticipant = Ticket::whereRelation('purchase', 'status', '=', 'Success')->where($clauses)->orderBy('updated_at', 'DESC')->first();
+        $payedparticipant = Ticket::whereRelation('purchase', 'status', '=', Purchase::STATUS_SUCCESS)->where($clauses)->orderBy('updated_at', 'DESC')->first();
         $freeparticipant = Ticket::where('free', true)->where($clauses)->orderBy('updated_at', 'DESC')->first();
 
 
