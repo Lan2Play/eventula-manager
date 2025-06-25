@@ -73,9 +73,9 @@ Route::group(['middleware' => ['installed']], function () {
              * TODO replace path *participants* with *ticket*
              */
             Route::group(['middleware' => ['admin']], function () {
-                Route::get('/api/admin/event/participants/{participant}/signIn', 'Adminapi\Events\ParticipantsController@signIn');
-                Route::get('/api/admin/event/participants/{participant}', 'Adminapi\Events\ParticipantsController@getParticipant');
-                Route::get('/api/admin/event/participants/', 'Adminapi\Events\ParticipantsController@getParticipants');
+                Route::get('/api/admin/event/participants/{ticket}/signIn', 'Adminapi\Events\TicketController@signIn');
+                Route::get('/api/admin/event/participants/{ticket}', 'Adminapi\Events\TicketController@getTicket');
+                Route::get('/api/admin/event/participants/', 'Adminapi\Events\TicketController@getParticipants');
                 Route::get('/api/admin/purchases/{purchase}/setSuccess', 'Adminapi\PurchaseController@setSuccess');
             });
         });
