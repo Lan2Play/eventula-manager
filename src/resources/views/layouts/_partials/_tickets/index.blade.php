@@ -6,106 +6,255 @@
 			"bg-danger-light" => $ticket->revoked,
 			"text-danger" => $ticket->revoked
         ])>
-		<strong>
-		{{ $ticket->event->display_name }}
-		</strong>
-		@if ($ticket->ticketType)
-		<strong>{{ $ticket->ticketType->name }} 
-			@if ($ticket->ticketType && $ticket->ticketType->seatable) - @lang('events.seat'):
-				@if ($ticket->seat) {{ $ticket->seat->getName() }} 
-					<small>in {{$ticket->seat->seatingPlan->name}}</small> 
-				@else 
-					@lang('events.notseated') 
-				@endif 
-			@endif
-		</strong>
-		@else
-			@if ($ticket->staff)
-				<strong>
-					@lang('tickets.staff_ticket') - @lang('events.seat'):
-					@if ($ticket->seat) 
-						{{ $ticket->seat->getName() }}
-						<small>in {{$ticket->seat->seatingPlan->name}}</small>
-					@else
-						@lang('events.notseated')
+		<div class="d-flex justify-content-between align-items-center">
+			<div>
+				<i class="fa fa-ticket-alt fa-fw me-1"></i>
+				<strong>{{ $ticket->event->display_name }}</strong>
+				@if ($ticket->ticketType)
+					- <strong>{{ $ticket->ticketType->name }}</strong>
+					@if ($ticket->ticketType && $ticket->ticketType->seatable)
+						<span class="ms-1">
+							<i class="fa fa-chair fa-fw"></i>
+							@if ($ticket->seat)
+								{{ $ticket->seat->getName() }}
+								<small class="text-muted">in {{$ticket->seat->seatingPlan->name}}</small>
+							@else
+								<span class="text-muted">@lang('events.notseated')</span>
+							@endif
+						</span>
 					@endif
-				</strong>
-			@else
-				<strong>
-					@lang('tickets.free_ticket') - @lang('events.seat'):
-					@if ($ticket->seat)
-						{{ $ticket->seat->getName() }} 
-						<small>in {{$ticket->seat->seatingPlan->name}}</small>
+				@else
+					@if ($ticket->staff)
+						- <strong>@lang('tickets.staff_ticket')</strong>
+						<span class="ms-1">
+							<i class="fa fa-chair fa-fw"></i>
+							@if ($ticket->seat)
+								{{ $ticket->seat->getName() }}
+								<small class="text-muted">in {{$ticket->seat->seatingPlan->name}}</small>
+							@else
+								<span class="text-muted">@lang('events.notseated')</span>
+							@endif
+						</span>
 					@else
-						@lang('events.notseated')
-					@endif					
-				</strong>
-			@endif
-		@endif
-		@if ($ticket->gift == 1 && $ticket->gift_accepted != 1)
-			<span class="badge text-bg-info float-end" style="margin-left: 3px; margin-top:2px;">@lang('tickets.has_been_gifted')</span>
-		@endif
-		@if ($ticket->ticketType && !$ticket->ticketType->seatable)
-			<span class="badge text-bg-info float-end" style="margin-top:2px;">@lang('tickets.not_eligable_for_seat')</span>
-		@endif
-		@if ($ticket->revoked)
-			<span class="badge text-bg-danger float-end" style="margin-top: 2px;">@lang('tickets.has_been_revoked')</span>
-		@endif
+						- <strong>@lang('tickets.free_ticket')</strong>
+						<span class="ms-1">
+							<i class="fa fa-chair fa-fw"></i>
+							@if ($ticket->seat)
+								{{ $ticket->seat->getName() }}
+								<small class="text-muted">in {{$ticket->seat->seatingPlan->name}}</small>
+							@else
+								<span class="text-muted">@lang('events.notseated')</span>
+							@endif
+						</span>
+					@endif
+				@endif
+			</div>
+			<div>
+				@if ($ticket->gift == 1 && $ticket->gift_accepted != 1)
+					<span class="badge text-bg-info ms-1">@lang('tickets.has_been_gifted')</span>
+				@endif
+				@if ($ticket->ticketType && !$ticket->ticketType->seatable)
+					<span class="badge text-bg-info ms-1">@lang('tickets.not_eligable_for_seat')</span>
+				@endif
+				@if ($ticket->revoked)
+					<span class="badge text-bg-danger ms-1">@lang('tickets.has_been_revoked')</span>
+				@endif
+			</div>
+		</div>
 	</div>
 	<div class="card-body">
-		<div class="row" style="display: flex; align-items: center;">
-			<div class="col-md-8 col-sm-8 col-12">
-
-				<!-- @if ($ticket->gift != 1 && $ticket->gift_accepted != 1 && !$ticket->event->online_event)
-					<button class="btn btn-md btn-success btn-block" onclick="giftTicket('{{ $ticket->id }}')" data-bs-toggle="modal" data-bs-target="#giftTicketModal">
-						@lang('tickets.gift_ticket')
-					</button>
-				@endif -->
+		<div class="row d-flex align-items-center">
+			<div class="col-lg-6 col-md-12 mb-3">
+				<!-- Gift and Seating Management Section -->
 				@if ($ticket->gift == 1 && $ticket->gift_accepted != 1)
-				<label>@lang('tickets.gift_url')</label>
-				<p>
-					<strong>
-						{{ URL::to('/') }}/gift/accept/?url={{ $ticket->gift_accepted_url }}
-					</strong>
-				</p>
-				{{ Form::open(array('url'=>'/gift/' . $ticket->id . '/revoke', 'id'=>'revokeGiftTicketForm')) }}
-				<button type="submit" class="btn btn-primary btn-md btn-block">@lang('tickets.revoke_gift')</button>
-				{{ Form::close() }}
+					<div class="mb-3">
+						<label class="form-label">@lang('tickets.gift_url')</label>
+						<div class="input-group mb-2">
+							<input type="text" class="form-control" value="{{ URL::to('/') }}/gift/accept/?url={{ $ticket->gift_accepted_url }}" readonly>
+							<button class="btn btn-outline-secondary" type="button" onclick="navigator.clipboard.writeText('{{ URL::to('/') }}/gift/accept/?url={{ $ticket->gift_accepted_url }}')">
+								<i class="fas fa-copy"></i>
+							</button>
+						</div>
+						{{ Form::open(array('url'=>'/gift/' . $ticket->id . '/revoke', 'id'=>'revokeGiftTicketForm')) }}
+							<button type="submit" class="btn btn-primary">@lang('tickets.revoke_gift')</button>
+						{{ Form::close() }}
+					</div>
 				@endif
+
 				@if ($ticket->seat)
-					<hr>
+					<div class="mt-3">
 						{{ Form::open(array('url'=>'/events/' . $ticket->event->slug . '/seating/' . $ticket->seat->seatingPlan->slug)) }}
 							{{ Form::hidden('_method', 'DELETE') }}
 							{{ Form::hidden('user_id', $user->id, array('id'=>'user_id','class'=>'form-control')) }}
 							{{ Form::hidden('ticket_id', $ticket->id, array('id'=>'ticket_id','class'=>'form-control')) }}
 							{{ Form::hidden('seat_column_delete', $ticket->seat->column, array('id'=>'seat_column_delete','class'=>'form-control')) }}
 							{{ Form::hidden('seat_row_delete', $ticket->seat->row, array('id'=>'seat_row_delete','class'=>'form-control')) }}
-						<h5>
-						<button class="btn btn-danger btn-block">
-							@lang('events.remove_seating')
-						</button>
-						</h5>
+							<button class="btn btn-danger">
+								<i class="fas fa-chair me-1"></i> @lang('events.remove_seating')
+							</button>
 						{{ Form::close() }}
+					</div>
 				@endif
 			</div>
-            <div class="offset-md-2 col-md-2 offset-sm-2 col-sm-4 col-12 fluid">
-                Manager Goes here
-                <button class="btn btn-primary">Change Manager</button>
-            </div>
-            <div class="offset-md-2 col-md-2 offset-sm-2 col-sm-4 col-12 fluid">
-                User Goes here
-                <button class="btn btn-primary">Change User</button>
-            </div>
-			<div class="offset-md-2 col-md-2 offset-sm-2 col-sm-4 col-12">
-				<img class="img img-fluid" src="/{{ $ticket->qrcode }}" />
+
+			<div class="col-lg-6 col-md-12 mb-3 text-center">
+				<img class="img-fluid rounded border" src="/{{ $ticket->qrcode }}" alt="Ticket QR Code" />
 			</div>
+
+			<div class="col-12">
+				<hr>
+				<h5 class="mb-3"><i class="fas fa-users me-2"></i>Ticket Roles</h5>
+			</div>
+
+			<div class="col-md-4 col-sm-12 mb-3">
+                <div class="card h-100">
+                    <div class="card-header bg-light">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-crown me-2 text-warning"></i>
+                            <strong>Owner</strong>
+                            <a href="#" class="ms-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Always keeps full control over the ticket">
+                                <i class="fas fa-question-circle"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        @if ($ticket->owner_id)
+                            <p class="mb-0">{{ $ticket->owner->username }}</p>
+                        @else
+                            <p class="text-muted mb-0">None</p>
+                        @endif
+                    </div>
+                </div>
+            </div>
+
+			<div class="col-md-4 col-sm-12 mb-3">
+                <div class="card h-100">
+                    <div class="card-header bg-light">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-user-cog me-2 text-primary"></i>
+                            <strong>Manager</strong>
+                            <a href="#" class="ms-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Can change the User of a Ticket and the Seat the Ticket is using">
+                                <i class="fas fa-question-circle"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        @if ($ticket->manager_id)
+                            <p>{{ $ticket->manager->username }}</p>
+                        @else
+                            <p class="text-muted">None</p>
+                        @endif
+                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#changeManagerModal{{ $ticket->id }}">
+                            <i class="fas fa-edit me-1"></i> Change Manager
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-12 mb-3">
+                <div class="card h-100">
+                    <div class="card-header bg-light">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-user me-2 text-success"></i>
+                            <strong>User</strong>
+                            <a href="#" class="ms-1" data-bs-toggle="tooltip" data-bs-placement="top" title="'Uses' the Ticket to get entrance to the event, the ticket user will be able to use the ticket">
+                                <i class="fas fa-question-circle"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        @if ($ticket->user_id)
+                            <p>{{ $ticket->user->username }}</p>
+                        @else
+                            <p class="text-muted">None</p>
+                        @endif
+                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#changeUserModal{{ $ticket->id }}">
+                            <i class="fas fa-edit me-1"></i> Change User
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Change Manager Modal -->
+            <div class="modal fade" id="changeManagerModal{{ $ticket->id }}" tabindex="-1" aria-labelledby="changeManagerModalLabel{{ $ticket->id }}" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="changeManagerModalLabel{{ $ticket->id }}">Change Manager</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        {{ Form::open(array('url'=>'/events/' . $ticket->event->slug . '/participants/' . $ticket->id, 'method'=>'POST')) }}
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="manager_id">Select Manager:</label>
+                                {{ Form::select('manager_id', [null => 'None'] + App\User::all()->pluck('username', 'id')->toArray(), $ticket->manager_id, ['class' => 'form-control']) }}
+                            </div>
+                            <div class="alert alert-info mt-3">
+                                <strong>What can a Manager do?</strong>
+                                <p>A Manager can change the User of a Ticket and the Seat the Ticket is using.</p>
+                                <p><small>Example: A Clan Member buys tickets for his buddy and himself. They both are members of a clan. The Clan Manager will be the one managing the clan's visit to an event, therefore he can change the seats a ticket will occupy and the user that is using the ticket.</small></p>
+                            </div>
+                            {{ Form::hidden('action', 'change_manager') }}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                        {{ Form::close() }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Change User Modal -->
+            <div class="modal fade" id="changeUserModal{{ $ticket->id }}" tabindex="-1" aria-labelledby="changeUserModalLabel{{ $ticket->id }}" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="changeUserModalLabel{{ $ticket->id }}">Change User</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        {{ Form::open(array('url'=>'/events/' . $ticket->event->slug . '/participants/' . $ticket->id, 'method'=>'POST')) }}
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="user_id">Select User:</label>
+                                {{ Form::select('user_id', App\User::all()->pluck('username', 'id')->toArray(), $ticket->user_id, ['class' => 'form-control']) }}
+                            </div>
+                            <div class="alert alert-info mt-3">
+                                <strong>What can a User do?</strong>
+                                <p>A User "uses" the Ticket to get entrance to the event. The ticket user will be able to use the ticket.</p>
+                                <p><small>A user that is a user of a ticket sees the ticket in their profile and on the event page but does not have access to the controls of the ticket (changing manager or user) but could also change the seat.</small></p>
+                            </div>
+                            {{ Form::hidden('action', 'change_user') }}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                        {{ Form::close() }}
+                    </div>
+                </div>
+            </div>
 		</div>
 	</div>
-	<div class="card-footer">
-		<div class="btn-group">
-			<a href="/events/participants/{{ $ticket->id }}/pdf" class="btn btn-primary">@lang('tickets.download_pdf')</a>
+	<div class="card-footer d-flex justify-content-between align-items-center">
+		<div>
+			<a href="/events/participants/{{ $ticket->id }}/pdf" class="btn btn-primary">
+				<i class="fas fa-file-pdf me-1"></i> @lang('tickets.download_pdf')
+			</a>
+		</div>
+		<div class="text-muted small">
+			<i class="fas fa-info-circle me-1"></i> Ticket ID: {{ $ticket->id }}
 		</div>
 	</div>
 </div>
 
 @include ('layouts._partials._gifts.modal')
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    });
+</script>

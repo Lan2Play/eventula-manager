@@ -120,6 +120,52 @@ class TicketController extends Controller
         return Redirect::to('login');
     }
 
+    /**
+     * Update Participant
+     * @param  Event            $event
+     * @param  Ticket $ticket
+     * @param  Request          $request
+     * @return Redirect
+     */
+    public function update($event, Ticket $ticket, Request $request)
+    {
+        $user = Auth::user();
+
+        // Check if the user is the owner of the ticket or an admin
+        if ($user->id != $ticket->owner_id && !$user->getAdmin()) {
+            Session::flash('alert-danger', 'You do not have permission to update this ticket!');
+            return Redirect::back();
+        }
+
+        // Check if the ticket belongs to the event
+        if ($ticket->event->slug != $event) {
+            Session::flash('alert-danger', 'The selected participant does not belong to the selected event!');
+            return Redirect::back();
+        }
+
+        $action = $request->input('action');
+
+        if ($action === 'change_manager') {
+            $ticket->manager_id = $request->input('manager_id');
+            if (!$ticket->save()) {
+                Session::flash('alert-danger', 'Failed to update ticket manager!');
+                return Redirect::back();
+            }
+            Session::flash('alert-success', 'Ticket manager updated successfully!');
+        } elseif ($action === 'change_user') {
+            $ticket->user_id = $request->input('user_id');
+            if (!$ticket->save()) {
+                Session::flash('alert-danger', 'Failed to update ticket user!');
+                return Redirect::back();
+            }
+            Session::flash('alert-success', 'Ticket user updated successfully!');
+        } else {
+            Session::flash('alert-warning', 'No action specified!');
+        }
+
+        return Redirect::back();
+    }
+
     public function exportParticipantAsFile(Ticket $ticket, string $fileType): Response|StreamedResponse {
         $user = Auth::user();
         if ($user->id != $ticket->user_id) {

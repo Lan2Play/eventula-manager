@@ -49,13 +49,36 @@ class TicketController extends Controller
      * @param  Event            $event
      * @param  Ticket $ticket
      * @param  Request          $request
-     *
-     * // TODO implementation needed
+     * @return Redirect
      */
     public function update(Event $event, Ticket $ticket, Request $request)
     {
-        //DEBUG
-        dd('edit me');
+        if ($ticket->event->slug != $event->slug) {
+            Session::flash('alert-danger', 'The selected participant does not belong to the selected event!');
+            return Redirect::to('admin/events/' . $event->slug . '/participants/');
+        }
+
+        $action = $request->input('action');
+
+        if ($action === 'change_manager') {
+            $ticket->manager_id = $request->input('manager_id');
+            if (!$ticket->save()) {
+                Session::flash('alert-danger', 'Failed to update ticket manager!');
+                return Redirect::to('admin/events/' . $event->slug . '/participants/' . $ticket->id);
+            }
+            Session::flash('alert-success', 'Ticket manager updated successfully!');
+        } elseif ($action === 'change_user') {
+            $ticket->user_id = $request->input('user_id');
+            if (!$ticket->save()) {
+                Session::flash('alert-danger', 'Failed to update ticket user!');
+                return Redirect::to('admin/events/' . $event->slug . '/participants/' . $ticket->id);
+            }
+            Session::flash('alert-success', 'Ticket user updated successfully!');
+        } else {
+            Session::flash('alert-warning', 'No action specified!');
+        }
+
+        return Redirect::to('admin/events/' . $event->slug . '/participants/' . $ticket->id);
     }
 
     /**

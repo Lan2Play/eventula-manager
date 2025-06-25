@@ -100,6 +100,16 @@ class Ticket extends Model implements Auditable
     {
         return $this->belongsTo('App\User');
     }
+
+    public function owner()
+    {
+        return $this->belongsTo('App\User', 'owner_id');
+    }
+
+    public function manager()
+    {
+        return $this->belongsTo('App\User', 'manager_id');
+    }
     public function ticketType()
     {
         return $this->belongsTo('App\TicketType', 'ticket_type_id');
