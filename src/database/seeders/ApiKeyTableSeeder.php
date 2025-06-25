@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Libraries\Helpers;
+
 use Illuminate\Database\Seeder;
 use App\ApiKey;
 
@@ -26,31 +28,31 @@ class ApiKeyTableSeeder extends Seeder
         ## Api Keys
         factory(ApiKey::class)->create([
             'key'          => 'paypal_username',
-            'value'         => env('PAYPAL_USERNAME', null),
+            'value'         => Helpers::getEnvWithFallback('PAYPAL_USERNAME', null),
         ]);
        factory(ApiKey::class)->create([
             'key'          => 'paypal_password',
-            'value'         => env('PAYPAL_PASSWORD', null),
+            'value'         => Helpers::getEnvWithFallback('PAYPAL_PASSWORD', null),
         ]);
         factory(ApiKey::class)->create([
             'key'          => 'paypal_signature',
-            'value'         => env('PAYPAL_SIGNATURE', null),
+            'value'         => Helpers::getEnvWithFallback('PAYPAL_SIGNATURE', null),
         ]);
         factory(ApiKey::class)->create([
             'key'          => 'stripe_public_key',
-            'value'         => env('STRIPE_PUBLIC_KEY', null),
+            'value'         => Helpers::getEnvWithFallback('STRIPE_PUBLIC_KEY', null),
         ]);
         factory(ApiKey::class)->create([
             'key'          => 'stripe_secret_key',
-            'value'         => env('STRIPE_SECRET_KEY', null),
+            'value'         => Helpers::getEnvWithFallback('STRIPE_SECRET_KEY', null),
         ]);
         factory(ApiKey::class)->create([
             'key'          => 'challonge_api_key',
-            'value'         => env('CHALLONGE_API_KEY', null),
+            'value'         => Helpers::getEnvWithFallback('CHALLONGE_API_KEY', null),
         ]);
         factory(ApiKey::class)->create([
             'key'          => 'steam_api_key',
-            'value'         => env('STEAM_API_KEY', null),
+            'value'         => Helpers::getEnvWithFallback('STEAM_API_KEY', null),
         ]);
     }
 }

@@ -189,8 +189,8 @@ To start a new code contribution please:
 
 - open an issue to announce that you are working on a feature/change to get thoughts from the other developers and to prevent incompatibillities
 - make your fork of eventula (if you are not already a acknowledged developer who can create branches on our repository)
-- make a new branch based on ``dev`` with the Name ``feature/examplefeature`` 
-- as soon as you have code, please open a draft pull request against the ``dev`` branch. 
+- make a new branch based on ``main`` with the Name ``feature/examplefeature`` 
+- as soon as you have code, please open a draft pull request against the ``main`` branch. 
 
 Before you want to PR changes you should ask yourself some questions:
 
@@ -201,11 +201,10 @@ Before you want to PR changes you should ask yourself some questions:
 - Have i changed the developer documentation on the affected parts?
 - Have i changed the readme.md on the affected parts?
 - Does my pull request have a good speaking name that represents my changes in the changelog?
-- Do i have merged the current ``dev`` branch into my feature branch?
+- Do i have merged the current ``main`` branch into my feature branch?
 
 .. note::
-   Please open your pull requests against our ``dev`` branch. 
-   We will not merge to master directly!
+   Please open your pull requests against our ``main`` branch. 
 
 What will happen after you have converted to the finalized pull request:
 
@@ -213,4 +212,4 @@ What will happen after you have converted to the finalized pull request:
 .. - When your code passes the sonarcloud analysis, someone of the core developer team will review your code and will help you to find missing things or bugs.
 
 - Someone of the core developer team will review your code and will help you to find missing things or bugs.
-- As soon as the review is done, your code will be merged to dev (where can be tested for a few days) and will get merged to main as soon as possible. Currently we make releases in a rolling manner.
+- As soon as the review is done, your code will be merged to main (where can be tested for a few days) and will get then released as soon as possible. Currently we make releases as they are required.

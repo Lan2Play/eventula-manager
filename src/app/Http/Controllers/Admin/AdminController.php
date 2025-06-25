@@ -44,7 +44,7 @@ class AdminController extends Controller
         $votes = PollOptionVote::getNewVotes('login');
         $comments = NewsComment::getNewComments('login');
         $tickets = TicketType::all();
-        $activePolls = Poll::where('end', '==', null)->orWhereBetween('end', ['0000-00-00 00:00:00', date("Y-m-d H:i:s")]);
+        $activePolls = Poll::where('end', '==', null)->orWhereBetween('end', ['0000-00-00 00:00:00', date("Y-m-d H:i:s")])->get();
         $userLastLoggedIn = User::where('id', '!=', Auth::id())->latest('last_login')->first();
         $loginSupportedGateways = Settings::getSupportedLoginMethods();
         foreach ($loginSupportedGateways as $gateway) {

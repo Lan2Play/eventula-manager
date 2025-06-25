@@ -73,6 +73,7 @@ If you need help with setting up or using eventula, join our discord:
 
    dev/getting_started
    dev/folderstructure
+   dev/developer_meeting
    dev/games/gamecommandhandler
    dev/games/gamematchapihandler
    

@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Libraries\Helpers;
+
 use Illuminate\Database\Seeder;
 use App\Setting;
 use Faker\Factory as Faker;
@@ -25,7 +27,7 @@ class SettingsTableSeeder extends Seeder
         Setting::firstOrCreate(
             ['setting'          => 'org_name'],
             [
-                'value'         => env('APP_NAME', 'OrgNameHere'),
+                'value'         => Helpers::getEnvWithFallback('APP_NAME', 'OrgNameHere'),
                 'default'       => true,
                 'description'   => 'Name of the Organization'
             ]
@@ -33,7 +35,7 @@ class SettingsTableSeeder extends Seeder
         Setting::firstOrCreate(
             ['setting'          => 'org_tagline'],
             [
-                'value'         => env('APP_TAGLINE', 'Tagline Here'),
+                'value'         => Helpers::getEnvWithFallback('APP_TAGLINE', 'Tagline Here'),
                 'default'       => true,
                 'description'   => 'Tagline of the Organization'
             ]
@@ -41,7 +43,7 @@ class SettingsTableSeeder extends Seeder
         Setting::firstOrCreate(
             ['setting'          => 'seo_keywords'],
             [
-                'value'         => env('SEO_KEYWORDS', "Events,OrgNameHere,Tagline Here"),
+                'value'         => Helpers::getEnvWithFallback('SEO_KEYWORDS', "Events,OrgNameHere,Tagline Here"),
                 'default'       => true,
                 'description'   => 'Keywords for the Organization SEO'
             ]
@@ -49,7 +51,7 @@ class SettingsTableSeeder extends Seeder
         Setting::firstOrCreate(
             ['setting'          => 'org_logo'],
             [
-                'value'         => env('APP_LOGO', '/storage/images/main/logo_main.png'),
+                'value'         => Helpers::getEnvWithFallback('APP_LOGO', '/storage/images/main/logo_main.png'),
                 'default'       => true,
                 'description'   => 'Organization Logo'
             ]
@@ -57,7 +59,7 @@ class SettingsTableSeeder extends Seeder
         Setting::firstOrCreate(
             ['setting'          => 'org_favicon'],
             [
-                'value'         => env('APP_FAVICON', '/storage/images/main/favicon.ico'),
+                'value'         => Helpers::getEnvWithFallback('APP_FAVICON', '/storage/images/main/favicon.ico'),
                 'default'       => true,
                 'description'   => 'Organization Favicon'
             ]

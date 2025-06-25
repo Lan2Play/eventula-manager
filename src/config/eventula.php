@@ -1,6 +1,8 @@
 <?php
+
+use App\Libraries\Helpers;
 return [
 
-	'url' => env('EVENTULA_URL', 'https://eventula.com'),
+	'url' => Helpers::getEnvWithFallback('EVENTULA_URL', 'https://eventula.com'),
 	
 ];

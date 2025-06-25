@@ -26,8 +26,8 @@ use HaydenPierce\ClassFinder\ClassFinder;
 
 class Helpers
 {
-    
-    
+
+
     /**
      * Gets an array of all supported languages from the language directory.
      *
@@ -35,7 +35,7 @@ class Helpers
      */
     public static function getSupportedLocales()
     {
-        return array_map('basename', array_filter(glob(app()->langPath().'/*'), 'is_dir'));
+        return array_map('basename', array_filter(glob(app()->langPath() . '/*'), 'is_dir'));
     }
 
 
@@ -1028,5 +1028,18 @@ class Helpers
         })
             ->sortByDesc('win_count')
             ->take($count);
+    }
+
+    /**
+     * Get environment variable with fallback.
+     *
+     *  @param string $key
+     *  @param mixed $default
+     *  @return mixed
+     */
+    public static function getEnvWithFallback($key, $default = null)
+    {
+        $value = env($key);
+        return (is_null($value) || $value === '') ? $default : $value;
     }
 }

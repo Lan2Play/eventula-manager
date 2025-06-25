@@ -303,8 +303,8 @@ class SettingsController extends Controller
             'currency'                  => 'in:GBP,USD,EUR,SEK,DKK',
             'participant_count_offset'  => 'numeric',
             'event_count_offset'        => 'numeric',
-            'org_logo'                  => 'image',
-            'org_favicon'               => 'image',
+            'org_logo'                  => 'image:allow_svg',
+            'org_favicon'               => 'image:allow_svg',
             'site_locale'               => ['nullable', new ValidLocale]
         ];
 

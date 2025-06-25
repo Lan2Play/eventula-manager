@@ -78,7 +78,7 @@ class SeatingController extends Controller
             "name"      => "required",
             "columns"   => "required|integer",
             "rows"      => "required|integer|max:26",
-            'image'     => 'image',
+            'image'     => 'image:allow_svg',
         ];
         $messages = [
             'name.required'     => 'Name is required',
@@ -136,7 +136,7 @@ class SeatingController extends Controller
         $rules = [
             "columns"   => "integer",
             "rows"      => "integer|max:26",
-            'image'     => 'image',
+            'image'     => 'image:allow_svg',
             'status'    => 'in:draft,preview,published',
             'locked'    => 'boolean',
             'name'      => 'filled',

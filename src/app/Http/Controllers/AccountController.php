@@ -332,8 +332,7 @@ class AccountController extends Controller
         }
 
         if (Settings::isAuthRequirePhonenumberEnabled()) {
-            $rules['phonenumber'] = 'required|filled|phone:AUTO,DE';
-            $messages['phonenumber.phone'] = 'The field contains an invalid number.';
+            $rules['phonenumber'] = 'required|filled|phone:INTERNATIONAL,DE';
         }
 
         $this->validate($request, $rules, $messages);
@@ -362,7 +361,7 @@ class AccountController extends Controller
 
     public function update_local_avatar(Request $request) {
         $this->validate($request, [
-            'avatar' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+            'avatar' => 'required|image:allow_svg|mimes:jpg,png,jpeg,gif,svg|max:2048',
         ]);
 
         if(!$path = Storage::putFile(

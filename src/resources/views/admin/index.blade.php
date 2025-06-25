@@ -288,16 +288,18 @@
                 </div>
                 <div class="card-body">
                     <ul class="list-group">
+                        <li class="list-group-item list-group-item-info"><strong>VERSION: <span
+                                    class="float-end">{{ Helpers::getEnvWithFallback('VERSION', 'dev') }}</span></strong></li>
                         <li class="list-group-item list-group-item-info"><strong>BUILDNUMBER: <span
-                                    class="float-end">{{ env('BUILDNUMBER', 'dev') }}</span></strong></li>
+                                    class="float-end">{{ Helpers::getEnvWithFallback('BUILDNUMBER', 'dev') }}</span></strong></li>
                         <li class="list-group-item list-group-item-info"><strong>BUILDID: <span
-                                    class="float-end">{{ env('BUILDID', 'dev') }}</span></strong></li>
+                                    class="float-end">{{ Helpers::getEnvWithFallback('BUILDID', 'dev') }}</span></strong></li>
                         <li class="list-group-item list-group-item-info"><strong>SOURCE_COMMIT: <span
-                                    class="float-end">{{ env('SOURCE_COMMIT', 'dev') }}</span></strong></li>
+                                    class="float-end">{{ Helpers::getEnvWithFallback('SOURCE_COMMIT', 'dev') }}</span></strong></li>
                         <li class="list-group-item list-group-item-info"><strong>SOURCE_REF: <span
-                                    class="float-end">{{ env('SOURCE_REF', 'dev') }}</span></strong></li>
+                                    class="float-end">{{ Helpers::getEnvWithFallback('SOURCE_REF', 'dev') }}</span></strong></li>
                         <li class="list-group-item list-group-item-info"><strong>BUILDNODE: <span
-                                    class="float-end">{{ env('BUILDNODE', 'dev') }}</span></strong></li>
+                                    class="float-end">{{ Helpers::getEnvWithFallback('BUILDNODE', 'dev') }}</span></strong></li>
                     </ul>
                 </div>
             </div>

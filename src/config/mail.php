@@ -1,5 +1,7 @@
 <?php
 
+use App\Libraries\Helpers;
+
 return [
 
     /*
@@ -15,7 +17,7 @@ return [
     |
     */
 
-    'driver' => env('MAIL_DRIVER', 'mail'),
+    'driver' => Helpers::getEnvWithFallback('MAIL_DRIVER', 'mail'),
 
     /*
     |--------------------------------------------------------------------------
@@ -28,7 +30,7 @@ return [
     |
     */
 
-    'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
+    'host' => Helpers::getEnvWithFallback('MAIL_HOST', 'smtp.mailgun.org'),
 
     /*
     |--------------------------------------------------------------------------
@@ -41,7 +43,7 @@ return [
     |
     */
 
-    'port' => env('MAIL_PORT', 587),
+    'port' => Helpers::getEnvWithFallback('MAIL_PORT', 587),
 
     /*
     |--------------------------------------------------------------------------
@@ -54,7 +56,7 @@ return [
     |
     */
 
-    'from' => ['address' => env('APP_EMAIL', 'no-reply@localhost'), 'name' => null],
+    'from' => ['address' => Helpers::getEnvWithFallback('APP_EMAIL', 'no-reply@localhost'), 'name' => null],
 
     /*
     |--------------------------------------------------------------------------
@@ -67,7 +69,7 @@ return [
     |
     */
 
-    'encryption' => env('MAIL_ENCRYPTION', 'tls'),
+    'encryption' => Helpers::getEnvWithFallback('MAIL_ENCRYPTION', 'tls'),
 
     /*
     |--------------------------------------------------------------------------

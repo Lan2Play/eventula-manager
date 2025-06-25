@@ -66,8 +66,8 @@ class GamesController extends Controller
     {
         $rules = [
             'name'              => 'required',
-            'image_header'      => 'image',
-            'image_thumbnail'   => 'image',
+            'image_header'      => 'image:allow_svg',
+            'image_thumbnail'   => 'image:allow_svg',
             'matchmaking_enabled'   => 'in:on,off',
             'matchmaking_autostart'   => 'in:on,off',
             'matchmaking_autoapi'   => 'in:on,off',
@@ -157,8 +157,8 @@ class GamesController extends Controller
         $rules = [
             'name'              => 'filled',
             'active'            => 'in:true,false',
-            'image_header'      => 'image',
-            'image_thumbnail'   => 'image',
+            'image_header'      => 'image:allow_svg',
+            'image_thumbnail'   => 'image:allow_svg',
             'matchmaking_enabled'   => 'in:on,off',
             'matchmaking_autostart'   => 'in:on,off',
             'matchmaking_autoapi'   => 'in:on,off',

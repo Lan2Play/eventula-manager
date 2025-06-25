@@ -1,5 +1,7 @@
 <?php
 
+use App\Libraries\Helpers;
+
 return [
 
     /*
@@ -13,7 +15,7 @@ return [
     |
     */
 
-    'default' => env('BROADCAST_DRIVER', 'pusher'),
+    'default' => Helpers::getEnvWithFallback('BROADCAST_DRIVER', 'pusher'),
 
     /*
     |--------------------------------------------------------------------------

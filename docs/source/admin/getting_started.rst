@@ -214,7 +214,7 @@ Fill in the APP_KEY from the last step and all other empty Variables (if not opt
 
     services:
         app:
-            image: lan2play/eventula-manager:latest
+            image: lan2play/eventula-manager:stable
             restart: unless-stopped
             volumes:
             - eventula_manager_storage:/web/html/storage/

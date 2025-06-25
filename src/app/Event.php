@@ -398,16 +398,17 @@ class Event extends Model
      */
     public function isRunningOn(Carbon $date)
     {
-        return $date->between(Carbon::create($this->start),Carbon::create($this->end));
+        return $date->between(Carbon::parse($this->start),Carbon::parse($this->end));
     }
 
+    // TODO: hasEnded() is not used anywhere, should it be removed?
     /**
      * Get if Event has already ended
      * @return Boolean
      */
     public function hasEnded()
     {
-        return Carbon::create($this->end)->greaterThan(Carbon::now());
+        return Carbon::parse($this->end)->lessThan(Carbon::now());
     }
 
 }
