@@ -288,30 +288,30 @@ class Event extends Model
     public function getParticipants($obj = false)
     {
         $return = array();
-        foreach ($this->eventParticipants as $participant) {
-            if (($participant->staff || $participant->free) || @$participant->ticket->seatable) {
+        foreach ($this->tickets as $ticket) {
+            if (($ticket->staff || $ticket->free) || @$ticket->ticketType->seatable) {
                 $seat = 'Not Seated';
                 $seatingPlanName = "";
-                if (!empty($participant->seat)) {
-                    if ($participant->seat->seatingPlan) {
-                        $seatingPlanName = $participant->seat->seatingPlan->getName();
+                if (!empty($ticket->seat)) {
+                    if ($ticket->seat->seatingPlan) {
+                        $seatingPlanName = $ticket->seat->seatingPlan->getName();
                     }
-                    $seat = $participant->seat->getName();
+                    $seat = $ticket->seat->getName();
                 }                
                 
-                if(!empty($participant->ticket->name)) {
-                    $text = $participant->user->username . ' - ' . $participant->ticket->name . ' - ' . $seatingPlanName . ' - ' . $seat;
+                if(!empty($ticket->ticketType->name)) {
+                    $text = $ticket->user->username . ' - ' . $ticket->ticketType->name . ' - ' . $seatingPlanName . ' - ' . $seat;
                 } else {
-                    $text = $participant->user->username . ' - ' . $seatingPlanName . ' - ' . $seat;
+                    $text = $ticket->user->username . ' - ' . $seatingPlanName . ' - ' . $seat;
                 }
 
-                if ($participant->staff) {
-                    $text = $participant->user->username . ' - ' . 'Staff Ticket - ' . $seatingPlanName . ' - ' . $seat;
+                if ($ticket->staff) {
+                    $text = $ticket->user->username . ' - ' . 'Staff Ticket - ' . $seatingPlanName . ' - ' . $seat;
                 }
-                if ($participant->free) {
-                    $text = $participant->user->username . ' - ' . 'Free Ticket - ' . $seatingPlanName . ' - ' . $seat;
+                if ($ticket->free) {
+                    $text = $ticket->user->username . ' - ' . 'Free Ticket - ' . $seatingPlanName . ' - ' . $seat;
                 }
-                $return[$participant->id] = $text;
+                $return[$ticket->id] = $text;
             }
         }
         if ($obj) {

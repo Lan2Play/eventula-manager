@@ -9,9 +9,9 @@
 		<strong>
 		{{ $ticket->event->display_name }}
 		</strong>
-		@if ($ticket->tickettype)
-		<strong>{{ $ticket->tickettype->name }} 
-			@if ($ticket->tickettype && $ticket->tickettype->seatable) - @lang('events.seat'): 
+		@if ($ticket->ticketType)
+		<strong>{{ $ticket->ticketType->name }} 
+			@if ($ticket->ticketType && $ticket->ticketType->seatable) - @lang('events.seat'):
 				@if ($ticket->seat) {{ $ticket->seat->getName() }} 
 					<small>in {{$ticket->seat->seatingPlan->name}}</small> 
 				@else 
@@ -45,7 +45,7 @@
 		@if ($ticket->gift == 1 && $ticket->gift_accepted != 1)
 			<span class="badge text-bg-info float-end" style="margin-left: 3px; margin-top:2px;">@lang('tickets.has_been_gifted')</span>
 		@endif
-		@if ($ticket->tickettype && !$ticket->tickettype->seatable)
+		@if ($ticket->ticketType && !$ticket->ticketType->seatable)
 			<span class="badge text-bg-info float-end" style="margin-top:2px;">@lang('tickets.not_eligable_for_seat')</span>
 		@endif
 		@if ($ticket->revoked)
@@ -77,7 +77,7 @@
 						{{ Form::open(array('url'=>'/events/' . $ticket->event->slug . '/seating/' . $ticket->seat->seatingPlan->slug)) }}
 							{{ Form::hidden('_method', 'DELETE') }}
 							{{ Form::hidden('user_id', $user->id, array('id'=>'user_id','class'=>'form-control')) }}
-							{{ Form::hidden('participant_id', $ticket->id, array('id'=>'participant_id','class'=>'form-control')) }}
+							{{ Form::hidden('ticket_id', $ticket->id, array('id'=>'ticket_id','class'=>'form-control')) }}
 							{{ Form::hidden('seat_column_delete', $ticket->seat->column, array('id'=>'seat_column_delete','class'=>'form-control')) }}
 							{{ Form::hidden('seat_row_delete', $ticket->seat->row, array('id'=>'seat_row_delete','class'=>'form-control')) }}
 						<h5>
@@ -88,6 +88,14 @@
 						{{ Form::close() }}
 				@endif
 			</div>
+            <div class="offset-md-2 col-md-2 offset-sm-2 col-sm-4 col-12 fluid">
+                Manager Goes here
+                <button class="btn btn-primary">Change Manager</button>
+            </div>
+            <div class="offset-md-2 col-md-2 offset-sm-2 col-sm-4 col-12 fluid">
+                User Goes here
+                <button class="btn btn-primary">Change User</button>
+            </div>
 			<div class="offset-md-2 col-md-2 offset-sm-2 col-sm-4 col-12">
 				<img class="img img-fluid" src="/{{ $ticket->qrcode }}" />
 			</div>

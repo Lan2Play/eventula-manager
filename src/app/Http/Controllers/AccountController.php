@@ -27,14 +27,14 @@ class AccountController extends Controller
             $creditLogs = $user->creditLogs()->paginate(5, ['*'], 'cl');
         }
         $purchases = $user->purchases()->paginate(5, ['*'], 'pu');
-        $tickets = $user->eventTickets()
+        $tickets = $user->tickets()
         ->orderBy('created_at', 'desc')
         ->paginate(5, ['*'], 'ti');
         return view("accounts.index")
             ->with('user', $user)
             ->with('creditLogs', $creditLogs)
             ->with('purchases', $purchases)
-            ->with('eventParticipants', $tickets);
+            ->with('tickets', $tickets);
     }
 
     /**

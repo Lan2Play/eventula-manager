@@ -41,10 +41,24 @@ class Ticket extends Model implements Auditable
         'manager_id',
         'owner_id',
         'event_id',
-        'ticket_type_id', //TODO FML the missing _type was me not understanding the relevance of $fillable
+        'ticket_type_id',
         'purchase_id',
         'staff',
         'free',
+    ];
+
+    /**
+     * Attributes to include in the Audit.
+     *
+     * @var array
+     */
+    protected $auditInclude = [
+        'user_id',
+        'manager_id',
+        'staff',
+        'free',
+        'event_id',
+        'signed_in'
     ];
 
     public static function boot()

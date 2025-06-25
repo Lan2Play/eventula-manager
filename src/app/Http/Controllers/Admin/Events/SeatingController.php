@@ -26,6 +26,7 @@ class SeatingController extends Controller
 {
     /**
      * Show Seating Index Page
+     * TODO db migration for new terminology  participant -> ticket and ticket -> TicketType in the seating table
      * @param  Event  $event
      * @return View
      */
