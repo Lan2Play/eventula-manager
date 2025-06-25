@@ -18,7 +18,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
-class TicketsController extends Controller
+class TicketTypeController extends Controller
 {
     /**
      * Show Tickets Index Page
@@ -43,17 +43,17 @@ class TicketsController extends Controller
         });
 
         //$purchaseBreakDown = $event->tickets()->withCount('participants')->get()->map(function ($ticket) {
-        $purchaseBreakDown = $event->ticketTypes()->withCount('tickets')->get()->map(function ($ticket) {
+        $purchaseBreakDown = $event->ticketTypes()->withCount('tickets')->get()->map(function ($ticketType) {
             return [
-                'name' => $ticket->name,
-                'count' => $ticket->participants_count,
+                'name' => $ticketType->name,
+                'count' => $ticketType->participants_count,
             ];
         })->toArray();
 
-        $incomeBreakDown = $event->ticketTypes()->withCount('tickets')->get()->map(function ($ticket) {
+        $incomeBreakDown = $event->ticketTypes()->withCount('tickets')->get()->map(function ($ticketType) {
             return [
-                'name' => $ticket->name,
-                'income' => $ticket->price * $ticket->participants_count,
+                'name' => $ticketType->name,
+                'income' => $ticketType->price * $ticketType->participants_count,
             ];
         })->toArray();
 
@@ -69,14 +69,14 @@ class TicketsController extends Controller
     /**
      * Show Tickets Page
      * @param  Event       $event
-     * @param  TicketType $ticket
+     * @param  TicketType $ticketType
      * @return View
      */
-    public function show(Event $event, TicketType $ticket)
+    public function show(Event $event, TicketType $ticketType)
     {
         return view('admin.events.tickets.show')
             ->with('event', $event)
-            ->with('ticket', $ticket);
+            ->with('ticket', $ticketType);
     }
 
     /**
@@ -130,38 +130,38 @@ class TicketsController extends Controller
             );
         }
 
-        $ticket             = new TicketType();
-        $ticket->event_id   = $event->id;
-        $ticket->name       = $request->name;
-        $ticket->type       = $request->type;
-        $ticket->price      = $request->price;
-        $ticket->seatable   = ($request->seatable ? true : false);
+        $ticketType             = new TicketType();
+        $ticketType->event_id   = $event->id;
+        $ticketType->name       = $request->name;
+        $ticketType->type       = $request->type;
+        $ticketType->price      = $request->price;
+        $ticketType->seatable   = ($request->seatable ? true : false);
 
-        $ticket->sale_start = @$saleStart;
-        $ticket->sale_end   = @$saleEnd;
-        $ticket->quantity   = @$request->quantity;
-        $ticket->no_tickets_per_user = $request->no_tickets_per_user;
-        $ticket->event_ticket_group_id = empty($request->ticket_group) ? null : $request->ticket_group;
+        $ticketType->sale_start = @$saleStart;
+        $ticketType->sale_end   = @$saleEnd;
+        $ticketType->quantity   = @$request->quantity;
+        $ticketType->no_tickets_per_user = $request->no_tickets_per_user;
+        $ticketType->event_ticket_group_id = empty($request->ticket_group) ? null : $request->ticket_group;
 
-        if (!$ticket->save()) {
-            Session::flash('alert-danger', 'Cannot save Ticket');
+        if (!$ticketType->save()) {
+            Session::flash('alert-danger', 'Cannot save Ticket Type');
             Redirect::back();
         }
 
         Session::flash('alert-success', 'Ticket saved Successfully');
-        return Redirect::to('/admin/events/' . $event->slug . '/tickets/' . $ticket->id);
+        return Redirect::to('/admin/events/' . $event->slug . '/tickets/' . $ticketType->id);
     }
 
     /**
      * Update Ticket
      * @param  Request     $request
      * @param  Event       $event
-     * @param  TicketType $ticket
+     * @param  TicketType $ticketType
      * @return Redirect
      * TODO need to check if tickettype was already sold (has at least one ticket referenced. If so forbid to change or
      * build at least a warning + new logic to compensate pricing changes anywhere else)
      */
-    public function update(Request $request, Event $event, TicketType $ticket)
+    public function update(Request $request, Event $event, TicketType $ticketType)
     {
         $rules = [
             'price'             => 'numeric',
@@ -187,17 +187,17 @@ class TicketsController extends Controller
         ];
         $this->validate($request, $rules, $messages);
 
-        if (isset($request->price) && (!$ticket->tickets->isEmpty() && $ticket->price != $request->price)) {
+        if (isset($request->price) && (!$ticketType->tickets->isEmpty() && $ticketType->price != $request->price)) {
             Session::flash('alert-danger', 'Cannot update Ticket price when tickets have been bought!');
             return Redirect::back();
         }
 
         if (isset($request->name)) {
-            $ticket->name = $request->name;
+            $ticketType->name = $request->name;
         }
 
         if (isset($request->type)) {
-            $ticket->type = $request->type;
+            $ticketType->type = $request->type;
         }
 
         if (isset($request->sale_start_date) || isset($request->sale_start_time)) {
@@ -222,25 +222,25 @@ class TicketsController extends Controller
             }
         }
 
-        $ticket->sale_start = @$saleStart;
-        $ticket->sale_end   = @$saleEnd;
+        $ticketType->sale_start = @$saleStart;
+        $ticketType->sale_end   = @$saleEnd;
         if (isset($request->price)) {
-            $ticket->price = $request->price;
+            $ticketType->price = $request->price;
         }
 
         if (isset($request->quantity)) {
-            $ticket->quantity   = $request->quantity;
+            $ticketType->quantity   = $request->quantity;
         }
 
         if (isset($request->no_tickets_per_user)) {
-            $ticket->no_tickets_per_user = $request->no_tickets_per_user;
+            $ticketType->no_tickets_per_user = $request->no_tickets_per_user;
         }
 
 
-        $ticket->seatable   = ($request->seatable ? true : false);
-        $ticket->event_ticket_group_id = empty($request->ticket_group) ? null : $request->ticket_group;
+        $ticketType->seatable   = ($request->seatable ? true : false);
+        $ticketType->event_ticket_group_id = empty($request->ticket_group) ? null : $request->ticket_group;
 
-        if (!$ticket->save()) {
+        if (!$ticketType->save()) {
             Session::flash('alert-danger', 'Cannot update Ticket!');
             return Redirect::back();
         }
@@ -252,17 +252,17 @@ class TicketsController extends Controller
     /**
      * Delete Ticket from Database
      * @param  Event       $event
-     * @param  TicketType $ticket
+     * @param  TicketType $ticketType
      * @return redirect
      */
-    public function destroy(Event $event, TicketType $ticket)
+    public function destroy(Event $event, TicketType $ticketType)
     {
-        if ($ticket->participants && $ticket->participants()->count() > 0) {
+        if ($ticketType->participants && $ticketType->participants()->count() > 0) {
             Session::flash('alert-danger', 'Cannot delete Ticket, Purchases have been made!');
             return Redirect::back();
         }
 
-        if (!$ticket->delete()) {
+        if (!$ticketType->delete()) {
             Session::flash('alert-danger', 'Cannot delete Ticket!');
             return Redirect::back();
         }

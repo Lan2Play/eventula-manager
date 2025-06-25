@@ -524,11 +524,11 @@ Route::group(['middleware' => ['installed']], function () {
         /**
          * Tickets
          */
-        Route::get('/admin/events/{event}/tickets', 'Admin\Events\TicketsController@index');
-        Route::post('/admin/events/{event}/tickets', 'Admin\Events\TicketsController@store');
-        Route::get('/admin/events/{event}/tickets/{ticket}', 'Admin\Events\TicketsController@show');
-        Route::post('/admin/events/{event}/tickets/{ticket}', 'Admin\Events\TicketsController@update');
-        Route::delete('/admin/events/{event}/tickets/{ticket}', 'Admin\Events\TicketsController@destroy');
+        Route::get('/admin/events/{event}/tickets', 'Admin\Events\TicketTypeController@index');
+        Route::post('/admin/events/{event}/tickets', 'Admin\Events\TicketTypeController@store');
+        Route::get('/admin/events/{event}/tickets/{ticket}', 'Admin\Events\TicketTypeController@show');
+        Route::post('/admin/events/{event}/tickets/{ticket}', 'Admin\Events\TicketTypeController@update');
+        Route::delete('/admin/events/{event}/tickets/{ticket}', 'Admin\Events\TicketTypeController@destroy');
 
         /**
          * Gifts
