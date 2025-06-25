@@ -464,27 +464,27 @@ Route::group(['middleware' => ['installed']], function () {
         /**
          * Participants
          */
-        Route::get('/admin/events/{event}/participants', 'Admin\Events\ParticipantsController@index');
-        Route::get('/admin/events/{event}/participants/signoutall', 'Admin\Events\ParticipantsController@signoutall');
-        Route::get('/admin/events/{event}/participants/{participant}/signout', 'Admin\Events\ParticipantsController@signout');
-        Route::get('/admin/events/{event}/participants/{participant}', 'Admin\Events\ParticipantsController@show');
-        Route::post('/admin/events/{event}/participants/{participant}', 'Admin\Events\ParticipantsController@update');
+        Route::get('/admin/events/{event}/participants', 'Admin\Events\TicketController@index');
+        Route::get('/admin/events/{event}/participants/signoutall', 'Admin\Events\TicketController@signoutall');
+        Route::get('/admin/events/{event}/participants/{ticket}/signout', 'Admin\Events\TicketController@signout');
+        Route::get('/admin/events/{event}/participants/{ticket}', 'Admin\Events\TicketController@show');
+        Route::post('/admin/events/{event}/participants/{ticket}', 'Admin\Events\TicketController@update');
         Route::post(
-            '/admin/events/{event}/participants/{participant}/signin',
-            'Admin\Events\ParticipantsController@signIn'
+            '/admin/events/{event}/participants/{ticket}/signin',
+            'Admin\Events\TicketController@signIn'
         );
         Route::post(
-            '/admin/events/{event}/participants/{participant}/transfer',
-            'Admin\Events\ParticipantsController@transfer'
+            '/admin/events/{event}/participants/{ticket}/transfer',
+            'Admin\Events\TicketController@transfer'
         );
         Route::post(
-            '/admin/events/{event}/participants/{participant}/revoke',
-            'Admin\Events\ParticipantsController@revoke'
+            '/admin/events/{event}/participants/{ticket}/revoke',
+            'Admin\Events\TicketController@revoke'
         );
         if (config('admin.super_danger_zone')) {
             Route::delete(
-                '/admin/events/{event}/participants/{participant}',
-                'Admin\Events\ParticipantsController@delete'
+                '/admin/events/{event}/participants/{ticket}',
+                'Admin\Events\TicketController@delete'
             );
         }
 
@@ -526,9 +526,9 @@ Route::group(['middleware' => ['installed']], function () {
          */
         Route::get('/admin/events/{event}/tickets', 'Admin\Events\TicketTypeController@index');
         Route::post('/admin/events/{event}/tickets', 'Admin\Events\TicketTypeController@store');
-        Route::get('/admin/events/{event}/tickets/{ticket}', 'Admin\Events\TicketTypeController@show');
-        Route::post('/admin/events/{event}/tickets/{ticket}', 'Admin\Events\TicketTypeController@update');
-        Route::delete('/admin/events/{event}/tickets/{ticket}', 'Admin\Events\TicketTypeController@destroy');
+        Route::get('/admin/events/{event}/tickets/{ticketType}', 'Admin\Events\TicketTypeController@show');
+        Route::post('/admin/events/{event}/tickets/{ticketType}', 'Admin\Events\TicketTypeController@update');
+        Route::delete('/admin/events/{event}/tickets/{ticketType}', 'Admin\Events\TicketTypeController@destroy');
 
         /**
          * Gifts

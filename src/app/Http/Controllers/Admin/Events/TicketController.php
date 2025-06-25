@@ -16,7 +16,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
-class ParticipantsController extends Controller
+class TicketController extends Controller
 {
     /**
      * Show Participants Index Page
@@ -33,23 +33,26 @@ class ParticipantsController extends Controller
     /**
      * Show Participants Page
      * @param  Event            $event
-     * @param  Ticket $participant
+     * @param  Ticket $ticket
      * @return View
      */
-    public function show(Event $event, Ticket $participant)
+    public function show(Event $event, Ticket $ticket)
     {
+        //TODO change participant to ticket in the view
         return view('admin.events.participants.show')
             ->with('event', $event)
-            ->with('participant', $participant);
+            ->with('participant', $ticket);
     }
 
     /**
      * Update Participant
      * @param  Event            $event
-     * @param  Ticket $participant
+     * @param  Ticket $ticket
      * @param  Request          $request
+     *
+     * // TODO implementation needed
      */
-    public function update(Event $event, Ticket $participant, Request $request)
+    public function update(Event $event, Ticket $ticket, Request $request)
     {
         //DEBUG
         dd('edit me');
@@ -58,42 +61,42 @@ class ParticipantsController extends Controller
     /**
      * Sign in to Event
      * @param  Event            $event
-     * @param  Ticket $participant
+     * @param  Ticket $ticket
      * @return Redirect
      */
-    public function signIn(Event $event, Ticket $participant)
+    public function signIn(Event $event, Ticket $ticket)
     {
-        if ($participant->event->slug != $event->slug)
+        if ($ticket->event->slug != $event->slug)
         {
             Session::flash('alert-danger', 'The selected participant does not belong to the selected event!');
             return Redirect::to('admin/events/' . $event->slug . '/participants/');
         }
-        if ($participant->ticket && $participant->purchase->status != "Success") {
+        if ($ticket->ticket && $ticket->purchase->status != "Success") {
             Session::flash('alert-danger', 'Cannot sign in Participant because the payment is not completed!');
-            return Redirect::to('admin/events/' . $event->slug . '/participants/' . $participant->id);
+            return Redirect::to('admin/events/' . $event->slug . '/participants/' . $ticket->id);
         }
-        if ($participant->revoked) {
+        if ($ticket->revoked) {
             Session::flash('alert-danger', 'Cannot sign in a revoked Participant!');
-            return Redirect::to('admin/events/' . $event->slug . '/participants/' . $participant->id);
+            return Redirect::to('admin/events/' . $event->slug . '/participants/' . $ticket->id);
         }
-        if (!$participant->setSignIn()) {
+        if (!$ticket->setSignIn()) {
             Session::flash('alert-danger', 'Cannot sign in Participant!');
-            return Redirect::to('admin/events/' . $event->slug . '/participants/' . $participant->id);
+            return Redirect::to('admin/events/' . $event->slug . '/participants/' . $ticket->id);
         }
         Session::flash('alert-success', 'Participant Signed in!');
         return Redirect::to('admin/events/' . $event->slug . '/participants/');
     }
 
-    public function transfer(Event $event, Ticket $participant, Request $request)
+    public function transfer(Event $event, Ticket $ticket, Request $request)
     {
-        if ($participant->event->slug != $event->slug)
+        if ($ticket->event->slug != $event->slug)
         {
             Session::flash('alert-danger', 'The selected participant does not belong to the selected event!');
             return Redirect::to('admin/events/' . $event->slug . '/participants/');
         }
-        if ($participant->ticket && $participant->purchase->status != "Success") {
+        if ($ticket->ticket && $ticket->purchase->status != "Success") {
             Session::flash('alert-danger', 'Cannot sign in Participant because the payment is not completed!');
-            return Redirect::to('admin/events/' . $event->slug . '/participants/' . $participant->id);
+            return Redirect::to('admin/events/' . $event->slug . '/participants/' . $ticket->id);
         }
         $rules = [
             'event_id'  => 'required',
@@ -104,13 +107,13 @@ class ParticipantsController extends Controller
             'event_id|exists'   => 'A Event ID must exist.',
         ];
         $this->validate($request, $rules, $messages);
-        if ($participant->signed_in) {
+        if ($ticket->signed_in) {
             Session::flash('alert-warning', 'Cannot tranfer Participant already signed in!');
-            return Redirect::to('admin/events/' . $event->slug . '/participants/' . $participant->id);
+            return Redirect::to('admin/events/' . $event->slug . '/participants/' . $ticket->id);
         }
-        if (!$participant->transfer($request->event_id)) {
+        if (!$ticket->transfer($request->event_id)) {
             Session::flash('alert-danger', 'Cannot tranfer Participant!');
-            return Redirect::to('admin/events/' . $event->slug . '/participants/' . $participant->id);
+            return Redirect::to('admin/events/' . $event->slug . '/participants/' . $ticket->id);
         }
         Session::flash('alert-success', 'Participant Transferred!');
         return Redirect::to('admin/events/' . $event->slug . '/participants/');
@@ -123,10 +126,10 @@ class ParticipantsController extends Controller
      */
     public function signoutall(Event $event)
     {
-        foreach ($event->tickets()->get() as $participant)
+        foreach ($event->tickets()->get() as $ticket)
         {
-            if (!$participant->setSignIn(false)) {
-                Session::flash('alert-danger', 'Cannot sign out Participant! '. $participant->name);
+            if (!$ticket->setSignIn(false)) {
+                Session::flash('alert-danger', 'Cannot sign out Participant! '. $ticket->name);
                 return Redirect::to('admin/events/' . $event->slug . '/participants/');
             }
         }
@@ -137,54 +140,54 @@ class ParticipantsController extends Controller
     /**
      * Sign out a single participant for the event
      * @param  Event  $event
-     * @param  Ticket $participant
+     * @param  Ticket $ticket
      * @return View
      */
-    public function signout(Event $event, Ticket $participant)
+    public function signout(Event $event, Ticket $ticket)
     {
-        if ($participant->event->slug != $event->slug)
+        if ($ticket->event->slug != $event->slug)
         {
             Session::flash('alert-danger', 'The selected participant does not belong to the selected event!');
             return Redirect::to('admin/events/' . $event->slug . '/participants/');
         }
-        if ($participant->revoked) {
+        if ($ticket->revoked) {
             Session::flash('alert-danger', 'Cannot sign out a revoked Participant!');
-            return Redirect::to('admin/events/' . $event->slug . '/participants/' . $participant->id);
+            return Redirect::to('admin/events/' . $event->slug . '/participants/' . $ticket->id);
         }
-        if (!$participant->setSignIn(false)) {
-            Session::flash('alert-danger', 'Cannot sign out Participant! '. $participant->name);
+        if (!$ticket->setSignIn(false)) {
+            Session::flash('alert-danger', 'Cannot sign out Participant! '. $ticket->name);
             return Redirect::to('admin/events/' . $event->slug . '/participants/');
         }
 
-        Session::flash('alert-success', 'Participant ' . $participant->name . ' signed out!');
+        Session::flash('alert-success', 'Participant ' . $ticket->name . ' signed out!');
         return Redirect::to('admin/events/' . $event->slug . '/participants/');
     }
 
-    function revoke(Event $event, Ticket $participant)
+    function revoke(Event $event, Ticket $ticket)
     {
-        if ($participant->event->slug != $event->slug)
+        if ($ticket->event->slug != $event->slug)
         {
             Session::flash('alert-danger', 'The selected participant does not belong to the selected event!');
             return Redirect::to('admin/events/' . $event->slug . '/participants/');
         }
-        if (!$participant->setRevoked()) {
+        if (!$ticket->setRevoked()) {
             Session::flash('alert-danger', 'Cannot revoke Participant!');
-            return Redirect::to('admin/events/' . $event->slug . '/participants/' . $participant->id);
+            return Redirect::to('admin/events/' . $event->slug . '/participants/' . $ticket->id);
         }
         Session::flash('alert-success', 'Participant has been revoked');
         return Redirect::to('admin/events/' . $event->slug . '/participants/');
     }
 
-    function delete(Event $event, Ticket $participant)
+    function delete(Event $event, Ticket $ticket)
     {
-        if ($participant->event->slug != $event->slug)
+        if ($ticket->event->slug != $event->slug)
         {
             Session::flash('alert-danger', 'The selected participant does not belong to the selected event!');
             return Redirect::to('admin/events/' . $event->slug . '/participants/');
         }
-        if (!$participant->delete()) {
+        if (!$ticket->delete()) {
             Session::flash('alert-danger', 'Cannot delete participant');
-            return Redirect::to('admin/events/' . $event->slug . '/participants/' . $participant->id);
+            return Redirect::to('admin/events/' . $event->slug . '/participants/' . $ticket->id);
         }
         Session::flash('alert-success', 'Participants deleted');
         return Redirect::to('admin/events/' . $event->slug . '/participants/');
