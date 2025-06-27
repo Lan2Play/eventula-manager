@@ -27,9 +27,7 @@ class AccountController extends Controller
             $creditLogs = $user->creditLogs()->paginate(5, ['*'], 'cl');
         }
         $purchases = $user->purchases()->paginate(5, ['*'], 'pu');
-        $tickets = $user->tickets()
-        ->orderBy('created_at', 'desc')
-        ->paginate(5, ['*'], 'ti');
+        $tickets = $user->getAllRoleTickets(true, 5, 'ti');
         return view("accounts.index")
             ->with('user', $user)
             ->with('creditLogs', $creditLogs)

@@ -89,16 +89,29 @@
 							{{ Form::hidden('ticket_id', $ticket->id, array('id'=>'ticket_id','class'=>'form-control')) }}
 							{{ Form::hidden('seat_column_delete', $ticket->seat->column, array('id'=>'seat_column_delete','class'=>'form-control')) }}
 							{{ Form::hidden('seat_row_delete', $ticket->seat->row, array('id'=>'seat_row_delete','class'=>'form-control')) }}
-							<button class="btn btn-danger">
+							<button class="btn btn-danger" {{ auth()->id() != $ticket->user_id && !auth()->user()->getAdmin() ? 'disabled' : '' }}>
 								<i class="fas fa-chair me-1"></i> @lang('events.remove_seating')
 							</button>
+							@if(auth()->id() != $ticket->user_id && !auth()->user()->getAdmin())
+								<div class="alert alert-warning mt-2">
+									<small><i class="fas fa-exclamation-triangle me-1"></i> Only the ticket user can change seating</small>
+								</div>
+							@endif
 						{{ Form::close() }}
+					</div>
+				@elseif($ticket->ticketType && $ticket->ticketType->seatable)
+					<div class="mt-3">
+						@if(auth()->id() != $ticket->user_id && !auth()->user()->getAdmin())
+							<div class="alert alert-info">
+								<i class="fas fa-info-circle me-1"></i> Only the ticket user can select a seat
+							</div>
+						@endif
 					</div>
 				@endif
 			</div>
 
-			<div class="col-lg-6 col-md-12 mb-3 text-center">
-				<img class="img-fluid rounded border" src="/{{ $ticket->qrcode }}" alt="Ticket QR Code" />
+			<div class="col-lg-4 col-md-12 mb-3 text-center">
+				<img class="img-fluid rounded border" src="/{{ $ticket->qrcode }}" alt="Ticket QR Code" style="max-width: 200px;" />
 			</div>
 
 			<div class="col-12">
@@ -107,7 +120,7 @@
 			</div>
 
 			<div class="col-md-4 col-sm-12 mb-3">
-                <div class="card h-100">
+                <div class="card role-card">
                     <div class="card-header bg-light">
                         <div class="d-flex align-items-center">
                             <i class="fas fa-crown me-2 text-warning"></i>
@@ -117,18 +130,23 @@
                             </a>
                         </div>
                     </div>
-                    <div class="card-body">
-                        @if ($ticket->owner_id)
-                            <p class="mb-0">{{ $ticket->owner->username }}</p>
-                        @else
-                            <p class="text-muted mb-0">None</p>
-                        @endif
+                    <div class="card-body d-flex flex-column">
+                        <div class="flex-grow-1">
+                            @if ($ticket->owner_id)
+                                <p class="mb-2"><strong>{{ $ticket->owner->username }}</strong></p>
+                            @else
+                                <p class="text-muted mb-2">None</p>
+                            @endif
+                        </div>
+                        <div class="role-description">
+                            <small class="text-muted">The owner can't be changed.</small>
+                        </div>
                     </div>
                 </div>
             </div>
 
 			<div class="col-md-4 col-sm-12 mb-3">
-                <div class="card h-100">
+                <div class="card role-card">
                     <div class="card-header bg-light">
                         <div class="d-flex align-items-center">
                             <i class="fas fa-user-cog me-2 text-primary"></i>
@@ -138,21 +156,28 @@
                             </a>
                         </div>
                     </div>
-                    <div class="card-body">
-                        @if ($ticket->manager_id)
-                            <p>{{ $ticket->manager->username }}</p>
-                        @else
-                            <p class="text-muted">None</p>
-                        @endif
-                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#changeManagerModal{{ $ticket->id }}">
-                            <i class="fas fa-edit me-1"></i> Change Manager
-                        </button>
+                    <div class="card-body d-flex flex-column">
+                        <div class="flex-grow-1">
+                            @if ($ticket->manager_id)
+                                <p class="mb-2"><strong>{{ $ticket->manager->username }}</strong></p>
+                            @else
+                                <p class="text-muted mb-2">None</p>
+                            @endif
+                        </div>
+                        <div class="mt-auto">
+                            <button class="btn btn-primary btn-sm w-100" data-bs-toggle="modal" data-bs-target="#changeManagerModal{{ $ticket->id }}" {{ auth()->id() != $ticket->owner_id && !auth()->user()->getAdmin() ? 'disabled' : '' }}>
+                                <i class="fas fa-edit me-1"></i> Change Manager
+                            </button>
+                            @if(auth()->id() != $ticket->owner_id && !auth()->user()->getAdmin())
+                                <small class="d-block text-muted mt-1">Only the ticket owner can change the manager</small>
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="col-md-4 col-sm-12 mb-3">
-                <div class="card h-100">
+                <div class="card role-card">
                     <div class="card-header bg-light">
                         <div class="d-flex align-items-center">
                             <i class="fas fa-user me-2 text-success"></i>
@@ -162,15 +187,22 @@
                             </a>
                         </div>
                     </div>
-                    <div class="card-body">
-                        @if ($ticket->user_id)
-                            <p>{{ $ticket->user->username }}</p>
-                        @else
-                            <p class="text-muted">None</p>
-                        @endif
-                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#changeUserModal{{ $ticket->id }}">
-                            <i class="fas fa-edit me-1"></i> Change User
-                        </button>
+                    <div class="card-body d-flex flex-column">
+                        <div class="flex-grow-1">
+                            @if ($ticket->user_id)
+                                <p class="mb-2"><strong>{{ $ticket->user->username }}</strong></p>
+                            @else
+                                <p class="text-muted mb-2">None</p>
+                            @endif
+                        </div>
+                        <div class="mt-auto">
+                            <button class="btn btn-primary btn-sm w-100" data-bs-toggle="modal" data-bs-target="#changeUserModal{{ $ticket->id }}" {{ (auth()->id() != $ticket->owner_id && auth()->id() != $ticket->manager_id && !auth()->user()->getAdmin()) ? 'disabled' : '' }}>
+                                <i class="fas fa-edit me-1"></i> Change User
+                            </button>
+                            @if(auth()->id() != $ticket->owner_id && auth()->id() != $ticket->manager_id && !auth()->user()->getAdmin())
+                                <small class="d-block text-muted mt-1">Only the ticket owner or manager can change the user</small>
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>
@@ -186,9 +218,63 @@
                         {{ Form::open(array('url'=>'/events/' . $ticket->event->slug . '/participants/' . $ticket->id, 'method'=>'POST')) }}
                         <div class="modal-body">
                             <div class="form-group">
-                                <label for="manager_id">Select Manager:</label>
-                                {{ Form::select('manager_id', [null => 'None'] + App\User::all()->pluck('username', 'id')->toArray(), $ticket->manager_id, ['class' => 'form-control']) }}
+                                <label for="manager_search">Search Manager:</label>
+                                <input type="text" id="manager_search{{ $ticket->id }}" class="form-control manager-search" placeholder="Type to search users or leave empty for none..." autocomplete="off">
+                                <input type="hidden" name="manager_id" id="manager_id{{ $ticket->id }}" value="{{ $ticket->manager_id }}">
+                                <div id="manager_search_results{{ $ticket->id }}" class="search-results"></div>
                             </div>
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    var managerSearch = document.getElementById('manager_search{{ $ticket->id }}');
+                                    var managerIdInput = document.getElementById('manager_id{{ $ticket->id }}');
+                                    var managerSearchResults = document.getElementById('manager_search_results{{ $ticket->id }}');
+
+                                    // Set initial username if manager_id exists
+                                    @if($ticket->manager_id and $ticket->manager)
+                                        managerSearch.value = "{{ $ticket->manager->username }}";
+                                    @endif
+
+                                    managerSearch.addEventListener('input', function() {
+                                        var query = this.value;
+                                        if (query.length < 2) {
+                                            managerSearchResults.innerHTML = '';
+                                            if (query.length === 0) {
+                                                managerIdInput.value = '';
+                                            }
+                                            return;
+                                        }
+
+                                        fetch('/search/users/autocomplete?query=' + encodeURIComponent(query))
+                                            .then(function(response) { return response.json(); })
+                                            .then(function(data) {
+                                                managerSearchResults.innerHTML = '';
+                                                if (data.length > 0) {
+                                                    var ul = document.createElement('ul');
+                                                    ul.className = 'list-group';
+
+                                                    for (var i = 0; i < data.length; i++) {
+                                                        var user = data[i];
+                                                        var li = document.createElement('li');
+                                                        li.className = 'list-group-item user-result';
+                                                        li.textContent = user.username;
+
+                                                        (function(user) {
+                                                            li.addEventListener('click', function() {
+                                                                managerSearch.value = user.username;
+                                                                managerIdInput.value = user.id;
+                                                                managerSearchResults.innerHTML = '';
+                                                            });
+                                                        })(user);
+
+                                                        ul.appendChild(li);
+                                                    }
+
+                                                    managerSearchResults.appendChild(ul);
+                                                }
+                                            });
+                                    });
+                                });
+                            </script>
                             <div class="alert alert-info mt-3">
                                 <strong>What can a Manager do?</strong>
                                 <p>A Manager can change the User of a Ticket and the Seat the Ticket is using.</p>
@@ -216,9 +302,60 @@
                         {{ Form::open(array('url'=>'/events/' . $ticket->event->slug . '/participants/' . $ticket->id, 'method'=>'POST')) }}
                         <div class="modal-body">
                             <div class="form-group">
-                                <label for="user_id">Select User:</label>
-                                {{ Form::select('user_id', App\User::all()->pluck('username', 'id')->toArray(), $ticket->user_id, ['class' => 'form-control']) }}
+                                <label for="username_search">Search User:</label>
+                                <input type="text" id="username_search{{ $ticket->id }}" class="form-control username-search" placeholder="Type to search users..." autocomplete="off">
+                                <input type="hidden" name="user_id" id="user_id{{ $ticket->id }}" value="{{ $ticket->user_id }}">
+                                <div id="search_results{{ $ticket->id }}" class="search-results"></div>
                             </div>
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    var usernameSearch = document.getElementById('username_search{{ $ticket->id }}');
+                                    var userIdInput = document.getElementById('user_id{{ $ticket->id }}');
+                                    var searchResults = document.getElementById('search_results{{ $ticket->id }}');
+
+                                    // Set initial username if user_id exists
+                                    @if($ticket->user_id and $ticket->user)
+                                        usernameSearch.value = "{{ $ticket->user->username }}";
+                                    @endif
+
+                                    usernameSearch.addEventListener('input', function() {
+                                        var query = this.value;
+                                        if (query.length < 2) {
+                                            searchResults.innerHTML = '';
+                                            return;
+                                        }
+
+                                        fetch('/search/users/autocomplete?query=' + encodeURIComponent(query))
+                                            .then(function(response) { return response.json(); })
+                                            .then(function(data) {
+                                                searchResults.innerHTML = '';
+                                                if (data.length > 0) {
+                                                    var ul = document.createElement('ul');
+                                                    ul.className = 'list-group';
+
+                                                    for (var i = 0; i < data.length; i++) {
+                                                        var user = data[i];
+                                                        var li = document.createElement('li');
+                                                        li.className = 'list-group-item user-result';
+                                                        li.textContent = user.username;
+
+                                                        (function(user) {
+                                                            li.addEventListener('click', function() {
+                                                                usernameSearch.value = user.username;
+                                                                userIdInput.value = user.id;
+                                                                searchResults.innerHTML = '';
+                                                            });
+                                                        })(user);
+
+                                                        ul.appendChild(li);
+                                                    }
+
+                                                    searchResults.appendChild(ul);
+                                                }
+                                            });
+                                    });
+                                });
+                            </script>
                             <div class="alert alert-info mt-3">
                                 <strong>What can a User do?</strong>
                                 <p>A User "uses" the Ticket to get entrance to the event. The ticket user will be able to use the ticket.</p>
@@ -258,3 +395,47 @@
         });
     });
 </script>
+
+<style>
+    .search-results {
+        position: relative;
+        z-index: 1000;
+    }
+    .search-results ul {
+        position: absolute;
+        width: 100%;
+        max-height: 200px;
+        overflow-y: auto;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background-color: white;
+    }
+    .user-result {
+        cursor: pointer;
+    }
+    .user-result:hover {
+        background-color: #f8f9fa;
+    }
+
+    /* Equal height role cards */
+    .role-card {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .role-card .card-body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .role-card .flex-grow-1 {
+        flex-grow: 1;
+    }
+
+    .role-description {
+        margin-top: auto;
+        padding-top: 10px;
+    }
+</style>

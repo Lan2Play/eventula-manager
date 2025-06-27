@@ -131,8 +131,12 @@ class TicketController extends Controller
     {
         $user = Auth::user();
 
-        // Check if the user is the owner of the ticket or an admin
-        if ($user->id != $ticket->owner_id && !$user->getAdmin()) {
+        // Check if the user has permission to update this ticket
+        $isOwner = $user->id == $ticket->owner_id;
+        $isManager = $user->id == $ticket->manager_id;
+        $isAdmin = $user->getAdmin();
+
+        if (!$isOwner && !$isManager && !$isAdmin) {
             Session::flash('alert-danger', 'You do not have permission to update this ticket!');
             return Redirect::back();
         }
@@ -146,14 +150,47 @@ class TicketController extends Controller
         $action = $request->input('action');
 
         if ($action === 'change_manager') {
-            $ticket->manager_id = $request->input('manager_id');
+            // Only owner can change the manager
+            if (!$isOwner && !$isAdmin) {
+                Session::flash('alert-danger', 'Only the ticket owner can change the manager!');
+                return Redirect::back();
+            }
+
+            $managerId = $request->input('manager_id');
+
+            // Validate that the manager_id exists in users table
+            if ($managerId && !\App\User::where('id', $managerId)->exists()) {
+                Session::flash('alert-danger', 'The selected manager does not exist!');
+                return Redirect::back();
+            }
+
+            $ticket->manager_id = $managerId;
             if (!$ticket->save()) {
                 Session::flash('alert-danger', 'Failed to update ticket manager!');
                 return Redirect::back();
             }
             Session::flash('alert-success', 'Ticket manager updated successfully!');
         } elseif ($action === 'change_user') {
-            $ticket->user_id = $request->input('user_id');
+            // Manager and owner can change user_id
+            if (!$isOwner && !$isManager && !$isAdmin) {
+                Session::flash('alert-danger', 'Only the ticket owner or manager can change the user!');
+                return Redirect::back();
+            }
+
+            $userId = $request->input('user_id');
+
+            // Validate that the user_id exists in users table
+            if (!$userId || !\App\User::where('id', $userId)->exists()) {
+                Session::flash('alert-danger', 'The selected user does not exist!');
+                return Redirect::back();
+            }
+
+            // Make sure owner_id is set if it's not already
+            if (!$ticket->owner_id) {
+                $ticket->owner_id = $ticket->user_id;
+            }
+
+            $ticket->user_id = $userId;
             if (!$ticket->save()) {
                 Session::flash('alert-danger', 'Failed to update ticket user!');
                 return Redirect::back();

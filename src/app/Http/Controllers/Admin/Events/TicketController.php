@@ -45,7 +45,7 @@ class TicketController extends Controller
     }
 
     /**
-     * Update Participant
+     * Update Event
      * @param  Event            $event
      * @param  Ticket $ticket
      * @param  Request          $request
@@ -54,7 +54,7 @@ class TicketController extends Controller
     public function update(Event $event, Ticket $ticket, Request $request)
     {
         if ($ticket->event->slug != $event->slug) {
-            Session::flash('alert-danger', 'The selected participant does not belong to the selected event!');
+            Session::flash('alert-danger', 'The selected ticket does not belong to the selected event!');
             return Redirect::to('admin/events/' . $event->slug . '/participants/');
         }
 

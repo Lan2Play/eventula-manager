@@ -84,7 +84,32 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function tickets()
     {
-        return $this->hasMany('App\Ticket');
+        return $this->hasMany('App\Ticket', 'user_id');
+    }
+
+    public function ownedTickets()
+    {
+        return $this->hasMany('App\Ticket', 'owner_id');
+    }
+
+    public function managedTickets()
+    {
+        return $this->hasMany('App\Ticket', 'manager_id');
+    }
+
+    public function getAllRoleTickets($paginate = false, $perPage = 5, $pageName = 'page')
+    {
+        $query = Ticket::where(function($query) {
+            $query->where('user_id', $this->id)
+                  ->orWhere('owner_id', $this->id)
+                  ->orWhere('manager_id', $this->id);
+        })->orderBy('created_at', 'desc');
+
+        if ($paginate) {
+            return $query->paginate($perPage, ['*'], $pageName);
+        }
+
+        return $query->get();
     }
     public function matchMakingTeamplayers()
     {
