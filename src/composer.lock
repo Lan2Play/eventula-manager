@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f6b33936317046c9d44c37fc457379c9",
+    "content-hash": "15d1539f5300ef6d28fda0ea22bc9bb2",
     "packages": [
         {
             "name": "artesaos/seotools",
@@ -9970,16 +9970,16 @@
         },
         {
             "name": "webonyx/graphql-php",
-            "version": "v15.21.0",
+            "version": "v15.21.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webonyx/graphql-php.git",
-                "reference": "68549e75a6f113f08c91d12ed6d0ec3fd971087b"
+                "reference": "1c3e77c71bf3e666b636e329f126bbb524a0fe31"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webonyx/graphql-php/zipball/68549e75a6f113f08c91d12ed6d0ec3fd971087b",
-                "reference": "68549e75a6f113f08c91d12ed6d0ec3fd971087b",
+                "url": "https://api.github.com/repos/webonyx/graphql-php/zipball/1c3e77c71bf3e666b636e329f126bbb524a0fe31",
+                "reference": "1c3e77c71bf3e666b636e329f126bbb524a0fe31",
                 "shasum": ""
             },
             "require": {
@@ -9992,7 +9992,7 @@
                 "amphp/http-server": "^2.1",
                 "dms/phpunit-arraysubset-asserts": "dev-master",
                 "ergebnis/composer-normalize": "^2.28",
-                "friendsofphp/php-cs-fixer": "3.82.0",
+                "friendsofphp/php-cs-fixer": "3.82.2",
                 "mll-lab/php-cs-fixer-config": "5.11.0",
                 "nyholm/psr7": "^1.5",
                 "phpbench/phpbench": "^1.2",
@@ -10032,7 +10032,7 @@
             ],
             "support": {
                 "issues": "https://github.com/webonyx/graphql-php/issues",
-                "source": "https://github.com/webonyx/graphql-php/tree/v15.21.0"
+                "source": "https://github.com/webonyx/graphql-php/tree/v15.21.1"
             },
             "funding": [
                 {
@@ -10040,7 +10040,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2025-07-08T08:22:01+00:00"
+            "time": "2025-07-09T17:26:35+00:00"
         },
         {
             "name": "xpaw/php-source-query-class",
