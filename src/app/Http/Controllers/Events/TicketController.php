@@ -205,7 +205,13 @@ class TicketController extends Controller
 
     public function exportParticipantAsFile(Ticket $ticket, string $fileType): Response|StreamedResponse {
         $user = Auth::user();
-        if ($user->id != $ticket->user_id) {
+        
+        // Check if the user has permission to export this ticket
+        $hasPermission = $user->id == $ticket->user_id || 
+                         $user->id == $ticket->manager_id || 
+                         $user->id == $ticket->owner_id ||
+                         $user->getAdmin();
+        if (!$hasPermission) {
             $viewErrorBag = (new ViewErrorBag())->put('default',
                 new MessageBag([
                     0 => [__('tickets.not_allowed')]

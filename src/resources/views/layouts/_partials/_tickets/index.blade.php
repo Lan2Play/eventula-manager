@@ -229,7 +229,6 @@
                                     var managerIdInput = document.getElementById('manager_id{{ $ticket->id }}');
                                     var managerSearchResults = document.getElementById('manager_search_results{{ $ticket->id }}');
 
-                                    // Set initial username if manager_id exists
                                     @if($ticket->manager_id and $ticket->manager)
                                         managerSearch.value = "{{ $ticket->manager->username }}";
                                     @endif
@@ -313,7 +312,6 @@
                                     var userIdInput = document.getElementById('user_id{{ $ticket->id }}');
                                     var searchResults = document.getElementById('search_results{{ $ticket->id }}');
 
-                                    // Set initial username if user_id exists
                                     @if($ticket->user_id and $ticket->user)
                                         usernameSearch.value = "{{ $ticket->user->username }}";
                                     @endif
