@@ -5,7 +5,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 12.19.3.
+ * Generated for Laravel 12.20.0.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -5387,6 +5387,20 @@ namespace Illuminate\Support\Facades {
         {
             /** @var \Illuminate\Config\Repository $instance */
             return $instance->array($key, $default);
+        }
+
+        /**
+         * Get the specified array configuration value as a collection.
+         *
+         * @param string $key
+         * @param (\Closure():(array<array-key, mixed>|null))|array<array-key, mixed>|null $default
+         * @return Collection<array-key, mixed> 
+         * @static 
+         */
+        public static function collection($key, $default = null)
+        {
+            /** @var \Illuminate\Config\Repository $instance */
+            return $instance->collection($key, $default);
         }
 
         /**
@@ -11881,6 +11895,9 @@ namespace Illuminate\Support\Facades {
      * @method static array validate(array $rules, ...$params)
      * @method static array validateWithBag(string $errorBag, array $rules, ...$params)
      * @method static bool hasValidSignature(bool $absolute = true)
+     * @method static bool hasValidRelativeSignature()
+     * @method static bool hasValidSignatureWhileIgnoring($ignoreQuery = [], $absolute = true)
+     * @method static bool hasValidRelativeSignatureWhileIgnoring($ignoreQuery = [])
      * @see \Illuminate\Http\Request
      */
     class Request {
@@ -28462,7 +28479,7 @@ namespace  {
          * Get the count of the total records for the paginator.
          *
          * @param array<string|\Illuminate\Contracts\Database\Query\Expression> $columns
-         * @return int 
+         * @return int<0, max> 
          * @static 
          */
         public static function getCountForPagination($columns = [])
@@ -28537,7 +28554,7 @@ namespace  {
          * Retrieve the "count" result of the query.
          *
          * @param \Illuminate\Contracts\Database\Query\Expression|string $columns
-         * @return int 
+         * @return int<0, max> 
          * @static 
          */
         public static function count($columns = '*')
@@ -28654,7 +28671,7 @@ namespace  {
         /**
          * Insert new records into the database while ignoring errors.
          *
-         * @return int 
+         * @return int<0, max> 
          * @static 
          */
         public static function insertOrIgnore($values)
@@ -28731,7 +28748,7 @@ namespace  {
          *
          * @param array<string, float|int|numeric-string> $columns
          * @param array<string, mixed> $extra
-         * @return int 
+         * @return int<0, max> 
          * @throws \InvalidArgumentException
          * @static 
          */
@@ -28746,7 +28763,7 @@ namespace  {
          *
          * @param array<string, float|int|numeric-string> $columns
          * @param array<string, mixed> $extra
-         * @return int 
+         * @return int<0, max> 
          * @throws \InvalidArgumentException
          * @static 
          */
