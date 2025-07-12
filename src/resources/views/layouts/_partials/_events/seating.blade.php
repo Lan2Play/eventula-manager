@@ -37,51 +37,38 @@ in_array('PREVIEW', $event->seatingPlans->pluck('status')->toArray())
                                     </td>
                                 @for ($column = 1; $column <= $seatingPlan->columns; $column++)
 
-                                        <td style="padding-top:14px;">
-                                            @if ($event->getSeat($seatingPlan->id, $column, $row))
-                                            @if($event->getSeat($seatingPlan->id, $column, $row)->status == 'ACTIVE')
-                                            @if ($seatingPlan->locked)
-                                            <button class="btn btn-success btn-sm" disabled>
-                                                {{ Helpers::getLatinAlphabetUpperLetterByIndex($row) . $column }} - {{ $event->getSeat($seatingPlan->id, $column, $row)->eventParticipant->user->username }}
-                                            </button>
-                                            @else
-                                            <button class="btn btn-success btn-sm" disabled>
-                                                {{ Helpers::getLatinAlphabetUpperLetterByIndex($row) . $column }} - {{ $event->getSeat($seatingPlan->id, $column, $row)->eventParticipant->user->username }}
-                                            </button>
-                                            @endif
-                                            @endif
-                                            @else
-                                            @if ($seatingPlan->locked)
-                                            <button class="btn btn-primary btn-sm" disabled>
-                                                {{ Helpers::getLatinAlphabetUpperLetterByIndex($row) . $column }} - @lang('events.empty')
-                                            </button>
-                                            @else
-                                            @php
-                                            $ticket = $event->getTicket();
-                                            @endphp
-                                            @if (Auth::user()
-                                                && $ticket
-                                                && ($ticket->staff
-                                                    || $ticket->free
-                                                    || ($ticket->ticketType && $ticket->ticketType->seatable))
-                                            )
+                                    <td style="padding-top:14px;">
+                                        @php
+                                        $seat = $event->getSeat($seatingPlan->id, $column, $row);
+                                        $seatLabel = Helpers::getLatinAlphabetUpperLetterByIndex($row) . $column;
+                                        $ticket = $event->getTicket();
+                                        $canPickSeat = Auth::user()
+                                        && $ticket
+                                        && ($ticket->staff || $ticket->free || ($ticket->ticketType &&
+                                        $ticket->ticketType->seatable));
+                                        @endphp
 
-                                            <button class="btn btn-primary btn-sm" onclick="pickSeat(
-                                                                            '{{ $seatingPlan->slug }}',
-                                                                            '{{ $column }}',
-                                                                            '{{ $row }}',
-                                                                            '{{ Helpers::getLatinAlphabetUpperLetterByIndex($row) . $column }}'
-                                                                        )" data-bs-toggle="modal" data-bs-target="#pickSeatModal">
-                                                {{ Helpers::getLatinAlphabetUpperLetterByIndex($row) . $column }} - @lang('events.empty')
-                                            </button>
-                                            @else
-                                            <button class="btn btn-primary btn-sm" disabled>
-                                                {{ Helpers::getLatinAlphabetUpperLetterByIndex($row) . $column }} - @lang('events.empty')
-                                            </button>
-                                            @endif
-                                            @endif
-                                            @endif
-                                        </td>
+                                        @if ($seat && $seat->status == 'ACTIVE')
+                                        <button class="btn btn-success btn-sm" disabled>
+                                            {{ $seatLabel }} - {{ $seat->eventTicket->user->username }}
+                                        </button>
+                                        @else
+                                        @if ($seatingPlan->locked || !$canPickSeat)
+                                        <button class="btn btn-primary btn-sm" disabled>
+                                            {{ $seatLabel }} - @lang('events.empty')
+                                        </button>
+                                        @else
+                                        <button class="btn btn-primary btn-sm" onclick="pickSeat(
+                '{{ $seatingPlan->slug }}',
+                '{{ $column }}',
+                '{{ $row }}',
+                '{{ $seatLabel }}'
+            )" data-bs-toggle="modal" data-bs-target="#pickSeatModal">
+                                            {{ $seatLabel }} - @lang('events.empty')
+                                        </button>
+                                        @endif
+                                        @endif
+                                    </td>
                                         @endfor
                                 </tr>
                                 @endfor
@@ -100,18 +87,18 @@ in_array('PREVIEW', $event->seatingPlans->pluck('status')->toArray())
                     <div class="col-12 col-md-4">
                         @if ($user && !$user->getAllTickets($event->id)->isEmpty() && $user->hasSeatableTicket($event->id))
                         <h5>@lang('events.yourseats')</h5>
-                        @foreach ($user->getAllTickets($event->id) as $participant)
-                        @if ($participant->seat && $participant->seat->event_seating_plan_id == $seatingPlan->id)
+                        @foreach ($user->getAllTickets($event->id) as $ticket)
+                        @if ($ticket->seat && $ticket->seat->event_seating_plan_id == $seatingPlan->id)
                         {{ Form::open(array('url'=>'/events/' . $event->slug . '/seating/' . $seatingPlan->slug)) }}
                         {{ Form::hidden('_method', 'DELETE') }}
                         {{ Form::hidden('user_id', $user->id, array('id'=>'user_id','class'=>'form-control')) }}
-                        {{ Form::hidden('participant_id', $participant->id, array('id'=>'participant_id','class'=>'form-control')) }}
-                        {{ Form::hidden('seat_column_delete', $participant->seat->column, array('id'=>'seat_column_delete','class'=>'form-control')) }}
-                        {{ Form::hidden('seat_row_delete', $participant->seat->row, array('id'=>'seat_row_delete','class'=>'form-control')) }}
+                        {{ Form::hidden('ticket_id', $ticket->id, array('id'=>'ticket_id','class'=>'form-control')) }}
+                        {{ Form::hidden('seat_column_delete', $ticket->seat->column, array('id'=>'seat_column_delete','class'=>'form-control')) }}
+                        {{ Form::hidden('seat_row_delete', $ticket->seat->row, array('id'=>'seat_row_delete','class'=>'form-control')) }}
 
                         <h5>
                             <button class="btn btn-success btn-block">
-                                @lang('events.remove') - {{ $participant->seat->getName() }}
+                                @lang('events.remove') - {{ $ticket->seat->getName() }}
                             </button>
                         </h5>
                         {{ Form::close() }}
@@ -153,7 +140,26 @@ in_array('PREVIEW', $event->seatingPlans->pluck('status')->toArray())
 			<div class="modal-body">
 				<div class="mb-3">
 					<h4>@lang('events.wichtickettoseat')</h4>
-					{{
+                    {{-- Debug: Show raw ticket data --}}
+                    @if(config('app.debug'))
+                    <div class="alert alert-info">
+                        <strong>Debug Info:</strong><br>
+                        User ID: {{ $user->id }}<br>
+                        Event ID: {{ $event->id }}<br>
+                        Available Tickets: {{ count($user->getTickets($event->id)) }}<br>
+                        All User Tickets: {{ count($user->getAllTickets($event->id)) }}<br>
+                        @foreach($user->getAllTickets($event->id) as $ticket)
+                        <br>Ticket {{ $ticket->id }}:
+                        Type: {{ $ticket->ticketType ? $ticket->ticketType->name : 'N/A' }},
+                        Seatable: {{ $ticket->ticketType && $ticket->ticketType->seatable ? 'Yes' : 'No' }},
+                        Free: {{ $ticket->free ? 'Yes' : 'No' }},
+                        Staff: {{ $ticket->staff ? 'Yes' : 'No' }},
+                        Revoked: {{ $ticket->revoked ? 'Yes' : 'No' }}
+                        @endforeach
+                    </div>
+                    @endif
+
+                    {{
 								Form::select(
 									'ticket_id',
 									$user->getTickets($event->id),

@@ -124,11 +124,21 @@ class Ticket extends Model implements Auditable
     }
     public function seat()
     {
+        // TODO this is a Seat! Not an EventSeating?!
         return $this->hasOne('App\EventSeating');
     }
 
     /**
-     * Set Event Participant as Signed in
+     * Get User that Assigned Ticket
+     * @return User
+     */
+    public function getAssignedByUser()
+    {
+        return User::where(['id' => $this->staff_free_assigned_by])->first();
+    }
+
+    /**
+     * Set Ticket as Signed in
      * @param Boolean $bool
      */
     public function setSignIn($bool = true)
@@ -141,15 +151,6 @@ class Ticket extends Model implements Auditable
             return false;
         }
         return true;
-    }
-
-    /**
-     * Get User that Assigned Ticket
-     * @return User
-     */
-    public function getAssignedByUser()
-    {
-        return User::where(['id' => $this->staff_free_assigned_by])->first();
     }
 
     /**
@@ -288,8 +289,7 @@ class Ticket extends Model implements Auditable
 
 
     /**
-     * Check if participant is active
-     * TODO Refactoring? freebies should be signed in right?
+     * Check if ticket is active (payed and signed in to event or online event)
      * @return Boolean
      */
     public function isActive(): bool

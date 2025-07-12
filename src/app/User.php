@@ -235,7 +235,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function hasSeatableTicket($eventId)
     {
         $eventTickets = $this->getAllTickets($eventId);
-
+        // TODO Refactor to let the database work
         foreach ($eventTickets as $ticket) {
             if ($ticket->ticketType()->where('seatable', true)->first()->seatable ||
                 ($ticket->free || $ticket->staff)
@@ -255,29 +255,31 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getTickets($eventId, $obj = false)
     {
         $clauses = ['user_id' => $this->id, 'event_id' => $eventId, 'revoked' => 0];
-        $eventParticipants = Ticket::where($clauses)->get();
+        $eventTickets = Ticket::where($clauses)->get();
         $return = array();
-        foreach ($eventParticipants as $eventParticipant) {
-            if (($eventParticipant->ticket && $eventParticipant->ticket->seatable) ||
-                ($eventParticipant->free || $eventParticipant->staff)
+        foreach ($eventTickets as $eventTicket) {
+            if (($eventTicket->ticketType && $eventTicket->ticketType->seatable) ||
+                ($eventTicket->free || $eventTicket->staff)
             ) {
+
                 $seat = 'Not Seated';
                 $seatingPlanName = "";
-                if ($eventParticipant->seat) {
-                    if ($eventParticipant->seat->seatingPlan) {
-                        $seatingPlanName = $eventParticipant->seat->seatingPlan->getName();
+                if ($eventTicket->seat) {
+                    if ($eventTicket->seat->seatingPlan) {
+                        $seatingPlanName = $eventTicket->seat->seatingPlan->getName();
                     }
-                    $seat = $eventParticipant->seat->getName();
+                    $seat = $eventTicket->seat->getName();
                 }
-                $return[$eventParticipant->id] = 'Participant ID: ' . $eventParticipant->id . $seat;
-                if (!$eventParticipant->ticket && $eventParticipant->staff) {
-                    $return[$eventParticipant->id] = 'Staff Ticket - ' . $seatingPlanName . ' - ' . $seat;
+                $return[$eventTicket->id] = 'Participant ID: ' . $eventTicket->id . $seat;
+                // TODO Discuss this as "bad code style?"
+                if (!$eventTicket->ticketType && $eventTicket->staff) {
+                    $return[$eventTicket->id] = 'Staff Ticket - ' . $seatingPlanName . ' - ' . $seat;
                 }
-                if (!$eventParticipant->ticket && $eventParticipant->free) {
-                    $return[$eventParticipant->id] = 'Free Ticket - ' . $seatingPlanName . ' - ' . $seat;
+                if (!$eventTicket->ticketType && $eventTicket->free) {
+                    $return[$eventTicket->id] = 'Free Ticket - ' . $seatingPlanName . ' - ' . $seat;
                 }
-                if ($eventParticipant->ticket) {
-                    $return[$eventParticipant->id] = $eventParticipant->ticket->name . ' - ' . $seatingPlanName . ' - ' . $seat;
+                if ($eventTicket->ticketType) {
+                    $return[$eventTicket->id] = $eventTicket->ticketType->name . ' - ' . $seatingPlanName . ' - ' . $seat;
                 }
             }
         }

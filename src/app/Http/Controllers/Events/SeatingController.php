@@ -47,13 +47,13 @@ class SeatingController extends Controller
     public function store(Event $event, EventSeatingPlan $seatingPlan, Request $request)
     {
         $rules = [
-            'participant_id'    => 'required',
+            'ticket_id'    => 'required',
             'user_id'           => 'required',
             "seat_column"       => "required|integer",
             "seat_row"          => "required|integer|max:26",
         ];
         $messages = [
-            'participant_id.required'   => 'A participant_id is required',
+            'ticket_id.required'   => 'A ticket_id is required',
             'user_id.required'          => 'A user_id is required',
             'seat_column.required'      => 'A column is required',
             'seat_column.integer'       => 'Columns must be a number',
@@ -65,15 +65,15 @@ class SeatingController extends Controller
         
         $this->validate($request, $rules, $messages);
         
-        $participant = $event->tickets()->where('id', $request->participant_id)->first();
+        $ticket = $event->tickets()->where('id', $request->ticket_id)->first();
 
-        if ($participant->ticket && !$participant->ticket->seatable) {
+        if ($ticket->ticket && !$ticket->ticketType->seatable) {
             // Ticket not seatable
             Session::flash('alert-danger', 'That ticket is not seatable');
             return Redirect::to('events/' . $event->slug);
         }
-        if ($participant->seat != null) {
-            $participant->seat()->delete();
+        if ($ticket->seat != null) {
+            $ticket->seat()->delete();
         }
         //Unseated ticket found
         if (!$event->getSeat($seatingPlan->id, $request->seat_column, $request->seat_row)) {
@@ -81,7 +81,7 @@ class SeatingController extends Controller
             $newSeat                           = new EventSeating();
             $newSeat->column                   = $request->seat_column; 
             $newSeat->row                      = $request->seat_row;
-            $newSeat->event_participant_id     = $participant->id;
+            $newSeat->ticket_id                 = $ticket->id;
             $newSeat->event_seating_plan_id    = $seatingPlan->id;
             $newSeat->save();
             $request->session()->flash(
@@ -105,12 +105,12 @@ class SeatingController extends Controller
     public function destroy(Event $event, EventSeatingPlan $seatingPlan, Request $request)
     {
         $rules = [
-            'participant_id'        => 'required',
+            'ticket_id'        => 'required',
             'seat_column_delete'    => 'required',
             'seat_row_delete'       => 'required',
         ];
         $messages = [
-            'participant_id|required'       => 'A participant_id is required',
+            'ticket_id|required'       => 'A ticket_id is required',
             'seat_column_delete|required'   => 'A seat column is required',
             'seat_row_delete|required'      => 'A seat row is required',
             
@@ -119,7 +119,7 @@ class SeatingController extends Controller
         $this->validate($request, $rules, $messages);
         
         $clauses = [
-            'event_participant_id'  => $request->participant_id,
+            'ticket_id'       => $request->ticket_id,
             'column'                => $request->seat_column_delete,    
             'row'                   => $request->seat_row_delete,
             'event_seating_plan_id' => $seatingPlan->id
