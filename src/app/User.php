@@ -196,15 +196,51 @@ class User extends Authenticatable implements MustVerifyEmail
 
     /**
      * Get all Tickets for current user
+     * @param int $eventId
+     * @param bool $includeRevoked
+     * @param bool $managedTicketsOnly
+     * @param bool $usedTicketsOnly
+     * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getAllTickets($eventId, $includeRevoked = false)
-    {
-        $clauses = ['user_id' => $this->id, 'event_id' => $eventId];
-        if (!$includeRevoked) {
-            $clauses['revoked'] = 0;
+    public function getAllTickets($eventId,
+                                  $includeRevoked = false,
+                                  $managedTicketsOnly = false,
+                                  $usedTicketsOnly = false) {
+
+        if (!$eventId) {
+            return collect();
         }
-        $eventParticipants = Ticket::where($clauses)->get();
-        return $eventParticipants;
+
+        $query = Ticket::where('event_id', $eventId);
+
+        // Basis-Filter für Rollen
+        if ($managedTicketsOnly && $usedTicketsOnly) {
+            // Beide Flags - nur Tickets wo User sowohl Manager als auch User ist
+            $query->where(function($q) {
+                $q->where('manager_id', $this->id)
+                    ->where('user_id', $this->id);
+            });
+        } elseif ($managedTicketsOnly) {
+            // Nur gemanagte Tickets
+            $query->where('manager_id', $this->id);
+        } elseif ($usedTicketsOnly) {
+            // Nur eigene Tickets
+            $query->where('user_id', $this->id);
+        } else {
+            // Alle Tickets mit irgendeiner Verbindung
+            $query->where(function($q) {
+                $q->where('user_id', $this->id)
+                    ->orWhere('manager_id', $this->id)
+                    ->orWhere('owner_id', $this->id);
+            });
+        }
+
+        // Revoked-Filter
+        if (!$includeRevoked) {
+            $query->where('revoked', 0);
+        }
+
+        return $query->get();
     }
 
     public function getAllTicketsOfType(Event $event, TicketType $ticket) {
@@ -234,16 +270,43 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function hasSeatableTicket($eventId)
     {
-        $eventTickets = $this->getAllTickets($eventId);
-        // TODO Refactor to let the database work
-        foreach ($eventTickets as $ticket) {
-            if ($ticket->ticketType()->where('seatable', true)->first()->seatable ||
-                ($ticket->free || $ticket->staff)
-            ) {
-                return true;
-            }
-        }
-        return false;
+        return Ticket::where('event_id', $eventId)
+            ->where(function($q) {
+                $q->where('user_id', $this->id)
+                    ->orWhere('manager_id', $this->id)
+                    ->orWhere('owner_id', $this->id);
+            })
+            ->where('revoked', 0)
+            ->where(function($q) {
+                $q->where('free', true)
+                    ->orWhere('staff', true)
+                    ->orWhereHas('ticketType', function($ticketTypeQuery) {
+                        $ticketTypeQuery->where('seatable', true);
+                    });
+            })
+            ->exists();
+
+    }
+
+
+    /**
+     * User has at least one seatable ticket for event
+     */
+    public function hasManagedTickets($eventId)
+    {
+        return Ticket::where('event_id', $eventId)
+            ->where(function($q) {
+                $q->where('manager_id', $this->id);
+            })
+            ->where('revoked', 0)
+            ->where(function($q) {
+                $q->where('free', true)
+                    ->orWhere('staff', true)
+                    ->orWhereHas('ticketType', function($ticketTypeQuery) {
+                        $ticketTypeQuery->where('seatable', true);
+                    });
+            })
+            ->exists();
     }
 
     /**

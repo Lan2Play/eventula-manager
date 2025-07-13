@@ -129,6 +129,7 @@ class Event extends Model
 
     /*
      * Relationships
+     * formerly eventPaticipants
      */
     public function tickets()
     {

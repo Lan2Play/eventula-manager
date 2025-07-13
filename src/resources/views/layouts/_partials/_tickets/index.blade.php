@@ -81,33 +81,44 @@
 					</div>
 				@endif
 
-				@if ($ticket->seat)
-					<div class="mt-3">
-						{{ Form::open(array('url'=>'/events/' . $ticket->event->slug . '/seating/' . $ticket->seat->seatingPlan->slug)) }}
-							{{ Form::hidden('_method', 'DELETE') }}
-							{{ Form::hidden('user_id', $user->id, array('id'=>'user_id','class'=>'form-control')) }}
-							{{ Form::hidden('ticket_id', $ticket->id, array('id'=>'ticket_id','class'=>'form-control')) }}
-							{{ Form::hidden('seat_column_delete', $ticket->seat->column, array('id'=>'seat_column_delete','class'=>'form-control')) }}
-							{{ Form::hidden('seat_row_delete', $ticket->seat->row, array('id'=>'seat_row_delete','class'=>'form-control')) }}
-							<button class="btn btn-danger" {{ auth()->id() != $ticket->user_id && !auth()->user()->getAdmin() ? 'disabled' : '' }}>
-								<i class="fas fa-chair me-1"></i> @lang('events.remove_seating')
-							</button>
-							@if(auth()->id() != $ticket->user_id && !auth()->user()->getAdmin())
-								<div class="alert alert-warning mt-2">
-									<small><i class="fas fa-exclamation-triangle me-1"></i> Only the ticket user can change seating</small>
-								</div>
-							@endif
-						{{ Form::close() }}
-					</div>
-				@elseif($ticket->ticketType && $ticket->ticketType->seatable)
-					<div class="mt-3">
-						@if(auth()->id() != $ticket->user_id && !auth()->user()->getAdmin())
-							<div class="alert alert-info">
-								<i class="fas fa-info-circle me-1"></i> Only the ticket user can select a seat
-							</div>
-						@endif
-					</div>
-				@endif
+                @if ($ticket->seat)
+                <div class="mt-3">
+                    {{ Form::open(array('url'=>'/events/' . $ticket->event->slug . '/seating/' .
+                    $ticket->seat->seatingPlan->slug)) }}
+                    {{ Form::hidden('_method', 'DELETE') }}
+                    {{ Form::hidden('user_id', $user->id, array('id'=>'user_id','class'=>'form-control')) }}
+                    {{ Form::hidden('ticket_id', $ticket->id, array('id'=>'ticket_id','class'=>'form-control')) }}
+                    {{ Form::hidden('seat_column_delete', $ticket->seat->column,
+                    array('id'=>'seat_column_delete','class'=>'form-control')) }}
+                    {{ Form::hidden('seat_row_delete', $ticket->seat->row,
+                    array('id'=>'seat_row_delete','class'=>'form-control')) }}
+                    <button class="btn btn-danger" {{ (auth()->id() != $ticket->user_id && auth()->id() !=
+                        $ticket->manager_id && !auth()->user()->getAdmin()) ? 'disabled' : '' }}>
+                        <i class="fas fa-chair me-1"></i> @lang('events.remove_seating')
+                    </button>
+                    @if(auth()->id() != $ticket->user_id && auth()->id() != $ticket->manager_id &&
+                    !auth()->user()->getAdmin())
+                    <div class="alert alert-warning mt-2">
+                        <small><i class="fas fa-exclamation-triangle me-1"></i> Only the ticket user or manager can
+                            change seating</small>
+                    </div>
+                    @endif
+                    {{ Form::close() }}
+                </div>
+                @elseif($ticket->ticketType && $ticket->ticketType->seatable)
+                <div class="mt-3">
+                    @if(auth()->id() != $ticket->user_id && auth()->id() != $ticket->manager_id &&
+                    !auth()->user()->getAdmin())
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-1"></i> Only the ticket user or manager can select a seat
+                    </div>
+                    @elseif(auth()->id() == $ticket->user_id || auth()->id() == $ticket->manager_id)
+                    <a href="/events/{{$ticket->event->slug}}?expand_seating=true#seating" class="btn btn-primary">
+                        <i class="fas fa-chair me-1"></i> Select Seat
+                    </a>
+                    @endif
+                </div>
+                @endif
 			</div>
 
 			<div class="col-lg-4 col-md-12 mb-3 text-center">

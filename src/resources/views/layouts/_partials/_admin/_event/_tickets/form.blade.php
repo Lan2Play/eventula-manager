@@ -77,7 +77,7 @@
 		{{ Form::select(
             'ticket_group',
             Helpers::getTicketGroupSelection(),
-            ($empty ?? false) ? null : $ticket->ticketGroup?->id,
+            ($empty ?? false) ? null : $ticketType->ticketGroup?->id,
             [
                 'id' => 'ticket-group',
                 'class' => 'form-control'

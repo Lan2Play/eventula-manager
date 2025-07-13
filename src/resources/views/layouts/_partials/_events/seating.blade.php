@@ -81,13 +81,46 @@ in_array('PREVIEW', $event->seatingPlans->pluck('status')->toArray())
             </div>
             <div class="card-footer">
                 <div class="row" style="display: flex; align-items: center;">
-                    <div class="col-12 col-md-8">
+                    <div class="col-6 col-md-2">
                         <img class="img-fluid" alt="{{ $seatingPlan->name }}" src="{{$seatingPlan->image_path}}" />
                     </div>
-                    <div class="col-12 col-md-4">
+                    <div class="col-6 col-md-6">
+                        @if ($user && !$user->getAllTickets($event->id)->isEmpty() && $user->hasManagedTickets($event->id))
+                        <h5>@lang('events.yourmanagedseats')</h5>
+                        @foreach ($user->getAllTickets($event->id, false, true) as $managedTicket)
+                        @if ($managedTicket->seat && $managedTicket->seat->event_seating_plan_id == $seatingPlan->id)
+                        {{ Form::open(array('url'=>'/events/' . $event->slug . '/seating/' . $seatingPlan->slug)) }}
+                        {{ Form::hidden('_method', 'DELETE') }}
+                        {{ Form::hidden('user_id', $user->id, array('id'=>'user_id','class'=>'form-control')) }}
+                        {{ Form::hidden('ticket_id', $managedTicket->id, array('id'=>'ticket_id','class'=>'form-control')) }}
+                        {{ Form::hidden('seat_column_delete', $managedTicket->seat->column, array('id'=>'seat_column_delete','class'=>'form-control')) }}
+                        {{ Form::hidden('seat_row_delete', $managedTicket->seat->row, array('id'=>'seat_row_delete','class'=>'form-control')) }}
+                        <h5>
+                            <button class="btn btn-danger btn-block">
+                                @lang('events.remove') - {{ $managedTicket->seat->getName() }}
+                            </button>
+                        </h5>
+                        {{ Form::close() }}
+                        @endif
+                        @endforeach
+                        @elseif($user && !$user->hasManagedTickets($event->id))
+                        <div class="alert alert-info">
+                            <h5>@lang('events.noseatableticket')</h5>
+                        </div>
+                        @elseif(Auth::user())
+                        <div class="alert alert-info">
+                            <h5>@lang('events.plspurchaseticket')</h5>
+                        </div>
+                        @else
+                        <div class="alert alert-info">
+                            <h5>@lang('events.plslogintopurchaseticket')</h5>
+                        </div>
+                        @endif
+                    </div>
+                    <div class="col-6 col-md-2">
                         @if ($user && !$user->getAllTickets($event->id)->isEmpty() && $user->hasSeatableTicket($event->id))
                         <h5>@lang('events.yourseats')</h5>
-                        @foreach ($user->getAllTickets($event->id) as $ticket)
+                        @foreach ($user->getAllTickets($event->id, false, false, true) as $ticket)
                         @if ($ticket->seat && $ticket->seat->event_seating_plan_id == $seatingPlan->id)
                         {{ Form::open(array('url'=>'/events/' . $event->slug . '/seating/' . $seatingPlan->slug)) }}
                         {{ Form::hidden('_method', 'DELETE') }}
@@ -95,9 +128,8 @@ in_array('PREVIEW', $event->seatingPlans->pluck('status')->toArray())
                         {{ Form::hidden('ticket_id', $ticket->id, array('id'=>'ticket_id','class'=>'form-control')) }}
                         {{ Form::hidden('seat_column_delete', $ticket->seat->column, array('id'=>'seat_column_delete','class'=>'form-control')) }}
                         {{ Form::hidden('seat_row_delete', $ticket->seat->row, array('id'=>'seat_row_delete','class'=>'form-control')) }}
-
                         <h5>
-                            <button class="btn btn-success btn-block">
+                            <button class="btn btn-danger btn-block">
                                 @lang('events.remove') - {{ $ticket->seat->getName() }}
                             </button>
                         </h5>
@@ -141,29 +173,29 @@ in_array('PREVIEW', $event->seatingPlans->pluck('status')->toArray())
 				<div class="mb-3">
 					<h4>@lang('events.wichtickettoseat')</h4>
                     {{-- Debug: Show raw ticket data --}}
-                    @if(config('app.debug'))
-                    <div class="alert alert-info">
-                        <strong>Debug Info:</strong><br>
-                        User ID: {{ $user->id }}<br>
-                        Event ID: {{ $event->id }}<br>
-                        Available Tickets: {{ count($user->getTickets($event->id)) }}<br>
-                        All User Tickets: {{ count($user->getAllTickets($event->id)) }}<br>
-                        @foreach($user->getAllTickets($event->id) as $ticket)
-                        <br>Ticket {{ $ticket->id }}:
-                        Type: {{ $ticket->ticketType ? $ticket->ticketType->name : 'N/A' }},
-                        Seatable: {{ $ticket->ticketType && $ticket->ticketType->seatable ? 'Yes' : 'No' }},
-                        Free: {{ $ticket->free ? 'Yes' : 'No' }},
-                        Staff: {{ $ticket->staff ? 'Yes' : 'No' }},
-                        Revoked: {{ $ticket->revoked ? 'Yes' : 'No' }}
-                        @endforeach
-                    </div>
-                    @endif
+                    @php
+                    $ticketOptions = [];
+                    foreach($user->getAllTickets($event->id) as $ticket) {
+                    $ticketName = '';
+                    if ($ticket->ticketType) {
+                    $ticketName = $ticket->ticketType->name;
+                    } elseif ($ticket->staff) {
+                    $ticketName = 'Staff Ticket';
+                    } elseif ($ticket->free) {
+                    $ticketName = 'Free Ticket';
+                    } else {
+                    $ticketName = 'Unknown Ticket';
+                    }
+                    $ticketOptions[$ticket->id] = $ticketName . ' (ID: ' . $ticket->id . ')';
+                    }
+                    @endphp
 
                     {{
-								Form::select(
+					        			Form::select(
 									'ticket_id',
-									$user->getTickets($event->id),
-									null,
+                    $ticketOptions,
+
+                    null,
 									array(
 										'id'    => 'format',
 										'class' => 'form-control'
@@ -197,4 +229,42 @@ in_array('PREVIEW', $event->seatingPlans->pluck('status')->toArray())
         jQuery("#pickSeatModalLabel").html('Do you what to choose seat ' + seatDisplay); // TODO add Language
         jQuery("#pickSeatFormModal").prop('action', '/events/{{ $event->slug }}/seating/' + seating_plan_slug);
     }
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Prüfen ob URL-Parameter expand_seating gesetzt ist
+        const urlParams = new URLSearchParams(window.location.search);
+        const expandSeating = urlParams.get('expand_seating');
+        
+        if (expandSeating === 'true') {
+            // Alle Seating-Karten aufklappen
+            const collapseElements = document.querySelectorAll('[id^="collapse_"]');
+            collapseElements.forEach(function(element) {
+                element.classList.add('show');
+            });
+            
+            // Collapsed-Klasse von Links entfernen
+            const toggleLinks = document.querySelectorAll('a[data-bs-toggle="collapse"]');
+            toggleLinks.forEach(function(link) {
+                link.classList.remove('collapsed');
+                link.setAttribute('aria-expanded', 'true');
+            });
+        }
+        
+        // Oder bei Hash #seating automatisch aufklappen
+        if (window.location.hash === '#seating') {
+            setTimeout(function() {
+                const collapseElements = document.querySelectorAll('[id^="collapse_"]');
+                collapseElements.forEach(function(element) {
+                    element.classList.add('show');
+                });
+                
+                const toggleLinks = document.querySelectorAll('a[data-bs-toggle="collapse"]');
+                toggleLinks.forEach(function(link) {
+                    link.classList.remove('collapsed');
+                    link.setAttribute('aria-expanded', 'true');
+                });
+            }, 100);
+        }
+    });
 </script>
