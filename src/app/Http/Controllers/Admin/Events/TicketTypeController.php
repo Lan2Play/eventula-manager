@@ -76,7 +76,7 @@ class TicketTypeController extends Controller
     {
         return view('admin.events.tickets.show')
             ->with('event', $event)
-            ->with('ticket', $ticketType);
+            ->with('ticketType', $ticketType);
     }
 
     /**

@@ -149,64 +149,64 @@
 						</tr>
 						</thead>
 						<tbody>
-						@foreach ($event->tickettypes as $tickettype)
+						@foreach ($event->ticketTypes as $ticketType)
 							<tr class="table-row odd gradeX"
-								data-href="/admin/events/{{ $event->slug }}/tickets/{{ $tickettype->id }}">
+								data-href="/admin/events/{{ $event->slug }}/tickets/{{ $ticketType->id }}">
 								<td>
-									{{ $tickettype->name }}
+									{{ $ticketType->name }}
 								</td>
 								<td>
-									{{ $tickettype->type }}
+									{{ $ticketType->type }}
 								</td>
 								<td>
-									@if ($tickettype->ticketGroup)
-										{{ $tickettype->ticketGroup->name }}
+									@if ($ticketType->ticketGroup)
+										{{ $ticketType->ticketGroup->name }}
 									@else
 										<i>ungrouped</i>
 									@endif
 								</td>
 								<td>
-									{{ $tickettype->price }}
+									{{ $ticketType->price }}
 								</td>
 								<td>
-									@if ($tickettype->quantity == 0)
+									@if ($ticketType->quantity == 0)
 										N/A
 									@else
-										{{ $tickettype->quantity }}
+										{{ $ticketType->quantity }}
 									@endif
 								</td>
 								<td>
-									{{ $tickettype->tickets()->count() }}
+									{{ $ticketType->tickets()->count() }}
 								</td>
 								<td>
 									Start:
-									@if ($tickettype->sale_start)
-										{{ date('H:i d-m-Y', strtotime($tickettype->sale_start)) }}
+									@if ($ticketType->sale_start)
+										{{ date('H:i d-m-Y', strtotime($ticketType->sale_start)) }}
 									@else
 										N/A
 									@endif
 									-
 									End:
-									@if ($tickettype->sale_end)
-										{{ date('H:i d-m-Y', strtotime($tickettype->sale_end)) }}
+									@if ($ticketType->sale_end)
+										{{ date('H:i d-m-Y', strtotime($ticketType->sale_end)) }}
 									@else
 										N/A
 									@endif
 								</td>
 								<td>
-									@if ($tickettype->seatable)
+									@if ($ticketType->seatable)
 										Yes
 									@else
 										No
 									@endif
 								</td>
 								<td width="15%">
-									<a href="/admin/events/{{ $event->slug }}/tickets/{{ $tickettype->id }}">
+									<a href="/admin/events/{{ $event->slug }}/tickets/{{ $ticketType->id }}">
 										<button type="button" class="btn btn-primary btn-sm btn-block">Edit</button>
 									</a>
 								</td>
 								<td width="15%">
-									{{ Form::open(array('url'=>'/admin/events/' . $event->slug . '/tickets/' . $tickettype->id, 'onsubmit' => 'return ConfirmDelete()')) }}
+									{{ Form::open(array('url'=>'/admin/events/' . $event->slug . '/tickets/' . $ticketType->id, 'onsubmit' => 'return ConfirmDelete()')) }}
 									{{ Form::hidden('_method', 'DELETE') }}
 									<button type="submit" class="btn btn-danger btn-sm btn-block"
 											data-confirm="Are you sure to delete this Ticket?">Delete

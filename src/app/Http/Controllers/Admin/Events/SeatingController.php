@@ -317,7 +317,7 @@ class SeatingController extends Controller
     }
 
     /**
-     * Seat Participant
+     * Seat Ticket
      * @param  Event            $event
      * @param  EventSeatingPlan $seatingPlan
      * @param  Request          $request
@@ -439,7 +439,7 @@ class SeatingController extends Controller
     }
 
     /**
-     * Remove Participant Seating
+     * Remove Ticket Seating
      * @param  Event            $event
      * @param  EventSeatingPlan $seatingPlan
      * @param  Request          $request
