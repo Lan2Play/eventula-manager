@@ -33,6 +33,7 @@ class AdminController extends Controller
      */
     public function index()
     {
+        //TODO Refactor View to not use Participant
         $user = Auth::user();
         $users = User::all();
         $events = Event::all();

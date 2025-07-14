@@ -46,6 +46,7 @@ class PurchasesController extends Controller
      */
     public function showEvent()
     {
+        //TODO Refactor View
         return view('admin.purchases.index')
             ->with('purchases', Helpers::paginate(Purchase::has('participants')->get()->sortByDesc('created_at'), 20));
     }
