@@ -839,12 +839,12 @@ use Debugbar;
                                                                     @if ($seatingPlan->locked)
                                                                         <button class="btn btn-success btn-sm" disabled>
                                                                             {{ Helpers::getLatinAlphabetUpperLetterByIndex($row) . $column }}
-                                                                            - {{ $event->getSeat($seatingPlan->id, $column, $row)->eventParticipant->user->username }}
+                                                                            - {{ $event->getSeat($seatingPlan->id, $column, $row)->eventTicket->user->username }}
                                                                         </button>
                                                                     @else
                                                                         <button class="btn btn-success btn-sm" disabled>
                                                                             {{ Helpers::getLatinAlphabetUpperLetterByIndex($row) . $column }}
-                                                                            - {{ $event->getSeat($seatingPlan->id, $column, $row)->eventParticipant->user->username }}
+                                                                            - {{ $event->getSeat($seatingPlan->id, $column, $row)->eventTicket->user->username }}
                                                                         </button>
                                                                     @endif
                                                                 @endif
@@ -906,7 +906,7 @@ use Debugbar;
                                                         {{ Form::open(array('url'=>'/events/' . $event->slug . '/seating/' . $seatingPlan->slug)) }}
                                                         {{ Form::hidden('_method', 'DELETE') }}
                                                         {{ Form::hidden('user_id', $user->id, array('id'=>'user_id','class'=>'form-control')) }}
-                                                        {{ Form::hidden('ticket_id', $ticket->id, array('id'=>'participant_id','class'=>'form-control')) }}
+                                                        {{ Form::hidden('ticket_id', $ticket->id, array('id'=>'ticket_id','class'=>'form-control')) }}
                                                         {{ Form::hidden('seat_column_delete', $ticket->seat->column, array('id'=>'seat_column_delete','class'=>'form-control')) }}
                                                         {{ Form::hidden('seat_row_delete', $ticket->seat->row, array('id'=>'seat_row_delete','class'=>'form-control')) }}
                                                         <h5>

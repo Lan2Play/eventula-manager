@@ -64,6 +64,17 @@ class SeatingController extends Controller
         ];
         
         $this->validate($request, $rules, $messages);
+
+        // TODO Make this better
+        // (its just an edge case where user has opened seatplan and in the meantime admin has locked seating
+        // User wont be presented with the option to store/change seating therefor he wont need nice feedback for
+        // essentially manually operating the endpoint
+        if($seatingPlan->locked) {
+            $request->session()->flash(
+                'alert-warn',
+                'Seatplan is locked');
+            return Redirect::to('events/' . $event->slug);
+        }
         
         $ticket = $event->tickets()->where('id', $request->ticket_id)->first();
 

@@ -45,14 +45,14 @@ class HomeController extends Controller
     public function index()
     {
         $user = Auth::user();
-        // redirect to home page if no event participants are available
-        if (!$user || empty($user->eventParticipants)) {
+        // redirect to home page if no event tickets are available
+        if (!$user || empty($user->tickets)) {
             return $this->home();
         }
 
-        // Loop trough the eventParticipants
+        // Loop trough the tickets
         // The first one, whos event is currently running and that is active redirects to the event page
-        foreach ($user->eventParticipants as $ticket) {
+        foreach ($user->tickets as $ticket) {
             if ($ticket->event->isRunningCurrently() && $ticket->isActive()) {
                 return $this->event();
             }

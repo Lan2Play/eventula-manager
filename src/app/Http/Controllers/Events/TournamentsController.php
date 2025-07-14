@@ -73,8 +73,6 @@ class TournamentsController extends Controller
             return Redirect::back();
         }
 
-
-
         if (!$tournament->event->tickets()->where('id', $request->event_participant_id)->first()) {
             Session::flash('alert-danger', __('events.tournament_not_signed_in'));
             return Redirect::back();
@@ -95,7 +93,7 @@ class TournamentsController extends Controller
             }
         }
 
-        if ($tournament->game->gamematchapihandler != 0 && $tournament->match_autoapi)
+        if ($tournament->game && $tournament->game->gamematchapihandler != 0 && $tournament->match_autoapi)
         {
             if (!Helpers::checkUserFields(User::where('id', '=', Ticket::where('id', '=', $request->event_participant_id)->first()->user_id)->first(),(new GameMatchApiHandler())->getGameMatchApiHandler($tournament->game->gamematchapihandler)->getuserthirdpartyrequirements()))
             {
@@ -108,16 +106,17 @@ class TournamentsController extends Controller
         // Get the EventParticipant only Once is better?
         $eventParticipant = $event->tickets()->where('id', $request->event_participant_id)->first();
         // Check if staff is trying to register
-        if ($eventParticipant->staff && !$event->tournaments_staff) {
+        if ($eventParticipant->staff && $event->tournaments_staff) {
             Session::flash('alert-danger', __('events.tournament_staff_not_permitted'));
             return Redirect::back();
         }
 
         // Check if a freebie is trying to register
-        if ($eventParticipant->free && !$event->tournaments_freebie) {
+        if ($eventParticipant->free && $event->tournaments_freebie) {
             Session::flash('alert-danger', __('events.tournament_freebie_not_permitted'));
             return Redirect::back();
         }
+
 
         // TODO - Refactor
         $tournamentParticipant                              = new EventTournamentParticipant();
