@@ -259,16 +259,18 @@ class EventsController extends Controller
             Session::flash('alert-danger', 'Could not save "system" purchase!');
         }
 
-        $participant                            = new Ticket();
-        $participant->user_id                   = $request->user_id;
-        $participant->event_id                  = $event->id;
-        $participant->free                      = 1;
-        $participant->staff_free_assigned_by    = Auth::id();
-        $participant->purchase_id               = $purchase->id;
-        $participant->generateQRCode();
+        $ticket                            = new Ticket();
+        $ticket->user_id                   = $request->user_id;
+        $ticket->manager_id                = $request->user_id;
+        $ticket->owner_id                  = $request->user_id;
+        $ticket->event_id                  = $event->id;
+        $ticket->free                      = 1;
+        $ticket->staff_free_assigned_by    = Auth::id();
+        $ticket->purchase_id               = $purchase->id;
+        $ticket->generateQRCode();
 
 
-        if (!$participant->save()) {
+        if (!$ticket->save()) {
             Session::flash('alert-danger', 'Could not add Gift!');
             return Redirect::to('admin/events/' . $event->slug . '/tickets');
         }
@@ -297,16 +299,18 @@ class EventsController extends Controller
             Session::flash('alert-danger', 'Could not save "system" purchase!');
         }
 
-        $participant = new Ticket();
+        $ticket = new Ticket();
 
-        $participant->user_id                = $request->user_id;
-        $participant->event_id               = $event->id;
-        $participant->staff                  = 1;
-        $participant->staff_free_assigned_by = Auth::id();
-        $participant->purchase_id            = $purchase->id;
-        $participant->generateQRCode();
+        $ticket->user_id                = $request->user_id;
+        $ticket->manager_id             = $request->user_id;
+        $ticket->owner_id               = $request->user_id;
+        $ticket->event_id               = $event->id;
+        $ticket->staff                  = 1;
+        $ticket->staff_free_assigned_by = Auth::id();
+        $ticket->purchase_id            = $purchase->id;
+        $ticket->generateQRCode();
 
-        if (!$participant->save()) {
+        if (!$ticket->save()) {
             Session::flash('alert-danger', 'Could not add Staff!');
             return Redirect::to('admin/events/' . $event->slug . '/tickets');
         }

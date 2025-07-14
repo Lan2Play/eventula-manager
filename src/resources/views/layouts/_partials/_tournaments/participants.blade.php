@@ -195,12 +195,12 @@
 		</thead>
 		<tbody>
 
-			@foreach ($event->eventParticipants as $participant)
+			@foreach ($event->tickets as $ticket)
 				@php
 					$istournamentpartitipant = false;
 				@endphp
 					@foreach ($tournament->tournamentParticipants as $tournamentParticipant)
-						@if ($tournamentParticipant->eventParticipant->user->username == $participant->user->username)
+						@if ($tournamentParticipant->eventParticipant->user->username == $ticket->user->username)
 							@php
 								$istournamentpartitipant = true;
 							@endphp
@@ -210,19 +210,19 @@
 						<tr>
 							<td>
 								<p>
-									<img alt="{{ $participant->user->username }}'s Avatar" class="img-rounded" style="max-width: 6%;" src="{{ $participant->user->avatar }}">
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $participant->user->username }}
+									<img alt="{{ $ticket->user->username }}'s Avatar" class="img-rounded" style="max-width: 6%;" src="{{ $ticket->user->avatar }}">
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $ticket->user->username }}
 								</p>
 							</td>
 							<td>
 								<p>
 									@if ($tournament->team_size != '1v1')
-										{{ Form::open(array('url'=>'/admin/events/' . $event->slug . '/tournaments/' . $tournament->slug . '/participants/' . $participant->id . '/addpug')) }}
+										{{ Form::open(array('url'=>'/admin/events/' . $event->slug . '/tournaments/' . $tournament->slug . '/participants/' . $ticket->id . '/addpug')) }}
 										<button type="submit" class="btn btn-primary btn-block">Add as PUG</button>
 										{{ Form::close() }}
 
 										@if (count($tournament->getTeams()) != 0)
-										{{ Form::open(array('url'=>'/admin/events/' . $event->slug . '/tournaments/' . $tournament->slug . '/participants/' . $participant->id . '/addsingle')) }}
+										{{ Form::open(array('url'=>'/admin/events/' . $event->slug . '/tournaments/' . $tournament->slug . '/participants/' . $ticket->id . '/addsingle')) }}
 										<div class="mb-3 col-12 col-sm-8">
 												{{ Form::select('event_tournament_team_id', $tournament->getTeams(), NULL, array('id'=>'name','class'=>'form-control')) }}
 										</div>
@@ -233,7 +233,7 @@
 									@endif
 
 									@else
-										{{ Form::open(array('url'=>'/admin/events/' . $event->slug . '/tournaments/' . $tournament->slug . '/participants/' . $participant->id . '/addsingle')) }}
+										{{ Form::open(array('url'=>'/admin/events/' . $event->slug . '/tournaments/' . $tournament->slug . '/participants/' . $ticket->id . '/addsingle')) }}
 												<button type="submit" class="btn btn-default btn-sm btn-block">Add to 1vs1</button>
 										{{ Form::close() }}
 									@endif

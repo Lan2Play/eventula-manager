@@ -26,7 +26,6 @@ class SeatingController extends Controller
 {
     /**
      * Show Seating Index Page
-     * TODO db migration for new terminology  participant -> ticket and ticket -> TicketType in the seating table
      * @param  Event  $event
      * @return View
      */
@@ -374,7 +373,7 @@ class SeatingController extends Controller
         //Check if the participant has already a seat and remove it if necessary
         //There can only be one!!!
         if (isset($request->participant_id_modal) && trim($request->participant_id_modal) != '') {
-            $clauses = ['event_participant_id' => $request->participant_id_modal];
+            $clauses = ['ticket_id' => $request->participant_id_modal];
             $previousSeat = EventSeating::where($clauses)->first();
             if ($previousSeat != null && $previousSeat->status == 'ACTIVE' && strtoupper($request->seat_status_select_modal) == 'ACTIVE') {
                 $previousSeat->delete();
@@ -382,7 +381,7 @@ class SeatingController extends Controller
         }
 
         $clauses = [
-            'event_participant_id' => $request->participant_select_modal
+            'ticket_id' => $request->participant_select_modal
         ];
         $previousSeat = EventSeating::where($clauses)->first();
         if ($previousSeat != null && $previousSeat->status == 'ACTIVE' &&  strtoupper($request->seat_status_select_modal) == 'ACTIVE') {
@@ -422,7 +421,7 @@ class SeatingController extends Controller
         $newSeat                            = new EventSeating();
         $newSeat->column                    = $request->seat_column;
         $newSeat->row                       = $request->seat_row;
-        $newSeat->event_participant_id      = $request->participant_select_modal;
+        $newSeat->ticket_id                 = $request->participant_select_modal;
         $newSeat->event_seating_plan_id     = $seatingPlan->id;
         $newSeat->status                    = $request->seat_status_select_modal;
 
