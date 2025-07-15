@@ -28,6 +28,13 @@ return [
     'revoke_gift' => 'Geschenk zurückziehen',
     'staff_ticket' => 'Team Ticket',
     'free_ticket' => 'Kostenloses Ticket',
+    /* Auditing */
+    'manager' => 'Verwalter',
+    'owner' => 'Besitzer',
+    'user' => 'Benutzer',
+    'either_staff_or_free' => 'Ist entweder Team oder Kostenloses Ticket',
+    'current_ticket_details' => 'Aktuelle Ticket Details',
+
 
     /* Ticket PDF */
     'pdf_header' => 'Dein Ticket für :name',
