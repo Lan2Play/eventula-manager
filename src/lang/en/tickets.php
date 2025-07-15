@@ -28,6 +28,14 @@ return [
     'revoke_gift' => 'Revoke Gift',
     'staff_ticket' => 'Staff Ticket',
     'free_ticket' => 'Free Ticket',
+    'ticket_type' => 'Ticket Type',
+    /* Auditing */
+    'manager' => 'Manager',
+    'owner' => 'Owner',
+    'user' => 'User',
+    'either_staff_or_free' => 'Is either staff or free ticket',
+    'current_ticket_details' => 'Current ticket details',
+
 
     /* Ticket PDF */
     'pdf_header' => 'Your ticket for :name',

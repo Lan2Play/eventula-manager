@@ -154,8 +154,15 @@ Route::group(['middleware' => ['installed']], function () {
             Route::get('/news/{newsArticle}/comments/{newsComment}/delete', 'NewsController@destroyComment');
         });
         Route::get('/news/tags/{newsTag}', 'NewsController@showTag');
-
         /**
+         * Audits
+         */
+        Route::group(['middleware' => ['auth', 'banned', 'verified', 'nophonenumber']], function () {
+            Route::get('/audits/ticket/{ticket}', 'AuditController@showAuditsForTickets');
+        });
+
+
+            /**
          * Events
          */
         Route::get('/events', 'Events\EventsController@index');
