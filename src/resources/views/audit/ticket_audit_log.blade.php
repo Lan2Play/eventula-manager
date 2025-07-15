@@ -33,10 +33,10 @@
             <thead>
             <tr>
                 <th>#</th>
-                <th>@lang('audit.timestamp')</th>
-                <th>@lang('audit.user')</th>
-                <th>@lang('audit.event')</th>
-                <th>@lang('audit.changes')</th>
+                <th>@lang('audits.timestamp')</th>
+                <th>@lang('audits.user')</th>
+                <th>@lang('audits.action')</th>
+                <th>@lang('audits.changes')</th>
             </tr>
             </thead>
             <tbody>
@@ -46,11 +46,17 @@
 
                 @if(! empty($audit->redacted))
                 <td colspan="4" class="text-center text-muted">
-                    @lang('audit.redacted_for_privacy')
+                    @lang('audits.redacted_for_privacy')
                 </td>
                 @else
                 <td>{{ $audit->created_at->format('Y-m-d H:i:s') }}</td>
-                <td>{{ optional($audit->user)->name ?? __('audit.system') }}</td>
+                <td>
+                    @if($audit->user_type === \App\User::class)
+                    {{ $audit->user_id }}
+                    @else
+                    {{ __('audit.system') }}
+                    @endif
+                </td>
                 <td>{{ $audit->event }}</td>
                 <td>
                     @foreach($audit->new_values as $field => $new)
