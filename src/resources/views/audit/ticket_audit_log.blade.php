@@ -43,6 +43,12 @@
             @foreach($audits as $index => $audit)
             <tr>
                 <td>{{ $index + 1 }}</td>
+
+                @if(! empty($audit->redacted))
+                <td colspan="4" class="text-center text-muted">
+                    @lang('audit.redacted_for_privacy')
+                </td>
+                @else
                 <td>{{ $audit->created_at->format('Y-m-d H:i:s') }}</td>
                 <td>{{ optional($audit->user)->name ?? __('audit.system') }}</td>
                 <td>{{ $audit->event }}</td>
@@ -55,6 +61,7 @@
                     </div>
                     @endforeach
                 </td>
+                @endif
             </tr>
             @endforeach
             </tbody>
