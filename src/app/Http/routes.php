@@ -191,6 +191,8 @@ Route::group(['middleware' => ['installed']], function () {
             Route::post('/gift/{ticket}', 'Events\TicketController@gift');
             Route::post('/gift/{ticket}/revoke', 'Events\TicketController@revokeGift');
             Route::post('/events/{event}/participants/{ticket}', 'Events\TicketController@update');
+            Route::post('/events/{event}/participants/{ticket}/resetManager', 'Events\TicketController@resetManager');
+            Route::post('/events/{event}/participants/{ticket}/resetUser', 'Events\TicketController@resetUser');
         });
 
         /**

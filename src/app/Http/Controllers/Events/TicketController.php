@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Events;
 
+use App\Events\Event;
 use App\Ticket;
 use App\TicketType;
 use App\Http\Controllers\Controller;
@@ -118,6 +119,36 @@ class TicketController extends Controller
         }
         $request->session()->flash('alert-danger', 'Please Login.');
         return Redirect::to('login');
+    }
+
+    /**
+     * Resets the manager of a ticket to the owner
+     * @param Ticket $ticket
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function resetManager($event, Ticket $ticket, Request $request) {
+        $user = Auth::user();
+        if( $user->id == $ticket->owner_id || $user->getAdmin() ) {
+            $ticket->manager_id = $ticket->owner_id;
+            $ticket->save();
+            return Redirect::back();
+        }
+        return Redirect::back();
+    }
+
+    /**
+     * Resets the user of a ticket to the owner
+     * @param Ticket $ticket
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function resetUser($event, Ticket $ticket, Request $request) {
+        $user = Auth::user();
+        if( $user->id == $ticket->owner_id || $user->getAdmin() ) {
+            $ticket->user_id = $ticket->owner_id;
+            $ticket->save();
+            return Redirect::back();
+        }
+        return Redirect::back();
     }
 
     /**

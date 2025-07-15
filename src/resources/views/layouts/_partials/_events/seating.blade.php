@@ -91,12 +91,15 @@ in_array('PREVIEW', $event->seatingPlans->pluck('status')->toArray())
                         @if ($managedTicket->seat && $managedTicket->seat->event_seating_plan_id == $seatingPlan->id)
                         {{ Form::open(array('url'=>'/events/' . $event->slug . '/seating/' . $seatingPlan->slug)) }}
                         {{ Form::hidden('_method', 'DELETE') }}
+                        {{ Form::hidden('_token', csrf_token()) }}
                         {{ Form::hidden('user_id', $user->id, array('id'=>'user_id','class'=>'form-control')) }}
                         {{ Form::hidden('ticket_id', $managedTicket->id, array('id'=>'ticket_id','class'=>'form-control')) }}
                         {{ Form::hidden('seat_column_delete', $managedTicket->seat->column, array('id'=>'seat_column_delete','class'=>'form-control')) }}
                         {{ Form::hidden('seat_row_delete', $managedTicket->seat->row, array('id'=>'seat_row_delete','class'=>'form-control')) }}
                         <h5>
-                            <button class="btn btn-danger btn-block">
+                            <button class="btn btn-danger btn-block"
+                                    {{ $seatingPlan->locked ? 'disabled' : '' }}
+                                >
                                 @lang('events.remove') - {{ $managedTicket->seat->getName() }}
                             </button>
                         </h5>
@@ -124,12 +127,15 @@ in_array('PREVIEW', $event->seatingPlans->pluck('status')->toArray())
                         @if ($ticket->seat && $ticket->seat->event_seating_plan_id == $seatingPlan->id)
                         {{ Form::open(array('url'=>'/events/' . $event->slug . '/seating/' . $seatingPlan->slug)) }}
                         {{ Form::hidden('_method', 'DELETE') }}
+                        {{ Form::hidden('_token', csrf_token()) }}
                         {{ Form::hidden('user_id', $user->id, array('id'=>'user_id','class'=>'form-control')) }}
                         {{ Form::hidden('ticket_id', $ticket->id, array('id'=>'ticket_id','class'=>'form-control')) }}
                         {{ Form::hidden('seat_column_delete', $ticket->seat->column, array('id'=>'seat_column_delete','class'=>'form-control')) }}
                         {{ Form::hidden('seat_row_delete', $ticket->seat->row, array('id'=>'seat_row_delete','class'=>'form-control')) }}
                         <h5>
-                            <button class="btn btn-danger btn-block">
+                            <button class="btn btn-danger btn-block"
+                                    {{ $seatingPlan->locked ? 'disabled' : '' }}
+                                >
                                 @lang('events.remove') - {{ $ticket->seat->getName() }}
                             </button>
                         </h5>
@@ -209,7 +215,8 @@ in_array('PREVIEW', $event->seatingPlans->pluck('status')->toArray())
 			{{ Form::hidden('user_id', $user->id, array('id'=>'user_id','class'=>'form-control')) }}
 			{{ Form::hidden('seat_column', null, array('id'=>'seat_column','class'=>'form-control')) }}
 			{{ Form::hidden('seat_row', null, array('id'=>'seat_row','class'=>'form-control')) }}
-			<div class="modal-footer">
+            {{ Form::hidden('_token', csrf_token()) }}
+            <div class="modal-footer">
 				<button type="submit" class="btn btn-success">@lang('events.yes')</button>
 				<button type="button" class="btn btn-danger" data-bs-dismiss="modal">@lang('events.no')</button>
 			</div>

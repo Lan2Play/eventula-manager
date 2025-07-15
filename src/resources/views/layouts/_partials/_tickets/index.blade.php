@@ -86,6 +86,7 @@
                     {{ Form::open(array('url'=>'/events/' . $ticket->event->slug . '/seating/' .
                     $ticket->seat->seatingPlan->slug)) }}
                     {{ Form::hidden('_method', 'DELETE') }}
+                    {{ Form::hidden('_token', csrf_token()) }}
                     {{ Form::hidden('user_id', $user->id, array('id'=>'user_id','class'=>'form-control')) }}
                     {{ Form::hidden('ticket_id', $ticket->id, array('id'=>'ticket_id','class'=>'form-control')) }}
                     {{ Form::hidden('seat_column_delete', $ticket->seat->column,
@@ -105,7 +106,7 @@
                     @endif
                     {{ Form::close() }}
                 </div>
-                @elseif($ticket->ticketType && $ticket->ticketType->seatable)
+                @elseif(($ticket->ticketType && $ticket->ticketType->seatable) || ($ticket->free || $ticket->staff))
                 <div class="mt-3">
                     @if(auth()->id() != $ticket->user_id && auth()->id() != $ticket->manager_id &&
                     !auth()->user()->getAdmin())
@@ -170,20 +171,38 @@
                     <div class="card-body d-flex flex-column">
                         <div class="flex-grow-1">
                             @if ($ticket->manager_id)
-                                <p class="mb-2"><strong>{{ $ticket->manager->username }}</strong></p>
+                            <p class="mb-2"><strong>{{ $ticket->manager->username }}</strong></p>
                             @else
-                                <p class="text-muted mb-2">None</p>
+                            <p class="text-muted mb-2">None</p>
                             @endif
                         </div>
-                        <div class="mt-auto">
-                            <button class="btn btn-primary btn-sm w-100" data-bs-toggle="modal" data-bs-target="#changeManagerModal{{ $ticket->id }}" {{ auth()->id() != $ticket->owner_id && !auth()->user()->getAdmin() ? 'disabled' : '' }}>
+                        <div class="mt-auto d-flex">
+                            <button
+                                    class="btn btn-primary btn-sm w-100"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#changeManagerModal{{ $ticket->id }}"
+                                    {{ auth()->id() != $ticket->owner_id && !auth()->user()->getAdmin() ? 'disabled' : '' }}>
                                 <i class="fas fa-edit me-1"></i> Change Manager
                             </button>
-                            @if(auth()->id() != $ticket->owner_id && !auth()->user()->getAdmin())
-                                <small class="d-block text-muted mt-1">Only the ticket owner can change the manager</small>
+                            @if(auth()->id() == $ticket->owner_id && $ticket->manager_id != auth()->id())
+                            {{ Form::open(array('url'=>'/events/' . $ticket->event->slug . '/participants/' . $ticket->id . '/resetManager', 'method'=>'POST')) }}
+                            {{ Form::hidden('_token', csrf_token()) }}
+                            <button
+                                    class="btn btn-secondary btn-sm ms-2"
+                                    id="resetManagerBtn{{ $ticket->id }}"
+                                    data-ticket-id="{{ $ticket->id }}"
+                                    type="submit"
+                                    {{ auth()->id() != $ticket->owner_id && !auth()->user()->getAdmin() ? 'disabled' : '' }}>
+
+                                <i class="fas fa-undo me-1"></i>
+                            </button>
                             @endif
                         </div>
+                        @if(auth()->id() != $ticket->owner_id && !auth()->user()->getAdmin())
+                        <small class="d-block text-muted mt-1">Only the ticket owner can change the manager</small>
+                        @endif
                     </div>
+
                 </div>
             </div>
 
@@ -206,14 +225,27 @@
                                 <p class="text-muted mb-2">None</p>
                             @endif
                         </div>
-                        <div class="mt-auto">
+                        <div class="mt-auto d-flex">
                             <button class="btn btn-primary btn-sm w-100" data-bs-toggle="modal" data-bs-target="#changeUserModal{{ $ticket->id }}" {{ (auth()->id() != $ticket->owner_id && auth()->id() != $ticket->manager_id && !auth()->user()->getAdmin()) ? 'disabled' : '' }}>
                                 <i class="fas fa-edit me-1"></i> Change User
                             </button>
                             @if(auth()->id() != $ticket->owner_id && auth()->id() != $ticket->manager_id && !auth()->user()->getAdmin())
                                 <small class="d-block text-muted mt-1">Only the ticket owner or manager can change the user</small>
                             @endif
+                            @if(auth()->id() == $ticket->owner_id && $ticket->user_id != auth()->id())
+                            {{ Form::open(array('url'=>'/events/' . $ticket->event->slug . '/participants/' . $ticket->id . '/resetUser', 'method'=>'POST')) }}
+                            {{ Form::hidden('_token', csrf_token()) }}
+                            <button
+                                    class="btn btn-secondary btn-sm ms-2"
+                                    id="resetUserBtn{{ $ticket->id }}"
+                                    data-ticket-id="{{ $ticket->id }}"
+                                    type="submit"
+                                    {{ auth()->id() != $ticket->owner_id && !auth()->user()->getAdmin() ? 'disabled' : '' }}>
+                                <i class="fas fa-undo me-1"></i>
+                            </button>
+                            @endif
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -227,6 +259,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         {{ Form::open(array('url'=>'/events/' . $ticket->event->slug . '/participants/' . $ticket->id, 'method'=>'POST')) }}
+                        {{ Form::hidden('_token', csrf_token()) }}
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="manager_search">Search Manager:</label>
@@ -371,6 +404,7 @@
                                 <p><small>A user that is a user of a ticket sees the ticket in their profile and on the event page but does not have access to the controls of the ticket (changing manager or user) but could also change the seat.</small></p>
                             </div>
                             {{ Form::hidden('action', 'change_user') }}
+                            {{ Form::hidden('_token', csrf_token()) }}
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

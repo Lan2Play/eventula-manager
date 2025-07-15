@@ -128,7 +128,14 @@ class SeatingController extends Controller
         ];
 
         $this->validate($request, $rules, $messages);
-        
+
+        if($seatingPlan->locked) {
+            $request->session()->flash(
+                'alert-warn',
+                'Seatplan is locked');
+            return Redirect::to('events/' . $event->slug);
+        }
+
         $clauses = [
             'ticket_id'       => $request->ticket_id,
             'column'                => $request->seat_column_delete,    
