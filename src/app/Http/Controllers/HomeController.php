@@ -45,20 +45,38 @@ class HomeController extends Controller
     public function index()
     {
         $user = Auth::user();
-        // redirect to home page if no event tickets are available
-        if (!$user || empty($user->tickets)) {
+
+        // Redirect if no user is found
+        if (!$user) {
             return $this->home();
         }
 
-        // Loop trough the tickets
-        // The first one, whos event is currently running and that is active redirects to the event page
-        foreach ($user->tickets as $ticket) {
-            if ($ticket->event->isRunningCurrently() && $ticket->isActive()) {
-                return $this->event();
-            }
+        // efficient query with eager loading and filtering
+        $activeTicket = $user->tickets()
+            ->with(['event', 'purchase']) // Eager loading for relations
+            ->whereHas('event', function ($query) {
+                $query->where('start', '<=', now())
+                    ->where('end', '>=', now()); // only running events
+            })
+            ->whereHas('purchase', function ($query) {
+                $query->where('status', 'Success'); // only purchases with success
+            })
+            ->where('revoked', false) // non revoked tickets
+            ->where(function ($query) {
+                $query->where('signed_in', true)
+                    ->orWhereHas('event', function ($subQuery) {
+                        $subQuery->where('online_event', true);
+                    });
+            })
+            ->orderBy('created_at') // first active ticket
+            ->first();
+
+        // if a ticket is found directly go to the event page
+        if ($activeTicket) {
+            return $this->event();
         }
 
-        // redirect to home page by default
+        // Standard-Weiterleitung zur Home-Seite
         return $this->home();
     }
 
