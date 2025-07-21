@@ -127,7 +127,7 @@
 
 			<div class="col-12">
 				<hr>
-				<h5 class="mb-3"><i class="fas fa-users me-2"></i>Ticket Roles</h5>
+				<h5 class="mb-3"><i class="fas fa-users me-2"></i>@lang('tickets.ticket_roles')</h5>
 			</div>
 
 			<div class="col-md-4 col-sm-12 mb-3">
@@ -150,7 +150,7 @@
                             @endif
                         </div>
                         <div class="role-description">
-                            <small class="text-muted">The owner can't be changed.</small>
+                            <small class="text-muted">@lang('tickets.owner_cant_be_changed')</small>
                         </div>
                     </div>
                 </div>
@@ -161,7 +161,7 @@
                     <div class="card-header bg-light">
                         <div class="d-flex align-items-center">
                             <i class="fas fa-user-cog me-2 text-primary"></i>
-                            <strong>Manager</strong>
+                            <strong>@lang('tickets.manager')</strong>
                             <a href="#" class="ms-1" data-bs-toggle="tooltip" data-bs-placement="top" title="@lang('tickets.tooltip_ticket_role_manager')">
                                 <i class="fas fa-question-circle"></i>
                             </a>
@@ -181,7 +181,7 @@
                                     data-bs-toggle="modal"
                                     data-bs-target="#changeManagerModal{{ $ticket->id }}"
                                     {{ auth()->id() != $ticket->owner_id && !auth()->user()->getAdmin() ? 'disabled' : '' }}>
-                                <i class="fas fa-edit me-1"></i> Change Manager
+                                <i class="fas fa-edit me-1"></i> @lang('tickets.change_manager')
                             </button>
                             @if(auth()->id() == $ticket->owner_id && $ticket->manager_id != auth()->id())
                             {{ Form::open(array('url'=>'/events/' . $ticket->event->slug . '/participants/' . $ticket->id . '/resetManager', 'method'=>'POST')) }}
@@ -198,7 +198,7 @@
                             @endif
                         </div>
                         @if(auth()->id() != $ticket->owner_id && !auth()->user()->getAdmin())
-                        <small class="d-block text-muted mt-1">Only the ticket owner can change the manager</small>
+                        <small class="d-block text-muted mt-1">@lang('tickets.only_owner_can_change_manager')</small>
                         @endif
                     </div>
 
@@ -210,7 +210,7 @@
                     <div class="card-header bg-light">
                         <div class="d-flex align-items-center">
                             <i class="fas fa-user me-2 text-success"></i>
-                            <strong>User</strong>
+                            <strong>@lang('tickets.user')</strong>
                             <a href="#" class="ms-1" data-bs-toggle="tooltip" data-bs-placement="top" title="@lang('tickets.tooltip_ticket_role_user')">
                                 <i class="fas fa-question-circle"></i>
                             </a>
@@ -229,7 +229,7 @@
                                 <i class="fas fa-edit me-1"></i> @lang('tickets.change_user')
                             </button>
                             @if(auth()->id() != $ticket->owner_id && auth()->id() != $ticket->manager_id && !auth()->user()->getAdmin())
-                                <small class="d-block text-muted mt-1">Only the ticket owner or manager can change the user</small>
+                                <small class="d-block text-muted mt-1">@lang('tickets.only_owner_or_manager_can_change_user')</small>
                             @endif
                             @if(auth()->id() == $ticket->owner_id && $ticket->user_id != auth()->id())
                             {{ Form::open(array('url'=>'/events/' . $ticket->event->slug . '/participants/' . $ticket->id . '/resetUser', 'method'=>'POST')) }}
@@ -244,10 +244,10 @@
                             </button>
                             @endif
                         </div>
-
                     </div>
                 </div>
             </div>
+
 
             <!-- Change Manager Modal -->
             <div class="modal fade" id="changeManagerModal{{ $ticket->id }}" tabindex="-1" aria-labelledby="changeManagerModalLabel{{ $ticket->id }}" aria-hidden="true">
@@ -338,13 +338,13 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="changeUserModalLabel{{ $ticket->id }}">Change User</h5>
+                            <h5 class="modal-title" id="changeUserModalLabel{{ $ticket->id }}">@lang('tickets.change_user')</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         {{ Form::open(array('url'=>'/events/' . $ticket->event->slug . '/participants/' . $ticket->id, 'method'=>'POST')) }}
                         <div class="modal-body">
                             <div class="form-group">
-                                <label for="username_search">Search User:</label>
+                                <label for="username_search">@lang('tickets.modal_change_user_search_user_label')</label>
                                 <input type="text" id="username_search{{ $ticket->id }}" class="form-control username-search" placeholder="Type to search users..." autocomplete="off">
                                 <input type="hidden" name="user_id" id="user_id{{ $ticket->id }}" value="{{ $ticket->user_id }}">
                                 <div id="search_results{{ $ticket->id }}" class="search-results"></div>
@@ -398,16 +398,16 @@
                                 });
                             </script>
                             <div class="alert alert-info mt-3">
-                                <strong>What can a User do?</strong>
-                                <p>A User "uses" the Ticket to get entrance to the event. The ticket user will be able to use the ticket.</p>
-                                <p><small>A user that is a user of a ticket sees the ticket in their profile and on the event page but does not have access to the controls of the ticket (changing manager or user) but could also change the seat.</small></p>
+                                <strong>@lang('tickets.modal_change_user_headline')</strong>
+                                <p>@lang('tickets.modal_change_user_text')</p>
+                                <p><small>@lang('tickets.modal_change_user_example')</small></p>
                             </div>
                             {{ Form::hidden('action', 'change_user') }}
                             {{ Form::hidden('_token', csrf_token()) }}
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save changes</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@lang('tickets.buttons_close')</button>
+                            <button type="submit" class="btn btn-primary">@lang('tickets.buttons_save')</button>
                         </div>
                         {{ Form::close() }}
                     </div>
@@ -420,6 +420,9 @@
 			<a href="/events/participants/{{ $ticket->id }}/pdf" class="btn btn-primary">
 				<i class="fas fa-file-pdf me-1"></i> @lang('tickets.download_pdf')
 			</a>
+            <a href="/audits/ticket/{{ $ticket->id }}" class="btn btn-outline-secondary">
+                <i class="fas fa-history me-1"></i>@lang('tickets.audit_log')
+            </a>
 		</div>
 		<div class="text-muted small">
 			<i class="fas fa-info-circle me-1"></i> Ticket ID: {{ $ticket->id }}
