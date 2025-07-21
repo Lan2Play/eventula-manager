@@ -1033,12 +1033,45 @@ class Helpers
      */
     public static function getTopWinners(int $count = 5): Collection
     {
-        $users = User::all();
-        return $users->filter(function ($user) {
-            return $user->win_count > 0;
-        })
-            ->sortByDesc('win_count')
-            ->take($count);
+        return User::select('users.*')
+            ->selectSub(self::getWinCountSubquery(), 'win_count')
+            ->where('admin', 0)
+            ->having('win_count', '>', 0)
+            ->orderByDesc('win_count')
+            ->limit($count)
+            ->get();
+    }
+
+    /**
+     * Get win count subquery for calculating user wins.
+     *
+     * @return \Illuminate\Database\Query\Builder
+     */
+    private static function getWinCountSubquery(): \Illuminate\Database\Query\Builder
+    {
+        // Team wins subquery
+        $teamWinsSubquery = DB::table('event_tournament_teams as ett')
+            ->join('event_tournament_participants as etp', 'ett.id', '=', 'etp.event_tournament_team_id')
+            ->join('tickets as t', 'etp.event_participant_id', '=', 't.id')
+            ->whereColumn('t.user_id', 'users.id')
+            ->where('ett.final_rank', 1)
+            ->selectRaw('COUNT(*)');
+
+        // Individual wins subquery
+        $individualWinsSubquery = DB::table('event_tournament_participants as etp')
+            ->join('tickets as t', 'etp.event_participant_id', '=', 't.id')
+            ->whereColumn('t.user_id', 'users.id')
+            ->where('etp.final_rank', 1)
+            ->whereNull('etp.event_tournament_team_id')
+            ->selectRaw('COUNT(*)');
+
+        // Combined subquery that adds team wins and individual wins
+        return DB::query()
+            ->selectRaw(
+                "COALESCE(({$teamWinsSubquery->toSql()}), 0) + COALESCE(({$individualWinsSubquery->toSql()}), 0)"
+            )
+            ->mergeBindings($teamWinsSubquery)
+            ->mergeBindings($individualWinsSubquery);
     }
 
     /**
