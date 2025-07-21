@@ -1020,7 +1020,7 @@ class Helpers
         return DB::table('tickets')
             ->join('events', 'tickets.event_id', '=', 'events.id')
             ->whereColumn('tickets.user_id', 'users.id')
-            ->whereIn('events.status', ['PUBLISHED', 'REGISTEREDONLY'])
+            ->whereIn('events.status', [Event::STATUS_PUBLISHED, 'REGISTEREDONLY'])
             ->where('events.end', '<=', Carbon::today())
             ->selectRaw('COUNT(DISTINCT tickets.event_id)');
     }
