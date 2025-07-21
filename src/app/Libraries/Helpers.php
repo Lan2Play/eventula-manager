@@ -1006,12 +1006,23 @@ class Helpers
      */
     public static function getTopAttendees(int $count = 5): Collection
     {
-        $users = User::where('admin', 0)->get();
-        return $users->filter(function ($user) {
-            return $user->unique_attended_event_count > 0;
-        })
-            ->sortByDesc('unique_attended_event_count')
-            ->take($count);
+        return User::select('users.*')
+            ->selectSub(self::getAttendedEventsCountSubquery(), 'attended_events_count')
+            ->where('admin', 0)
+            ->having('attended_events_count', '>', 0)
+            ->orderByDesc('attended_events_count')
+            ->limit($count)
+            ->get();
+    }
+
+    private static function getAttendedEventsCountSubquery(): \Illuminate\Database\Query\Builder
+    {
+        return DB::table('tickets')
+            ->join('events', 'tickets.event_id', '=', 'events.id')
+            ->whereColumn('tickets.user_id', 'users.id')
+            ->whereIn('events.status', ['PUBLISHED', 'REGISTEREDONLY'])
+            ->where('events.end', '<=', Carbon::today())
+            ->selectRaw('COUNT(DISTINCT tickets.event_id)');
     }
 
     /**
