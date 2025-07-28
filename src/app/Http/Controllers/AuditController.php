@@ -27,10 +27,10 @@ class AuditController extends Controller
         }
 
         if ($user->is($ticket->owner) || $user->getAdmin()) {
-            // Owner oder Admin sieht alles
+            // Owner or Admin sees everything
             $audits = $ticket->audits()->get();
         } else {
-            // Manager/User sieht nur Einträge, in denen seine ID bei user_id oder manager_id beteiligt ist
+            // Manager/User only sees entries that contain their id as manager_id or user_id
             $all      = $ticket->audits()->get();
             $visibleIds = $ticket->audits()
                 ->where(function($q) use ($user) {
