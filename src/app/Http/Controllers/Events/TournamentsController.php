@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Events;
 
-use DB;
 use Auth;
+use Exception;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 use Session;
-use DateTime;
 
 use App\User;
 use App\Event;
@@ -16,7 +17,6 @@ use App\EventTournamentTeam;
 use App\GameMatchApiHandler;
 use Helpers;
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Support\Facades\Redirect;
@@ -27,7 +27,7 @@ class TournamentsController extends Controller
     /**
      * Show Tournaments
      * @param  Event $event
-     * @return Tournaments
+     * @return array
      */
     public function index(Event $event)
     {
@@ -60,85 +60,13 @@ class TournamentsController extends Controller
 
 
     /**
-     * Register to Tournament
-     * @param  Event           $event
-     * @param  EventTournament $tournament
-     * @param  Request         $request
-     * @return [type]
-     */
-    public function registerSingle(Event $event, EventTournament $tournament, Request $request)
-    {
-        if ($tournament->status != 'OPEN') {
-            Session::flash('alert-danger', __('events.tournament_signups_not_permitted'));
-            return Redirect::back();
-        }
-
-        if (!$tournament->event->tickets()->where('id', $request->event_participant_id)->first()) {
-            Session::flash('alert-danger', __('events.tournament_not_signed_in'));
-            return Redirect::back();
-        }
-
-        if ($tournament->getParticipant($request->event_participant_id)) {
-            Session::flash('alert-danger', __('events.tournament_already_signed_up'));
-            return Redirect::back();
-        }
-
-        if (
-            isset($request->event_tournament_team_id) &&
-            $tournamentTeam = $tournament->tournamentTeams()->where('id', $request->event_tournament_team_id)->first()
-        ) {
-            if ($tournamentTeam->tournamentParticipants->count() == substr($tournament->team_size, 0, 1)) {
-                Session::flash('alert-danger', __('events.tournament_team_full'));
-                return Redirect::back();
-            }
-        }
-
-        if ($tournament->game && $tournament->game->gamematchapihandler != 0 && $tournament->match_autoapi)
-        {
-            if (!Helpers::checkUserFields(User::where('id', '=', Ticket::where('id', '=', $request->event_participant_id)->first()->user_id)->first(),(new GameMatchApiHandler())->getGameMatchApiHandler($tournament->game->gamematchapihandler)->getuserthirdpartyrequirements()))
-            {
-                Session::flash('alert-danger', __('events.tournament_cannot_join_thirdparty'));
-                return Redirect::back();
-            }
-
-        }
-
-        // Get the EventParticipant only Once is better?
-        $eventParticipant = $event->tickets()->where('id', $request->event_participant_id)->first();
-        // Check if staff is trying to register
-        if ($eventParticipant->staff && $event->tournaments_staff) {
-            Session::flash('alert-danger', __('events.tournament_staff_not_permitted'));
-            return Redirect::back();
-        }
-
-        // Check if a freebie is trying to register
-        if ($eventParticipant->free && $event->tournaments_freebie) {
-            Session::flash('alert-danger', __('events.tournament_freebie_not_permitted'));
-            return Redirect::back();
-        }
-
-
-        // TODO - Refactor
-        $tournamentParticipant                              = new EventTournamentParticipant();
-        $tournamentParticipant->event_participant_id        = $request->event_participant_id;
-        $tournamentParticipant->event_tournament_id         = $tournament->id;
-        $tournamentParticipant->event_tournament_team_id    = @$request->event_tournament_team_id;
-
-        if (!$tournamentParticipant->save()) {
-            Session::flash('alert-danger', __('events.tournament_cannot_add_participant'));
-            return Redirect::back();
-        }
-
-        Session::flash('alert-success', __('events.tournament_sucessfully_registered'));
-        return Redirect::back();
-    }
-
-    /**
      * Register Team to Tournament
-     * @param  Event           $event
-     * @param  EventTournament $tournament
-     * @param  Request         $request
-     * @return Redirect
+     * TODO: Refactor/Correct the behavior for online events
+     * @param Event $event
+     * @param EventTournament $tournament
+     * @param Request $request
+     * @return RedirectResponse
+     * @throws Exception
      */
     public function registerTeam(Event $event, EventTournament $tournament, Request $request)
     {
@@ -155,6 +83,14 @@ class TournamentsController extends Controller
         if ($tournament->getParticipant($request->event_participant_id)) {
             Session::flash('alert-danger', __('events.tournament_already_signed_up'));
             return Redirect::back();
+        }
+
+        if (!$tournament->event->tournaments_freebies && $request->event_participant_id->free) {
+            Session::flash('alert-danger', __('events.tournament_freebie_not_permitted'));
+        }
+
+        if (!$tournament->event->tournaments_staff && $request->event_participant_id->staff) {
+            Session::flash('alert-danger', __('events.tournament_staff_not_permitted'));
         }
 
         if ($tournament->game->gamematchapihandler != 0 && $tournament->match_autoapi)
@@ -192,6 +128,89 @@ class TournamentsController extends Controller
     }
 
     /**
+     * Register to Tournament
+     * @param  Event           $event
+     * @param  EventTournament $tournament
+     * @param  Request         $request
+     * @return RedirectResponse
+     */
+    public function registerSingle(Event $event, EventTournament $tournament, Request $request)
+    {
+        if ($tournament->status != 'OPEN') {
+            Session::flash('alert-danger', __('events.tournament_signups_not_permitted'));
+            return Redirect::back();
+        }
+
+        if (!$tournament->event->tickets()->where('id', $request->event_participant_id)->first()) {
+            Session::flash('alert-danger', __('events.tournament_not_signed_in'));
+            return Redirect::back();
+        }
+
+        if (!$tournament->event->tournaments_freebies && $request->event_participant_id->free) {
+            Session::flash('alert-danger', __('events.tournament_freebie_not_permitted'));
+        }
+
+        if (!$tournament->event->tournaments_staff && $request->event_participant_id->staff) {
+            Session::flash('alert-danger', __('events.tournament_staff_not_permitted'));
+        }
+
+        if ($tournament->getParticipant($request->event_participant_id)) {
+            Session::flash('alert-danger', __('events.tournament_already_signed_up'));
+            return Redirect::back();
+        }
+
+        if (
+            isset($request->event_tournament_team_id) &&
+            $tournamentTeam = $tournament->tournamentTeams()->where('id', $request->event_tournament_team_id)->first()
+        ) {
+            if ($tournamentTeam->tournamentParticipants->count() == substr($tournament->team_size, 0, 1)) {
+                Session::flash('alert-danger', __('events.tournament_team_full'));
+                return Redirect::back();
+            }
+        }
+
+        if ($tournament->game && $tournament->game->gamematchapihandler != 0 && $tournament->match_autoapi)
+        {
+            if (!Helpers::checkUserFields(User::where('id', '=', Ticket::where('id', '=', $request->event_participant_id)->first()->user_id)->first(),(new GameMatchApiHandler())->getGameMatchApiHandler($tournament->game->gamematchapihandler)->getuserthirdpartyrequirements()))
+            {
+                Session::flash('alert-danger', __('events.tournament_cannot_join_thirdparty'));
+                return Redirect::back();
+            }
+
+        }
+
+        // Get the EventParticipant only Once is better?
+        $eventParticipant = $event->tickets()->where('id', $request->event_participant_id)->first();
+
+        // Check if staff is trying to register
+        if ($eventParticipant->staff && $event->tournaments_staff) {
+            Session::flash('alert-danger', __('events.tournament_staff_not_permitted'));
+            return Redirect::back();
+        }
+
+        // Check if a freebie is trying to register
+        if ($eventParticipant->free && $event->tournaments_freebie) {
+            Session::flash('alert-danger', __('events.tournament_freebie_not_permitted'));
+            return Redirect::back();
+        }
+
+
+        // TODO - Refactor
+        $tournamentParticipant                              = new EventTournamentParticipant();
+        $tournamentParticipant->event_participant_id        = $request->event_participant_id;
+        $tournamentParticipant->event_tournament_id         = $tournament->id;
+        $tournamentParticipant->event_tournament_team_id    = @$request->event_tournament_team_id;
+
+        if (!$tournamentParticipant->save()) {
+            Session::flash('alert-danger', __('events.tournament_cannot_add_participant'));
+            return Redirect::back();
+        }
+
+        Session::flash('alert-success', __('events.tournament_sucessfully_registered'));
+        return Redirect::back();
+    }
+
+    /**
      * Register Pug to Tournament
      * @param  Event           $event
      * @param  EventTournament $tournament
@@ -213,6 +232,14 @@ class TournamentsController extends Controller
         if ($tournament->getParticipant($request->event_participant_id)) {
             Session::flash('alert-danger', __('events.tournament_already_signed_up'));
             return Redirect::back();
+        }
+
+        if (!$tournament->event->tournaments_freebies && $request->event_participant_id->free) {
+            Session::flash('alert-danger', __('events.tournament_freebie_not_permitted'));
+        }
+
+        if (!$tournament->event->tournaments_staff && $request->event_participant_id->staff) {
+            Session::flash('alert-danger', __('events.tournament_staff_not_permitted'));
         }
 
         if ($tournament->game->gamematchapihandler != 0 && $tournament->match_autoapi)
