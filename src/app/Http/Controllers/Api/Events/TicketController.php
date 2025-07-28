@@ -2,25 +2,17 @@
 
 namespace App\Http\Controllers\Api\Events;
 
-use DB;
-use Auth;
-use Session;
-use App\User;
 use App\Event;
-use App\Ticket;
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Http\Request;
 // TODO Check this Controller with the new Ticket formerly known as Participant
 class TicketController extends Controller
 {
     /**
-     * Show Participants
+     * Show Tickets
      * @param  $event
-     * @return Ticket
+     * @return array
      */
     public function index($event)
     {

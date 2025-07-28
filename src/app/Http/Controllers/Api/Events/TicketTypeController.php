@@ -26,7 +26,7 @@ class TicketTypeController extends Controller
      * Show all TicketTypes for Event $event
      *
      * @param  $event
-     * @return TicketType
+     * @return array
      */
     public function index($event)
     {
@@ -57,7 +57,7 @@ class TicketTypeController extends Controller
      * Show Event Ticket
      * @param  $event
      * @param  TicketType $ticketType
-     * @return TicketType
+     * @return array
      */
     public function show($event, $ticketType)
     {
@@ -73,14 +73,12 @@ class TicketTypeController extends Controller
             abort(404, "Event not found.");
         }
 
-        $return = [
+        return [
             'id' => $ticketType->id,
             'name' => $ticketType->name,
             'type' => $ticketType->type,
             'price' => $ticketType->price,
             'quantity' => $ticketType->quantity,
         ];
-
-        return $return;
     }
 }

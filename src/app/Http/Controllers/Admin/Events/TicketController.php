@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Events;
 
 
+use Illuminate\View\View;
 use Session;
 
 use App\Event;
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Redirect;
 class TicketController extends Controller
 {
     /**
-     * Show Participants Index Page
+     * Show Tickets Index Page
      * @param  Event  $event
      * @return View
      */
@@ -27,7 +28,7 @@ class TicketController extends Controller
     }
 
     /**
-     * Show Participants Page
+     * Show Tickets Page
      * @param  Event            $event
      * @param  Ticket $ticket
      * @return View
@@ -41,7 +42,7 @@ class TicketController extends Controller
     }
 
     /**
-     * Update Event
+     * Update Ticket
      * @param  Event            $event
      * @param  Ticket $ticket
      * @param  Request          $request

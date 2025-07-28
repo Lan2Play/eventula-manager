@@ -508,7 +508,7 @@ class User extends Authenticatable implements MustVerifyEmail
             ->count();
 
         $individualWins = EventTournamentParticipant::where('final_rank', 1)
-            ->whereHas('eventParticipant.user', function (Builder $query) {
+            ->whereHas('eventTicket.user', function (Builder $query) {
                 $query->where('id', $this->id);
             })
             ->count();
