@@ -16,8 +16,7 @@ return [
     'max_ticket_event_count_reached' => 'You can not buy :ticketname x:ticketamount because it would exceed the event\'s limit of :maxamount total ticket(s) per user. You currently have :currentamount total ticket(s) for this event.',
     'max_ticket_group_count_reached' => 'You can not buy :ticketname x:ticketamount, because it would exceed the limit of :maxamount ticket(s) from the group :ticketgroup per user. You currently have :currentamount ticket(s).',
     'max_ticket_type_count_reached' => 'You can not buy :ticketname x:ticketamount, because it would exceed the limit of :maxamount ticket(s) per user. You currently have :currentamount ticket(s).',
-    'ticket_not_yet' => 'You cannot buy this ticket yet.',
-    'ticket_not_anymore' => 'You cannot buy this ticket anymore.',
+
     
     /* Ticket Partial*/
     'has_been_gifted' => 'This Ticket has been gifted!',
@@ -51,6 +50,12 @@ return [
 
     /* Alerts */
     'alert_event_not_yet_published' => 'The event is currently in the state :state. You can not buy tickets for for now.',
+    'alert_event_not_found' => 'Event Not found',
+    'alert_user_not_found' => 'User not found',
+    'alert_event_ended' => 'You cannot buy tickets for previous events',
+    'alert_ticket_not_yet' => 'You cannot buy this ticket yet.',
+    'alert_ticket_not_anymore' => 'You cannot buy this ticket anymore.',
+
     /* Auditing */
     'manager' => 'Manager',
     'owner' => 'Owner',

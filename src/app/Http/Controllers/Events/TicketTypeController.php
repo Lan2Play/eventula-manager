@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers\Events;
 
-use DB;
 use Auth;
 use Illuminate\Http\RedirectResponse;
 use Session;
 use Settings;
-use Colors;
 
 use App\User;
 use App\Event;
@@ -17,9 +15,7 @@ use App\TicketType;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\PaymentController as Payment;
 
 class TicketTypeController extends Controller
 {
@@ -35,12 +31,12 @@ class TicketTypeController extends Controller
         $user = User::where('id', $request->user_id)->first();
 
         if ($user == null) {
-            Session::flash('alert-danger', 'User not found.');
+            Session::flash('alert-danger', __('tickets.alert_user_not_found'));;
             return Redirect::to('/events/' . $ticketType->event->slug);
         }
 
         if (!$ticketType->event) {
-            Session::flash('alert-danger', 'Event nicht gefunden.');
+            Session::flash('alert-danger', __('tickets.alert_event_not_found'));
             return Redirect::to('/');
         }
         debug($ticketType->event);
@@ -57,17 +53,17 @@ class TicketTypeController extends Controller
 
 
         if (date('Y-m-d H:i:s') >= $ticketType->event->end) {
-            Session::flash('alert-danger', 'You cannot buy tickets for previous events.');
+            Session::flash('alert-danger', __('tickets.alert_event_ended'));;
             return Redirect::to('/events/' . $ticketType->event->slug);
         }
 
         if ($ticketType->sale_start != null && date('Y-m-d H:i:s') <= $ticketType->sale_start) {
-            Session::flash('alert-danger', __('tickets.ticket_not_yet'));
+            Session::flash('alert-danger', __('tickets.alert_ticket_not_yet'));
             return Redirect::to('/events/' . $ticketType->event->slug);
         }
 
         if ($ticketType->sale_end != null && date('Y-m-d H:i:s') >= $ticketType->sale_end) {
-            Session::flash('alert-danger', __('tickets.ticket_not_anymore'));
+            Session::flash('alert-danger', __('tickets.alert_ticket_not_anymore'));
             return Redirect::to('/events/' . $ticketType->event->slug);
         }
 
@@ -143,7 +139,7 @@ class TicketTypeController extends Controller
     /**
      * Retrieve ticket via QR code
      * @param  Ticket $participant
-     * @return Redirect
+     * @return RedirectResponse
      */
     public function retrieve(Ticket $participant)
     {
