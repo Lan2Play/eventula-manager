@@ -135,7 +135,7 @@ class Event extends Model
     {
         return $this->hasMany('App\Ticket')->where('revoked', '=', 0);
     }
-    public function allEventParticipants()
+    public function getAllTickets()
     {
         return $this->hasMany('App\Ticket');
     }
