@@ -49,7 +49,8 @@ class TicketTypeController extends Controller
         if (!in_array($event->status, [Event::STATUS_PUBLISHED, Event::STATUS_PRIVATE, Event::STATUS_REGISTEREDONLY])) {
             Session::flash(
                 'alert-danger',
-                'Event ist derzeit im Status ' . strtolower($event->status) . '. Sie können noch keine Tickets kaufen.'
+                __('tickets.alert_event_not_yet_published', ['state'=> $event->status])
+
             );
             return Redirect::to('/events/' . $event->slug);
         }

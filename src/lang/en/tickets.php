@@ -49,7 +49,8 @@ return [
     'buttons_save' => 'save',
     'buttons_close' => 'close',
 
-
+    /* Alerts */
+    'alert_event_not_yet_published' => 'The event is currently in the state :state. You can not buy tickets for for now.',
     /* Auditing */
     'manager' => 'Manager',
     'owner' => 'Owner',

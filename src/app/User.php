@@ -502,7 +502,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected function calculateWinCount(): int
     {
         $teamWins = EventTournamentTeam::where('final_rank', 1)
-            ->whereHas('tournamentParticipants.eventParticipant.user', function (Builder $query) {
+            ->whereHas('tournamentParticipants.eventTicket.user', function (Builder $query) {
                 $query->where('id', $this->id);
             })
             ->count();

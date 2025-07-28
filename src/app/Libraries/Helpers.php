@@ -1052,14 +1052,14 @@ class Helpers
         // Team wins subquery
         $teamWinsSubquery = DB::table('event_tournament_teams as ett')
             ->join('event_tournament_participants as etp', 'ett.id', '=', 'etp.event_tournament_team_id')
-            ->join('tickets as t', 'etp.event_participant_id', '=', 't.id')
+            ->join('tickets as t', 'etp.ticket_id', '=', 't.id')
             ->whereColumn('t.user_id', 'users.id')
             ->where('ett.final_rank', 1)
             ->selectRaw('COUNT(*)');
 
         // Individual wins subquery
         $individualWinsSubquery = DB::table('event_tournament_participants as etp')
-            ->join('tickets as t', 'etp.event_participant_id', '=', 't.id')
+            ->join('tickets as t', 'etp.ticket_id', '=', 't.id')
             ->whereColumn('t.user_id', 'users.id')
             ->where('etp.final_rank', 1)
             ->whereNull('etp.event_tournament_team_id')
