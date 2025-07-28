@@ -2,21 +2,15 @@
 
 namespace App\Http\Controllers\Admin\Events;
 
-use DB;
 use Illuminate\Http\RedirectResponse;
 use Session;
 use Storage;
 
-use App\User;
 use App\Event;
-use App\TicketType;
 use App\EventSeating;
 use App\EventSeatingPlan;
-use app\EventSeatingPlanSeat;
 use App\Ticket;
-use App\EventParticipantType;
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
@@ -363,8 +357,8 @@ class SeatingController extends Controller
         //Check if ticket is even seatable
         if (isset($request->participant_select_modal) && trim($request->participant_select_modal) != '') {
             $clauses = ['id' => $request->participant_select_modal];
-            $participant = Ticket::where($clauses)->first();
-            if (($participant->ticket && !$participant->ticket->seatable)) {
+            $ticket = Ticket::where($clauses)->first();
+            if (($ticket->ticket && !$ticket->ticketType->seatable)) {
                 Session::flash('alert-danger', 'Ticket is not eligible for a seat!');
                 return Redirect::back();
             }

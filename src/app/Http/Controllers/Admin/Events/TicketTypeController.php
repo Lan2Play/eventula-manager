@@ -2,17 +2,12 @@
 
 namespace App\Http\Controllers\Admin\Events;
 
-use DB;
 use Session;
 
 use App\User;
 use App\Event;
 use App\TicketType;
-use App\EventSeating;
-use App\Ticket;
-use App\EventParticipantType;
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;

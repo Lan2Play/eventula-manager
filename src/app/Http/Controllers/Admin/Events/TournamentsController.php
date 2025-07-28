@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers\Admin\Events;
 
-use DB;
-use Auth;
+use Illuminate\View\View;
 use Session;
-use DateTime;
-use Storage;
 use Debugbar;
 
 use App\User;
@@ -22,7 +19,6 @@ use App\GameMatchApiHandler;
 use Helpers;
 
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Support\Facades\Redirect;
@@ -60,6 +56,7 @@ class TournamentsController extends Controller
 
     /**
      * Store Tournament to Database
+     * TODO: change request->format to a better name that is not used by the request class!
      * @param  Event   $event
      * @param  Request $request
      * @return Redirect

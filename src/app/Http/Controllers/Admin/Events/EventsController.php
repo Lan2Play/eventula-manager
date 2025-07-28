@@ -2,20 +2,16 @@
 
 namespace App\Http\Controllers\Admin\Events;
 
-use DB;
 use Auth;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 use Session;
 use Helpers;
 
-use App\User;
 use App\Event;
 use App\Ticket;
-use App\TicketType;
-use App\EventAnnouncement;
-use App\EventVenue;
 use App\Purchase;
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
@@ -52,7 +48,7 @@ class EventsController extends Controller
     /**
      * Add Event to Database
      * @param  Request $request
-     * @return Redirect
+     * @return RedirectResponse
      */
     public function store(Request $request)
     {
@@ -118,7 +114,7 @@ class EventsController extends Controller
      * Update Event
      * @param  Event   $event
      * @param  Request $request
-     * @return Redirect
+     * @return RedirectResponse
      */
     public function update(Event $event, Request $request)
     {
@@ -221,7 +217,7 @@ class EventsController extends Controller
     /**
      * Delete Event from Database
      * @param  Event  $event
-     * @return Redirect
+     * @return RedirectResponse
      */
     public function destroy(Event $event)
     {
@@ -243,7 +239,7 @@ class EventsController extends Controller
      * Add Gift Participant
      * @param  Request $request
      * @param  Event   $event
-     * @return Redirect
+     * @return RedirectResponse
      */
     public function freeGift(Request $request, Event $event)
     {
@@ -283,7 +279,7 @@ class EventsController extends Controller
      * Add Staff Participant
      * @param  Request $request
      * @param  Event   $event
-     * @return Redirect
+     * @return RedirectResponse
      */
     public function freeStaff(Request $request, Event $event)
     {

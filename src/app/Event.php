@@ -244,7 +244,7 @@ class Event extends Model
      * Get Total Ticket Sales
      * @return int
      */
-        public function getTicketSalesTotal()
+        public function getTicketSalesCount()
         {
             return $this->tickets()
                 ->whereNotNull('purchase_id')

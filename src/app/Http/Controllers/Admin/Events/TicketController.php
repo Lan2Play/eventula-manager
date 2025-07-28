@@ -2,16 +2,12 @@
 
 namespace App\Http\Controllers\Admin\Events;
 
-use DB;
-use Auth;
+
 use Session;
 
-use App\User;
 use App\Event;
 use App\Ticket;
-use App\TicketType;
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
