@@ -244,16 +244,14 @@ class Event extends Model
      * Get Total Ticket Sales
      * @return int
      */
-    public function getTicketSalesCount()
-    {
-        $total = 0;
-        foreach ($this->tickets as $ticket) {
-            if ($ticket->purchase && $ticket->ticket) {
-                $total = $total + $ticket->ticket->price;
-            }
+        public function getTicketSalesTotal()
+        {
+            return $this->tickets()
+                ->whereNotNull('purchase_id')
+                ->whereHas('ticketType')
+                ->join('ticket_types', 'tickets.ticket_type_id', '=', 'ticket_types.id')
+                ->sum('ticket_types.price');
         }
-        return $total;
-    }
 
     /**
      * Get Total Seated
