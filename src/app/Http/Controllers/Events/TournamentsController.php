@@ -129,10 +129,11 @@ class TournamentsController extends Controller
 
     /**
      * Register to Tournament
-     * @param  Event           $event
-     * @param  EventTournament $tournament
-     * @param  Request         $request
+     * @param Event $event
+     * @param EventTournament $tournament
+     * @param Request $request
      * @return RedirectResponse
+     * @throws Exception
      */
     public function registerSingle(Event $event, EventTournament $tournament, Request $request)
     {
@@ -215,7 +216,7 @@ class TournamentsController extends Controller
      * @param  Event           $event
      * @param  EventTournament $tournament
      * @param  Request         $request
-     * @return Redirect
+     * @return RedirectResponse
      */
     public function registerPug(Event $event, EventTournament $tournament, Request $request)
     {
@@ -271,7 +272,7 @@ class TournamentsController extends Controller
      * @param  Event           $event
      * @param  EventTournament $tournament
      * @param  Request         $request
-     * @return Redirect
+     * @return RedirectResponse
      */
     public function unregister(Event $event, EventTournament $tournament, Request $request)
     {
