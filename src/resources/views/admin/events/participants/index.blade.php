@@ -37,7 +37,7 @@
 			</div>
 			<div class="card-body">
 				<div class="dataTable_wrapper">
-					<table width="100%" class="table table-striped table-hover participants-table" id="seating_table">
+					<table class="table table-striped table-hover participants-table" id="seating_table">
 						<thead>
 							<tr>
 								<th>User</th>
@@ -61,7 +61,11 @@
 									@endif
 								</td>
 								<td>{{ $participant->user->firstname }} {{ $participant->user->surname }}</td>
-								<td>{{ $participant->user->email }} @if (isset($participant->user->phonenumber) && !empty($participant->user->phonenumber)) <br /><a href="tel:{{ $participant->user->phonenumber }}">{{ $participant->user->phonenumber }}</a>@endif</td>
+								<td>{{ $participant->user->email }}
+                                    @if (isset($participant->user->phonenumber) && !empty($participant->user->phonenumber))
+                                    <br /><a href="tel:{{ $participant->user->phonenumber }}">{{ $participant->user->phonenumber }}</a>
+                                    @endif
+                                </td>
 								<td>
 									@if (isset($participant->seat)) {{ $participant->seat->seat }} @endif
 								</td>
@@ -129,10 +133,7 @@
 <script>
 	function ConfirmSignOutAll() {
 		var x = confirm("do you really want to sign out all participants? This cannot be undone!");
-		if (x)
-			return true;
-		else
-			return false;
+		return x;
 	}
 </script>
 
