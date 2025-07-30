@@ -88,7 +88,10 @@
                 Audit Log
             </div>
             <div class="card-body">
-                // Audit Log goes here
+                @include('layouts._partials._audit.ticket', [
+    'ticket' => $participant,
+    'audits' => $participant->audits ?? collect()
+])
             </div>
         </div>
 	</div>
