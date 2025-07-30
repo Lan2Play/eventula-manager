@@ -47,6 +47,8 @@ return [
     'only_owner_or_manager_can_change_user' => 'Only the ticket owner or manager can change the user',
     'buttons_save' => 'save',
     'buttons_close' => 'close',
+    'ticket_id' => 'Ticket ID',
+
 
     /* Alerts */
     'alert_event_not_yet_published' => 'The event is currently in the state :state. You can not buy tickets for for now.',

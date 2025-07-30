@@ -425,7 +425,7 @@
             </a>
 		</div>
 		<div class="text-muted small">
-			<i class="fas fa-info-circle me-1"></i> Ticket ID: {{ $ticket->id }}
+			<i class="fas fa-info-circle me-1"></i> @lang('tickets.ticket_id'): {{ $ticket->id }}
 		</div>
 	</div>
 </div>
@@ -440,47 +440,3 @@
         });
     });
 </script>
-
-<style>
-    .search-results {
-        position: relative;
-        z-index: 1000;
-    }
-    .search-results ul {
-        position: absolute;
-        width: 100%;
-        max-height: 200px;
-        overflow-y: auto;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        background-color: white;
-    }
-    .user-result {
-        cursor: pointer;
-    }
-    .user-result:hover {
-        background-color: #f8f9fa;
-    }
-
-    /* Equal height role cards */
-    .role-card {
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .role-card .card-body {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .role-card .flex-grow-1 {
-        flex-grow: 1;
-    }
-
-    .role-description {
-        margin-top: auto;
-        padding-top: 10px;
-    }
-</style>
