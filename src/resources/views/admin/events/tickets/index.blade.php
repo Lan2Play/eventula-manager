@@ -48,85 +48,7 @@
 				</div>
 			</div>
 
-			<div class="card mb-3">
-				<div class="card-header">
-					<i class="fa fa-layer-group"></i> Ticket Groups
-				</div>
-				<div class="card-body table-responsive">
-					<table class="table table-striped table-hover">
-						<thead>
-						<tr>
-							<th>Name</th>
-							<th>Tickets in group</th>
-							<th>No. tickets per user</th>
-							<th colspan="2">Actions</th>
-						</tr>
-						</thead>
-						<tbody>
-						<tr>
-							<td><i>ungrouped</i></td>
-							<td>{{ $event->getUngroupedTickets()->count() }}</td>
-							<td>N/A</td>
-							<td colspan="2"></td>
-						</tr>
-						@foreach($event->ticketGroups as $group)
-							<tr>
-								<td>{{ $group->name }}</td>
-								<td>{{ $group->tickets->count() }}</td>
-								<td>{{ $group->tickets_per_user }}</td>
-								<td>
-									<a class="btn btn-primary btn-sm"
-									   href="/admin/events/{{ $event->slug }}/ticketgroups/{{ $group->id }}">Edit</a>
-								</td>
-								<td>
-									{{ Form::open([
-                                        'url' => "/admin/events/{$event->slug}/ticketgroups/{$group->id}",
-                                        'onsubmit' => 'return ConfirmSubmit()'
-                                    ]) }}
-									{{ Form::hidden('_method', 'DELETE') }}
-									<button type="submit" class="btn btn-danger btn-sm">Delete</button>
-									{{ Form::close() }}
-								</td>
-							</tr>
-						@endforeach
-						</tbody>
-					</table>
-				</div>
-			</div>
-			<script>
 
-				const purchaseBreakdownChartCanvas = document.getElementById('purchaseBreakdownChart');
-				const incomeBreakdownChartCanvas = document.getElementById('incomeBreakdownChart');
-
-				const purchaseBreakdownData = @json($purchaseBreakdownData);
-				const incomeBreakdownData = @json($incomeBreakdownData);
-
-				// Purchase Breakdown
-
-				new Chart(purchaseBreakdownChartCanvas, {
-					type: 'doughnut',
-					data: {
-						labels: purchaseBreakdownData.map(item => item.name),
-						datasets: [{
-							label: 'Purchase Breakdown',
-							data: purchaseBreakdownData.map(item => item.count),
-						}]
-					}
-				});
-
-				// Income Breakdown
-
-				new Chart(incomeBreakdownChartCanvas, {
-					type: 'bar',
-					data: {
-						labels: incomeBreakdownData.map(item => item.name),
-						datasets: [{
-							label: 'Income Breakdown',
-							data: incomeBreakdownData.map(item => item.income),
-						}]
-					}
-				});
-			</script>
 
 			<div class="card mb-3">
 				<div class="card-header">
@@ -311,31 +233,112 @@
 		</div>
 		<div class="col-md-4 col-lg-4">
 
-			<div class="card mb-3">
-				<div class="card-header">
-					<i class="fa fa-plus fa-fw"></i> Add Ticket Group
-				</div>
-				<div class="card-body">
-					{{ Form::open(array('url'=>'/admin/events/' . $event->slug . '/ticketgroups')) }}
-					@include('layouts._partials._admin._event._tickets.ticket-group-form')
-					{{ Form::close() }}
-				</div>
-			</div>
 
-			<div class="card mb-3">
-				<div class="card-header">
-					<i class="fa fa-plus fa-fw"></i> Add Tickets
-				</div>
-				<div class="card-body">
-					{{ Form::open(array('url'=>'/admin/events/' . $event->slug . '/tickets')) }}
-					@include('layouts._partials._admin._event._tickets.form', ['empty' => true])
-					{{ Form::close() }}
-				</div>
-			</div>
 
 		</div>
 	</div>
+        <div class="col-md-4 col-lg-4">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <i class="fa fa-layer-group"></i> Ticket Groups
+                </div>
+                <div class="card-body table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Tickets in group</th>
+                            <th>No. tickets per user</th>
+                            <th colspan="2">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td><i>ungrouped</i></td>
+                            <td>{{ $event->getUngroupedTickets()->count() }}</td>
+                            <td>N/A</td>
+                            <td colspan="2"></td>
+                        </tr>
+                        @foreach($event->ticketGroups as $group)
+                        <tr>
+                            <td>{{ $group->name }}</td>
+                            <td>{{ $group->tickets->count() }}</td>
+                            <td>{{ $group->tickets_per_user }}</td>
+                            <td>
+                                <a class="btn btn-primary btn-sm"
+                                   href="/admin/events/{{ $event->slug }}/ticketgroups/{{ $group->id }}">Edit</a>
+                            </td>
+                            <td>
+                                {{ Form::open([
+                                'url' => "/admin/events/{$event->slug}/ticketgroups/{$group->id}",
+                                'onsubmit' => 'return ConfirmSubmit()'
+                                ]) }}
+                                {{ Form::hidden('_method', 'DELETE') }}
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                {{ Form::close() }}
+                            </td>
+                        </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card mb-3">
+                <div class="card-header">
+                    <i class="fa fa-plus fa-fw"></i> Add Ticket Group
+                </div>
+                <div class="card-body">
+                    {{ Form::open(array('url'=>'/admin/events/' . $event->slug . '/ticketgroups')) }}
+                    @include('layouts._partials._admin._event._tickets.ticket-group-form')
+                    {{ Form::close() }}
+                </div>
+            </div>
 
+            <div class="card mb-3">
+                <div class="card-header">
+                    <i class="fa fa-plus fa-fw"></i> Add Tickets
+                </div>
+                <div class="card-body">
+                    {{ Form::open(array('url'=>'/admin/events/' . $event->slug . '/tickets')) }}
+                    @include('layouts._partials._admin._event._tickets.form', ['empty' => true])
+                    {{ Form::close() }}
+                </div>
+            </div>
+            <script>
+
+                const purchaseBreakdownChartCanvas = document.getElementById('purchaseBreakdownChart');
+                const incomeBreakdownChartCanvas = document.getElementById('incomeBreakdownChart');
+
+                const purchaseBreakdownData = @json($purchaseBreakdownData);
+                const incomeBreakdownData = @json($incomeBreakdownData);
+
+                // Purchase Breakdown
+
+                new Chart(purchaseBreakdownChartCanvas, {
+                    type: 'doughnut',
+                    data: {
+                        labels: purchaseBreakdownData.map(item => item.name),
+                        datasets: [{
+                            label: 'Purchase Breakdown',
+                            data: purchaseBreakdownData.map(item => item.count),
+                        }]
+                    }
+                });
+
+                // Income Breakdown
+
+                new Chart(incomeBreakdownChartCanvas, {
+                    type: 'bar',
+                    data: {
+                        labels: incomeBreakdownData.map(item => item.name),
+                        datasets: [{
+                            label: 'Income Breakdown',
+                            data: incomeBreakdownData.map(item => item.income),
+                        }]
+                    }
+                });
+            </script>
+        </div>
 	<script>
 		document.addEventListener('DOMContentLoaded', function() {
 			const userSearch = document.getElementById('user-search');
