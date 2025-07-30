@@ -68,7 +68,7 @@
 								<td>
 									@if ($participant->free) Free @endif
 									@if ($participant->staff) Staff @endif
-									@if ($participant->ticket) {{ $participant->ticket->name }} @endif
+									@if ($participant->ticketType) {{ $participant->ticketType->name }} @endif
 								</td>
 								<td>
 									@if ($participant->purchase) {{ $participant->purchase->paypal_email }} @endif
@@ -83,7 +83,9 @@
 									@elseif ($participant->gift)
 									<strong>Gift</strong>
 									<small>Assigned by: {{ $participant->getGiftedByUser()->username }}</small>
-									@endif
+									@else
+									<strong>No</strong>
+                                    @endif
 								</td>
 								<td>
 									@if ($participant->signed_in)
@@ -92,9 +94,9 @@
 									No
 									@endif
 								</td>
-								<td width="10%">
+								<td>
 									<a href="/admin/events/{{ $event->slug }}/participants/{{ $participant->id }}">
-										<button type="button" class="btn btn-primary btn-sm btn-block">Edit</button>
+										<button type="button" class="btn btn-primary btn-sm btn-block">View</button>
 									</a>
 								</td>
 								<td>
