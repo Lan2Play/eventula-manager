@@ -71,8 +71,8 @@
 			<div class="card-body">
 				<div class="list-group">
 					@foreach ($event->tickets as $ticket)
-						@if ($ticket->ticketType_id == $ticketType->id)
-							<a href="/admin/events/{{ $event->slug }}/participants/{{ $ticket->id }}" -actionclass="list-group-item">
+						@if ($ticket->ticket_type_id == $ticketType->id)
+							<a href="/admin/events/{{ $event->slug }}/participants/{{ $ticket->id }}" class="list-group-item">
 								<i class="fa fa-comment fa-fw"></i> {{ $ticket->user->username }}
 								@if ($ticket->user->steamid)
 									- <span class="text-muted"><small>Steam: {{ $ticket->user->steamname }}</small></span>

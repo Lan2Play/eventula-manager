@@ -83,7 +83,14 @@
 				</div>
 			</div>
 		</div>
-
+        <div class="card mb-3">
+            <div class="card-header">
+                Audit Log
+            </div>
+            <div class="card-body">
+                // Audit Log goes here
+            </div>
+        </div>
 	</div>
 	<div class="col-lg-4">
 
