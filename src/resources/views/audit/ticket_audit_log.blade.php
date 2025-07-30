@@ -16,8 +16,8 @@
                 <strong>@lang('tickets.ticket_type'):</strong>
                 {{ optional($ticket->ticketType)->name ?? __('tickets.either_staff_or_free') }}
             </li>
-            <li class="list-group-item"><strong>@lang('tickets.free_ticket'):</strong> {{ $ticket->free }}</li>
-            <li class="list-group-item"><strong>@lang('tickets.staff_ticket'):</strong> {{ $ticket->staff }}</li>
+            <li class="list-group-item"><strong>@lang('tickets.free_ticket'):</strong> {{ $ticket->free ? __('yes') : __('no') }}</li>
+            <li class="list-group-item"><strong>@lang('tickets.staff_ticket'):</strong> {{ $ticket->staff ? __('yes') : __('no') }}</li>
             <li class="list-group-item"><strong>@lang('general.created_at'):</strong> {{ $ticket->created_at->format('Y-m-d H:i') }}</li>
             <li class="list-group-item"><strong>@lang('general.updated_at'):</strong> {{ $ticket->updated_at->format('Y-m-d H:i') }}</li>
             <li class="list-group-item"><strong>@lang('tickets.owner'):</strong> {{ $ticket->owner->username }}</li>
