@@ -24,7 +24,7 @@
 	@include ('layouts._partials._admin._event.dashMini')
 
 	<div class="row">
-		<div class="col-lg-8">
+		<div class="col-md-8 col-lg-8">
 
 			<div class="card mb-3">
 				<div class="card-header">
@@ -179,18 +179,19 @@
 									{{ $ticketType->tickets()->count() }}
 								</td>
 								<td>
-									Start:
+
 									@if ($ticketType->sale_start)
+                                    Start:
 										{{ date('H:i d-m-Y', strtotime($ticketType->sale_start)) }}
 									@else
-										N/A
+										Immediate
 									@endif
 									-
-									End:
 									@if ($ticketType->sale_end)
+                                        End:
 										{{ date('H:i d-m-Y', strtotime($ticketType->sale_end)) }}
 									@else
-										N/A
+										Never
 									@endif
 								</td>
 								<td>
@@ -225,8 +226,42 @@
 					<i class="fa fa-gift fa-fw"></i> Freebies
 					<a name="freebies"></a>
 				</div>
-				<div class="card-body table-responsive">
-					<table width="100%" class="table table-striped table-hover" id="dataTables-example">
+				<div class="card-body">
+					<div class="row mb-4">
+						<div class="col-lg-12">
+							<h5>Add Tickets to User</h5>
+							<div class="input-group mb-3">
+								<input type="text" id="user-search" class="form-control" placeholder="Search for user...">
+								<div class="input-group-append">
+									<button class="btn btn-outline-secondary" type="button" id="search-button">Search</button>
+								</div>
+							</div>
+							<div id="search-results" class="mb-3" style="display: none;">
+								<div class="card">
+									<div class="card-body">
+										<h5 class="card-title" id="selected-user-name"></h5>
+										<input type="hidden" id="selected-user-id">
+										<div class="row">
+											<div class="col-md-6">
+												{{ Form::open(array('url'=>'/admin/events/' . $event->slug . '/freebies/gift', 'id'=>'free-ticket-form')) }}
+												<input type="hidden" name="user_id" id="free-ticket-user-id" value=""/>
+												<button type="submit" name="action" class="btn btn-success btn-block">Add Free Ticket</button>
+												{{ Form::close() }}
+											</div>
+											<div class="col-md-6">
+												{{ Form::open(array('url'=>'/admin/events/' . $event->slug . '/freebies/staff', 'id'=>'staff-ticket-form')) }}
+												<input type="hidden" name="user_id" id="staff-ticket-user-id" value=""/>
+												<button type="submit" name="action" class="btn btn-success btn-block">Add Staff Ticket</button>
+												{{ Form::close() }}
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="table-responsive">
+						<table width="100%" class="table table-striped table-hover" id="dataTables-example">
 						<thead>
 						<tr>
 							<th>Name</th>
@@ -274,7 +309,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-lg-4">
+		<div class="col-md-4 col-lg-4">
 
 			<div class="card mb-3">
 				<div class="card-header">
@@ -300,5 +335,56 @@
 
 		</div>
 	</div>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			const userSearch = document.getElementById('user-search');
+			const searchButton = document.getElementById('search-button');
+			const searchResults = document.getElementById('search-results');
+			const selectedUserName = document.getElementById('selected-user-name');
+			const selectedUserId = document.getElementById('selected-user-id');
+			const freeTicketUserId = document.getElementById('free-ticket-user-id');
+			const staffTicketUserId = document.getElementById('staff-ticket-user-id');
+
+			// Function to search for users
+			function searchUsers() {
+				const query = userSearch.value.trim();
+				if (query.length < 2) {
+					alert('Please enter at least 2 characters to search');
+					return;
+				}
+
+				fetch(`/search/users/autocomplete?query=${encodeURIComponent(query)}`)
+					.then(response => response.json())
+					.then(data => {
+						if (data && data.length > 0) {
+							// Display the first user
+							const user = data[0];
+							selectedUserName.textContent = user.username;
+							selectedUserId.value = user.id;
+							freeTicketUserId.value = user.id;
+							staffTicketUserId.value = user.id;
+							searchResults.style.display = 'block';
+						} else {
+							alert('No users found with that username');
+							searchResults.style.display = 'none';
+						}
+					})
+					.catch(error => {
+						console.error('Error searching for users:', error);
+						alert('Error searching for users');
+					});
+			}
+
+			// Add event listeners
+			searchButton.addEventListener('click', searchUsers);
+			userSearch.addEventListener('keypress', function(e) {
+				if (e.key === 'Enter') {
+					e.preventDefault();
+					searchUsers();
+				}
+			});
+		});
+	</script>
 
 @endsection

@@ -44,7 +44,7 @@
 								<th>Name</th>
 								<th>Contact</th>
 								<th>Seat</th>
-								<th>Ticket</th>
+								<th>Ticket Type</th>
 								<th>Paypal Email</th>
 								<th>Free/Staff/Gift</th>
 								<th>Signed in</th>

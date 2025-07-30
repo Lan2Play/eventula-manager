@@ -24,7 +24,7 @@ class TicketController extends Controller
     {
         return view('admin.events.participants.index')
             ->with('event', $event)
-            ->with('participants', $event->allEventParticipants()->paginate(20));
+            ->with('participants', $event->allEventTickets()->paginate(20));
     }
 
     /**

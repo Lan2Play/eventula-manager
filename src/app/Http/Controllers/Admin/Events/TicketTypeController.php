@@ -22,15 +22,20 @@ class TicketTypeController extends Controller
      */
     public function index(Event $event)
     {
-        $users = User::all();
+        // Get only users with staff or free tickets for this event
+        $users = User::all()->filter(function($user) use ($event) {
+            return $user->getFreeTickets($event->id)->count() > 0 || $user->getStaffTickets($event->id)->count() > 0;
+        });
+        
         $systemtickets = $users->sortByDesc(function($user) use ($event) {
             return [
                 $user->getFreeTickets($event->id)->count(),
                 $user->getStaffTickets($event->id)->count()
             ];
         })->values();
+        
         $totalFreeTickets = $systemtickets->sum(function($user) use ($event) {
-        return $user->getFreeTickets($event->id)->count();
+            return $user->getFreeTickets($event->id)->count();
         });
 
         $totalStaffTickets = $systemtickets->sum(function($user) use ($event) {
