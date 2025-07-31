@@ -49,7 +49,6 @@ class EventTournamentTeam extends Model
                     $http = new GuzzleHttp\Client();
                     $challonge = new Challonge($http, config('challonge.api_key'), false);
                     $tournament = $challonge->fetchTournament($model->eventTournament->challonge_tournament_id);
-                    //dd($tournament);
                     if (!$response = $tournament->addParticipant(['participant[name]' => $model->name])) {
                         $model->delete();
                         return false;
