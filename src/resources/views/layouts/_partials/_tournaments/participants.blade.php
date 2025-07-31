@@ -37,13 +37,13 @@
 					@endif
 					<tr class='{{ $context }}'>
 						<td class="align-middle">
-								<img alt="{{ $tournamentParticipant->eventParticipant->user->username }}'s Avatar" class="rounded" style="max-width: 4%;" src="{{ $tournamentParticipant->eventParticipant->user->avatar }}">
-								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $tournamentParticipant->eventParticipant->user->username }}
-								<small> - {{ $tournamentParticipant->eventParticipant->user->username }}</small>
+								<img alt="{{ $tournamentParticipant->eventTicket->user->username }}'s Avatar" class="rounded" style="max-width: 4%;" src="{{ $tournamentParticipant->eventTicket->user->avatar }}">
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $tournamentParticipant->eventTicket->user->username }}
+								<small> - {{ $tournamentParticipant->eventTicket->user->username }}</small>
 						</td>
 						<td class="align-middle">
-							@if ($tournamentParticipant->eventParticipant->seat)
-								{{ $tournamentParticipant->eventParticipant->seat->seat }}
+							@if ($tournamentParticipant->eventTicket->seat)
+								{{ $tournamentParticipant->eventTicket->seat->seat }}
 							@else
 								Not Seated
 							@endif
@@ -158,14 +158,14 @@
 						<tr>
 							<td>
 								<p>
-									<img alt="{{ $tournamentParticipant->eventParticipant->user->username }}'s Avatar" class="rounded" style="max-width: 6%;" src="{{ $tournamentParticipant->eventParticipant->user->avatar }}">
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $tournamentParticipant->eventParticipant->user->username }}
+									<img alt="{{ $tournamentParticipant->eventTicket->user->username }}'s Avatar" class="rounded" style="max-width: 6%;" src="{{ $tournamentParticipant->eventTicket->user->avatar }}">
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $tournamentParticipant->eventTicket->user->username }}
 								</p>
 							</td>
 							<td>
 								<p>
-									@if ($tournamentParticipant->eventParticipant->seat)
-										{{ $tournamentParticipant->eventParticipant->seat->seat }}
+									@if ($tournamentParticipant->eventTicket->seat)
+										{{ $tournamentParticipant->eventTicket->seat->seat }}
 									@else
 										Not Seated
 									@endif
@@ -200,7 +200,7 @@
 					$istournamentpartitipant = false;
 				@endphp
 					@foreach ($tournament->tournamentParticipants as $tournamentParticipant)
-						@if ($tournamentParticipant->eventParticipant->user->username == $ticket->user->username)
+						@if ($tournamentParticipant->eventTicket->user->username == $ticket->user->username)
 							@php
 								$istournamentpartitipant = true;
 							@endphp

@@ -174,7 +174,7 @@ class EventTournament extends Model
                                         $creditAmount += Settings::getCreditTournamentThird();
                                         break;
                                 }
-                                $tournamentParticipant->eventParticipant->user->editCredit($creditAmount, false, 'Tournament ' . $model->name . ' 1st Place');
+                                $tournamentParticipant->eventTicket->user->editCredit($creditAmount, false, 'Tournament ' . $model->name . ' 1st Place');
                             }
                             $tournamentParticipant->credit_applied = true;
                             $tournamentParticipant->save();
@@ -214,7 +214,7 @@ class EventTournament extends Model
                                                 $creditAmount += Settings::getCreditTournamentThird();
                                                 break;
                                         }
-                                        $tournamentParticipant->eventParticipant->user->editCredit($creditAmount, false, 'Tournament ' . $model->name . ' 1st Place');
+                                        $tournamentParticipant->eventTicket->user->editCredit($creditAmount, false, 'Tournament ' . $model->name . ' 1st Place');
                                     }
                                     $tournamentParticipant->credit_applied = true;
                                     $tournamentParticipant->save();
