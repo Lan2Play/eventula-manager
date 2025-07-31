@@ -183,7 +183,7 @@
 										@foreach ($tournament->tournamentTeams as $tournamentTeam)
 											<div class="col-6 col-sm-6">
 												{{ Form::open(array('url'=>'/events/' . $event->slug . '/tournaments/' . $tournament->slug . '/register', 'files' => true )) }}
-													<input type="hidden" name="event_participant_id" value="{{ $user->active_event_participant->id }}">
+													<input type="hidden" name="ticket_id" value="{{ $user->active_event_participant->id }}">
 													<input type="hidden" name="event_tournament_team_id" value="{{ $tournamentTeam->id }}">
 													<button type="submit" name="action" value="sign_up" class="btn btn-secondary btn-block">{{ $tournamentTeam->name }}</button>
 												{{ Form::close() }}
@@ -204,12 +204,12 @@
 													<button type="submit" class="btn btn-primary btn-block">@lang('events.createteam')</button>
 												</div>
 											</div>
-											<input type="hidden" name="event_participant_id" value="{{ $user->active_event_participant->id }}">
+											<input type="hidden" name="ticket_id" value="{{ $user->active_event_participant->id }}">
 										{{ Form::close() }}
 										<hr>
 									@endif
 									{{ Form::open(array('url'=>'/events/' . $event->slug . '/tournaments/' . $tournament->slug . '/register/pug', 'files' => true )) }}
-										<input type="hidden" name="event_participant_id" value="{{ $user->active_event_participant->id }}">
+										<input type="hidden" name="ticket_id" value="{{ $user->active_event_participant->id }}">
 										<button type="submit" class="btn btn-primary btn-block">@lang('events.signinaspug')</button>
 									{{ Form::close() }}
 								</div>
@@ -220,7 +220,7 @@
 							<div class="row">
 								<div class="col-6 col-sm-6">
 									{{ Form::open(array('url'=>'/events/' . $event->slug . '/tournaments/' . $tournament->slug . '/register', 'files' => true )) }}
-										<input type="hidden" name="event_participant_id" value="{{ $user->active_event_participant->id }}">
+										<input type="hidden" name="ticket_id" value="{{ $user->active_event_participant->id }}">
 										<button type="submit" class="btn btn-primary btn-block">@lang('events.signup')</button>
 									{{ Form::close() }}
 								</div>
@@ -240,7 +240,7 @@
 										@else
 											<h4>@lang('events.signedup')</h4>
 										@endif
-										<input type="hidden" name="event_participant_id" value="{{ $user->active_event_participant->id }}">
+										<input type="hidden" name="ticket_id" value="{{ $user->active_event_participant->id }}">
 										<button type="submit" class="btn btn-danger btn-block">@lang('events.removesignup')</button>
 									</div>
 								</div>

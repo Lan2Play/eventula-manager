@@ -393,7 +393,7 @@ class EventTournament extends Model
      */
     public function getParticipant($eventParticipantId)
     {
-        return $this->tournamentParticipants()->where('event_participant_id', $eventParticipantId)->first();
+        return $this->tournamentParticipants()->where('ticket_id', $eventParticipantId)->first();
     }
 
     /**

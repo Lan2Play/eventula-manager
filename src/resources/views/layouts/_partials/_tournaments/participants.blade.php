@@ -119,10 +119,10 @@
 							<td>
 								@if ($tournamentTeam->tournamentParticipants)
 									@foreach ($tournamentTeam->tournamentParticipants as $participant)
-										<img alt="{{ $participant->eventParticipant->user->username }}'s Avatar" class="rounded" style="max-width: 8%;" src="{{ $participant->eventParticipant->user->avatar }}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $participant->eventParticipant->user->username }}
+										<img alt="{{ $participant->eventTicket->user->username }}'s Avatar" class="rounded" style="max-width: 8%;" src="{{ $participant->eventTicket->user->avatar }}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $participant->eventTicket->user->username }}
 										<span class="float-end">
-											@if ($participant->eventParticipant->seat)
-												{{ $participant->eventParticipant->seat->seat }}
+											@if ($participant->eventTicket->seat)
+												{{ $participant->eventTicket->seat->seat }}
 											@else
 												Not Seated
 											@endif
