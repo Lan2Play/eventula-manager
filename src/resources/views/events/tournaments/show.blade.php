@@ -140,7 +140,7 @@
 													@if ($tournament->team_size != '1v1')
 														{{ ($tournament->getTeamByChallongeId($match->player1_id))->name }}
 													@else
-														{{ ($tournament->getParticipantByChallongeId($match->player1_id))->eventParticipant->user->username }}
+														{{ ($tournament->getParticipantByChallongeId($match->player1_id))->eventTicket->user->username }}
 													@endif
 												@endif
 											</td>
@@ -154,7 +154,7 @@
 													@if ($tournament->team_size != '1v1')
 														{{ ($tournament->getTeamByChallongeId($match->player2_id))->name }}
 													@else
-														{{ ($tournament->getParticipantByChallongeId($match->player2_id))->eventParticipant->user->username }}
+														{{ ($tournament->getParticipantByChallongeId($match->player2_id))->eventTicket->user->username }}
 													@endif
 												@endif
 											</td>

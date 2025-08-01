@@ -440,7 +440,7 @@ class TournamentsController extends Controller
 
 
         $tournamentParticipant                          = new EventTournamentParticipant();
-        $tournamentParticipant->event_participant_id    = $participant->id;
+        $tournamentParticipant->ticket_id    = $participant->id;
         $tournamentParticipant->event_tournament_id     = $tournament->id;
         $tournamentParticipant->pug                     = true;
 
@@ -497,7 +497,7 @@ class TournamentsController extends Controller
 
         // TODO - Refactor
         $tournamentParticipant                              = new EventTournamentParticipant();
-        $tournamentParticipant->event_participant_id        = $participant->id;
+        $tournamentParticipant->ticket_id        = $participant->id;
         $tournamentParticipant->event_tournament_id         = $tournament->id;
         $tournamentParticipant->event_tournament_team_id    = @$request->event_tournament_team_id;
 

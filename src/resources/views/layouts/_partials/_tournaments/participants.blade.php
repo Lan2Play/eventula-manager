@@ -83,7 +83,7 @@
 						@endif
 						@if (@$admin && $user->admin)
 							<td  class="align-middle">
-								{{ Form::open(array('url'=>'/admin/events/' . $event->slug . '/tournaments/' . $tournament->slug . '/participants/' . $tournamentParticipant->event_participant_id  . '/remove')) }}
+								{{ Form::open(array('url'=>'/admin/events/' . $event->slug . '/tournaments/' . $tournament->slug . '/participants/' . $tournamentParticipant->ticket_id  . '/remove')) }}
 										<button type="submit" class="btn btn-danger btn-block">Remove</button>
 								{{ Form::close() }}
 							</td>
