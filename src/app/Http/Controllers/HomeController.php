@@ -2,45 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use DB;
 use Auth;
 use Helpers;
-use Arr;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 use Settings;
 
 
 use App\Event;
-use App\User;
 use App\SliderImage;
 use App\NewsArticle;
-use App\EventTimetable;
-use App\EventTimetableData;
 use App\Ticket;
-use App\EventTournamentTeam;
-use App\EventTournamentParticipant;
 use App\MatchMaking;
-use App\MatchMakingTeam;
-
-use App\Http\Requests;
-
-use Carbon\Carbon;
-
-use Illuminate\Http\Request;
-
-use Illuminate\Support\Facades\Redirect;
-use Artesaos\SEOTools\Facades\SEOTools;
-use Artesaos\SEOTools\Facades\SEOMeta;
-use Artesaos\SEOTools\Facades\OpenGraph;
-use Artesaos\SEOTools\Facades\TwitterCard;
-use Artesaos\SEOTools\Facades\JsonLd;
-
-use Debugbar;
 
 class HomeController extends Controller
 {
     /**
      * Show Index Page
-     * @return Function
+     * @return View
      */
     public function index()
     {
@@ -76,7 +55,7 @@ class HomeController extends Controller
             return $this->event();
         }
 
-        // Standard-Weiterleitung zur Home-Seite
+        // Defaults to home
         return $this->home();
     }
 
@@ -137,7 +116,7 @@ class HomeController extends Controller
 
     /**
      * Show Event Page
-     * @return View
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|RedirectResponse|View|object
      */
     public function event()
     {

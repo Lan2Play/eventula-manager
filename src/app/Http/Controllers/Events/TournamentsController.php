@@ -26,6 +26,7 @@ class TournamentsController extends Controller
 {
     /**
      * Show Tournaments
+     * TODO investigate why we need this..
      * @param  Event $event
      * @return array
      */
