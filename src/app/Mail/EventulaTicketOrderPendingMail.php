@@ -1,19 +1,13 @@
 <?php
 namespace App\Mail;
 use URL;
-use Storage; 
 use Helpers;
 use App\User;
-use App\Event;
 use App\TicketType;
-use App\ShopItem;
 use App\Purchase;
 use App\Ticket;
 use App\Libraries\MustacheModelHelper;
 use Spatie\MailTemplates\TemplateMailable;
-use Spatie\MailTemplates\Interfaces\MailTemplateInterface;
-use Spatie\MailTemplates\Models\MailTemplate;
-use Illuminate\support\Collection;
 
 class EventulaTicketOrderPendingMail extends TemplateMailable
 {
