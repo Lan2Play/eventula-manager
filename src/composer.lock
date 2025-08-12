@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9969c8c694d1333b26e476c66c511423",
+    "content-hash": "dc228544f219dfe6e65e9fbb5dce008f",
     "packages": [
         {
             "name": "artesaos/seotools",
@@ -10026,16 +10026,16 @@
         },
         {
             "name": "webonyx/graphql-php",
-            "version": "v15.22.1",
+            "version": "v15.22.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webonyx/graphql-php.git",
-                "reference": "c7f84dd5b78654e6273c1aa231fa3a3307ea09fe"
+                "reference": "c96729a95e3d84fa1d1f9f390b0809c0e7a88ea1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webonyx/graphql-php/zipball/c7f84dd5b78654e6273c1aa231fa3a3307ea09fe",
-                "reference": "c7f84dd5b78654e6273c1aa231fa3a3307ea09fe",
+                "url": "https://api.github.com/repos/webonyx/graphql-php/zipball/c96729a95e3d84fa1d1f9f390b0809c0e7a88ea1",
+                "reference": "c96729a95e3d84fa1d1f9f390b0809c0e7a88ea1",
                 "shasum": ""
             },
             "require": {
@@ -10088,7 +10088,7 @@
             ],
             "support": {
                 "issues": "https://github.com/webonyx/graphql-php/issues",
-                "source": "https://github.com/webonyx/graphql-php/tree/v15.22.1"
+                "source": "https://github.com/webonyx/graphql-php/tree/v15.22.2"
             },
             "funding": [
                 {
@@ -10096,7 +10096,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2025-08-11T13:02:26+00:00"
+            "time": "2025-08-12T12:11:34+00:00"
         },
         {
             "name": "xpaw/php-source-query-class",
