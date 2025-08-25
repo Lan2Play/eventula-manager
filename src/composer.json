@@ -43,7 +43,7 @@
         "laravel/socialite": "5.23.0",
         "ignited/laravel-omnipay": "3.7.0",
         "simplesoftwareio/simple-qrcode": "4.2.0",
-        "guzzlehttp/guzzle": "7.9.3",
+        "guzzlehttp/guzzle": "7.10.0",
         "php-http/guzzle7-adapter": "1.1.0",
         "team-reflex/challonge-php": "dev-master",
         "intervention/image": "3.11.4",
