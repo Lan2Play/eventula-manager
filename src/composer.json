@@ -65,7 +65,7 @@
         "laravel/sanctum": "4.2.0",
         "propaganistas/laravel-phone": "6.0.2",
         "symfony/mailgun-mailer": "7.3.1",
-        "symfony/http-client": "7.3.2",
+        "symfony/http-client": "7.3.3",
         "spatie/backtrace": "1.8.1",
         "haydenpierce/class-finder": "^0.5.3",
         "dompdf/dompdf": "3.1.0",
@@ -77,7 +77,7 @@
         "phpunit/phpunit": "12.3.7",
         "kitloong/laravel-migrations-generator": "7.2.0",
         "symfony/css-selector": "7.3.0",
-        "symfony/dom-crawler": "7.3.1",
+        "symfony/dom-crawler": "7.3.3",
         "orangehill/iseed": "3.1.1",
         "squizlabs/php_codesniffer": "3.13.2",
         "filp/whoops": "2.18.4"
