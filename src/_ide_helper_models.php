@@ -13,8 +13,6 @@
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $key
  * @property string|null $value
@@ -34,8 +32,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $key
  * @property string|null $value
@@ -57,8 +53,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property int $user_id
  * @property string $action
@@ -89,8 +83,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $display_name
  * @property string $nice_name
@@ -173,8 +165,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property int $event_id
  * @property string $message
@@ -195,8 +185,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property int $event_id
  * @property string $title
@@ -223,8 +211,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property int $user_id
  * @property int $event_id
@@ -281,8 +267,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property int|null $column
  * @property int|null $row
@@ -314,8 +298,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $name
  * @property string|null $name_short
@@ -356,8 +338,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property int $event_id
  * @property string $name
@@ -382,8 +362,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $tag_id
  * @property int $event_id
@@ -404,8 +382,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $name
  * @property int $event_id
@@ -449,8 +425,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property int $event_id
  * @property string $name
@@ -475,8 +449,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $name
  * @property string $slug
@@ -507,8 +479,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property int $event_timetable_id
  * @property string|null $name
@@ -533,8 +503,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property int $event_id
  * @property string $challonge_tournament_id
@@ -600,8 +568,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $slug
  * @property int $challonge_match_id
@@ -629,8 +595,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property int|null $event_participant_id
  * @property string|null $challonge_participant_id
@@ -669,8 +633,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property int $event_tournament_id
  * @property string|null $challonge_participant_id
@@ -705,8 +667,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $display_name
  * @property string $slug
@@ -744,8 +704,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property int $event_venue_id
  * @property string $path
@@ -768,8 +726,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $name
  * @property string $slug
@@ -802,8 +758,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $display_name
  * @property string $nice_name
@@ -834,8 +788,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $name
  * @property string $slug
@@ -902,8 +854,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $name
  * @property string $slug
@@ -954,8 +904,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $name
  * @property string $slug
@@ -986,8 +934,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $name
  * @property string $slug
@@ -1014,8 +960,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $name
  * @property string $slug
@@ -1048,8 +992,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $display_name
  * @property string $nice_name
@@ -1076,8 +1018,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $display_name
  * @property string $nice_name
@@ -1106,8 +1046,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property int|null $team_size
  * @property int|null $team_count
@@ -1147,8 +1085,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property int $match_id
  * @property int $game_server_id
@@ -1170,8 +1106,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property int|null $match_id
  * @property string $name
@@ -1201,8 +1135,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property int $matchmaking_team_id
  * @property int $user_id
@@ -1224,8 +1156,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $name
  * @property int|null $matchmaking_id
@@ -1248,8 +1178,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $title
  * @property string $slug
@@ -1281,8 +1209,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $comment
  * @property int $reviewed
@@ -1316,8 +1242,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $comment
  * @property int $news_feed_comment_id
@@ -1345,8 +1269,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $tag
  * @property string $slug
@@ -1371,8 +1293,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $name
  * @property string $slug
@@ -1414,8 +1334,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $name
  * @property int $poll_id
@@ -1441,8 +1359,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property int $user_id
  * @property int $poll_option_id
@@ -1464,8 +1380,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property int $user_id
  * @property string $type
@@ -1498,8 +1412,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $setting
  * @property string|null $value
@@ -1523,8 +1435,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $name
  * @property string $slug
@@ -1566,8 +1476,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $name
  * @property string $slug
@@ -1595,8 +1503,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property int $shop_item_id
  * @property string $path
@@ -1621,8 +1527,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property int $purchase_id
  * @property string $status
@@ -1665,8 +1569,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property int $shop_item_id
  * @property int $shop_order_id
@@ -1694,8 +1596,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $slider_name
  * @property string $path
@@ -1717,8 +1617,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $firstname
  * @property string $surname
