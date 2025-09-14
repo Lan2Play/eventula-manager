@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bd0f42f8b082da0c20609bafe46727e5",
+    "content-hash": "20eb449441d0253931f43ee7f02ca9f9",
     "packages": [
         {
             "name": "artesaos/seotools",
@@ -11275,16 +11275,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "12.3.10",
+            "version": "12.3.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "0d401d0df2e3c1703be425ecdc2d04f5c095938d"
+                "reference": "6a62f2b394e042884e4997ddc8b8db1ce56a0009"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/0d401d0df2e3c1703be425ecdc2d04f5c095938d",
-                "reference": "0d401d0df2e3c1703be425ecdc2d04f5c095938d",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/6a62f2b394e042884e4997ddc8b8db1ce56a0009",
+                "reference": "6a62f2b394e042884e4997ddc8b8db1ce56a0009",
                 "shasum": ""
             },
             "require": {
@@ -11303,7 +11303,7 @@
                 "phpunit/php-invoker": "^6.0.0",
                 "phpunit/php-text-template": "^5.0.0",
                 "phpunit/php-timer": "^8.0.0",
-                "sebastian/cli-parser": "^4.0.0",
+                "sebastian/cli-parser": "^4.1.0",
                 "sebastian/comparator": "^7.1.3",
                 "sebastian/diff": "^7.0.0",
                 "sebastian/environment": "^8.0.3",
@@ -11352,7 +11352,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/12.3.10"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/12.3.11"
             },
             "funding": [
                 {
@@ -11376,20 +11376,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-09-11T10:35:19+00:00"
+            "time": "2025-09-14T06:21:44+00:00"
         },
         {
             "name": "sebastian/cli-parser",
-            "version": "4.0.0",
+            "version": "4.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/cli-parser.git",
-                "reference": "6d584c727d9114bcdc14c86711cd1cad51778e7c"
+                "reference": "8fd93be538992d556aaa45c74570129448a42084"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/cli-parser/zipball/6d584c727d9114bcdc14c86711cd1cad51778e7c",
-                "reference": "6d584c727d9114bcdc14c86711cd1cad51778e7c",
+                "url": "https://api.github.com/repos/sebastianbergmann/cli-parser/zipball/8fd93be538992d556aaa45c74570129448a42084",
+                "reference": "8fd93be538992d556aaa45c74570129448a42084",
                 "shasum": ""
             },
             "require": {
@@ -11401,7 +11401,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "4.0-dev"
+                    "dev-main": "4.1-dev"
                 }
             },
             "autoload": {
@@ -11425,15 +11425,27 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/cli-parser/issues",
                 "security": "https://github.com/sebastianbergmann/cli-parser/security/policy",
-                "source": "https://github.com/sebastianbergmann/cli-parser/tree/4.0.0"
+                "source": "https://github.com/sebastianbergmann/cli-parser/tree/4.1.0"
             },
             "funding": [
                 {
                     "url": "https://github.com/sebastianbergmann",
                     "type": "github"
+                },
+                {
+                    "url": "https://liberapay.com/sebastianbergmann",
+                    "type": "liberapay"
+                },
+                {
+                    "url": "https://thanks.dev/u/gh/sebastianbergmann",
+                    "type": "thanks_dev"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/sebastian/cli-parser",
+                    "type": "tidelift"
                 }
             ],
-            "time": "2025-02-07T04:53:50+00:00"
+            "time": "2025-09-13T14:16:18+00:00"
         },
         {
             "name": "sebastian/comparator",
