@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'pull_request' || (github.event_name == 'push' && startsWith(github.ref, 'refs/heads/main')) }}
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - name: build
       run: docker run --rm -v ${{ github.workspace }}/docs:/docs -e USERID=$(id -u ${USER}) -e GROUPID=$(id -g ${USER}) lan2play/docker-sphinxbuild:latest
 
@@ -31,7 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'release' }}
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - name: build
       run: docker run --rm -v ${{ github.workspace }}/docs:/docs -e USERID=$(id -u ${USER}) -e GROUPID=$(id -g ${USER}) lan2play/docker-sphinxbuild:latest
     - name: Install SSH key
