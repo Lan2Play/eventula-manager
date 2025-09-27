@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "71d8993f1720c568af8f0d6ae466d2e2",
+    "content-hash": "25059bba92e9f1294142c16957d55578",
     "packages": [
         {
             "name": "artesaos/seotools",
@@ -7859,16 +7859,16 @@
         },
         {
             "name": "symfony/http-client",
-            "version": "v7.3.3",
+            "version": "v7.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-client.git",
-                "reference": "333b9bd7639cbdaecd25a3a48a9d2dcfaa86e019"
+                "reference": "4b62871a01c49457cf2a8e560af7ee8a94b87a62"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-client/zipball/333b9bd7639cbdaecd25a3a48a9d2dcfaa86e019",
-                "reference": "333b9bd7639cbdaecd25a3a48a9d2dcfaa86e019",
+                "url": "https://api.github.com/repos/symfony/http-client/zipball/4b62871a01c49457cf2a8e560af7ee8a94b87a62",
+                "reference": "4b62871a01c49457cf2a8e560af7ee8a94b87a62",
                 "shasum": ""
             },
             "require": {
@@ -7935,7 +7935,7 @@
                 "http"
             ],
             "support": {
-                "source": "https://github.com/symfony/http-client/tree/v7.3.3"
+                "source": "https://github.com/symfony/http-client/tree/v7.3.4"
             },
             "funding": [
                 {
@@ -7955,7 +7955,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-08-27T07:45:05+00:00"
+            "time": "2025-09-11T10:12:26+00:00"
         },
         {
             "name": "symfony/http-client-contracts",
@@ -9373,16 +9373,16 @@
         },
         {
             "name": "symfony/routing",
-            "version": "v7.3.2",
+            "version": "v7.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/routing.git",
-                "reference": "7614b8ca5fa89b9cd233e21b627bfc5774f586e4"
+                "reference": "8dc648e159e9bac02b703b9fbd937f19ba13d07c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/routing/zipball/7614b8ca5fa89b9cd233e21b627bfc5774f586e4",
-                "reference": "7614b8ca5fa89b9cd233e21b627bfc5774f586e4",
+                "url": "https://api.github.com/repos/symfony/routing/zipball/8dc648e159e9bac02b703b9fbd937f19ba13d07c",
+                "reference": "8dc648e159e9bac02b703b9fbd937f19ba13d07c",
                 "shasum": ""
             },
             "require": {
@@ -9434,7 +9434,7 @@
                 "url"
             ],
             "support": {
-                "source": "https://github.com/symfony/routing/tree/v7.3.2"
+                "source": "https://github.com/symfony/routing/tree/v7.3.4"
             },
             "funding": [
                 {
@@ -9454,7 +9454,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-07-15T11:36:08+00:00"
+            "time": "2025-09-11T10:12:26+00:00"
         },
         {
             "name": "symfony/service-contracts",
