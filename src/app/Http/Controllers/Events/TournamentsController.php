@@ -22,6 +22,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 
+// TODO: add checks for ticketId in request and ownership of the ticket.
+// TODO: add validation checks for all controller methods.
 class TournamentsController extends Controller
 {
     /**
@@ -96,10 +98,12 @@ class TournamentsController extends Controller
 
         if (!$tournament->event->tournaments_freebies && $ticket->free) {
             Session::flash('alert-danger', __('events.tournament_freebie_not_permitted'));
+            return Redirect::back();
         }
 
         if (!$tournament->event->tournaments_staff && $ticket->staff) {
             Session::flash('alert-danger', __('events.tournament_staff_not_permitted'));
+            return Redirect::back();
         }
 
         if ($tournament->match_autoapi && $tournament->game->gamematchapihandler != 0)
@@ -149,7 +153,7 @@ class TournamentsController extends Controller
             Session::flash('alert-danger', __('events.tournament_signups_not_permitted'));
             return Redirect::back();
         }
-        $ticket = null;
+
         if (!$request->ticket_id == null) {
             $ticket = Ticket::find($request->ticket_id);
             if (!$ticket) {
@@ -165,10 +169,12 @@ class TournamentsController extends Controller
         
         if (!$tournament->event->tournaments_freebies && $ticket->free) {
             Session::flash('alert-danger', __('events.tournament_freebie_not_permitted'));
+            return Redirect::back();
         }
 
         if (!$tournament->event->tournaments_staff && $ticket->staff) {
             Session::flash('alert-danger', __('events.tournament_staff_not_permitted'));
+            return Redirect::back();
         }
 
         if ($tournament->getParticipant($request->ticket_id)) {
@@ -195,19 +201,6 @@ class TournamentsController extends Controller
             }
 
         }
-
-        // Check if staff is trying to register
-        if ($ticket->staff && $event->tournaments_staff) {
-            Session::flash('alert-danger', __('events.tournament_staff_not_permitted'));
-            return Redirect::back();
-        }
-
-        // Check if a freebie is trying to register
-        if ($ticket->free && $event->tournaments_freebie) {
-            Session::flash('alert-danger', __('events.tournament_freebie_not_permitted'));
-            return Redirect::back();
-        }
-
 
         // TODO - Refactor
         $tournamentParticipant                              = new EventTournamentParticipant();
@@ -250,10 +243,12 @@ class TournamentsController extends Controller
 
         if (!$tournament->event->tournaments_freebies && $request->ticket_id->free) {
             Session::flash('alert-danger', __('events.tournament_freebie_not_permitted'));
+            return Redirect::back();
         }
 
         if (!$tournament->event->tournaments_staff && $request->ticket_id->staff) {
             Session::flash('alert-danger', __('events.tournament_staff_not_permitted'));
+            return Redirect::back();
         }
 
         if ($tournament->game->gamematchapihandler != 0 && $tournament->match_autoapi)

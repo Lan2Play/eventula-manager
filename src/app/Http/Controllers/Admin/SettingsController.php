@@ -734,11 +734,11 @@ class SettingsController extends Controller
     {
         $count = 0;
         foreach (Event::all() as $event) {
-            if (!$event->eventParticipants->isEmpty()) {
-                foreach ($event->eventParticipants as $participant) {
+            if (!$event->tickets->isEmpty()) {
+                foreach ($event->tickets as $ticket) {
                     //DEBUG - Delete old images
-                    $participant->generateQRCode();
-                    $participant->save();
+                    $ticket->generateQRCode();
+                    $ticket->save();
                     $count++;
                 }
             }
