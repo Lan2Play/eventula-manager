@@ -34,6 +34,10 @@ return [
     'user' => 'Benutzer',
     'either_staff_or_free' => 'Ist entweder Team oder Kostenloses Ticket',
     'current_ticket_details' => 'Aktuelle Ticket Details',
+    'select_seat' => 'Platz auswählen',
+    'no_owner' => 'Keiner',
+    'no_manager' => 'Keiner',
+    'no_user' => 'Keiner',
 
 
     /* Ticket PDF */

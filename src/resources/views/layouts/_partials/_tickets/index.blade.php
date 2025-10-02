@@ -93,6 +93,7 @@
                     array('id'=>'seat_column_delete','class'=>'form-control')) }}
                     {{ Form::hidden('seat_row_delete', $ticket->seat->row,
                     array('id'=>'seat_row_delete','class'=>'form-control')) }}
+                    {{-- TODO Change this to disabled directive for later --}}
                     <button class="btn btn-danger" {{ (auth()->id() != $ticket->user_id && auth()->id() !=
                         $ticket->manager_id && !auth()->user()->getAdmin()) ? 'disabled' : '' }}>
                         <i class="fas fa-chair me-1"></i> @lang('events.remove_seating')
@@ -110,11 +111,11 @@
                     @if(auth()->id() != $ticket->user_id && auth()->id() != $ticket->manager_id &&
                     !auth()->user()->getAdmin())
                     <div class="alert alert-info">
-                        <i class="fas fa-info-circle me-1"></i> Only the ticket user or manager can select a seat
+                        <i class="fas fa-info-circle me-1"></i>@lang('tickets.change_seat_tooltip')
                     </div>
                     @elseif(auth()->id() == $ticket->user_id || auth()->id() == $ticket->manager_id)
                     <a href="/events/{{$ticket->event->slug}}?expand_seating=true#seating" class="btn btn-primary">
-                        <i class="fas fa-chair me-1"></i> Select Seat
+                        <i class="fas fa-chair me-1"></i> @lang('tickets.select_seat')
                     </a>
                     @endif
                 </div>
@@ -146,7 +147,7 @@
                             @if ($ticket->owner_id)
                                 <p class="mb-2"><strong>{{ $ticket->owner->username }}</strong></p>
                             @else
-                                <p class="text-muted mb-2">None</p>
+                                <p class="text-muted mb-2">@lang('tickets.no_owner')</p>
                             @endif
                         </div>
                         <div class="role-description">
@@ -172,7 +173,7 @@
                             @if ($ticket->manager_id)
                             <p class="mb-2"><strong>{{ $ticket->manager->username }}</strong></p>
                             @else
-                            <p class="text-muted mb-2">None</p>
+                            <p class="text-muted mb-2">@lang('tickets.no_manager')</p>
                             @endif
                         </div>
                         <div class="mt-auto d-flex">
@@ -221,7 +222,7 @@
                             @if ($ticket->user_id)
                                 <p class="mb-2"><strong>{{ $ticket->user->username }}</strong></p>
                             @else
-                                <p class="text-muted mb-2">None</p>
+                                <p class="text-muted mb-2">@lang('tickets.no_user')</p>
                             @endif
                         </div>
                         <div class="mt-auto d-flex">
