@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -11,6 +12,8 @@ return new class extends Migration
      */
     public function up(): void
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
         Schema::table('tickets', function (Blueprint $table) {
             $table->unsignedInteger('manager_id')->nullable()->index()->after('user_id');
             $table->unsignedInteger('owner_id')->nullable()->index()->after('manager_id');
@@ -30,12 +33,15 @@ return new class extends Migration
         SET t.manager_id = t.user_id,
             t.owner_id = t.user_id
         WHERE t.user_id IS NOT NULL
-    ');
+        ');
 
         // Überprüfe auf NULL-Werte vor der Änderung
         if (DB::table('tickets')->whereNull('manager_id')->orWhereNull('owner_id')->exists()) {
             throw new \RuntimeException('Tickets left with NULL-Values for manager_id or owner_id');
         }
+
+        // Foreign Key Constraints wieder aktivieren
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 
     /**

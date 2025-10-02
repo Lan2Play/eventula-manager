@@ -48,7 +48,10 @@ return [
     'buttons_save' => 'save',
     'buttons_close' => 'close',
     'ticket_id' => 'Ticket ID',
-
+    'select_seat' => 'Select Seat',
+    'no_owner' => 'None',
+    'no_manager' => 'None',
+    'no_user' => 'None',
 
     /* Alerts */
     'alert_event_not_yet_published' => 'The event is currently in the state :state. You can not buy tickets for for now.',

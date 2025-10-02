@@ -9,7 +9,7 @@ class SearchController extends Controller
 {
     /**
      * Autocomplete for users
-     *
+     * TODO: move this to a secured middleware/endpoint
      * @return \Illuminate\Http\Response
      */
     public function usersAutocomplete(Request $request)
