@@ -104,7 +104,7 @@
 		<!-- TICKETS -->
 		<div class="col-md-12">
 			<!-- PURCHASE TICKETS -->
-			@if (!$event->tickettypes->isEmpty())
+			@if (!$event->ticketTypes->isEmpty())
 				<div class="pb-2 mt-4 mb-4 border-bottom">
 					<a name="purchaseTickets"></a>
 					<h3><i class="fas fa-ticket-alt me-3"></i>@lang('events.purchasetickets')</h3>

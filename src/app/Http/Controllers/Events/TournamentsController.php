@@ -76,7 +76,6 @@ class TournamentsController extends Controller
             return Redirect::back();
         }
 
-        $ticket = null;
         if (!$request->ticket_id == null) {
             $ticket = Ticket::find($request->ticket_id);
             if (!$ticket) {
