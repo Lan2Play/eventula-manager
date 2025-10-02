@@ -284,6 +284,14 @@ composer-update:
     $(user) \
     composer:latest composer update --ignore-platform-reqs --no-scripts
 
+
+# Update Dev PHP Dependencies via Composer
+composer-update-lock:
+	docker run --rm --name compose-maintainence-update --interactive \
+    --volume $(currentDir)/src:/app \
+    $(user) \
+    composer:latest composer update --lock --ignore-platform-reqs --no-scripts
+
 # list Composer outdated direct
 composer-outdated-direct:
 	docker run --rm --name compose-maintainence-update --interactive \
