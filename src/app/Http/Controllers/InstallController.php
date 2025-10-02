@@ -2,25 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use DB;
 use Auth;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 use Settings;
-use Colors;
 use Session;
 use Artisan;
 
 use App\ApiKey;
-use App\Event;
 use App\User;
-use App\SliderImage;
-use App\NewsArticle;
-use App\EventTimetable;
-use App\EventTimetableData;
-use App\EventParticipant;
-use App\EventTournamentTeam;
-use App\EventTournamentParticipant;
-
-use App\Http\Requests;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -31,7 +21,6 @@ class InstallController extends Controller
 {
     /**
      * Show Installation Page
-     * @param  Event  $event
      * @return View
      */
     public function installation()
@@ -42,7 +31,7 @@ class InstallController extends Controller
     /**
      * Install App
      * @param  Request $request
-     * @return Redirect
+     * @return RedirectResponse
      */
     public function install(Request $request)
     {

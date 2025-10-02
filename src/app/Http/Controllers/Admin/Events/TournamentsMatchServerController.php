@@ -2,25 +2,13 @@
 
 namespace App\Http\Controllers\Admin\Events;
 
-use DB;
-use Auth;
 use Session;
-use Storage;
 use Input;
-use Image;
-use File;
-use Helpers;
 
 use App\Event;
 use App\EventTournament;
 use App\EventTournamentMatchServer;
-use App\Game;
-use App\GameServer;
-use App\GameServerCommand;
-use App\Jobs\GameServerAsign;
 
-
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;

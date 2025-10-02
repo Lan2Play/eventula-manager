@@ -179,9 +179,9 @@
 					<h3>
 						{{ $nextEvent->display_name }}
 						@if (count($nextEvent->seatingPlans) > 0)
-							<small>{{ max($nextEvent->getSeatingCapacity() - $nextEvent->eventParticipants->count(), 0) }} / {{ $nextEvent->getSeatingCapacity() }} @lang('home.seatsremaining')</small>
+							<small>{{ max($nextEvent->getSeatingCapacity() - $nextEvent->tickets->count(), 0) }} / {{ $nextEvent->getSeatingCapacity() }} @lang('home.seatsremaining')</small>
 						@else
-							<small>{{ max($nextEvent->capacity - $nextEvent->eventParticipants->count(), 0) }} / {{ $nextEvent->capacity }} @lang('home.ticketsremaining')</small>
+							<small>{{ max($nextEvent->capacity - $nextEvent->tickets->count(), 0) }} / {{ $nextEvent->capacity }} @lang('home.ticketsremaining')</small>
 						@endif
 					</h3>
 				</div>

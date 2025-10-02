@@ -101,7 +101,7 @@
 					<i class="fa fa-user fa-5x"></i>
 				</div>
 				<div class="col-auto ms-auto text-end ps-0 align-self-end">
-					<div class="huge ms-auto">{{ $event->eventParticipants->count() }}</div>
+					<div class="huge ms-auto">{{ $event->tickets->count() }}</div>
 					<div>Attendees</div>
 				</div>
 			</div>

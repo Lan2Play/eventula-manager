@@ -23,7 +23,7 @@ class PurchaseController extends Controller
      */
     public function setSuccess(Purchase $purchase)
     {
-        if ($purchase->status != "Pending")
+        if ($purchase->status != Purchase::STATUS_PENDING)
         {
             return [
                 'successful' => false,

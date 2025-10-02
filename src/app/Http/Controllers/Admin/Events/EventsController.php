@@ -2,20 +2,16 @@
 
 namespace App\Http\Controllers\Admin\Events;
 
-use DB;
 use Auth;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 use Session;
 use Helpers;
 
-use App\User;
 use App\Event;
-use App\EventParticipant;
-use App\EventTicket;
-use App\EventAnnouncement;
-use App\EventVenue;
+use App\Ticket;
 use App\Purchase;
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
@@ -46,13 +42,13 @@ class EventsController extends Controller
             ->with('user', Auth::user())
             ->with('event', $event)
             ->with('announcements', $event->announcements()->paginate(5, ['*'], 'an'))
-            ->with('participants', $event->eventParticipants()->paginate(10, ['*'], 'ep'));
+            ->with('participants', $event->tickets()->paginate(10, ['*'], 'ep'));
     }
 
     /**
      * Add Event to Database
      * @param  Request $request
-     * @return Redirect
+     * @return RedirectResponse
      */
     public function store(Request $request)
     {
@@ -98,12 +94,11 @@ class EventsController extends Controller
         $event->event_venue_id              = @$request->venue;
         $event->capacity                    = $request->capacity;
         $event->no_tickets_per_user         = empty($request->no_tickets_per_user) ? null : $request->no_tickets_per_user;
-        $event->online_event  = ($request->online_event ? true : false);
-        $event->private_participants  = ($request->private_participants ? true : false);
-        $event->matchmaking_enabled  = ($request->matchmaking_enabled ? true : false);
-        $event->tournaments_freebies  = ($request->tournaments_freebies ? true : false);
-        $event->tournaments_staff  = ($request->tournaments_staff ? true : false);
-
+        $event->online_event                = (bool)$request->online_event;
+        $event->private_participants        = (bool)$request->private_participants;
+        $event->matchmaking_enabled         = (bool)$request->matchmaking_enabled;
+        $event->tournaments_freebies        = (bool)$request->tournaments_freebies;
+        $event->tournaments_staff           = (bool)$request->tournaments_staff;
         if (!$event->save()) {
             Session::flash('alert-danger', 'Cannot Save Event!');
             return Redirect::to('admin/events/' . $event->slug);
@@ -119,7 +114,7 @@ class EventsController extends Controller
      * Update Event
      * @param  Event   $event
      * @param  Request $request
-     * @return Redirect
+     * @return RedirectResponse
      */
     public function update(Event $event, Request $request)
     {
@@ -202,7 +197,6 @@ class EventsController extends Controller
         $event->tournaments_freebies  = ($request->tournaments_freebies ? true : false);
         $event->tournaments_staff  = ($request->tournaments_staff ? true : false);
 
-
         if (isset($request->capacity)) {
             $event->capacity        = $request->capacity;
         }
@@ -223,7 +217,7 @@ class EventsController extends Controller
     /**
      * Delete Event from Database
      * @param  Event  $event
-     * @return Redirect
+     * @return RedirectResponse
      */
     public function destroy(Event $event)
     {
@@ -245,14 +239,14 @@ class EventsController extends Controller
      * Add Gift Participant
      * @param  Request $request
      * @param  Event   $event
-     * @return Redirect
+     * @return RedirectResponse
      */
     public function freeGift(Request $request, Event $event)
     {
         $purchase                               = new Purchase();
         $purchase->user_id                      = $request->user_id;
         $purchase->type                         = 'system';
-        $purchase->status                       = "Success";
+        $purchase->status                       = Purchase::STATUS_SUCCESS;
         $purchase->transaction_id               = "Granted by ". $request->user()->username;
 
         $purchase->setSuccess();
@@ -261,16 +255,18 @@ class EventsController extends Controller
             Session::flash('alert-danger', 'Could not save "system" purchase!');
         }
 
-        $participant                            = new EventParticipant();
-        $participant->user_id                   = $request->user_id;
-        $participant->event_id                  = $event->id;
-        $participant->free                      = 1;
-        $participant->staff_free_assigned_by    = Auth::id();
-        $participant->purchase_id               = $purchase->id;
-        $participant->generateQRCode();
+        $ticket                            = new Ticket();
+        $ticket->user_id                   = $request->user_id;
+        $ticket->manager_id                = $request->user_id;
+        $ticket->owner_id                  = $request->user_id;
+        $ticket->event_id                  = $event->id;
+        $ticket->free                      = 1;
+        $ticket->staff_free_assigned_by    = Auth::id();
+        $ticket->purchase_id               = $purchase->id;
+        $ticket->generateQRCode();
 
 
-        if (!$participant->save()) {
+        if (!$ticket->save()) {
             Session::flash('alert-danger', 'Could not add Gift!');
             return Redirect::to('admin/events/' . $event->slug . '/tickets');
         }
@@ -283,14 +279,14 @@ class EventsController extends Controller
      * Add Staff Participant
      * @param  Request $request
      * @param  Event   $event
-     * @return Redirect
+     * @return RedirectResponse
      */
     public function freeStaff(Request $request, Event $event)
     {
         $purchase                             = new Purchase();
         $purchase->user_id                    = $request->user_id;
         $purchase->type                       = 'system';
-        $purchase->status                     = "Success";
+        $purchase->status                     = Purchase::STATUS_SUCCESS;
         $purchase->transaction_id             = "Appointed by ". $request->user()->username;
 
         $purchase->setSuccess();
@@ -299,16 +295,18 @@ class EventsController extends Controller
             Session::flash('alert-danger', 'Could not save "system" purchase!');
         }
 
-        $participant = new EventParticipant();
+        $ticket = new Ticket();
 
-        $participant->user_id                = $request->user_id;
-        $participant->event_id               = $event->id;
-        $participant->staff                  = 1;
-        $participant->staff_free_assigned_by = Auth::id();
-        $participant->purchase_id            = $purchase->id;
-        $participant->generateQRCode();
+        $ticket->user_id                = $request->user_id;
+        $ticket->manager_id             = $request->user_id;
+        $ticket->owner_id               = $request->user_id;
+        $ticket->event_id               = $event->id;
+        $ticket->staff                  = 1;
+        $ticket->staff_free_assigned_by = Auth::id();
+        $ticket->purchase_id            = $purchase->id;
+        $ticket->generateQRCode();
 
-        if (!$participant->save()) {
+        if (!$ticket->save()) {
             Session::flash('alert-danger', 'Could not add Staff!');
             return Redirect::to('admin/events/' . $event->slug . '/tickets');
         }

@@ -14,17 +14,17 @@
 		@if ($type == 'tickets')
 			<div class="col-12 col-md-8">
 				<h3>@lang('payments.tickets_pending_active')</h3>
-				<h4>@lang('payments.payment_pending_text1') <a href="/events/{{ $purchase->participants[0]->event->slug }}/#seating">@lang('payments.payment_pending_linktext1')</a></h4>
-				<h4>@lang('payments.payment_pending_text2') <a href="/events/{{ $purchase->participants[0]->event->slug }}/#tournaments">@lang('payments.payment_pending_linktext2')</a></h4>
+				<h4>@lang('payments.payment_pending_text1') <a href="/events/{{ $purchase->tickets[0]->event->slug }}/#seating">@lang('payments.payment_pending_linktext1')</a></h4>
+				<h4>@lang('payments.payment_pending_text2') <a href="/events/{{ $purchase->tickets[0]->event->slug }}/#tournaments">@lang('payments.payment_pending_linktext2')</a></h4>
 				<p><strong>@lang('payments.purchase_id')</strong> {{ $purchase->id }}</p>
 				<p><strong>@lang('payments.payment_method')</strong> {{ $purchase->getPurchaseType() }}</p>
 				<h3>@lang('payments.tickets')</h3>
 				<hr>
 				<div class="row">
-					@foreach ($purchase->participants as $participant)
+					@foreach ($purchase->tickets() as $ticket)
 						<div class="col-lg-4 col-sm-6 col-12 text-center">
-							<h5>{{ $participant->event->display_name }}</h5>
-							<h5>{{ $participant->ticket->name }}</h5>
+							<h5>{{ $ticket->event->display_name }}</h5>
+							<h5>{{ $ticket->ticketType->name }}</h5>
 							<img class="img img-fluid" src="/{{ $participant->qrcode }}"/>
 						</div>
 					@endforeach

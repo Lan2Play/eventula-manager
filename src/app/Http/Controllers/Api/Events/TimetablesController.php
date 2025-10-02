@@ -6,7 +6,7 @@ use DB;
 use DateTime;
 
 use App\Event;
-use App\EventParticipant;
+use App\Ticket;
 use App\EventParticipantType;
 use App\EventTimetable;
 use App\EventTimetableData;

@@ -2,63 +2,60 @@
 
 namespace App\Http\Controllers;
 
-use DB;
 use Auth;
 use Helpers;
-use Arr;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 use Settings;
 
 
 use App\Event;
-use App\User;
 use App\SliderImage;
 use App\NewsArticle;
-use App\EventTimetable;
-use App\EventTimetableData;
-use App\EventParticipant;
-use App\EventTournamentTeam;
-use App\EventTournamentParticipant;
+use App\Ticket;
 use App\MatchMaking;
-use App\MatchMakingTeam;
-
-use App\Http\Requests;
-
-use Carbon\Carbon;
-
-use Illuminate\Http\Request;
-
-use Illuminate\Support\Facades\Redirect;
-use Artesaos\SEOTools\Facades\SEOTools;
-use Artesaos\SEOTools\Facades\SEOMeta;
-use Artesaos\SEOTools\Facades\OpenGraph;
-use Artesaos\SEOTools\Facades\TwitterCard;
-use Artesaos\SEOTools\Facades\JsonLd;
-
-use Debugbar;
 
 class HomeController extends Controller
 {
     /**
      * Show Index Page
-     * @return Function
+     * @return View
      */
     public function index()
     {
         $user = Auth::user();
-        // redirect to home page if no event participants are available
-        if (!$user || empty($user->eventParticipants)) {
+
+        // Redirect if no user is found
+        if (!$user) {
             return $this->home();
         }
 
-        // Loop trough the eventParticipants
-        // The first one, whos event is currently running and that is active redirects to the event page
-        foreach ($user->eventParticipants as $participant) {
-            if ($participant->event->isRunningCurrently() && $participant->isActive()) {
-                return $this->event();
-            }
+        // efficient query with eager loading and filtering
+        $activeTicket = $user->tickets()
+            ->with(['event', 'purchase']) // Eager loading for relations
+            ->whereHas('event', function ($query) {
+                $query->where('start', '<=', now())
+                    ->where('end', '>=', now()); // only running events
+            })
+            ->whereHas('purchase', function ($query) {
+                $query->where('status', 'Success'); // only purchases with success
+            })
+            ->where('revoked', false) // non revoked tickets
+            ->where(function ($query) {
+                $query->where('signed_in', true)
+                    ->orWhereHas('event', function ($subQuery) {
+                        $subQuery->where('online_event', true);
+                    });
+            })
+            ->orderBy('created_at') // first active ticket
+            ->first();
+
+        // if a ticket is found directly go to the event page
+        if ($activeTicket) {
+            return $this->event();
         }
 
-        // redirect to home page by default
+        // Defaults to home
         return $this->home();
     }
 
@@ -119,7 +116,7 @@ class HomeController extends Controller
 
     /**
      * Show Event Page
-     * @return View
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|RedirectResponse|View|object
      */
     public function event()
     {
@@ -134,7 +131,7 @@ class HomeController extends Controller
 
         // Loading can be done like this in one call of load function
         $event->load(
-            'eventParticipants.user',
+            'tickets.user',
         );
 
 
@@ -142,7 +139,7 @@ class HomeController extends Controller
         $user = Auth::user();
         if ($user) {
             $clauses = ['user_id' => $user->id, 'event_id' => $event->id];
-            $user->eventParticipation = EventParticipant::where($clauses)->get();
+            $user->eventParticipation = Ticket::where($clauses)->get();
         }
 
         $ticketFlagSignedIn = false;

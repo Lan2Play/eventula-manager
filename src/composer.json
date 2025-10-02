@@ -69,7 +69,8 @@
         "spatie/backtrace": "1.8.1",
         "haydenpierce/class-finder": "^0.5.3",
         "dompdf/dompdf": "3.1.2",
-        "barryvdh/laravel-ide-helper": "3.6.0"
+        "barryvdh/laravel-ide-helper": "3.6.0",
+        "owen-it/laravel-auditing": "^14.0"
     },
     "require-dev": {
         "mockery/mockery": "1.6.12",
@@ -129,7 +130,8 @@
          "allow-plugins": {
             "third-party/required-plugin": true,
             "my-organization/*": true,
-            "unnecessary/plugin": false
+            "unnecessary/plugin": false,
+            "php-http/discovery": true
         }
     }
 }

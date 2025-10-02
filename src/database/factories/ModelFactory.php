@@ -41,7 +41,7 @@ $factory->define(App\Event::class, function (Faker\Generator $faker) {
 
 ## Event Tickets
 
-$factory->define(App\EventTicket::class, function (Faker\Generator $faker) {
+$factory->define(App\TicketType::class, function (Faker\Generator $faker) {
     return [
         'name'          => 'Weekend Ticket',
         'type'          => 'weekend',

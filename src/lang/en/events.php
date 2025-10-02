@@ -36,6 +36,7 @@ return [
     'seatingplanlocked' => 'NOTE: Seating plan is currently locked!',
     'seatingplannotaccessable' => 'Seating Plan not (yet) available!',
     'yourseats' => 'Your seats',
+    'yourmanagedseats' => 'Seats managed by you',
     'remove' => 'Remove',
     'plspurchaseticket' => 'Please purchase a ticket',
     'plslogintopurchaseticket' => 'Please log in to purchase a ticket',
@@ -127,5 +128,6 @@ return [
     /* General */
     'time_delimiter' => 'at',
     'time_suffix' => '',
-    'savetocalendar' => 'Save to Calendar'
+    'savetocalendar' => 'Save to Calendar',
+    'event' => 'Event'
 ];

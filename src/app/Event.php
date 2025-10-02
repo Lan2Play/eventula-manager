@@ -45,6 +45,11 @@ class Event extends Model
         'tournaments_staff'
     ];
 
+    public const STATUS_PUBLISHED = 'PUBLISHED';
+    public const STATUS_PRIVATE = 'PRIVATE';
+    public const STATUS_REGISTEREDONLY = 'REGISTEREDONLY';
+
+
     /**
      * The attributes excluded from the model's JSON form.
      *
@@ -124,25 +129,26 @@ class Event extends Model
 
     /*
      * Relationships
+     * formerly eventPaticipants
      */
-    public function eventParticipants()
+    public function tickets()
     {
-        return $this->hasMany('App\EventParticipant')->where('revoked', '=', 0);
+        return $this->hasMany('App\Ticket')->where('revoked', '=', 0);
     }
-    public function allEventParticipants()
+    public function allEventTickets()
     {
-        return $this->hasMany('App\EventParticipant');
+        return $this->hasMany('App\Ticket');
     }
     public function timetables()
     {
         return $this->hasMany('App\EventTimetable');
     }
     public function ticketGroups() {
-        return $this->hasMany('App\EventTicketGroup');
+        return $this->hasMany('App\TicketGroup');
     }
-    public function tickets()
+    public function ticketTypes()
     {
-        return $this->hasMany('App\EventTicket');
+        return $this->hasMany('App\TicketType');
     }
     public function seatingPlans()
     {
@@ -224,30 +230,28 @@ class Event extends Model
     /**
      * Get Event Participant
      * @param  $userId
-     * @return EventParticipant
+     * @return Ticket
      */
-    public function getEventParticipant($userId = null)
+    public function getTicket($userId = null)
     {
         if ($userId == null) {
             $userId = Auth::id();
         }
-        return $this->eventParticipants()->where('user_id', $userId)->first();
+        return $this->tickets()->where('user_id', $userId)->first();
     }
 
     /**
      * Get Total Ticket Sales
      * @return int
      */
-    public function getTicketSalesCount()
-    {
-        $total = 0;
-        foreach ($this->eventParticipants as $participant) {
-            if ($participant->purchase && $participant->ticket) {
-                $total = $total + $participant->ticket->price;
-            }
+        public function getTicketSalesCount()
+        {
+            return $this->tickets()
+                ->whereNotNull('purchase_id')
+                ->whereHas('ticketType')
+                ->join('ticket_types', 'tickets.ticket_type_id', '=', 'ticket_types.id')
+                ->sum('ticket_types.price');
         }
-        return $total;
-    }
 
     /**
      * Get Total Seated
@@ -283,30 +287,30 @@ class Event extends Model
     public function getParticipants($obj = false)
     {
         $return = array();
-        foreach ($this->eventParticipants as $participant) {
-            if (($participant->staff || $participant->free) || @$participant->ticket->seatable) {
+        foreach ($this->tickets as $ticket) {
+            if (($ticket->staff || $ticket->free) || @$ticket->ticketType->seatable) {
                 $seat = 'Not Seated';
                 $seatingPlanName = "";
-                if (!empty($participant->seat)) {
-                    if ($participant->seat->seatingPlan) {
-                        $seatingPlanName = $participant->seat->seatingPlan->getName();
+                if (!empty($ticket->seat)) {
+                    if ($ticket->seat->seatingPlan) {
+                        $seatingPlanName = $ticket->seat->seatingPlan->getName();
                     }
-                    $seat = $participant->seat->getName();
+                    $seat = $ticket->seat->getName();
                 }                
                 
-                if(!empty($participant->ticket->name)) {
-                    $text = $participant->user->username . ' - ' . $participant->ticket->name . ' - ' . $seatingPlanName . ' - ' . $seat;
+                if(!empty($ticket->ticketType->name)) {
+                    $text = $ticket->user->username . ' - ' . $ticket->ticketType->name . ' - ' . $seatingPlanName . ' - ' . $seat;
                 } else {
-                    $text = $participant->user->username . ' - ' . $seatingPlanName . ' - ' . $seat;
+                    $text = $ticket->user->username . ' - ' . $seatingPlanName . ' - ' . $seat;
                 }
 
-                if ($participant->staff) {
-                    $text = $participant->user->username . ' - ' . 'Staff Ticket - ' . $seatingPlanName . ' - ' . $seat;
+                if ($ticket->staff) {
+                    $text = $ticket->user->username . ' - ' . 'Staff Ticket - ' . $seatingPlanName . ' - ' . $seat;
                 }
-                if ($participant->free) {
-                    $text = $participant->user->username . ' - ' . 'Free Ticket - ' . $seatingPlanName . ' - ' . $seat;
+                if ($ticket->free) {
+                    $text = $ticket->user->username . ' - ' . 'Free Ticket - ' . $seatingPlanName . ' - ' . $seat;
                 }
-                $return[$participant->id] = $text;
+                $return[$ticket->id] = $text;
             }
         }
         if ($obj) {
@@ -371,10 +375,10 @@ class Event extends Model
 
     /**
      * Get ungrouped tickets of Eventvent
-     * @return \Illuminate\Database\Eloquent\Collection|\App\EventTicket[]
+     * @return \Illuminate\Database\Eloquent\Collection|\App\TicketType[]
      */
     public function getUngroupedTickets() {
-        return $this->tickets()->ungrouped()->get();;
+        return $this->ticketTypes()->ungrouped()->get();;
     }
 
     /**

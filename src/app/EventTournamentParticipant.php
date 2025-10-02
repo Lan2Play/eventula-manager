@@ -27,7 +27,7 @@ class EventTournamentParticipant extends Model
      * @var array
      */
     protected $fillable = [
-        'event_participant_id',
+        'ticket_id',
         'challonge_participant_id',
         'event_tournament_team_id',
         'event_tournament_id',
@@ -57,7 +57,7 @@ class EventTournamentParticipant extends Model
                     $challonge = new Challonge($http, config('challonge.api_key'), false);
                     $tournament = $challonge->fetchTournament($model->eventTournament->challonge_tournament_id);
                     if (!$response = $tournament->addParticipant(
-                        ['participant[name]' => $model->eventParticipant->user->username]
+                        ['participant[name]' => $model->eventTicket->user->username]
                     )) {
                         $model->delete();
                         return false;
@@ -109,9 +109,9 @@ class EventTournamentParticipant extends Model
     {
         return $this->belongsTo('App\EventTournament');
     }
-    public function eventParticipant()
+    public function eventTicket()
     {
-        return $this->belongsTo('App\EventParticipant');
+        return $this->belongsTo('App\Ticket', 'ticket_id');
     }
     public function tournamentTeam()
     {

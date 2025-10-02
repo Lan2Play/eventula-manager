@@ -11,6 +11,7 @@
 		<h3><center>{{ $announcement->message }}</center></h3>
 	@endforeach
 	<!-- TIMETABLE -->
+    <!-- TODO add a partial for Timetables -->
 	@if (!$event->timetables->isEmpty())
 		@foreach ($event->timetables as $timetable)
 			<table class="table table-striped">

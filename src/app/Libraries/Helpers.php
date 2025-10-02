@@ -2,7 +2,7 @@
 
 namespace App\Libraries;
 
-use App\EventTicketGroup;
+use App\TicketGroup;
 use App\Event;
 use App\EventSeatingPlan;
 use Session;
@@ -11,10 +11,10 @@ use Exception;
 use DB;
 use App\GameServerCommandParameter;
 use App\EventTournament;
-use App\EventParticipant;
+use App\Ticket;
 use App\User;
 use App\GameServer;
-use App\EventTicket;
+use App\TicketType;
 use GuzzleHttp\Client;
 use \Carbon\Carbon as Carbon;
 use GrahamCampbell\ResultType\Result;
@@ -239,7 +239,7 @@ class Helpers
      */
     public static function getEventParticipantTotal()
     {
-        $participants = \App\EventParticipant::count();
+        $participants = \App\Ticket::count();
         return Settings::getParticipantCountOffset() + $participants;
     }
 
@@ -302,7 +302,7 @@ class Helpers
     {
         $return = 0;
         foreach ($basket as $ticket_id => $quantity) {
-            $ticket = \App\EventTicket::where('id', $ticket_id)->first();
+            $ticket = \App\TicketType::where('id', $ticket_id)->first();
             $return += ($ticket->price * $quantity);
         }
         return $return;
@@ -425,7 +425,7 @@ class Helpers
             $formattedBasket = \App\ShopItem::whereIn('id', array_keys($basket['shop']))->get();
         }
         if (array_key_exists('tickets', $basket)) {
-            $formattedBasket = \App\EventTicket::whereIn('id', array_keys($basket['tickets']))->get();
+            $formattedBasket = \App\TicketType::whereIn('id', array_keys($basket['tickets']))->get();
         }
         if (!$formattedBasket) {
             return false;
@@ -779,7 +779,7 @@ class Helpers
      * Get Ticket quatntity for Select
      * @return array
      */
-    public static function getTicketQuantitySelection(EventTicket $ticket, $remainingcapacity, $defaultCapacity = 10)
+    public static function getTicketQuantitySelection(TicketType $ticket, $remainingcapacity, $defaultCapacity = 10)
     {
         $ticketCount = min(
             $remainingcapacity > 0 ? $remainingcapacity : $defaultCapacity,
@@ -800,7 +800,7 @@ class Helpers
     public static function getTicketGroupSelection()
     {
         $result = ['' => '-- ungrouped --'];
-        foreach (EventTicketGroup::all(['id', 'name']) as $row) {
+        foreach (TicketGroup::all(['id', 'name']) as $row) {
             $result[$row['id']] = $row['name'];
         }
 
@@ -1006,12 +1006,23 @@ class Helpers
      */
     public static function getTopAttendees(int $count = 5): Collection
     {
-        $users = User::where('admin', 0)->get();
-        return $users->filter(function ($user) {
-            return $user->unique_attended_event_count > 0;
-        })
-            ->sortByDesc('unique_attended_event_count')
-            ->take($count);
+        return User::select('users.*')
+            ->selectSub(self::getAttendedEventsCountSubquery(), 'attended_events_count')
+            ->where('admin', 0)
+            ->having('attended_events_count', '>', 0)
+            ->orderByDesc('attended_events_count')
+            ->limit($count)
+            ->get();
+    }
+
+    private static function getAttendedEventsCountSubquery(): \Illuminate\Database\Query\Builder
+    {
+        return DB::table('tickets')
+            ->join('events', 'tickets.event_id', '=', 'events.id')
+            ->whereColumn('tickets.user_id', 'users.id')
+            ->whereIn('events.status', [Event::STATUS_PUBLISHED, 'REGISTEREDONLY'])
+            ->where('events.end', '<=', Carbon::today())
+            ->selectRaw('COUNT(DISTINCT tickets.event_id)');
     }
 
     /**
@@ -1022,12 +1033,45 @@ class Helpers
      */
     public static function getTopWinners(int $count = 5): Collection
     {
-        $users = User::all();
-        return $users->filter(function ($user) {
-            return $user->win_count > 0;
-        })
-            ->sortByDesc('win_count')
-            ->take($count);
+        return User::select('users.*')
+            ->selectSub(self::getWinCountSubquery(), 'win_count')
+            ->where('admin', 0)
+            ->having('win_count', '>', 0)
+            ->orderByDesc('win_count')
+            ->limit($count)
+            ->get();
+    }
+
+    /**
+     * Get win count subquery for calculating user wins.
+     *
+     * @return \Illuminate\Database\Query\Builder
+     */
+    private static function getWinCountSubquery(): \Illuminate\Database\Query\Builder
+    {
+        // Team wins subquery
+        $teamWinsSubquery = DB::table('event_tournament_teams as ett')
+            ->join('event_tournament_participants as etp', 'ett.id', '=', 'etp.event_tournament_team_id')
+            ->join('tickets as t', 'etp.ticket_id', '=', 't.id')
+            ->whereColumn('t.user_id', 'users.id')
+            ->where('ett.final_rank', 1)
+            ->selectRaw('COUNT(*)');
+
+        // Individual wins subquery
+        $individualWinsSubquery = DB::table('event_tournament_participants as etp')
+            ->join('tickets as t', 'etp.ticket_id', '=', 't.id')
+            ->whereColumn('t.user_id', 'users.id')
+            ->where('etp.final_rank', 1)
+            ->whereNull('etp.event_tournament_team_id')
+            ->selectRaw('COUNT(*)');
+
+        // Combined subquery that adds team wins and individual wins
+        return DB::query()
+            ->selectRaw(
+                "COALESCE(({$teamWinsSubquery->toSql()}), 0) + COALESCE(({$individualWinsSubquery->toSql()}), 0)"
+            )
+            ->mergeBindings($teamWinsSubquery)
+            ->mergeBindings($individualWinsSubquery);
     }
 
     /**

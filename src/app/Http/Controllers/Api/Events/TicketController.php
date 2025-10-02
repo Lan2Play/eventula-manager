@@ -2,25 +2,17 @@
 
 namespace App\Http\Controllers\Api\Events;
 
-use DB;
-use Auth;
-use Session;
-use App\User;
 use App\Event;
-use App\EventParticipant;
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Http\Request;
-
-class ParticipantsController extends Controller
+// TODO Check this Controller with the new Ticket formerly known as Participant
+class TicketController extends Controller
 {
     /**
-     * Show Participants
+     * Show Tickets
      * @param  $event
-     * @return EventParticipants
+     * @return array
      */
     public function index($event)
     {
@@ -39,18 +31,18 @@ class ParticipantsController extends Controller
         $return = array();
 
         $return = [
-            'count' => $event->eventParticipants->count(),
+            'count' => $event->tickets->count(),
             'participants' => array(),
         ];
 
         if (!$event->private_participants) {
-            foreach ($event->eventParticipants as $participant) {
+            foreach ($event->tickets as $ticket) {
                 $seat = "Not Seated";
-                if ($participant->seat) {
-                    $seat = $participant->seat->seat;
+                if ($ticket->seat) {
+                    $seat = $ticket->seat->seat;
                 }
                 $return["participants"][] = [
-                    'username' => $participant->user->steamname ?? $participant->user->username,
+                    'username' => $ticket->user->steamname ?? $ticket->user->username,
                     'seat' => $seat,
                 ];
             }
