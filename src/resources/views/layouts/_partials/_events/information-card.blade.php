@@ -15,8 +15,21 @@
                 <div class="d-flex align-items-center">
                     <div>
                         <p><i class="fas fa-calendar-alt mr-2"></i> @lang('events.start')</p>
-                        <h3>{{ date('d.M Y', strtotime($event->start)) }} @lang('events.time_delimiter')
-                            {{ date('H:i', strtotime($event->start)) }} @lang('events.time_suffix')</h3>
+                        <h3>
+                            @php
+                                $locale = app()->getLocale();
+                                $startDate = \Carbon\Carbon::parse($event->start)->locale($locale);
+                                $isEnglish = strpos($locale, 'en') === 0;
+                                
+                                if ($isEnglish) {
+                                    echo $startDate->translatedFormat('jS F Y');
+                                } else {
+                                    echo $startDate->translatedFormat('j. F Y');
+                                }
+                            @endphp
+                            @lang('events.time_delimiter')
+                            {{ $startDate->format('H:i') }} @lang('events.time_suffix')
+                        </h3>
                     </div>
                 </div>
             </div>
@@ -25,8 +38,21 @@
                     <div>
 
                         <p><i class="fas fa-calendar-times mr-2"></i> @lang('events.end')</p>
-                        <h3>{{ date('d.M Y', strtotime($event->end)) }} @lang('events.time_delimiter')
-                            {{ date('H:i', strtotime($event->end)) }} @lang('events.time_suffix')</h3>
+                        <h3>
+                            @php
+                                $locale = app()->getLocale();
+                                $endDate = \Carbon\Carbon::parse($event->end)->locale($locale);
+                                $isEnglish = strpos($locale, 'en') === 0;
+                                
+                                if ($isEnglish) {
+                                    echo $endDate->translatedFormat('jS F Y');
+                                } else {
+                                    echo $endDate->translatedFormat('j. F Y');
+                                }
+                            @endphp
+                            @lang('events.time_delimiter')
+                            {{ $endDate->format('H:i') }} @lang('events.time_suffix')
+                        </h3>
                     </div>
                 </div>
             </div>
