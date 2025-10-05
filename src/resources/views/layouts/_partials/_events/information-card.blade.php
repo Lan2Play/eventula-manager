@@ -19,16 +19,10 @@
                             @php
                                 $locale = app()->getLocale();
                                 $startDate = \Carbon\Carbon::parse($event->start)->locale($locale);
-                                $isEnglish = strpos($locale, 'en') === 0;
-                                
-                                if ($isEnglish) {
-                                    echo $startDate->translatedFormat('jS F Y');
-                                } else {
-                                    echo $startDate->translatedFormat('j. F Y');
-                                }
+                                echo $startDate->translatedFormat(__('date.without_year'));
                             @endphp
-                            @lang('events.time_delimiter')
-                            {{ $startDate->format('H:i') }} @lang('events.time_suffix')
+                            @lang('date.time_delimiter')
+                            {{ $startDate->format(__('date.time')) }}
                         </h3>
                     </div>
                 </div>
@@ -42,16 +36,10 @@
                             @php
                                 $locale = app()->getLocale();
                                 $endDate = \Carbon\Carbon::parse($event->end)->locale($locale);
-                                $isEnglish = strpos($locale, 'en') === 0;
-                                
-                                if ($isEnglish) {
-                                    echo $endDate->translatedFormat('jS F Y');
-                                } else {
-                                    echo $endDate->translatedFormat('j. F Y');
-                                }
-                            @endphp
-                            @lang('events.time_delimiter')
-                            {{ $endDate->format('H:i') }} @lang('events.time_suffix')
+                                echo $endDate->translatedFormat(__('date.with_year'));
+                                @endphp
+                            @lang('date.time_delimiter')
+                            {{ $endDate->format(__('date.time')) }}
                         </h3>
                     </div>
                 </div>

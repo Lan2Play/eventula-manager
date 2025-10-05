@@ -35,13 +35,7 @@
 							$locale = app()->getLocale();
 							$startDate = \Carbon\Carbon::parse($nextEvent->start)->locale($locale);
 							$endDate = \Carbon\Carbon::parse($nextEvent->end)->locale($locale);
-							$isEnglish = strpos($locale, 'en') === 0;
-							
-							if ($isEnglish) {
-								echo $startDate->translatedFormat('jS F') . ' - ' . $endDate->translatedFormat('jS F Y');
-							} else {
-								echo $startDate->translatedFormat('j. F') . ' - ' . $endDate->translatedFormat('j. F Y');
-							}
+                            echo $startDate->translatedFormat(__('date.without_year')) . ' - ' . $endDate->translatedFormat(__('date.with_year'));
 						@endphp
 					</h5>
 					<a href="/events/{{ $nextEvent->slug }}#tickets"><button class="btn btn-primary btn-lg">@lang('messages.book_now')</button></a>
@@ -85,17 +79,11 @@
 									<td>
 										<span class="float-end">
 											@php
-												$locale = app()->getLocale();
-												$startDate = \Carbon\Carbon::parse($event->start)->locale($locale);
-												$endDate = \Carbon\Carbon::parse($event->end)->locale($locale);
-												$isEnglish = strpos($locale, 'en') === 0;
-												
-												if ($isEnglish) {
-													echo $startDate->translatedFormat('jS F') . ' - ' . $endDate->translatedFormat('jS F Y');
-												} else {
-													echo $startDate->translatedFormat('j. F') . ' - ' . $endDate->translatedFormat('j. F Y');
-												}
-											@endphp
+							                    $locale = app()->getLocale();
+							                    $startDate = \Carbon\Carbon::parse($nextEvent->start)->locale($locale);
+							                    $endDate = \Carbon\Carbon::parse($nextEvent->end)->locale($locale);
+                                                echo $startDate->translatedFormat(__('date.without_year')) . ' - ' . $endDate->translatedFormat(__('date.with_year'));
+						                    @endphp
 										</span>
 									</td>
 								</tr>
@@ -217,18 +205,12 @@
 			<div class="col-12 col-sm-3">
 				<h4>@lang('home.when'):</h4>
 				<h5>
-					@php
-						$locale = app()->getLocale();
-						$startDate = \Carbon\Carbon::parse($nextEvent->start)->locale($locale);
-						$endDate = \Carbon\Carbon::parse($nextEvent->end)->locale($locale);
-						$isEnglish = strpos($locale, 'en') === 0;
-						
-						if ($isEnglish) {
-							echo $startDate->translatedFormat('jS F') . ' - ' . $endDate->translatedFormat('jS F Y');
-						} else {
-							echo $startDate->translatedFormat('j. F') . ' - ' . $endDate->translatedFormat('j. F Y');
-						}
-					@endphp
+                    @php
+                        $locale = app()->getLocale();
+                        $startDate = \Carbon\Carbon::parse($nextEvent->start)->locale($locale);
+                        $endDate = \Carbon\Carbon::parse($nextEvent->end)->locale($locale);
+                        echo $startDate->translatedFormat(__('date.without_year')) . ' - ' . $endDate->translatedFormat(__('date.with_year'));
+                    @endphp
 				</h5>
 				<h4>@lang('home.where'):</h4>
 				<h5>{{ $nextEvent->venue->display_name }}</h5>
