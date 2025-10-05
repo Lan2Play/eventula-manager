@@ -63,7 +63,7 @@ class EventulaTicketOrderPendingMail extends TemplateMailable
 
             foreach($purchase->tickets as $participant)
             {
-                $this->purchase_participants[] = new MustacheModelHelper(Ticket::with('event','ticket')->where('id', $participant->id)->first());
+                $this->purchase_participants[] = new MustacheModelHelper(Ticket::with('event','ticketType')->where('id', $participant->id)->first());
             }
         }
 
