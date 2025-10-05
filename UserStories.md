@@ -373,6 +373,7 @@ This document contains comprehensive user stories for the Eventula event managem
 - 4.T.4 As an admin, I want to view revoked purchases, so that I can see refunds
 - 4.T.5 As an admin, I want to manually mark purchases as successful, so that I can handle payment issues
 - 4.T.6 As an admin, I want to delete purchases (super admin), so that I can remove erroneous entries
+- 4.T.7 As an admin, I want to inspect one purchase, so that i can confirm items bought and transaction details.
 
 ### Credit System Management
 - 4.U.1 As an admin, I want to enable the credit system, so that users can use credits
