@@ -70,8 +70,8 @@
                             @foreach ($purchase->tickets as $ticket)
                                 <tr @class(['table-warning' => $ticket->revoked])>
                                     <td>
-                                        @if ($ticket->tickettype)
-                                            {{ $ticket->tickettype->name }} for
+                                        @if ($ticket->ticketType)
+                                            {{ $ticket->ticketType->name }} for
                                             {{ $ticket->event->display_name }}
                                             @if ($ticket->revoked)
                                                 <span class="badge text-bg-warning">Ticket revoked</span>
@@ -96,15 +96,15 @@
                                         1
                                     </td>
                                     <td>
-                                        @if ($ticket->ticket)
-                                            @if ($ticket->ticket->price != null)
-                                                {{ Settings::getCurrencySymbol() }}{{ $ticket->ticket->price }}
-                                                @if ($ticket->ticket->price_credit != null && Settings::isCreditEnabled())
+                                        @if ($ticket->ticketType)
+                                            @if ($ticket->ticketType->price != null)
+                                                {{ Settings::getCurrencySymbol() }}{{ $ticket->ticketType->price }}
+                                                @if ($ticket->ticketType->price_credit != null && Settings::isCreditEnabled())
                                                     /
                                                 @endif
                                             @endif
-                                            @if ($ticket->ticket->price_credit != null && Settings::isCreditEnabled())
-                                                {{ $ticket->ticket->price_credit }} Credits
+                                            @if ($ticket->ticketType->price_credit != null && Settings::isCreditEnabled())
+                                                {{ $ticket->ticketType->price_credit }} Credits
                                             @endif
                                         @else
                                             0,- {{ Settings::getCurrencySymbol() }}

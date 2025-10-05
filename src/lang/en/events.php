@@ -126,6 +126,7 @@ return [
     'remove_seating' => 'Remove Seating',
 
     /* General */
+    /* TODO Cleanup of suffix neede */
     'time_delimiter' => 'at',
     'time_suffix' => '',
     'savetocalendar' => 'Save to Calendar',
