@@ -241,6 +241,13 @@ class Event extends Model
     }
 
     /**
+     * @return int number of unique Users with a ticket that was not revoked
+     */
+    public function getUniqueUsersWithTickets() {
+        return $this->tickets()->where('revoked', '=', 0)->distinct()->pluck('user_id')->count();
+    }
+
+    /**
      * Get Total Ticket Sales
      * @return int
      */
