@@ -24,7 +24,7 @@
 					@foreach ($purchase->tickets as $ticket)
 						<div class="col-lg-4 col-sm-6 col-12 text-center">
 							<h5>{{ $ticket->event->display_name }}</h5>
-							<h5>{{ $ticket->ticket->name }}</h5>
+							<h5>{{ $ticket->ticketType->name }}</h5>
 							<img class="img img-fluid" src="/{{ $ticket->qrcode }}"/>
 						</div>
 					@endforeach
