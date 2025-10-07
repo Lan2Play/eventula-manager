@@ -12,15 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('ticket_types', function (Blueprint $table) {
-            $table->unsignedInteger('hide_policy')
+            $table->tinyInteger('hide_policy')
                 ->after('event_ticket_group_id')
-                ->default(0);
+                ->default(-1);
         });
 
         Schema::table('events', function (Blueprint $table) {
-           $table->unsignedTinyInteger('tickettype_hide_policy')
+           $table->tinyInteger('tickettype_hide_policy')
                ->after('no_tickets_per_user')
-               ->default(0);
+               ->default(-1);
         });
 
         DB::table('settings')->insert([

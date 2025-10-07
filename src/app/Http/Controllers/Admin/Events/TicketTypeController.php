@@ -270,4 +270,19 @@ class TicketTypeController extends Controller
         Session::flash('alert-success', 'Successfully deleted Ticket!');
         return Redirect::to('admin/events/' . $event->slug . '/tickets');
     }
+
+    public function updateTicketHidePolicy(Event $event, Request $request) {
+        $rules = [
+            'ticket_hide_policy' => 'required|integer|min:0|max:15',
+        ];
+
+        $this->validate($request, $rules);
+
+        $event->ticket_hide_policy = $request->ticket_hide_policy;
+        if (!$event->save()) {
+            Session::flash('alert-danger', 'Cannot update Ticket Hide Policy!');
+            return Redirect::back();
+        }
+        return Redirect::to('admin/events/' . $event->slug . '/tickets');
+    }
 }
