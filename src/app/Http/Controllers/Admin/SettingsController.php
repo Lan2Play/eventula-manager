@@ -847,4 +847,23 @@ class SettingsController extends Controller
         Session::flash('alert-success', "Successfully Saved General Authentication Settings!");
         return Redirect::back();
     }
+
+    /**
+     * @param Request $request->policy 0-15 see Policy in Settings
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function updateGlobalTicketTypeHidePolicy(Request $request)
+    {
+        $rules = [
+            'policy' => 'required|integer|min:0|max:15'
+        ];
+        $this->validate($request, $rules);
+
+        if (!Settings::setGlobalTicketTypeHidePolicy($request->policy)) {
+            Session::flash('alert-danger', "Could not Save Global Ticket Type Hide Policy!");
+            return Redirect::back();
+        }
+        Session::flash('alert-success', "Successfully Saved Global Ticket Type Hide Policy!");
+        return Redirect::back();
+    }
 }

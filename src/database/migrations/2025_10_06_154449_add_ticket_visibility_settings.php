@@ -12,14 +12,25 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('ticket_types', function (Blueprint $table) {
-            $table->enum('visibility_policy', ['always', 'hide', 'inherit'])
+            $table->unsignedInteger('hide_policy')
                 ->after('event_ticket_group_id')
-                ->default('inherit');
+                ->default(0);
         });
 
         Schema::table('events', function (Blueprint $table) {
-           $table->boolean('hide_non_purchasable')->default(false)->after('no_tickets_per_user');
+           $table->unsignedTinyInteger('tickettype_hide_policy')
+               ->after('no_tickets_per_user')
+               ->default(0);
         });
+
+        DB::table('settings')->insert([
+            'setting' => 'tickettype_hide_policy',
+            'value' => '0',
+            'default' => 1,
+            'description' => 'The Policy what tickets to hide.'
+        ]);
+
+
     }
 
     /**
@@ -28,10 +39,12 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('ticket_types', function (Blueprint $table) {
-            $table->dropColumn('visibility_policy');
+            $table->dropColumn('hide_policy');
         });
 
-        Schema::table('events', function (Blueprint $table) {$table->dropColumn('hide_non_purchasable');
+        Schema::table('events', function (Blueprint $table) {$table->dropColumn('tickettype_hide_policy');
         });
+
+        DB::table('settings')->where('setting', 'tickettype_hide_policy')->delete();
     }
 };
