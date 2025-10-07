@@ -45,7 +45,8 @@ class SettingsController extends Controller
             ->with('isMatchMakingEnabled', Settings::isMatchMakingEnabled())
             ->with('isCreditEnabled', Settings::isCreditEnabled())
             ->with('supportedLoginMethods', Settings::getSupportedLoginMethods())
-            ->with('activeLoginMethods', Settings::getLoginMethods());
+            ->with('activeLoginMethods', Settings::getLoginMethods())
+            ->with('ticket_hide_policy', Settings::getGlobalTicketTypeHidePolicy());
     }
 
     /**
@@ -189,7 +190,7 @@ class SettingsController extends Controller
             'tournament_third'            => 'filled|integer',
             'registration_event'        => 'filled|integer',
             'registration_site'            => 'filled|integer',
-            'shop_status'               => 'in:OPEN,CLOSED',
+            'shop_status'               => 'in:OPEN,CLOSED'
         ];
         $messages = [
             'publicuse.in'                      => 'Publicuse must be true or false',

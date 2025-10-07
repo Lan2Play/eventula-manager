@@ -1086,7 +1086,7 @@ class Settings
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public static function getGlobalTicketTypeHidePolicy() {
         return \App\Setting::getGlobalTicketTypeHidePolicy();
