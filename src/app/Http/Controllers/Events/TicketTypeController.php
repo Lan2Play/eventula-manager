@@ -138,15 +138,15 @@ class TicketTypeController extends Controller
 
     /**
      * Retrieve ticket via QR code
-     * @param  Ticket $participant
+     * @param  Ticket $ticket
      * @return RedirectResponse
      */
-    public function retrieve(Ticket $participant)
+    public function retrieve(Ticket $ticket)
     {
         $user = Auth::user();
         if ($user->admin == 1) {
-            return Redirect::to('/admin/events/' . $participant->event->slug . '/participants/' . $participant->id); // redirect to site
+            return Redirect::to('/admin/events/' . $ticket->event->slug . '/participants/' . $ticket->id); // redirect to site
         }
-        return Redirect::to('/events/' . $participant->event_id); // redirect to site
+        return Redirect::to('/events/' . $ticket->event_id); // redirect to site
     }
 }
