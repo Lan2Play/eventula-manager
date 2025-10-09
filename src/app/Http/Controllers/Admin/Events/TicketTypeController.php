@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin\Events;
 
 use Session;
+use Settings;
+
 
 use App\User;
 use App\Event;
@@ -63,7 +65,8 @@ class TicketTypeController extends Controller
             ->with('totalStaffTickets', $totalStaffTickets)
             ->with('users', $users)
             ->with('purchaseBreakdownData', $purchaseBreakDown)
-            ->with('incomeBreakdownData', $incomeBreakDown);
+            ->with('incomeBreakdownData', $incomeBreakDown)
+            ->with('global_ticket_hide_policy', Settings::getGlobalTicketTypeHidePolicy());
     }
 
     /**
@@ -271,14 +274,20 @@ class TicketTypeController extends Controller
         return Redirect::to('admin/events/' . $event->slug . '/tickets');
     }
 
+    /**
+     * @param Event $event Event to update the ticket hide policy for
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function updateTicketHidePolicy(Event $event, Request $request) {
         $rules = [
-            'ticket_hide_policy' => 'required|integer|min:0|max:15',
+            'tickettype_hide_policy' => 'required|integer|min:0|max:15',
         ];
 
         $this->validate($request, $rules);
 
-        $event->ticket_hide_policy = $request->ticket_hide_policy;
+        $event->tickettype_hide_policy = $request->ticket_hide_policy;
         if (!$event->save()) {
             Session::flash('alert-danger', 'Cannot update Ticket Hide Policy!');
             return Redirect::back();

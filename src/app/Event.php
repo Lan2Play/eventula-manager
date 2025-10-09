@@ -43,7 +43,7 @@ class Event extends Model
         'matchmaking_enabled',
         'tournaments_freebies',
         'tournaments_staff',
-        'ticket_hide_policy',
+        'tickettype_hide_policy'
     ];
 
     public const STATUS_PUBLISHED = 'PUBLISHED';

@@ -206,6 +206,10 @@ class EventsController extends Controller
             $event->event_venue_id              = @$request->venue;
         }
 
+        if (isset($request->ticket_hide_policy)) {
+            $event->ticket_hide_policy = $request->ticket_hide_policy;
+        }
+
         if (!$event->save()) {
             Session::flash('alert-danger', 'Cannot update Event!');
             return Redirect::to('admin/events/' . $event->slug);
@@ -314,5 +318,26 @@ class EventsController extends Controller
 
         Session::flash('alert-success', 'Successfully added Staff!');
         return Redirect::to('admin/events/' . $event->slug . '/tickets');
+    }
+
+    /**
+     * Seperate method for updating the ticket hide policy because this is not called from the event show page.
+     * @param Event $event to update the ticket Policy for
+     * @param Request $request containing the ticket_hide_policy to set
+     * @return RedirectResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function updateTicketHidePolicy(Event $event, Request $request) {
+        $rules = [
+            'ticket_hide_policy' => 'required|integer|min:-1|max:15'
+        ];
+
+        $this->validate($request, $rules);
+
+        $event->tickettype_hide_policy = $request->ticket_hide_policy;
+        if (!$event->save()) {
+            Session::flash('alert-danger', 'Cannot update Ticket Hide Policy!');
+        }
+        return Redirect::back();
     }
 }

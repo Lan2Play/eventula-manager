@@ -197,7 +197,7 @@
                                 $isEnabled = ($ticket_hide_policy & (1 << $bit)) !== 0;
                             @endphp
                             <tr>
-                                <td>{{ 1+$bit }}</td>
+                                <td>{{ pow(2, $bit) }}</td>
                                 <td>
                                     @if ($bit === 0)
                                         Hide upcoming tickets
@@ -220,11 +220,9 @@
                         @endfor
                         </tbody>
                     </table>
-                    <p><i class="bg-warning">Note:</i> these settings will be overridden by Events or TicketTypes</p>
+                    <p><i class="bg-warning">Note:</i> these settings can be overridden by Events or TicketTypes</p>
                 </div>
             </div>
-
-
         </div>
         <div class="col-lg-6 col-12">
             <!-- Shop System -->

@@ -329,6 +329,7 @@ Route::group(['middleware' => ['installed']], function () {
         Route::post('/admin/events/{event}/information', 'Admin\Events\InformationController@store');
         Route::post('/admin/information/{information}', 'Admin\Events\InformationController@update');
         Route::delete('/admin/information/{information}', 'Admin\Events\InformationController@destroy');
+        Route::post('/admin/events/{event}/updateTicketHidePolicy', 'Admin\Events\EventsController@updateTicketHidePolicy');
         /**
          * Seating
          */
