@@ -79,6 +79,8 @@ class TicketTypeController extends Controller
     {
         return view('admin.events.tickets.show')
             ->with('event', $event)
+            ->with('global_tickettype_hide_policy', Settings::getGlobalTicketTypeHidePolicy())
+            ->with('event_tickettype_hide_policy', $event->tickettype_hide_policy)
             ->with('ticketType', $ticketType);
     }
 
@@ -177,6 +179,7 @@ class TicketTypeController extends Controller
             'type'              => 'filled',
             'quantity'          => 'numeric',
             'no_tickets_per_user' => 'numeric',
+            'tickettype_hide_policy' => 'integer|between:-1,15',
         ];
         $messages = [
             'price|numeric'                 => 'Price must be a number',
@@ -187,6 +190,8 @@ class TicketTypeController extends Controller
             'sale_end_time.date_format'     => 'Sale End Time must be H:i format',
             'seatable|boolen'               => 'Seatable must be True/False',
             'quantity|numeric'              => 'Quantity must be a number',
+            'tickettype_hide_policy|integer' => 'Ticket Type Hide Policy must be a number!',
+            'tickettype_hide_policy|between' => 'Ticket Type Hide Policy must be a value between -1 and 15',
         ];
         $this->validate($request, $rules, $messages);
 
@@ -239,6 +244,9 @@ class TicketTypeController extends Controller
             $ticketType->no_tickets_per_user = $request->no_tickets_per_user;
         }
 
+        if (isset($request->tickettype_hide_policy)) {
+            $ticketType->tickettype_hide_policy = $request->tickettype_hide_policy;
+        }
 
         $ticketType->seatable   = ($request->seatable ? true : false);
         $ticketType->event_ticket_group_id = empty($request->ticket_group) ? null : $request->ticket_group;
@@ -271,27 +279,6 @@ class TicketTypeController extends Controller
         }
 
         Session::flash('alert-success', 'Successfully deleted Ticket!');
-        return Redirect::to('admin/events/' . $event->slug . '/tickets');
-    }
-
-    /**
-     * @param Event $event Event to update the ticket hide policy for
-     * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Validation\ValidationException
-     */
-    public function updateTicketHidePolicy(Event $event, Request $request) {
-        $rules = [
-            'tickettype_hide_policy' => 'required|integer|min:0|max:15',
-        ];
-
-        $this->validate($request, $rules);
-
-        $event->tickettype_hide_policy = $request->ticket_hide_policy;
-        if (!$event->save()) {
-            Session::flash('alert-danger', 'Cannot update Ticket Hide Policy!');
-            return Redirect::back();
-        }
         return Redirect::to('admin/events/' . $event->slug . '/tickets');
     }
 }

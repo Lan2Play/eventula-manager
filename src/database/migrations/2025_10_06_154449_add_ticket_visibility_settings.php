@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('ticket_types', function (Blueprint $table) {
-            $table->tinyInteger('hide_policy')
+            $table->tinyInteger('tickettype_hide_policy')
                 ->after('event_ticket_group_id')
                 ->default(-1);
         });
