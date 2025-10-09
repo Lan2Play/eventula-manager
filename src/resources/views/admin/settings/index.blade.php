@@ -206,7 +206,7 @@
                                     @elseif ($bit === 2)
                                         Hide sold out tickets
                                     @elseif ($bit === 3)
-                                        Hide all tickets
+                                        Hide timeless tickets
                                     @endif
                                 </td>
                                 <td>

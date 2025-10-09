@@ -110,7 +110,26 @@
 					<h3><i class="fas fa-ticket-alt me-3"></i>@lang('events.purchasetickets')</h3>
 				</div>
 				<div class="row card-deck">
+                    @php
+                    $globalTicketTypeHidePolicy = Settings::getGlobalTicketTypeHidePolicy();
+                    $eventTicketTypeHidePolicy = $event->tickettype_hide_policy;
+                    @endphp
 					@foreach ($event->ticketTypes()->orderBy('event_ticket_group_id')->get() as $ticketType)
+                        @php
+                            $ticketTypeHidePolicy = $ticketType->tickettype_hide_policy;
+                            if ($ticketTypeHidePolicy != -1 && $ticketType->isHiddenByPolicy($ticketTypeHidePolicy)) {
+                                // apply TicketType policy
+                                continue;
+                            }
+                            if ($eventTicketTypeHidePolicy != -1 && $ticketType->isHiddenByPolicy($eventTicketTypeHidePolicy)) {
+                                // apply Event policy
+                                continue;
+                            }
+                            // apply global (Settings) policy
+                            if($ticketType->isHiddenByPolicy($globalTicketTypeHidePolicy)) {
+                                continue;
+                            }
+                        @endphp
 						<div class="col-12 col-sm-4">
 							<div class="card mb-3" disabled>
 								<div class="card-body d-flex flex-column">

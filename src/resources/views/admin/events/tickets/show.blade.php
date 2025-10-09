@@ -131,13 +131,13 @@
                             <td>{{ pow(2, $bit) }}</td>
                             <td>
                                 @if ($bit === 0)
-                                    Hide upcoming tickets
+                                    Hide when upcoming
                                 @elseif ($bit === 1)
-                                    Hide expired tickets
+                                    Hide when expired
                                 @elseif ($bit === 2)
-                                    Hide sold out tickets
+                                    Hide when solt out
                                 @elseif ($bit === 3)
-                                    Hide all tickets
+                                    Hide always
                                 @endif
                             </td>
                             <td>
@@ -156,17 +156,17 @@
                                 @endif
                             </td>
                             <td>
-                                @if ($isEventWideEnabled)
-                                    @if ($isOverriddenEvent xor $isOverridden)
-                                        <i class="fa fa-check-circle-o fa-1x" style="color:green"></i>
-                                    @else
+                                @if ($isOverridden || !$isOverriddenEvent)
+                                    @if ($isEventWideEnabled && $isOverriddenEvent)
                                         <i class="fa fa-check-circle-o fa-1x" style="color:grey"></i>
-                                    @endif
-                                @else
-                                    @if ($isOverriddenEvent xor $isOverridden)
-                                        <i class="fa fa-times-circle-o fa-1x" style="color:red"></i>
                                     @else
                                         <i class="fa fa-times-circle-o fa-1x" style="color:grey"></i>
+                                    @endif
+                                @else
+                                    @if ($isEventWideEnabled)
+                                        <i class="fa fa-check-circle-o fa-1x" style="color:green"></i>
+                                    @else
+                                        <i class="fa fa-times-circle-o fa-1x" style="color:red"></i>
                                     @endif
                                 @endif
                             </td>
