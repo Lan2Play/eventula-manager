@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-bs-theme="{{Colors::getTheme()}}">
     <head>
-        <title>Be right back.</title>
+        <title>@lang('errorPages.503.header')</title>
 
         <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
 
@@ -40,7 +40,7 @@
     <body>
         <div class="container pt-1">
             <div class="content">
-                <div class="title">Be right back.</div>
+                <div class="title">@lang('errorPages.503.message')</div>
             </div>
         </div>
     </body>

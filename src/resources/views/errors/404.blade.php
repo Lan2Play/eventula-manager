@@ -8,12 +8,12 @@
 
     <div class="pb-2 mt-4 mb-4 border-bottom">
         <h1>
-            Oops - 404 - Page Not Found
+            @lang('errorPages.404.header')
         </h1>
     </div>
     <div class="row">
         <div class="col-12 col-md-8">
-           We couldn't find the page you was looking for.
+           @lang('errorPages.404.message')
         </div>
     </div>
 </div>
