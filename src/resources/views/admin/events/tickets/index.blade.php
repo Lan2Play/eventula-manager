@@ -65,6 +65,7 @@
 							<th>Quantity</th>
 							<th>Purchased</th>
 							<th>Purchase Period</th>
+                            <th>Hide policy?</th>
 							<th>Seatable</th>
 							<th></th>
 							<th></th>
@@ -116,6 +117,13 @@
 										Never
 									@endif
 								</td>
+                                <td>
+                                    @if ($ticketType->tickettype_hide_policy >= 0)
+                                        Custom
+                                    @else
+                                        Inherit
+                                    @endif
+                                </td>
 								<td>
 									@if ($ticketType->seatable)
 										Yes

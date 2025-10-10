@@ -73,6 +73,7 @@ class TicketType extends Model
     }
 
     public function isHiddenByPolicy(int $policy):bool {
+        debug($this->name, $policy);
         return match ($policy) {
             0 => false,
             1 => $this->isUpcoming(),

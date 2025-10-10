@@ -117,12 +117,12 @@
 					@foreach ($event->ticketTypes()->orderBy('event_ticket_group_id')->get() as $ticketType)
                         @php
                             $ticketTypeHidePolicy = $ticketType->tickettype_hide_policy;
+                            // apply TicketType policy
                             if ($ticketTypeHidePolicy != -1 && $ticketType->isHiddenByPolicy($ticketTypeHidePolicy)) {
-                                // apply TicketType policy
                                 continue;
                             }
+                            // apply Event policy
                             if ($eventTicketTypeHidePolicy != -1 && $ticketType->isHiddenByPolicy($eventTicketTypeHidePolicy)) {
-                                // apply Event policy
                                 continue;
                             }
                             // apply global (Settings) policy

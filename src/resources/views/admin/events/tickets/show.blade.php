@@ -123,7 +123,7 @@
                         @php
                             $isGloballyEnabled = ($global_tickettype_hide_policy & (1 << $bit)) !== 0;
                             $isEventWideEnabled = ($event_tickettype_hide_policy & (1 << $bit)) !== 0;
-                            $isEnabled = ($event->tickettype_hide_policy & (1 << $bit)) !== 0;
+                            $isEnabled = ($ticketType->tickettype_hide_policy & (1 << $bit)) !== 0;
                             $isOverriddenEvent = $event->tickettype_hide_policy >= 0;
                             $isOverridden = $ticketType->tickettype_hide_policy >= 0;
                         @endphp
@@ -183,7 +183,6 @@
                     @endfor
                     </tbody>
                 </table>
-                <p><i class="bg-warning">Note:</i> these settings can be overridden by each TicketTypes</p>
             </div>
         </div>
 
