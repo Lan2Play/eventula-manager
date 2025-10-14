@@ -60,12 +60,12 @@
 						<tr>
 							<th>Name</th>
 							<th>Type</th>
-							<th>Ticket group</th>
+							<th class="d-none d-md-table-cell">Ticket group</th>
 							<th>Price</th>
 							<th>Quantity</th>
 							<th>Purchased</th>
-							<th>Purchase Period</th>
-                            <th>Hide policy?</th>
+							<th class="d-none d-md-table-cell">Purchase Period</th>
+                            <th class="d-none d-md-table-cell">Hide policy?</th>
 							<th>Seatable</th>
 							<th></th>
 							<th></th>
@@ -81,7 +81,7 @@
 								<td>
 									{{ $ticketType->type }}
 								</td>
-								<td>
+								<td class="d-none d-md-table-cell">
 									@if ($ticketType->ticketGroup)
 										{{ $ticketType->ticketGroup->name }}
 									@else
@@ -101,7 +101,7 @@
 								<td>
 									{{ $ticketType->tickets()->count() }}
 								</td>
-								<td>
+								<td class="d-none d-md-table-cell">
 
 									@if ($ticketType->sale_start)
                                     Start:
@@ -117,7 +117,7 @@
 										Never
 									@endif
 								</td>
-                                <td>
+                                <td class="d-none d-md-table-cell">
                                     @if ($ticketType->tickettype_hide_policy >= 0)
                                         Custom
                                     @else
@@ -327,63 +327,65 @@
                     {{ Form::close() }}
                     <h4>Current Settings:</h4>
                     <p>Current hide policy value: {{ $event->tickettype_hide_policy }}</p>
-                    <table class="table table-striped table-hover table-responsive">
-                        <thead>
-                        <tr>
-                            <th>Filter Value</th>
-                            <th>Explanation</th>
-                            <th>Global</th>
-                            <th>Y/N</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @for ($bit = 0; $bit <= 3; $bit++)
-                            @php
-                                $isGloballyEnabled = ($global_ticket_hide_policy & (1 << $bit)) !== 0;
-                                $isEnabled = ($event->tickettype_hide_policy & (1 << $bit)) !== 0;
-                                $isOverridden = $event->tickettype_hide_policy >= 0;
-                            @endphp
+                    <div class="dataTable_wrapper table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead>
                             <tr>
-                                <td>{{ pow(2, $bit) }}</td>
-                                <td>
-                                    @if ($bit === 0)
-                                        Hide upcoming tickets
-                                    @elseif ($bit === 1)
-                                        Hide expired tickets
-                                    @elseif ($bit === 2)
-                                        Hide sold out tickets
-                                    @elseif ($bit === 3)
-                                        Hide timeless tickets
-                                    @endif
-                                </td>
-                                <td>
-                                    @if ($isGloballyEnabled)
-                                        @if (!$isOverridden)
-                                            <i class="fa fa-check-circle-o fa-1x" style="color:green"></i>
-                                        @else
-                                            <i class="fa fa-check-circle-o fa-1x" style="color:grey"></i>
+                                <th>Filter Value</th>
+                                <th>Explanation</th>
+                                <th>Global</th>
+                                <th>Y/N</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @for ($bit = 0; $bit <= 3; $bit++)
+                                @php
+                                    $isGloballyEnabled = ($global_ticket_hide_policy & (1 << $bit)) !== 0;
+                                    $isEnabled = ($event->tickettype_hide_policy & (1 << $bit)) !== 0;
+                                    $isOverridden = $event->tickettype_hide_policy >= 0;
+                                @endphp
+                                <tr>
+                                    <td>{{ pow(2, $bit) }}</td>
+                                    <td>
+                                        @if ($bit === 0)
+                                            Hide upcoming tickets
+                                        @elseif ($bit === 1)
+                                            Hide expired tickets
+                                        @elseif ($bit === 2)
+                                            Hide sold out tickets
+                                        @elseif ($bit === 3)
+                                            Hide timeless tickets
                                         @endif
-                                    @else
-                                        @if (!$isOverridden)
+                                    </td>
+                                    <td>
+                                        @if ($isGloballyEnabled)
+                                            @if (!$isOverridden)
+                                                <i class="fa fa-check-circle-o fa-1x" style="color:green"></i>
+                                            @else
+                                                <i class="fa fa-check-circle-o fa-1x" style="color:grey"></i>
+                                            @endif
+                                        @else
+                                            @if (!$isOverridden)
+                                                <i class="fa fa-times-circle-o fa-1x" style="color:red"></i>
+                                            @else
+                                                <i class="fa fa-times-circle-o fa-1x" style="color:grey"></i>
+                                            @endif
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($isOverridden && $isEnabled)
+                                            <i class="fa fa-check-circle-o fa-1x" style="color:green"></i>
+                                        @elseif($isOverridden && !$isEnabled)
                                             <i class="fa fa-times-circle-o fa-1x" style="color:red"></i>
                                         @else
                                             <i class="fa fa-times-circle-o fa-1x" style="color:grey"></i>
                                         @endif
-                                    @endif
-                                </td>
-                                <td>
-                                    @if ($isOverridden && $isEnabled)
-                                        <i class="fa fa-check-circle-o fa-1x" style="color:green"></i>
-                                    @elseif($isOverridden && !$isEnabled)
-                                        <i class="fa fa-times-circle-o fa-1x" style="color:red"></i>
-                                    @else
-                                        <i class="fa fa-times-circle-o fa-1x" style="color:grey"></i>
-                                    @endif
-                                </td>
-                            </tr>
-                        @endfor
-                        </tbody>
-                    </table>
+                                    </td>
+                                </tr>
+                            @endfor
+                            </tbody>
+                        </table>
+                    </div>
                     <p><i class="bg-warning">Note:</i> these settings can be overridden by each TicketTypes</p>
                 </div>
             </div>
