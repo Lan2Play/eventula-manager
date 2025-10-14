@@ -408,8 +408,8 @@
                 const purchaseBreakdownChartCanvas = document.getElementById('purchaseBreakdownChart');
                 const incomeBreakdownChartCanvas = document.getElementById('incomeBreakdownChart');
 
-                const purchaseBreakdownData = @json($purchaseBreakdownData);
-                const incomeBreakdownData = @json($incomeBreakdownData);
+                let purchaseBreakdownData = @json($purchaseBreakdownData);
+                let incomeBreakdownData = @json($incomeBreakdownData);
 
                 // Purchase Breakdown
 
