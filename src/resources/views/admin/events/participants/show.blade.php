@@ -6,15 +6,15 @@
 	<div class="col-lg-12">
 		<h3 class="pb-2 mt-4 mb-4 border-bottom">Events - {{ $event->display_name }} - Participant - {{ $participant->user->username }}</h3>
 		<ol class="breadcrumb">
-			<li class="breadcrumb-item">
-				<a href="/admin/events/">Events</a>
-			</li>
-			<li class="breadcrumb-item">
-				<a href="/admin/events/{{ $event->slug }}">{{ $event->display_name }}</a>
-			</li>
-			<li>
-				<a href="/admin/events/{{ $event->slug }}/participants">Participants</a>
-			</li>
+            <li class="breadcrumb-item">
+                <a href="/admin/events/">Events</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="/admin/events/{{ $event->slug }}">{{ $event->display_name }}</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="/admin/events/{{ $event->slug }}/participants">Participants</a>
+            </li>
 			<li class="breadcrumb-item active">
 				{{ $participant->user->username }}
 			</li>
@@ -22,7 +22,9 @@
 	</div>
 </div>
 
+<div class="d-lg-block collapse d-md-none d-sm-none" id="dashMini">
 @include ('layouts._partials._admin._event.dashMini')
+</div>
 
 @if ($participant->revoked)
 	<div class="alert alert-danger">This participant has been revoked!</div>
@@ -39,7 +41,7 @@
 				@if (!empty($_POST))
 					Successfully Posted
 				@endif
-				<div class="dataTable_wrapper">
+				<div class="dataTable_wrapper table-responsive">
 					<table width="100%" class="table table-striped table-hover" id="seating_table">
 						<thead>
 							<tr>
