@@ -35,8 +35,8 @@
         </th>
         </thead>
         <tbody>
-        @foreach ($event->tickets as $ticket)
-            <tr>
+        @foreach ($event->tickets->unique('user.id') as $ticket)
+        <tr>
                 <td>
                     <img class="img-fluid rounded img-small" style="max-width: 30%;"
                          alt="{{ $ticket->user->username}}'s Avatar"
