@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "159c49f98764abe9c81e7544edfdc3c6",
+    "content-hash": "32bac31ccb9a2990e9f3e39cfe6bebbb",
     "packages": [
         {
             "name": "artesaos/seotools",
@@ -1567,16 +1567,16 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php-lite",
-            "version": "9.0.15",
+            "version": "9.0.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php-lite.git",
-                "reference": "bdb457250790bba0a4f8f03e3a3eceb47805499e"
+                "reference": "e7d67fc9d91529f4eff950b058100fcbefd58dfe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php-lite/zipball/bdb457250790bba0a4f8f03e3a3eceb47805499e",
-                "reference": "bdb457250790bba0a4f8f03e3a3eceb47805499e",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php-lite/zipball/e7d67fc9d91529f4eff950b058100fcbefd58dfe",
+                "reference": "e7d67fc9d91529f4eff950b058100fcbefd58dfe",
                 "shasum": ""
             },
             "require": {
@@ -1641,7 +1641,7 @@
                 "issues": "https://github.com/giggsey/libphonenumber-for-php-lite/issues",
                 "source": "https://github.com/giggsey/libphonenumber-for-php-lite"
             },
-            "time": "2025-09-26T07:21:30+00:00"
+            "time": "2025-10-10T10:54:41+00:00"
         },
         {
             "name": "graham-campbell/result-type",
@@ -5657,16 +5657,16 @@
         },
         {
             "name": "phpseclib/phpseclib",
-            "version": "3.0.46",
+            "version": "3.0.47",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "56483a7de62a6c2a6635e42e93b8a9e25d4f0ec6"
+                "reference": "9d6ca36a6c2dd434765b1071b2644a1c683b385d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/56483a7de62a6c2a6635e42e93b8a9e25d4f0ec6",
-                "reference": "56483a7de62a6c2a6635e42e93b8a9e25d4f0ec6",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/9d6ca36a6c2dd434765b1071b2644a1c683b385d",
+                "reference": "9d6ca36a6c2dd434765b1071b2644a1c683b385d",
                 "shasum": ""
             },
             "require": {
@@ -5747,7 +5747,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phpseclib/phpseclib/issues",
-                "source": "https://github.com/phpseclib/phpseclib/tree/3.0.46"
+                "source": "https://github.com/phpseclib/phpseclib/tree/3.0.47"
             },
             "funding": [
                 {
@@ -5763,7 +5763,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-06-26T16:29:55+00:00"
+            "time": "2025-10-06T01:07:24+00:00"
         },
         {
             "name": "propaganistas/laravel-phone",
@@ -10387,25 +10387,25 @@
         },
         {
             "name": "xpaw/php-source-query-class",
-            "version": "4.0.0",
+            "version": "5.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/xPaw/PHP-Source-Query.git",
-                "reference": "02839815b3281c45b111c8dfdb37d6004d886fe9"
+                "reference": "892d90943decd6f306d958330cca658f20a570fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/xPaw/PHP-Source-Query/zipball/02839815b3281c45b111c8dfdb37d6004d886fe9",
-                "reference": "02839815b3281c45b111c8dfdb37d6004d886fe9",
+                "url": "https://api.github.com/repos/xPaw/PHP-Source-Query/zipball/892d90943decd6f306d958330cca658f20a570fc",
+                "reference": "892d90943decd6f306d958330cca658f20a570fc",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.1"
             },
             "require-dev": {
-                "phpstan/phpstan": "^1.10",
-                "phpunit/phpunit": "^10.3",
-                "vimeo/psalm": "^5.15"
+                "phpstan/phpstan": "^2.0",
+                "phpstan/phpstan-strict-rules": "^2.0",
+                "phpunit/phpunit": "^10.3"
             },
             "type": "library",
             "autoload": {
@@ -10431,9 +10431,9 @@
                 "team fortress"
             ],
             "support": {
-                "source": "https://github.com/xPaw/PHP-Source-Query/tree/4.0.0"
+                "source": "https://github.com/xPaw/PHP-Source-Query/tree/5.0.0"
             },
-            "time": "2024-08-04T08:10:16+00:00"
+            "time": "2025-09-28T16:54:22+00:00"
         }
     ],
     "packages-dev": [
