@@ -20,7 +20,7 @@ class TicketTypeController extends Controller
     /**
      * Show Tickets Index Page
      * @param  Event  $event
-     * @return View
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\View\View
      */
     public function index(Event $event)
     {
@@ -48,14 +48,14 @@ class TicketTypeController extends Controller
         $purchaseBreakDown = $event->ticketTypes()->withCount('tickets')->get()->map(function ($ticketType) {
             return [
                 'name' => $ticketType->name,
-                'count' => $ticketType->participants_count,
+                'count' => $ticketType->tickets_count,
             ];
         })->toArray();
 
         $incomeBreakDown = $event->ticketTypes()->withCount('tickets')->get()->map(function ($ticketType) {
             return [
                 'name' => $ticketType->name,
-                'income' => $ticketType->price * $ticketType->participants_count,
+                'income' => $ticketType->price * $ticketType->tickets_count,
             ];
         })->toArray();
 
