@@ -35,20 +35,18 @@
                 <div class="float-end">
                     {{ Form::open(['url'=>'/admin/events/' . $event->slug . '/participants', 'method'=>'GET',
                     'class'=>'d-inline-block me-3']) }}
-                    <select name="signed_in" class="form-select form-select-sm d-inline-block w-auto">
-                        <option value="">Sign In Status</option>
-                        <option value="1" {{ request(
-                        'signed_in') == '1' ? 'selected' : '' }}>Signed In</option>
-                        <option value="0" {{ request(
-                        'signed_in') == '0' ? 'selected' : '' }}>Not Signed In</option>
-                    </select>
                     <select name="payment" class="form-select form-select-sm d-inline-block w-auto me-2">
-                        <option value="">Payment Status</option>
-                        <option value="paid" {{ request(
-                        'payment') == 'paid' ? 'selected' : '' }}>Paid</option>
+                        <option value="">-</option>
+                        <option value="success" {{ request(
+                        'payment') == 'success' ? 'selected' : '' }}>Paid</option>
                         <option value="free" {{ request(
                         'payment') == 'free' ? 'selected' : '' }}>Free/Staff/Gift</option>
+                        <option value="unpaid" {{ request(
+                        'payment') == 'unpaid' ? 'selected' : '' }}>Open</option>
                     </select>
+                    @if(request()->has('page'))
+                    <input type="hidden" name="page" value="{{ request('page') }}">
+                    @endif
                     <button type="submit" class="btn btn-secondary btn-sm">Filter</button>
                     {{ Form::close() }}
 
@@ -73,8 +71,7 @@
 								<th class="d-none d-md-table-cell">Ticket Type</th>
 								<th class="d-none d-md-table-cell">Paypal Email</th>
 								<th>Free/Staff/Gift</th>
-								<th class="d-none d-md-table-cell">Signed in</th>
-								<th></th>
+								<th>Actions</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -136,13 +133,6 @@
 									<strong>No</strong>
                                     @endif
 								</td>
-								<td class="d-none d-md-table-cell">
-									@if ($participant->signed_in)
-									Yes
-									@else
-									No
-									@endif
-								</td>
                                 <td class="d-none d-md-table-cell">
 									<a href="/admin/events/{{ $event->slug }}/participants/{{ $participant->id }}">
 										<button type="button" class="btn btn-primary btn-sm btn-block">View</button>
@@ -167,8 +157,8 @@
 							@endforeach
 						</tbody>
 					</table>
-					{{ $participants->links() }}
-				</div>
+                    {{ $participants->appends(['payment' => request('payment')])->links() }}
+                </div>
 			</div>
 		</div>
 
