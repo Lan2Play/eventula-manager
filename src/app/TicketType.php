@@ -69,7 +69,9 @@ class TicketType extends Model
     }
     public function isSoldOut(): bool
     {
-        return !$this->tickets()->where('revoked', 0)->count() <= $this->quantity;
+        if ($this->quantity == 0)
+            return false;
+        return $this->tickets()->where('revoked', 0)->count() >= $this->quantity;
     }
 
     public function isHiddenByPolicy(int $policy):bool {

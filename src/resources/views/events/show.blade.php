@@ -126,20 +126,19 @@
                     $sortedTicketTypes = $event->ticketTypes->sortBy('event_ticket_group_id');
                     @endphp
 					@foreach ($sortedTicketTypes as $ticketType)
-                        @php
-                            $ticketTypeHidePolicy = $ticketType->tickettype_hide_policy;
-                            // apply TicketType policy
-                            if ($ticketTypeHidePolicy != -1 && $ticketType->isHiddenByPolicy($ticketTypeHidePolicy)) {
-                                continue;
-                            }
-                            // apply Event policy
-                            if ($eventTicketTypeHidePolicy != -1 && $ticketType->isHiddenByPolicy($eventTicketTypeHidePolicy)) {
-                                continue;
-                            }
-                            // apply global (Settings) policy
-                            if($ticketType->isHiddenByPolicy($globalTicketTypeHidePolicy)) {
-                                continue;
-                            }
+                    @php
+                    $ticketTypeHidePolicy = $ticketType->tickettype_hide_policy;
+                    $effectivePolicy = -1;
+                    if ($ticketTypeHidePolicy != -1) {
+                        $effectivePolicy = $ticketTypeHidePolicy;
+                    } elseif ($eventTicketTypeHidePolicy != -1) {
+                        $effectivePolicy = $eventTicketTypeHidePolicy;
+                    } else {
+                        $effectivePolicy = $globalTicketTypeHidePolicy;
+                    }
+                    if ($ticketType->isHiddenByPolicy($effectivePolicy)) {
+                        continue;
+                    }
                         @endphp
 						<div class="col-12 col-sm-4">
 							<div class="card mb-3" disabled>
