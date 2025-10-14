@@ -78,12 +78,19 @@ in_array('PREVIEW', $event->seatingPlans->pluck('status')->toArray())
                     <p class="text-center"><strong> @lang('events.seatingplanlocked')</strong></p>
                     @endif
                 </div>
+                <div class="col-12">
+                    <a class="collapsed text-decoration-none d-block" role="button" data-bs-toggle="collapse"
+                       href="#image_{{ $seatingPlan->slug }}" aria-expanded="false">
+                        <h5 class="mb-2">@lang('events.seatingplanimage')</h5>
+                    </a>
+                    <div class="collapse" id="image_{{ $seatingPlan->slug }}">
+                        <img class="img-fluid w-100" alt="{{ $seatingPlan->name }}" src="{{$seatingPlan->image_path}}"/>
+                    </div>
+                </div>
             </div>
             <div class="card-footer">
                 <div class="row" style="display: flex; align-items: center;">
-                    <div class="col-6 col-md-2">
-                        <img class="img-fluid" alt="{{ $seatingPlan->name }}" src="{{$seatingPlan->image_path}}" />
-                    </div>
+
                     <div class="col-6 col-md-6">
                         @if ($user && !$user->getAllTickets($event->id)->isEmpty() && $user->hasManagedTickets($event->id))
                         <h5>@lang('events.yourmanagedseats')</h5>

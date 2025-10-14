@@ -128,4 +128,5 @@ return [
     'savetocalendar' => 'In Kalender speichern',
     'ticketgroup' => 'Ticketgruppe: :ticketgroup',
     'activity' => 'Aktivität',
+    'seatingplanimage' => 'Bild vom Sitzplan',
 ];

@@ -131,5 +131,6 @@ return [
     'time_suffix' => '',
     'savetocalendar' => 'Save to Calendar',
     'event' => 'Event',
-    'activity' => 'Activity'
+    'activity' => 'Activity',
+    'seatingplanimage' => 'Seating Plan Image',
 ];
