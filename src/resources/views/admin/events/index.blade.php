@@ -53,7 +53,7 @@
                                     </td>
 									<td width="15%">
                                         <div class="d-flex flex-column flex-sm-row gap-2">
-                                            <a href="/admin/events/{{ $event->slug }}"><button type="button" class="btn btn-primary btn-sm btn-block">Edit</button></a>
+                                            <a href="/admin/events/{{ $event->slug }}"><button type="button" class="btn btn-primary btn-sm btn-block">View</button></a>
 										{{ Form::open(array('url'=>'/admin/events/' . $event->slug, 'onsubmit' => 'return ConfirmDelete()')) }}
 											{{ Form::hidden('_method', 'DELETE') }}
 											<button type="submit" class="btn btn-danger btn-sm btn-block">Delete</button>
