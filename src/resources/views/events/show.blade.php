@@ -42,7 +42,7 @@
 																								  href="#seating">@lang('events.seating')</a>
 								</li>
 							@endif
-							@if (!$event->private_participants || ($user && !$user->getAllTickets($event->id)->isEmpty()) )
+							@if (!$event->private_participants || ($user && isset($userTickets) && !$userTickets->isEmpty()) )
 								<li class="nav-item" style="font-size:15px; font-weight:bold;"><a class="nav-link"
 																								  href="#attendees">@lang('events.attendees')</a>
 								</li>
@@ -210,7 +210,7 @@
 			@endif
 		</div>
 
-		@include ('layouts._partials._events.seating')
+        @include ('layouts._partials._events.seating')
 
 
 		<!-- VENUE INFORMATION -->

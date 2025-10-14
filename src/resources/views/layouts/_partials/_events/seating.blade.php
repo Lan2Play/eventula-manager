@@ -6,18 +6,59 @@ in_array('PUBLISHED', $event->seatingPlans->pluck('status')->toArray()) ||
 in_array('PREVIEW', $event->seatingPlans->pluck('status')->toArray())
 )
 )
+@php
+// Pre-calculate seating statistics using eager-loaded data
+$totalSeatingCapacity = 0;
+$totalSeated = 0;
+foreach ($event->seatingPlans as $plan) {
+    $totalSeatingCapacity += ($plan->columns * $plan->rows) - $plan->seats->where('status', 'INACTIVE')->count();
+    $totalSeated += $plan->seats->where('status', 'ACTIVE')->count();
+}
+
+// Check if user has a seatable ticket - using prefetched userTickets
+$userHasSeatableTicket = false;
+if (Auth::user() && isset($userTickets)) {
+    foreach ($userTickets as $ticket) {
+        if ($ticket->staff || $ticket->free || ($ticket->ticketType && $ticket->ticketType->seatable)) {
+            $userHasSeatableTicket = true;
+            break;
+        }
+    }
+}
+
+// Filter tickets into managed and user tickets
+$managedTickets = isset($userTickets) ? $userTickets->where('manager_id', Auth::id())->filter(function($ticket) {
+    return $ticket->staff || $ticket->free || ($ticket->ticketType && $ticket->ticketType->seatable);
+}) : collect();
+
+$userOwnTickets = isset($userTickets) ? $userTickets->where('user_id', Auth::id())->filter(function($ticket) {
+    return $ticket->staff || $ticket->free || ($ticket->ticketType && $ticket->ticketType->seatable);
+}) : collect();
+@endphp
 <div class="pb-2 mt-4 mb-4 border-bottom">
     <a name="seating"></a>
-    <h3><i class="fas fa-chair me-3"></i>@lang('events.seatingplans') <small>- {{ $event->getSeatingCapacity() - $event->getSeatedCount() }} / {{ $event->getSeatingCapacity() }} @lang('events.seatsremaining')</small></h3>
+    <h3><i class="fas fa-chair me-3"></i>@lang('events.seatingplans') <small>- {{ $totalSeatingCapacity - $totalSeated }} / {{ $totalSeatingCapacity }} @lang('events.seatsremaining')</small></h3>
 </div>
 <div class="card-group" id="accordion" role="tablist" aria-multiselectable="true">
     @foreach ($event->seatingPlans as $seatingPlan)
     @if ($seatingPlan->status != 'DRAFT')
+    @php
+    // Create seat lookup map for this seating plan - using eager-loaded seats
+    $seatMap = [];
+    foreach ($seatingPlan->seats as $seat) {
+        $key = $seat->column . '_' . $seat->row;
+        $seatMap[$key] = $seat;
+    }
+    
+    // Calculate capacity for this plan
+    $planCapacity = ($seatingPlan->columns * $seatingPlan->rows) - $seatingPlan->seats->where('status', 'INACTIVE')->count();
+    $planSeated = $seatingPlan->seats->where('status', 'ACTIVE')->count();
+    @endphp
     <div class="card mb-3">
         <a class="collapsed" role="button" data-bs-toggle="collapse" data-parent="#accordion" href="#collapse_{{ $seatingPlan->slug }}" aria-expanded="true" aria-controls="collapse_{{ $seatingPlan->slug }}">
             <div class="card-header  bg-success-light" role="tab" id="headingOne">
                 <h4 class="card-title m-0">
-                    {{ $seatingPlan->name }} <small>- {{ $seatingPlan->getSeatingCapacity() - $seatingPlan->getSeatedCount() }} / {{ $seatingPlan->getSeatingCapacity() }} @lang('events.available')</small>
+                    {{ $seatingPlan->name }} <small>- {{ $planCapacity - $planSeated }} / {{ $planCapacity }} @lang('events.available')</small>
                     @if ($seatingPlan->status != 'PUBLISHED')
                     <small> - {{ $seatingPlan->status }}</small>
                     @endif
@@ -30,22 +71,26 @@ in_array('PREVIEW', $event->seatingPlans->pluck('status')->toArray())
                     <table class="table">
 
                         <tbody>
-                            @for ($row = 1; $row <= $seatingPlan->rows; $row++)
+                        @php
+                        $rows = $seatingPlan->rows
+                        @endphp
+                            @for ($row = 1; $row <= $rows; $row++)
                                 <tr>
                                     <td>
                                         <h4><strong>{{ Helpers::getLatinAlphabetUpperLetterByIndex($row) }}</strong></h4>
                                     </td>
-                                @for ($column = 1; $column <= $seatingPlan->columns; $column++)
+                                    @php
+                                    $columns = $seatingPlan->columns
+                                    @endphp
+                                @for ($column = 1; $column <= $columns; $column++)
 
                                     <td style="padding-top:14px;">
                                         @php
-                                        $seat = $event->getSeat($seatingPlan->id, $column, $row);
+                                        // Use pre-fetched seat from map instead of querying database
+                                        $seatKey = $column . '_' . $row;
+                                        $seat = isset($seatMap[$seatKey]) ? $seatMap[$seatKey] : null;
                                         $seatLabel = Helpers::getLatinAlphabetUpperLetterByIndex($row) . $column;
-                                        $ticket = $event->getTicket();
-                                        $canPickSeat = Auth::user()
-                                        && $ticket
-                                        && ($ticket->staff || $ticket->free || ($ticket->ticketType &&
-                                        $ticket->ticketType->seatable));
+                                        $canPickSeat = Auth::user() && $userHasSeatableTicket;
                                         @endphp
 
                                         @if ($seat && $seat->status == 'ACTIVE')
@@ -92,9 +137,9 @@ in_array('PREVIEW', $event->seatingPlans->pluck('status')->toArray())
                 <div class="row" style="display: flex; align-items: center;">
 
                     <div class="col-6 col-md-6">
-                        @if ($user && !$user->getAllTickets($event->id)->isEmpty() && $user->hasManagedTickets($event->id))
+                        @if ($user && !$managedTickets->isEmpty())
                         <h5>@lang('events.yourmanagedseats')</h5>
-                        @foreach ($user->getAllTickets($event->id, false, true) as $managedTicket)
+                        @foreach ($managedTickets as $managedTicket)
                         @if ($managedTicket->seat && $managedTicket->seat->event_seating_plan_id == $seatingPlan->id)
                         {{ Form::open(array('url'=>'/events/' . $event->slug . '/seating/' . $seatingPlan->slug)) }}
                         {{ Form::hidden('_method', 'DELETE') }}
@@ -113,7 +158,7 @@ in_array('PREVIEW', $event->seatingPlans->pluck('status')->toArray())
                         {{ Form::close() }}
                         @endif
                         @endforeach
-                        @elseif($user && !$user->hasManagedTickets($event->id))
+                        @elseif($user && $managedTickets->isEmpty() && isset($userTickets) && !$userTickets->isEmpty())
                         <div class="alert alert-info">
                             <h5>@lang('events.noseatableticket')</h5>
                         </div>
@@ -128,9 +173,9 @@ in_array('PREVIEW', $event->seatingPlans->pluck('status')->toArray())
                         @endif
                     </div>
                     <div class="col-6 col-md-2">
-                        @if ($user && !$user->getAllTickets($event->id)->isEmpty() && $user->hasSeatableTicket($event->id))
+                        @if ($user && !$userOwnTickets->isEmpty())
                         <h5>@lang('events.yourseats')</h5>
-                        @foreach ($user->getAllTickets($event->id, false, false, true) as $ticket)
+                        @foreach ($userOwnTickets as $ticket)
                         @if ($ticket->seat && $ticket->seat->event_seating_plan_id == $seatingPlan->id)
                         {{ Form::open(array('url'=>'/events/' . $event->slug . '/seating/' . $seatingPlan->slug)) }}
                         {{ Form::hidden('_method', 'DELETE') }}
@@ -149,7 +194,7 @@ in_array('PREVIEW', $event->seatingPlans->pluck('status')->toArray())
                         {{ Form::close() }}
                         @endif
                         @endforeach
-                        @elseif($user && !$user->hasSeatableTicket($event->id))
+                        @elseif($user && $userOwnTickets->isEmpty() && isset($userTickets) && !$userTickets->isEmpty())
                         <div class="alert alert-info">
                             <h5>@lang('events.noseatableticket')</h5>
                         </div>
@@ -185,21 +230,23 @@ in_array('PREVIEW', $event->seatingPlans->pluck('status')->toArray())
 			<div class="modal-body">
 				<div class="mb-3">
 					<h4>@lang('events.wichtickettoseat')</h4>
-                    {{-- Debug: Show raw ticket data --}}
+                    {{-- Use prefetched userTickets to avoid additional queries --}}
                     @php
                     $ticketOptions = [];
-                    foreach($user->getAllTickets($event->id) as $ticket) {
-                    $ticketName = '';
-                    if ($ticket->ticketType) {
-                    $ticketName = $ticket->ticketType->name;
-                    } elseif ($ticket->staff) {
-                    $ticketName = 'Staff Ticket';
-                    } elseif ($ticket->free) {
-                    $ticketName = 'Free Ticket';
-                    } else {
-                    $ticketName = 'Unknown Ticket';
-                    }
-                    $ticketOptions[$ticket->id] = $ticketName . ' (ID: ' . $ticket->id . ')';
+                    if (isset($userTickets)) {
+                        foreach($userTickets as $ticket) {
+                            $ticketName = '';
+                            if ($ticket->ticketType) {
+                                $ticketName = $ticket->ticketType->name;
+                            } elseif ($ticket->staff) {
+                                $ticketName = 'Staff Ticket';
+                            } elseif ($ticket->free) {
+                                $ticketName = 'Free Ticket';
+                            } else {
+                                $ticketName = 'Unknown Ticket';
+                            }
+                            $ticketOptions[$ticket->id] = $ticketName . ' (ID: ' . $ticket->id . ')';
+                        }
                     }
                     @endphp
 
