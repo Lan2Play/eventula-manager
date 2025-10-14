@@ -84,7 +84,9 @@ class EventsController extends Controller
 
         // Eager load seating plans with all necessary relationships to avoid N+1 queries
         $event->load([
-            'seatingPlans.seats.eventTicket.user'
+            'seatingPlans.seats.eventTicket.user',
+            'tickets.user',
+            'tickets.seat.seatingPlan'
         ]);
 
         // Prefetch user tickets with relationships if user is logged in
