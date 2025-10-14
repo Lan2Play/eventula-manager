@@ -1,5 +1,20 @@
 {{-- ATTENDEES PARTIAL --}}
 @if (!$event->private_participants || ($user && isset($userTickets) && !$userTickets->isEmpty()))
+    @php
+    // Pre-calculate which users have seatable tickets to avoid nested loops
+    $usersWithSeatableTickets = [];
+    if (isset($event->tickets)) {
+        foreach ($event->tickets as $ticket) {
+            if (!isset($usersWithSeatableTickets[$ticket->user_id])) {
+                $usersWithSeatableTickets[$ticket->user_id] = false;
+            }
+            // Check if this ticket is seatable
+            if ($ticket->staff || $ticket->free || ($ticket->ticketType && $ticket->ticketType->seatable)) {
+                $usersWithSeatableTickets[$ticket->user_id] = true;
+            }
+        }
+    }
+    @endphp
     <!-- ATTENDEES -->
     <div class="pb-2 mt-4 mb-4 border-bottom">
         <a name="attendees"></a>
@@ -46,19 +61,8 @@
                             @lang('events.seatingplannotaccessable')
                         @endif
                     @else
-                        {{-- Check if user has a seatable ticket --}}
-                        @php
-                        $hasSeatable = false;
-                        if (isset($userTickets)) {
-                            foreach ($userTickets as $ut) {
-                                if ($ut->user_id == $ticket->user_id && ($ut->staff || $ut->free || ($ut->ticketType && $ut->ticketType->seatable))) {
-                                    $hasSeatable = true;
-                                    break;
-                                }
-                            }
-                        }
-                        @endphp
-                        @if ($hasSeatable)
+                        {{-- Use pre-calculated seatable ticket information --}}
+                        @if (isset($usersWithSeatableTickets[$ticket->user_id]) && $usersWithSeatableTickets[$ticket->user_id])
                             @lang('events.notseated')
                         @else
                             @lang('events.noseatableticketlist')

@@ -111,10 +111,21 @@
 				</div>
 				<div class="row card-deck">
                     @php
+                    // Cache currency symbol to avoid repeated database calls
+                    $currencySymbol = Settings::getCurrencySymbol();
                     $globalTicketTypeHidePolicy = Settings::getGlobalTicketTypeHidePolicy();
                     $eventTicketTypeHidePolicy = $event->tickettype_hide_policy;
+                    
+                    // Pre-calculate ticket counts for each ticket type to avoid N+1 queries
+                    $ticketTypeCounts = [];
+                    foreach ($event->ticketTypes as $tt) {
+                        $ticketTypeCounts[$tt->id] = $tt->tickets->count();
+                    }
+                    
+                    // Use eager-loaded ticketTypes and sort in memory instead of new query
+                    $sortedTicketTypes = $event->ticketTypes->sortBy('event_ticket_group_id');
                     @endphp
-					@foreach ($event->ticketTypes()->orderBy('event_ticket_group_id')->get() as $ticketType)
+					@foreach ($sortedTicketTypes as $ticketType)
                         @php
                             $ticketTypeHidePolicy = $ticketType->tickettype_hide_policy;
                             // apply TicketType policy
@@ -146,10 +157,10 @@
 									@endif
 									<div class="row mt-auto">
 										<div class="col-sm-12 col-12">
-											<h3>{{ Settings::getCurrencySymbol() }}{{$ticketType->price}}
+											<h3>{{ $currencySymbol }}{{$ticketType->price}}
 												@if ($ticketType->quantity != 0)
 													<small>
-														{{ $ticketType->quantity - $ticketType->tickets()->count() }}
+														{{ $ticketType->quantity - $ticketTypeCounts[$ticketType->id] }}
 														/{{ $ticketType->quantity }} @lang('events.available')
 													</small>
 												@endif
@@ -158,7 +169,7 @@
 												{{ Form::open(array('url'=>'/tickets/purchase/' . $ticketType->id)) }}
 												@if (
                                                 $event->capacity <= $event->tickets->count()
-                                                    || ($ticketType->tickets()->count() >= $ticketType->quantity && $ticketType->quantity != 0)
+                                                    || ($ticketTypeCounts[$ticketType->id] >= $ticketType->quantity && $ticketType->quantity != 0)
                                                     )
 													<div class="row">
 														<div class="mb-3 col-sm-6 col-12">
@@ -184,7 +195,7 @@
 													<div class="row">
 														<div class="mb-3 col-sm-6 col-12 ">
 															{{ Form::label('quantity','Quantity',array('id'=>'','class'=>'')) }}
-															{{ Form::select('quantity', Helpers::getTicketQuantitySelection($ticketType, $ticketType->quantity - $ticketType->tickets()->count()), null, array('id'=>'quantity','class'=>'form-control')) }}
+															{{ Form::select('quantity', Helpers::getTicketQuantitySelection($ticketType, $ticketType->quantity - $ticketTypeCounts[$ticketType->id]), null, array('id'=>'quantity','class'=>'form-control')) }}
 														</div>
 														<div class="mb-3 col-sm-6 col-12 d-flex">
 															{{ Form::hidden('user_id', $user->id, array('id'=>'user_id','class'=>'form-control')) }}

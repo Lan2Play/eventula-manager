@@ -86,7 +86,9 @@ class EventsController extends Controller
         $event->load([
             'seatingPlans.seats.eventTicket.user',
             'tickets.user',
-            'tickets.seat.seatingPlan'
+            'tickets.seat.seatingPlan',
+            'ticketTypes.tickets',
+            'ticketTypes.ticketGroup'
         ]);
 
         // Prefetch user tickets with relationships if user is logged in
