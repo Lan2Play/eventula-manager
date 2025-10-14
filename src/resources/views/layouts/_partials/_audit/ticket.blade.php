@@ -27,6 +27,7 @@
 <p>@lang('audit.no_logs_available')</p>
 @else
 <h5>@lang('audits.audit_log')</h5>
+<div  class="table-responsive">
 <table class="table table-striped table-bordered">
     <thead>
     <tr>
@@ -70,4 +71,5 @@
     @endforeach
     </tbody>
 </table>
+</div>
 @endif

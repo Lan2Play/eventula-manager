@@ -20,11 +20,43 @@ class TicketController extends Controller
      * @param  Event  $event
      * @return View
      */
-    public function index(Event $event)
+    public function index(Event $event, Request $request)
     {
+        $query = $event->allEventTickets();
+
+        // Filter by payment status
+        $paymentFilter = $request->input('payment');
+        
+        if ($paymentFilter === 'success') {
+            // Paid tickets: has purchase with SUCCESS status
+            $query->whereHas('purchase', function ($q) {
+                $q->where('status', \App\Purchase::STATUS_SUCCESS);
+            });
+        } elseif ($paymentFilter === 'free') {
+            // Free/Staff/Gift tickets
+            $query->where(function ($q) {
+                $q->where('free', true)
+                  ->orWhere('staff', true)
+                  ->orWhere('gift', true);
+            });
+        } elseif ($paymentFilter === 'unpaid') {
+            // Unpaid tickets: has purchase but not SUCCESS, or has no purchase and is not free/staff/gift
+            $query->where(function ($q) {
+                $q->whereHas('purchase', function ($subQ) {
+                    $subQ->where('status', '!=', \App\Purchase::STATUS_SUCCESS);
+                })
+                ->orWhere(function ($subQ) {
+                    $subQ->whereDoesntHave('purchase')
+                         ->where('free', false)
+                         ->where('staff', false)
+                         ->where('gift', false);
+                });
+            });
+        }
+
         return view('admin.events.participants.index')
             ->with('event', $event)
-            ->with('participants', $event->allEventTickets()->paginate(20));
+            ->with('participants', $query->paginate(20));
     }
 
     /**
@@ -91,13 +123,13 @@ class TicketController extends Controller
             Session::flash('alert-danger', 'The selected participant does not belong to the selected event!');
             return Redirect::to('admin/events/' . $event->slug . '/participants/');
         }
-        if ($ticket->ticket && $ticket->purchase->status != "Success") {
-            Session::flash('alert-danger', 'Cannot sign in Participant because the payment is not completed!');
-            return Redirect::to('admin/events/' . $event->slug . '/participants/' . $ticket->id);
-        }
         if ($ticket->revoked) {
             Session::flash('alert-danger', 'Cannot sign in a revoked Participant!');
             return Redirect::to('admin/events/' . $event->slug . '/participants/' . $ticket->id);
+        }
+        if ($ticket->purchase && $ticket->purchase->status != \App\Purchase::STATUS_SUCCESS) {
+            Session::flash('alert-danger', 'Cannot sign in a Participant that has not paid!');
+            return Redirect::to('admin/purchases/' . $ticket->purchase->id);
         }
         if (!$ticket->setSignIn()) {
             Session::flash('alert-danger', 'Cannot sign in Participant!');

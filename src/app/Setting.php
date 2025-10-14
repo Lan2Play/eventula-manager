@@ -24,6 +24,7 @@ class Setting extends Model
     protected $fillable = [
         'setting',
         'value',
+        'description',
         'default',
     ];
 
@@ -1553,6 +1554,43 @@ class Setting extends Model
         return true;
     }
 
+    /**
+     * TicketType_hide_policy Global Settings
+     * @param int $value 4 bit integer value
+     */
+    public static function setGlobalTicketTypeHidePolicy(int $value) {
+        $setting = self::where('setting', 'tickettype_hide_policy')->first();
+        $setting->value = (string)$value;
+        return $setting->save();
+    }
 
+    public static function getGlobalTicketTypeHidePolicy(): int
+    {
+        return (int)self::where('setting', 'tickettype_hide_policy')->first()->value;
+    }
 
+    /**
+     * Create or update a setting row idempotently.
+     * Useful in migrations when adding a new default setting.
+     *
+     * @param string $key
+     * @param mixed $value
+     * @param string|null $description
+     * @param bool $isDefault
+     * @return bool
+     */
+    public static function upsertSetting(string $key, $value, ?string $description = null, bool $isDefault = false): bool
+    {
+        $row = self::where('setting', $key)->first();
+        if (!$row) {
+            $row = new self();
+            $row->setting = $key;
+        }
+        $row->value = $value;
+        if (!is_null($description)) {
+            $row->description = $description;
+        }
+        $row->default = $isDefault;
+        return $row->save();
+    }
 }

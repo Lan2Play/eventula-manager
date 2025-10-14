@@ -1,6 +1,9 @@
-<div class="sidebar col-md-3 col-lg-2 p-0">
-	<div class="offcanvas-md offcanvas-start" id="sidebarMenu">
-
+<div class="offcanvas-md offcanvas-start sidebar col-md-3 col-lg-2 p-0" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel" data-bs-scroll="false" style="top: 48px; min-height: calc(100vh - 48px);">
+	<div class="offcanvas-header d-md-none">
+		<h5 class="offcanvas-title text-light" id="sidebarMenuLabel">Admin Navigation</h5>
+		<button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" data-bs-target="#sidebarMenu" aria-label="Close"></button>
+	</div>
+	<div class="offcanvas-body p-0">
 		<ul class="navbar-nav side-nav ps-2">
 				<li class="nav-item {{ Request::is('admin') ? 'active' : '' }}"> <a class="nav-link" href="/admin"><i
 							class="fa fa-dashboard fa-fw"></i> Dashboard</a>
@@ -67,6 +70,6 @@
 						Orders (Beta)</a>
 				</li>
 				@endif
-		</ul>
-	</div>
-</div>
+ 		</ul>
+ 	</div>
+ </div>

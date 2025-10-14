@@ -57,9 +57,9 @@ class EventsController extends Controller
             'desc_short'    => 'required',
             'desc_long'     => 'required',
             'end_date'      => 'required|date_format:m/d/Y',
-            'end_time'      => 'required|date_format:H:i',
+            'end_time'      => 'required|date_format:H:i,G:i',
             'start_date'    => 'required|date_format:m/d/Y',
-            'start_time'    => 'required|date_format:H:i',
+            'start_time'    => 'required|date_format:H:i,G:i',
             'capacity'      => 'required|integer',
             'venue'         => 'exists:event_venues,id',
         ];
@@ -70,9 +70,9 @@ class EventsController extends Controller
             'end_date.required'         => 'End date is required',
             'end_time.required'         => 'End date is required',
             'end_date.date_format'      => 'End Date must be m/d/Y format',
-            'end_time.date_format'      => 'End Time must be H:i format',
+            'end_time.date_format'      => 'End Time must be H:i or G:i format (e.g., 07:00 or 7:00)',
             'start_date.date_format'    => 'Start Date must be m/d/Y format',
-            'start_time.date_format'    => 'Start Time must be H:i format',
+            'start_time.date_format'    => 'Start Time must be H:i or G:i format (e.g., 07:00 or 7:00)',
             'desc_short.required'       => 'Short Description is required',
             'desc_long.required'        => 'Long Description is required',
             'capacity.required'         => 'Capacity is required',
@@ -99,6 +99,7 @@ class EventsController extends Controller
         $event->matchmaking_enabled         = (bool)$request->matchmaking_enabled;
         $event->tournaments_freebies        = (bool)$request->tournaments_freebies;
         $event->tournaments_staff           = (bool)$request->tournaments_staff;
+        $event->ticket_hide_policy          = (int)$request->ticket_hide_policy;
         if (!$event->save()) {
             Session::flash('alert-danger', 'Cannot Save Event!');
             return Redirect::to('admin/events/' . $event->slug);
@@ -121,9 +122,9 @@ class EventsController extends Controller
         $rules = [
             'event_name'        => 'filled',
             'end_date'          => 'filled|date_format:m/d/Y',
-            'end_time'          => 'filled|date_format:H:i',
+            'end_time'          => 'filled|date_format:H:i,G:i',
             'start_date'        => 'filled|date_format:m/d/Y',
-            'start_time'        => 'filled|date_format:H:i',
+            'start_time'        => 'filled|date_format:H:i,G:i',
             'status'            => 'in:draft,preview,published,private,registeredonly',
             'capacity'          => 'filled|integer',
             'venue'             => 'exists:event_venues,id',
@@ -133,11 +134,11 @@ class EventsController extends Controller
             'end_date.filled'           => 'A End Date cannot be empty',
             'end_date.date_format'      => 'A End Date must be m/d/Y format',
             'end_time.filled'           => 'A End Time cannot be empty',
-            'end_time.date_format'      => 'A End Time must be H:i formate',
+            'end_time.date_format'      => 'A End Time must be H:i or G:i format (e.g., 07:00 or 7:00)',
             'start_date.filled'         => 'A Start Date cannot be empty',
-            'end_date.date_format'      => 'A Start Date must be m/d/Y format',
+            'start_date.date_format'    => 'A Start Date must be m/d/Y format',
             'start_time.filled'         => 'A Start Time cannot be empty',
-            'end_time.date_format'      => 'A Start Time must be H:i format',
+            'start_time.date_format'    => 'A Start Time must be H:i or G:i format (e.g., 07:00 or 7:00)',
             'status.in'                 => 'Status must be draft, preview, published or private',
             'capacity.filled'           => 'Capacity is required',
             'capacity.integer'          => 'Capacity must be a integer',
@@ -203,6 +204,10 @@ class EventsController extends Controller
 
         if (isset($request->venue)) {
             $event->event_venue_id              = @$request->venue;
+        }
+
+        if (isset($request->ticket_hide_policy)) {
+            $event->ticket_hide_policy = $request->ticket_hide_policy;
         }
 
         if (!$event->save()) {
@@ -313,5 +318,26 @@ class EventsController extends Controller
 
         Session::flash('alert-success', 'Successfully added Staff!');
         return Redirect::to('admin/events/' . $event->slug . '/tickets');
+    }
+
+    /**
+     * Seperate method for updating the ticket hide policy because this is not called from the event show page.
+     * @param Event $event to update the ticket Policy for
+     * @param Request $request containing the ticket_hide_policy to set
+     * @return RedirectResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function updateTicketHidePolicy(Event $event, Request $request) {
+        $rules = [
+            'ticket_hide_policy' => 'required|integer|min:-1|max:15'
+        ];
+
+        $this->validate($request, $rules);
+
+        $event->tickettype_hide_policy = $request->ticket_hide_policy;
+        if (!$event->save()) {
+            Session::flash('alert-danger', 'Cannot update Ticket Hide Policy!');
+        }
+        return Redirect::back();
     }
 }

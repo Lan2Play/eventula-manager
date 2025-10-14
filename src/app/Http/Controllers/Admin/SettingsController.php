@@ -45,7 +45,8 @@ class SettingsController extends Controller
             ->with('isMatchMakingEnabled', Settings::isMatchMakingEnabled())
             ->with('isCreditEnabled', Settings::isCreditEnabled())
             ->with('supportedLoginMethods', Settings::getSupportedLoginMethods())
-            ->with('activeLoginMethods', Settings::getLoginMethods());
+            ->with('activeLoginMethods', Settings::getLoginMethods())
+            ->with('ticket_hide_policy', Settings::getGlobalTicketTypeHidePolicy());
     }
 
     /**
@@ -189,7 +190,7 @@ class SettingsController extends Controller
             'tournament_third'            => 'filled|integer',
             'registration_event'        => 'filled|integer',
             'registration_site'            => 'filled|integer',
-            'shop_status'               => 'in:OPEN,CLOSED',
+            'shop_status'               => 'in:OPEN,CLOSED'
         ];
         $messages = [
             'publicuse.in'                      => 'Publicuse must be true or false',
@@ -845,6 +846,25 @@ class SettingsController extends Controller
 
 
         Session::flash('alert-success', "Successfully Saved General Authentication Settings!");
+        return Redirect::back();
+    }
+
+    /**
+     * @param Request $request->policy 0-15 see Policy in Settings
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function updateGlobalTicketTypeHidePolicy(Request $request)
+    {
+        $rules = [
+            'policy' => 'required|integer|min:0|max:15'
+        ];
+        $this->validate($request, $rules);
+
+        if (!Settings::setGlobalTicketTypeHidePolicy($request->policy)) {
+            Session::flash('alert-danger', "Could not Save Global Ticket Type Hide Policy!");
+            return Redirect::back();
+        }
+        Session::flash('alert-success', "Successfully Saved Global Ticket Type Hide Policy!");
         return Redirect::back();
     }
 }

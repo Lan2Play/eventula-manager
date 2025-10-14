@@ -329,6 +329,7 @@ Route::group(['middleware' => ['installed']], function () {
         Route::post('/admin/events/{event}/information', 'Admin\Events\InformationController@store');
         Route::post('/admin/information/{information}', 'Admin\Events\InformationController@update');
         Route::delete('/admin/information/{information}', 'Admin\Events\InformationController@destroy');
+        Route::post('/admin/events/{event}/updateTicketHidePolicy', 'Admin\Events\EventsController@updateTicketHidePolicy');
         /**
          * Seating
          */
@@ -665,6 +666,7 @@ Route::group(['middleware' => ['installed']], function () {
         Route::post('/admin/settings/userlocale/reset', 'Admin\SettingsController@resetUserLocales');
         Route::post('/admin/settings/generate/qr', 'Admin\SettingsController@regenerateQRCodes');
         Route::post('/admin/settings/generate/newqr', 'Admin\SettingsController@regenerateQRCodesWithNewNames');
+        Route::post('/admin/settings/tickethidepolicy', 'Admin\SettingsController@updateGlobalTicketTypeHidePolicy');
 
         /**
          * Appearance

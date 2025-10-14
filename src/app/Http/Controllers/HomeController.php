@@ -132,6 +132,7 @@ class HomeController extends Controller
         // Loading can be done like this in one call of load function
         $event->load(
             'tickets.user',
+            'tickets.seat.seatingPlan'
         );
 
 
@@ -140,6 +141,20 @@ class HomeController extends Controller
         if ($user) {
             $clauses = ['user_id' => $user->id, 'event_id' => $event->id];
             $user->eventParticipation = Ticket::where($clauses)->get();
+        }
+
+        // Prefetch user tickets with relationships if user is logged in
+        $userTickets = collect();
+        if ($user) {
+            $userTickets = Ticket::where('event_id', $event->id)
+                ->where(function($q) use ($user) {
+                    $q->where('user_id', $user->id)
+                        ->orWhere('manager_id', $user->id)
+                        ->orWhere('owner_id', $user->id);
+                })
+                ->where('revoked', 0)
+                ->with(['seat', 'ticketType'])
+                ->get();
         }
 
         $ticketFlagSignedIn = false;
@@ -190,7 +205,8 @@ class HomeController extends Controller
             ->with('gameServerList', $gameServerList)
             ->with('ticketFlagSignedIn', $ticketFlagSignedIn)
             ->with('signedIn', $signedIn)
-            ->with('user', $user);
+            ->with('user', $user)
+            ->with('userTickets', $userTickets);
     }
 
     /**
