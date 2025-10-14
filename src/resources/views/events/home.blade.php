@@ -123,7 +123,7 @@ use Debugbar;
                         @lang('events.time')
                     </th>
                     <th>
-                        @lang('events.game')
+                        @lang('events.activity')
                     </th>
                     <th>
                         @lang('events.description')
@@ -131,22 +131,18 @@ use Debugbar;
                     </thead>
                     <tbody>
                     @foreach ($timetable->data as $slot)
-                        @if ($slot->name != NULL && $slot->desc != NULL)
-                            <tr>
-                                <td>
-                                    {{ date("D", strtotime($slot->start_time)) }}
-                                    - {{ date("H:i", strtotime($slot->start_time)) }}
-                                </td>
-                                <td>
-                                    {{ $slot->name }}
-                                </td>
-                                <td>
-                                    @if ($slot->desc != NULL)
-                                        {{ $slot->desc }}
-                                    @endif
-                                </td>
-                            </tr>
-                        @endif
+                    <tr>
+                        <td>
+                            {{ date("D", strtotime($slot->start_time)) }}
+                            - {{ date("H:i", strtotime($slot->start_time)) }}
+                        </td>
+                        <td>
+                            {{ $slot->name ?? '-' }}
+                        </td>
+                        <td>
+                            {{ $slot->desc ?? '-' }}
+                        </td>
+                    </tr>
                     @endforeach
                     </tbody>
                 </table>

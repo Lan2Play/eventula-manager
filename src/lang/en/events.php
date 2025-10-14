@@ -130,5 +130,6 @@ return [
     'time_delimiter' => 'at',
     'time_suffix' => '',
     'savetocalendar' => 'Save to Calendar',
-    'event' => 'Event'
+    'event' => 'Event',
+    'activity' => 'Activity'
 ];
