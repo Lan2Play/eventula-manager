@@ -24,8 +24,10 @@
 	</div>
 </div>
 
-@include ('layouts._partials._admin._event.dashMini')
 
+<div class="d-lg-block collapse d-md-none d-sm-none" id="dashMini">
+    @include ('layouts._partials._admin._event.dashMini')
+</div>
 <div class="row">
 	<div class="col-lg-6">
 
@@ -108,7 +110,8 @@
                 {{ Form::close() }}
                 <h4>Current Settings:</h4>
                 <p>Current hide policy value: {{ $ticketType->tickettype_hide_policy }}</p>
-                <table class="table table-striped table-hover table-responsive">
+                <div class="table-responsive">
+                <table class="table table-striped table-hover">
                     <thead>
                     <tr>
                         <th>Filter Value</th>
@@ -183,6 +186,7 @@
                     @endfor
                     </tbody>
                 </table>
+                </div>
             </div>
         </div>
 
