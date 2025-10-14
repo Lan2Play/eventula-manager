@@ -30,7 +30,7 @@
 
     @include ('layouts._partials.navigation')
 
-    <div class="container" style="margin-top:50px;"></div>
+    <div class="container" style="margin-top: 50px;"></div>
 
     @yield ('content')
     <div class="alert-fixed">
@@ -51,35 +51,37 @@
         });
 
         // Auto-hide/show navbar on scroll (mobile only)
-        let lastScrollTop = 0;
-        const navbar = document.querySelector('.navbar');
-        const delta = 5;
-        const navbarHeight = navbar.offsetHeight;
+        document.addEventListener('DOMContentLoaded', function() {
+            let lastScrollTop = 0;
+            const navbar = document.querySelector('.navbar');
+            const delta = 5;
+            const navbarHeight = navbar.offsetHeight;
 
-        window.addEventListener('scroll', function() {
-            // Only apply auto-hide on mobile (screen width < 768px)
-            if (window.innerWidth >= 768) {
-                navbar.style.transform = 'translateY(0)';
-                return;
-            }
+            window.addEventListener('scroll', function() {
+                // Only apply auto-hide on mobile (screen width < 768px)
+                if (window.innerWidth >= 768) {
+                    navbar.style.transform = 'translateY(0)';
+                    return;
+                }
 
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            
-            if (Math.abs(lastScrollTop - scrollTop) <= delta) {
-                return;
-            }
-            
-            if (scrollTop > lastScrollTop && scrollTop > navbarHeight) {
-                // Scrolling down
-                navbar.style.transform = 'translateY(-100%)';
-                navbar.style.transition = 'transform 0.3s ease-in-out';
-            } else {
-                // Scrolling up
-                navbar.style.transform = 'translateY(0)';
-                navbar.style.transition = 'transform 0.3s ease-in-out';
-            }
-            
-            lastScrollTop = scrollTop;
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                
+                if (Math.abs(lastScrollTop - scrollTop) <= delta) {
+                    return;
+                }
+                
+                if (scrollTop > lastScrollTop && scrollTop > navbarHeight) {
+                    // Scrolling down
+                    navbar.style.transform = 'translateY(-100%)';
+                    navbar.style.transition = 'transform 0.3s ease-in-out';
+                } else {
+                    // Scrolling up
+                    navbar.style.transform = 'translateY(0)';
+                    navbar.style.transition = 'transform 0.3s ease-in-out';
+                }
+                
+                lastScrollTop = scrollTop;
+            });
         });
     </script>
     <br>

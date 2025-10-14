@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"data-bs-theme="{{ Colors::getTheme() }}">
+<html lang="en" data-bs-theme="{{ Colors::getTheme() }}">
 
 <head>
     <meta charset="utf-8">
