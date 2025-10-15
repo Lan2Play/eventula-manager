@@ -168,7 +168,7 @@
                                         href="{{ Settings::getRedditLink() }}">@lang('layouts.default_reddit')</a></p>
                             @endif
                         </div>
-                        <div class="col-lg-12">
+                        <div class="col-lg-6">
                             <p>© {{ Settings::getOrgName() }} {{ date('Y') }}. @lang('layouts.default_rights_reserved')</p>
                         </div>
                     </div>
