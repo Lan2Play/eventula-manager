@@ -124,9 +124,10 @@ $userOwnTickets = isset($userTickets) ? $userTickets->where('user_id', Auth::id(
                     @endif
                 </div>
                 <div class="col-12">
-                    <a class="collapsed text-decoration-none d-block" role="button" data-bs-toggle="collapse"
+                    <a class="collapsed text-decoration-none d-block text-primary fw-bold" role="button"
+                       data-bs-toggle="collapse"
                        href="#image_{{ $seatingPlan->slug }}" aria-expanded="false">
-                        <h5 class="mb-2">@lang('events.seatingplanimage')</h5>
+                        <button class="btn btn-primary btn-sm mb-2"><i class="fas fa-image me-2"></i>@lang('events.seatingplanimage')</button>
                     </a>
                     <div class="collapse" id="image_{{ $seatingPlan->slug }}">
                         <img class="img-fluid w-100" alt="{{ $seatingPlan->name }}" src="{{$seatingPlan->image_path}}"/>
@@ -136,7 +137,7 @@ $userOwnTickets = isset($userTickets) ? $userTickets->where('user_id', Auth::id(
             <div class="card-footer">
                 <div class="row" style="display: flex; align-items: center;">
 
-                    <div class="col-6 col-md-6">
+                    <div class="col-6">
                         @if ($user && !$managedTickets->isEmpty())
                         <h5>@lang('events.yourmanagedseats')</h5>
                         @foreach ($managedTickets as $managedTicket)
@@ -172,7 +173,7 @@ $userOwnTickets = isset($userTickets) ? $userTickets->where('user_id', Auth::id(
                         </div>
                         @endif
                     </div>
-                    <div class="col-6 col-md-2">
+                    <div class="col-6">
                         @if ($user && !$userOwnTickets->isEmpty())
                         <h5>@lang('events.yourseats')</h5>
                         @foreach ($userOwnTickets as $ticket)

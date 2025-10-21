@@ -25,33 +25,39 @@ class TicketController extends Controller
         $query = $event->allEventTickets();
 
         // Filter by payment status
-        $paymentFilter = $request->input('payment');
-        
-        if ($paymentFilter === 'success') {
-            // Paid tickets: has purchase with SUCCESS status
-            $query->whereHas('purchase', function ($q) {
-                $q->where('status', \App\Purchase::STATUS_SUCCESS);
-            });
-        } elseif ($paymentFilter === 'free') {
-            // Free/Staff/Gift tickets
-            $query->where(function ($q) {
-                $q->where('free', true)
-                  ->orWhere('staff', true)
-                  ->orWhere('gift', true);
-            });
-        } elseif ($paymentFilter === 'unpaid') {
-            // Unpaid tickets: has purchase but not SUCCESS, or has no purchase and is not free/staff/gift
-            $query->where(function ($q) {
-                $q->whereHas('purchase', function ($subQ) {
-                    $subQ->where('status', '!=', \App\Purchase::STATUS_SUCCESS);
-                })
-                ->orWhere(function ($subQ) {
-                    $subQ->whereDoesntHave('purchase')
-                         ->where('free', false)
-                         ->where('staff', false)
-                         ->where('gift', false);
+        $paymentFilter = $request->query->get('payment','none');
+
+        switch ($paymentFilter) {
+            case 'success':
+                // Paid tickets: has purchase with SUCCESS status
+                $query->whereHas('purchase', function ($q) {
+                    $q->where('status', \App\Purchase::STATUS_SUCCESS);
                 });
-            });
+                break;
+
+            case 'free':
+                // Free/Staff/Gift tickets
+                $query->where(function ($q) {
+                    $q->where('free', true)
+                        ->orWhere('staff', true)
+                        ->orWhere('gift', true);
+                });
+                break;
+
+            case 'unpaid':
+                // Unpaid tickets: has purchase but not SUCCESS, or has no purchase and is not free/staff/gift
+                $query->where(function ($q) {
+                    $q->whereHas('purchase', function ($subQ) {
+                        $subQ->where('status', '!=', \App\Purchase::STATUS_SUCCESS);
+                    })
+                        ->orWhere(function ($subQ) {
+                            $subQ->whereDoesntHave('purchase')
+                                ->where('free', false)
+                                ->where('staff', false)
+                                ->where('gift', false);
+                        });
+                });
+                break;
         }
 
         return view('admin.events.participants.index')

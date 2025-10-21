@@ -177,7 +177,8 @@
                     {{ Form::open(['url' => '/admin/settings/tickethidepolicy', 'onsubmit' => 'return Confirm()']) }}
                     <div class="form-group">
                         <label for="policy">New Hide Policy Value</label>
-                        {{ Form::number('policy', $ticket_hide_policy, ['class' => 'form-control mb-2', 'id' => 'policy']) }}
+                        {{ Form::number('policy', $ticket_hide_policy, ['class' => 'form-control mb-2', 'id' =>
+                        'policy', 'min' => -1, 'max' => 15]) }}
                         <button type="submit" class="btn btn-success">Save Policy</button>
                     </div>
                     {{ Form::close() }}

@@ -21,9 +21,9 @@
 		</div>
 	</div>
 
-<div class="d-lg-block collapse d-md-none d-sm-none" id="dashMini">
+
     @include ('layouts._partials._admin._event.dashMini')
-</div>
+
 	<div class="row">
 
 		<div class="col-md-8 col-lg-8">

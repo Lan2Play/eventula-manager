@@ -74,6 +74,7 @@ class TicketType extends Model
         return $this->tickets()->where('revoked', 0)->count() >= $this->quantity;
     }
 
+    // TODO: find a better way to do this
     public function isHiddenByPolicy(int $policy):bool {
         debug($this->name, $policy);
         return match ($policy) {

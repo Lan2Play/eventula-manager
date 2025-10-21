@@ -21,9 +21,7 @@
 	</div>
 </div>
 
-<div class="d-lg-block collapse d-md-none d-sm-none" id="dashMini">
     @include ('layouts._partials._admin._event.dashMini')
-</div>
 
 <div class="row">
 	<div class="col-lg-12">
@@ -42,7 +40,7 @@
                         <option value="free" {{ request(
                         'payment') == 'free' ? 'selected' : '' }}>Free/Staff/Gift</option>
                         <option value="unpaid" {{ request(
-                        'payment') == 'unpaid' ? 'selected' : '' }}>Open</option>
+                        'payment') == 'unpaid' ? 'selected' : '' }}>Unpaid</option>
                     </select>
                     @if(request()->has('page'))
                     <input type="hidden" name="page" value="{{ request('page') }}">
@@ -70,7 +68,7 @@
                                 <th class="d-none d-md-table-cell">Seat</th>
 								<th class="d-none d-md-table-cell">Ticket Type</th>
 								<th class="d-none d-md-table-cell">Paypal Email</th>
-								<th>Free/Staff/Gift</th>
+								<th>Status</th>
 								<th>Actions</th>
 							</tr>
 						</thead>
@@ -133,25 +131,29 @@
 									<strong>No</strong>
                                     @endif
 								</td>
-                                <td class="d-none d-md-table-cell">
-									<a href="/admin/events/{{ $event->slug }}/participants/{{ $participant->id }}">
-										<button type="button" class="btn btn-primary btn-sm btn-block">View</button>
-									</a>
-								</td>
-								<td>
-									@if (!$participant->revoked)
-										@if(!$participant->signed_in)
-										{{ Form::open(array('url'=>'/admin/events/' . $event->slug . '/participants/' . $participant->id . '/signin')) }}
-										<a href="/admin/events/{{ $event->slug }}/participants/{{ $participant->id}}/signin">
-											<button type="submit" class="btn btn-success btn-sm float-right mr-3 ml-3 btn-block">Sign In </button>
-										</a>
-										{{ Form::close() }}
-										@else
-										<a href="/admin/events/{{ $event->slug }}/participants/{{ $participant->id}}/signout/">
-											<button type="submit" class="btn btn-danger btn-sm float-right mr-3 ml-3 btn-block">Sign Out </button>
-										</a>
-										@endif
-									@endif
+                                <td>
+                                    <a href="/admin/events/{{ $event->slug }}/participants/{{ $participant->id }}">
+                                        <button type="button" class="btn btn-primary btn-sm btn-block mb-2">View
+                                        </button>
+                                    </a>
+                                    @if (!$participant->revoked)
+                                    @if(!$participant->signed_in)
+                                    {{ Form::open(array('url'=>'/admin/events/' . $event->slug . '/participants/' .
+                                    $participant->id . '/signin')) }}
+                                    <a href="/admin/events/{{ $event->slug }}/participants/{{ $participant->id}}/signin">
+                                        <button type="submit"
+                                                class="btn btn-success btn-sm float-right mr-3 ml-3 btn-block mb-2">Sign-In
+                                        </button>
+                                    </a>
+                                    {{ Form::close() }}
+                                    @else
+                                    <a href="/admin/events/{{ $event->slug }}/participants/{{ $participant->id}}/signout/">
+                                        <button type="submit"
+                                                class="btn btn-danger btn-sm float-right mr-3 ml-3 btn-block mb-2">Sign-Out
+                                        </button>
+                                    </a>
+                                    @endif
+                                    @endif
 								</td>
 							</tr>
 							@endforeach

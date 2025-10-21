@@ -22,7 +22,7 @@ return [
     ],
     '404' => [
         'header' => 'Oops - 404 - Not Found',
-        'message' => 'We couldn\'t find the page you was looking for.',
+        'message' => 'We couldn\'t find the page you were looking for.',
     ],
     '500' => [
         'header' => 'Oops - 500 - Internal Server Error',
