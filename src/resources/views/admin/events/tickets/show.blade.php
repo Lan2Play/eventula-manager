@@ -104,7 +104,11 @@
                 <div class="form-group">
                     <label for="tickettype_hide_policy">New Hide Policy Value</label>
                     <small class="text-muted"><i>To use global setting enter -1</i></small>
-                    {{ Form::number('tickettype_hide_policy', $ticketType->tickettype_hide_policy, ['class' => 'form-control mb-2', 'id' => 'tickettype_hide_policy']) }}
+                    {{ Form::number('tickettype_hide_policy', $ticketType->tickettype_hide_policy, [
+    'class' => 'form-control mb-2',
+    'id' => 'tickettype_hide_policy',
+    'min' => -1,
+    'max' => 15]) }}
                     <button type="submit" class="btn btn-success">Save Policy</button>
                 </div>
                 {{ Form::close() }}
