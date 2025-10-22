@@ -13,8 +13,6 @@
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $key
  * @property string|null $value
@@ -34,8 +32,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $key
  * @property string|null $value
@@ -57,8 +53,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property int $user_id
  * @property string $action
@@ -89,8 +83,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $display_name
  * @property string $nice_name
@@ -112,12 +104,10 @@ namespace App{
  * @property int $tournaments_freebies
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Ticket> $allEventParticipants
- * @property-read int|null $all_event_participants_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Ticket> $allEventTickets
+ * @property-read int|null $all_event_tickets_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\EventAnnouncement> $announcements
  * @property-read int|null $announcements_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Ticket> $eventParticipants
- * @property-read int|null $event_participants_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\GalleryAlbum> $galleries
  * @property-read int|null $galleries_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\EventInformation> $information
@@ -134,6 +124,8 @@ namespace App{
  * @property-read int|null $ticket_groups_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\TicketType> $ticketTypes
  * @property-read int|null $ticket_types_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Ticket> $tickets
+ * @property-read int|null $tickets_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\EventTimetable> $timetables
  * @property-read int|null $timetables_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\EventTournament> $tournaments
@@ -173,8 +165,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property int $event_id
  * @property string $message
@@ -195,8 +185,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property int $event_id
  * @property string $title
@@ -223,8 +211,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property int|null $column
  * @property int|null $row
@@ -235,7 +221,7 @@ namespace App{
  * @property int|null $gifted_user_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Ticket|null $eventParticipant
+ * @property-read \App\Ticket|null $eventTicket
  * @property-read \App\EventSeatingPlan $seatingPlan
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventSeating newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventSeating newQuery()
@@ -256,8 +242,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $name
  * @property string|null $name_short
@@ -298,8 +282,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property int $event_id
  * @property string $name
@@ -324,8 +306,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $tag_id
  * @property int $event_id
@@ -346,8 +326,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $name
  * @property string $slug
@@ -378,8 +356,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property int $event_timetable_id
  * @property string|null $name
@@ -404,8 +380,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property int $event_id
  * @property string $challonge_tournament_id
@@ -471,8 +445,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $slug
  * @property int $challonge_match_id
@@ -500,10 +472,8 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
- * @property int|null $event_participant_id
+ * @property int|null $ticket_id
  * @property string|null $challonge_participant_id
  * @property int|null $event_tournament_team_id
  * @property int $event_tournament_id
@@ -515,7 +485,7 @@ namespace App{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int $pug
- * @property-read \App\Ticket|null $eventParticipant
+ * @property-read \App\Ticket|null $eventTicket
  * @property-read \App\EventTournament $eventTournament
  * @property-read \App\EventTournamentTeam|null $tournamentTeam
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournamentParticipant newModelQuery()
@@ -524,7 +494,6 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournamentParticipant whereChallongeParticipantId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournamentParticipant whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournamentParticipant whereCreditApplied($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournamentParticipant whereEventParticipantId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournamentParticipant whereEventTournamentId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournamentParticipant whereEventTournamentTeamId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournamentParticipant whereFinalHistory($value)
@@ -533,6 +502,7 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournamentParticipant whereFinalScore($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournamentParticipant whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournamentParticipant wherePug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournamentParticipant whereTicketId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournamentParticipant whereUpdatedAt($value)
  */
 	class EventTournamentParticipant extends \Eloquent {}
@@ -540,8 +510,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property int $event_tournament_id
  * @property string|null $challonge_participant_id
@@ -576,8 +544,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $display_name
  * @property string $slug
@@ -615,8 +581,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property int $event_venue_id
  * @property string $path
@@ -639,8 +603,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $name
  * @property string $slug
@@ -673,8 +635,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $display_name
  * @property string $nice_name
@@ -705,8 +665,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $name
  * @property string $slug
@@ -773,8 +731,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $name
  * @property string $slug
@@ -825,8 +781,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $name
  * @property string $slug
@@ -857,8 +811,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $name
  * @property string $slug
@@ -885,8 +837,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $name
  * @property string $slug
@@ -919,8 +869,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $display_name
  * @property string $nice_name
@@ -947,8 +895,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $display_name
  * @property string $nice_name
@@ -977,8 +923,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property int|null $team_size
  * @property int|null $team_count
@@ -1018,8 +962,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property int $match_id
  * @property int $game_server_id
@@ -1041,8 +983,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property int|null $match_id
  * @property string $name
@@ -1072,8 +1012,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property int $matchmaking_team_id
  * @property int $user_id
@@ -1095,8 +1033,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $name
  * @property int|null $matchmaking_id
@@ -1119,8 +1055,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $title
  * @property string $slug
@@ -1152,8 +1086,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $comment
  * @property int $reviewed
@@ -1187,8 +1119,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $comment
  * @property int $news_feed_comment_id
@@ -1216,8 +1146,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $tag
  * @property string $slug
@@ -1242,8 +1170,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $name
  * @property string $slug
@@ -1285,8 +1211,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $name
  * @property int $poll_id
@@ -1312,8 +1236,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property int $user_id
  * @property int $poll_option_id
@@ -1335,8 +1257,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property int $user_id
  * @property string $type
@@ -1369,8 +1289,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $setting
  * @property string|null $value
@@ -1394,8 +1312,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $name
  * @property string $slug
@@ -1437,8 +1353,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $name
  * @property string $slug
@@ -1466,8 +1380,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property int $shop_item_id
  * @property string $path
@@ -1492,8 +1404,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property int $purchase_id
  * @property string $status
@@ -1536,8 +1446,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property int $shop_item_id
  * @property int $shop_order_id
@@ -1565,8 +1473,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $slider_name
  * @property string $path
@@ -1588,8 +1494,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property int $user_id
  * @property int|null $manager_id
@@ -1615,6 +1519,8 @@ namespace App{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \OwenIt\Auditing\Models\Audit> $audits
  * @property-read int|null $audits_count
  * @property-read \App\Event $event
+ * @property-read \App\User|null $manager
+ * @property-read \App\User|null $owner
  * @property-read \App\Purchase|null $purchase
  * @property-read \App\EventSeating|null $seat
  * @property-read \App\TicketType|null $ticketType
@@ -1652,8 +1558,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property int $event_id
  * @property string $name
@@ -1678,8 +1582,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $name
  * @property int $event_id
@@ -1723,8 +1625,6 @@ namespace App{
 
 namespace App{
 /**
- * 
- *
  * @property int $id
  * @property string $firstname
  * @property string $surname
@@ -1750,16 +1650,20 @@ namespace App{
  * @property-read mixed $avatar
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\CreditLog> $creditLogs
  * @property-read int|null $credit_logs_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Ticket> $eventParticipants
- * @property-read int|null $event_participants_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Ticket> $managedTickets
+ * @property-read int|null $managed_tickets_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\MatchMakingTeamPlayer> $matchMakingTeamplayers
  * @property-read int|null $match_making_teamplayers_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\MatchMakingTeam> $matchMakingTeams
  * @property-read int|null $match_making_teams_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Ticket> $ownedTickets
+ * @property-read int|null $owned_tickets_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Purchase> $purchases
  * @property-read int|null $purchases_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Ticket> $tickets
+ * @property-read int|null $tickets_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
  * @property-read mixed $unique_attended_event_count
