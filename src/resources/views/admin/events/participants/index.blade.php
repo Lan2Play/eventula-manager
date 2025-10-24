@@ -34,11 +34,28 @@
                         <span>All Participants (Tickets)</span>
                     </div>
 
-                    <div class="ms-md-auto">
+                    {{ Form::open(['url'=>'/admin/events/' . $event->slug . '/participants', 'method'=>'GET',
+                    'class'=>'d-inline-block me-md-2']) }}
+                    <div class="input-group input-group-sm gap-2">
+                        <input type="text" name="search" class="form-control" placeholder="Search by username..."
+                               value="{{ request('search') }}">
+                        @if(request()->has('payment'))
+                        <input type="hidden" name="payment" value="{{ request('payment') }}">
+                        @endif
+                        @if(request()->has('signed_in'))
+                        <input type="hidden" name="signed_in" value="{{ request('signed_in') }}">
+                        @endif
+                        @if(request()->has('page'))
+                        <input type="hidden" name="page" value="{{ request('page') }}">
+                        @endif
+                        <button type="submit" class="btn btn-secondary btn-sm">Search</button>
+                    </div>
+                    {{ Form::close() }}
+                    <div class="ms-md-auto gap-2">
                         {{ Form::open(['url'=>'/admin/events/' . $event->slug . '/participants', 'method'=>'GET',
                         'class'=>'d-inline-block me-md-2']) }}
                         <div class="d-flex gap-2 align-items-center">
-                            <label for="signed_in" class="me-2">Check In Status:</label>
+                            <label for="signed_in" class="me-2">Sign-In Status:</label>
                             <select name="signed_in" class="form-select form-select-sm w-auto">
                                 <option value="any" {{ request(
                                 'signed_in', 'any') == 'All' || request('signed_in') === null ? 'selected' : ''
@@ -63,25 +80,8 @@
 
                         {{ Form::open(['url'=>'/admin/events/' . $event->slug . '/participants', 'method'=>'GET',
                         'class'=>'d-inline-block me-md-2']) }}
-                        <div class="input-group input-group-sm">
-                            <input type="text" name="search" class="form-control" placeholder="Search by username..."
-                                   value="{{ request('search') }}">
-                            @if(request()->has('payment'))
-                            <input type="hidden" name="payment" value="{{ request('payment') }}">
-                            @endif
-                            @if(request()->has('signed_in'))
-                            <input type="hidden" name="signed_in" value="{{ request('signed_in') }}">
-                            @endif
-                            @if(request()->has('page'))
-                            <input type="hidden" name="page" value="{{ request('page') }}">
-                            @endif
-                            <button type="submit" class="btn btn-secondary btn-sm">Search</button>
-                        </div>
-                        {{ Form::close() }}
-
-                        {{ Form::open(['url'=>'/admin/events/' . $event->slug . '/participants', 'method'=>'GET',
-                        'class'=>'d-inline-block me-md-2']) }}
                         <div class="d-flex gap-2">
+                            <label for="payment" class="me-2">Payment Status:</label>
                             <select name="payment" class="form-select form-select-sm w-auto">
                                 <option value="">-</option>
                                 <option value="success" {{ request(
