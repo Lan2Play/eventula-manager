@@ -27,36 +27,42 @@
 	<div class="col-lg-12">
 
 		<div class="card mb-3">
-            <div class="card-header d-flex flex-column flex-md-row flex-wrap flex-grow-1">
-                <div class="pe-0 mx-auto mx-md-0">
-                    <i class="fa fa-users fa-fw"></i> All Participants (Tickets)
-                </div>
-                <div class="col-auto ms-md-auto ps-0 align-self-end w-100">
-                    {{ Form::open(['url'=>'/admin/events/' . $event->slug . '/participants', 'method'=>'GET', 'class'=>'d-inline-block me-md-3']) }}
-                    <div class="d-flex gap-2 align-items-center justify-content-end">
-                        <label for="signed_in" class="me-2">Check In Status:</label>
-                        <select name="signed_in" class="form-select form-select-sm w-auto">
-                            <option value="any" {{ request('signed_in', 'any') == 'All' || request('signed_in') === null ? 'selected' : '' }}>Any</option>
-                            <option value="yes" {{ request('signed_in') == 'yes' ? 'selected' : '' }}>Signed In</option>
-                            <option value="no" {{ request('signed_in') == 'no' ? 'selected' : '' }}>Not Signed In</option>
-                        </select>
-                        @if(request()->has('payment'))
-                        <input type="hidden" name="payment" value="{{ request('payment') }}">
-                        @endif
-                        @if(request()->has('search'))
-                        <input type="hidden" name="search" value="{{ request('search') }}">
-                        @endif
-                        @if(request()->has('page'))
-                        <input type="hidden" name="page" value="{{ request('page') }}">
-                        @endif
-                        <button type="submit" class="btn btn-secondary btn-sm">Filter</button>
+            <div class="card-header">
+                <div class="d-flex flex-column flex-md-row align-items-md-center gap-3">
+                    <div class="d-flex align-items-center">
+                        <i class="fa fa-users fa-fw me-2"></i>
+                        <span>All Participants (Tickets)</span>
                     </div>
-                    {{ Form::close() }}
-                </div>
-                <div class="col-auto ms-md-auto ps-0 align-self-end w-100">
-                    <div class="d-flex flex-column flex-md-row gap-2 align-items-center justify-content-end">
+
+                    <div class="ms-md-auto">
                         {{ Form::open(['url'=>'/admin/events/' . $event->slug . '/participants', 'method'=>'GET',
-                        'class'=>'d-inline-block me-md-3']) }}
+                        'class'=>'d-inline-block me-md-2']) }}
+                        <div class="d-flex gap-2 align-items-center">
+                            <label for="signed_in" class="me-2">Check In Status:</label>
+                            <select name="signed_in" class="form-select form-select-sm w-auto">
+                                <option value="any" {{ request(
+                                'signed_in', 'any') == 'All' || request('signed_in') === null ? 'selected' : ''
+                                }}>Any</option>
+                                <option value="yes" {{ request(
+                                'signed_in') == 'yes' ? 'selected' : '' }}>Signed In</option>
+                                <option value="no" {{ request(
+                                'signed_in') == 'no' ? 'selected' : '' }}>Not Signed In</option>
+                            </select>
+                            @if(request()->has('payment'))
+                            <input type="hidden" name="payment" value="{{ request('payment') }}">
+                            @endif
+                            @if(request()->has('search'))
+                            <input type="hidden" name="search" value="{{ request('search') }}">
+                            @endif
+                            @if(request()->has('page'))
+                            <input type="hidden" name="page" value="{{ request('page') }}">
+                            @endif
+                            <button type="submit" class="btn btn-secondary btn-sm">Filter</button>
+                        </div>
+                        {{ Form::close() }}
+
+                        {{ Form::open(['url'=>'/admin/events/' . $event->slug . '/participants', 'method'=>'GET',
+                        'class'=>'d-inline-block me-md-2']) }}
                         <div class="input-group input-group-sm">
                             <input type="text" name="search" class="form-control" placeholder="Search by username..."
                                    value="{{ request('search') }}">
@@ -69,12 +75,12 @@
                             @if(request()->has('page'))
                             <input type="hidden" name="page" value="{{ request('page') }}">
                             @endif
-                            <button type="submit" class="btn btn-secondary">Search</button>
+                            <button type="submit" class="btn btn-secondary btn-sm">Search</button>
                         </div>
                         {{ Form::close() }}
 
                         {{ Form::open(['url'=>'/admin/events/' . $event->slug . '/participants', 'method'=>'GET',
-                        'class'=>'d-inline-block me-md-3']) }}
+                        'class'=>'d-inline-block me-md-2']) }}
                         <div class="d-flex gap-2">
                             <select name="payment" class="form-select form-select-sm w-auto">
                                 <option value="">-</option>
@@ -96,8 +102,7 @@
                         {{ Form::close() }}
 
                         {{ Form::open(['url'=>'/admin/events/' . $event->slug . '/participants/signoutall', 'onsubmit'
-                        =>
-                        'return ConfirmSignOutAll()', 'class'=>'d-inline-block me-md-3']) }}
+                        => 'return ConfirmSignOutAll()', 'class'=>'d-inline-block me-md-2']) }}
                         {{ Form::hidden('_method', 'GET') }}
                         <button type="submit" class="btn btn-danger btn-sm">Sign Out all Participants</button>
                         {{ Form::close() }}
@@ -106,6 +111,7 @@
                            class="btn btn-info btn-sm">Freebies</a>
                     </div>
                 </div>
+            </div>
             </div>
 			<div class="card-body">
 				<div class="dataTable_wrapper table-responsive">
