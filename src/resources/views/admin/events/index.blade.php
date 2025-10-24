@@ -33,7 +33,6 @@
 								<th class="d-none d-md-table-cell">Short Description</th>
 								<th>Capacity</th>
 								<th></th>
-								<th></th>
 							</tr>
 						</thead>
 						<tbody>

@@ -18,7 +18,7 @@
 		</div>
 	</div>
 
-@include('layouts._partials._admin_event._dashMiniCards')
+@include('layouts._partials._admin._event._dashMiniCards')
 
 	<div class="row">
 		<div class="col-lg-8">

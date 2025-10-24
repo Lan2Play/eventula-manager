@@ -73,12 +73,12 @@
 						<tr>
 							<th>Name</th>
 							<th>Type</th>
-							<th class="d-none d-md-table-cell">Ticket group</th>
+							<th>Ticket group</th>
 							<th>Price</th>
 							<th>Quantity</th>
 							<th>Purchased</th>
-							<th class="d-none d-md-table-cell">Purchase Period</th>
-                            <th class="d-none d-md-table-cell">Hide policy?</th>
+							<th>Purchase Period</th>
+                            <th>Hide policy?</th>
 							<th>Seatable</th>
 							<th></th>
 							<th></th>
@@ -94,7 +94,7 @@
 								<td>
 									{{ $ticketType->type }}
 								</td>
-								<td class="d-none d-md-table-cell">
+								<td>
 									@if ($ticketType->ticketGroup)
 										{{ $ticketType->ticketGroup->name }}
 									@else
@@ -114,7 +114,7 @@
 								<td>
 									{{ $ticketType->tickets()->count() }}
 								</td>
-								<td class="d-none d-md-table-cell">
+								<td>
 
 									@if ($ticketType->sale_start)
                                     Start:
@@ -130,7 +130,7 @@
 										Never
 									@endif
 								</td>
-                                <td class="d-none d-md-table-cell">
+                                <td>
                                     @if ($ticketType->tickettype_hide_policy >= 0)
                                         Custom
                                     @else

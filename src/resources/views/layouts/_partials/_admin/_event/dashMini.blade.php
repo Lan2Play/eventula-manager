@@ -59,11 +59,11 @@
     </button>
 
     <div id="miniDashCards" class="collapse">
-        @include('layouts._partials._admin_event._dashMiniCards')
+        @include('layouts._partials._admin._event._dashMiniCards')
     </div>
 </div>
 
 <!-- Medium and larger screens: always show full dashboard -->
 <div class="d-none d-md-block">
-    @include('layouts._partials._admin_event._dashMiniCards')
+    @include('layouts._partials._admin._event._dashMiniCards')
 </div>
