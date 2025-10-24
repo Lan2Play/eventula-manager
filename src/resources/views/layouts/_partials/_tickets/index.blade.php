@@ -48,6 +48,12 @@
 						</span>
 					@endif
 				@endif
+                @if ($ticket->signed_in)
+                    <span class="ms-1">
+                        <i class="fa fa-check-circle fa-fw"></i>
+                        @lang('tickets.signed_in')
+                    </span>
+                @endif
 			</div>
 			<div>
 				@if ($ticket->gift == 1 && $ticket->gift_accepted != 1)

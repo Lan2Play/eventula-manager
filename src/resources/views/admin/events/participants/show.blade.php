@@ -173,21 +173,7 @@
 			</div>
 		</div>
 
-            @if (!$participant->revoked)
-            <div class="card mb-3">
-                <div class="card-header">Danger Zone</div>
-                <div class="card-body">
-                    {{ Form::open([
-                    'url' => '/admin/events/' . $event->slug . '/participants/' . $participant->id . '/revoke',
-                    'onSubmit' => 'return ConfirmRevoke()'
-                    ]) }}
-                    <div class="mb-3">
-                        <button type="submit" class="btn btn-danger btn-block">Revoke</button>
-                    </div>
-                    {{ Form::close() }}
-                </div>
-            </div>
-            @endif
+
 		@if (config('admin.super_danger_zone'))
 		<div class="card mb-3">
 			<div class="card-header">Super Danger Zone</div>
@@ -208,7 +194,23 @@
 			</div>
 		</div>
 		@endif
+
 	</div>
+        @if (!$participant->revoked)
+        <div class="card mb-3">
+            <div class="card-header">Danger Zone</div>
+            <div class="card-body">
+                {{ Form::open([
+                'url' => '/admin/events/' . $event->slug . '/participants/' . $participant->id . '/revoke',
+                'onSubmit' => 'return ConfirmRevoke()'
+                ]) }}
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-danger btn-block">Revoke</button>
+                </div>
+                {{ Form::close() }}
+            </div>
+        </div>
+        @endif
 
 </div>
 

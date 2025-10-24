@@ -42,7 +42,7 @@ return [
     'modal_change_user_headline' => 'What can a User do?',
     'modal_change_user_text' => 'A User "uses" the Ticket to get entrance to the event, seating, tournaments and basically everything that is related to the event.',
     'modal_change_user_example' => 'A user that is a user of a ticket sees the ticket in their profile and on the event page but does not have access to the controls of the ticket (changing manager or user) but could also change the seat.',
-    'owner_cant_be_changed' > 'Owner can not be changed',
+    'owner_cant_be_changed' => 'Owner can not be changed',
     'only_owner_can_chang_manager' => 'Only the owner can change the manager',
     'only_owner_or_manager_can_change_user' => 'Only the ticket owner or manager can change the user',
     'buttons_save' => 'save',
@@ -52,6 +52,7 @@ return [
     'no_owner' => 'None',
     'no_manager' => 'None',
     'no_user' => 'None',
+    'signed_in' => 'Checked in',
 
     /* Alerts */
     'alert_event_not_yet_published' => 'The event is currently in the state :state. You can not buy tickets for for now.',
