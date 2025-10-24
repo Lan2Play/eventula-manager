@@ -24,6 +24,16 @@ class TicketController extends Controller
     {
         $query = $event->allEventTickets();
 
+        // Filter by sign-in status
+        $signedIn = $request->query->get('signed_in', 'any');
+        if ($signedIn !== '' && $signedIn !== 'any') {
+            if (in_array($signedIn, ['yes', 'true', '1', 'on'], true)) {
+                $query->where('signed_in', true);
+            } elseif (in_array($signedIn, ['no', 'false', '0', 'off'], true)) {
+                $query->where('signed_in', false);
+            }
+        }
+
         // Filter by payment status
         $paymentFilter = $request->query->get('payment','none');
 
@@ -59,6 +69,25 @@ class TicketController extends Controller
                 });
                 break;
         }
+
+        if ($request->query->has('search') && $request->query->get('search') != 'none') {
+            $searchText = trim($request->query->get('search', ''));
+            if ($searchText !== '') {
+                $like = '%' . $searchText . '%';
+                $query->where(function ($q) use ($like) {
+                    // Search on related user fields
+                    $q->whereHas('user', function ($uq) use ($like) {
+                        $uq->where('username', 'like', $like)
+                            ->orWhere('firstname', 'like', $like)
+                            ->orWhere('surname', 'like', $like)
+                            ->orWhere('email', 'like', $like)
+                            ->orWhere('steamname', 'like', $like);
+                    });
+                });
+            }
+        }
+
+
 
         return view('admin.events.participants.index')
             ->with('event', $event)

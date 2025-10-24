@@ -27,34 +27,84 @@
 	<div class="col-lg-12">
 
 		<div class="card mb-3">
-            <div class="card-header">
-                <i class="fa fa-users fa-fw"></i> All Participants
-
-                <div class="float-end">
-                    {{ Form::open(['url'=>'/admin/events/' . $event->slug . '/participants', 'method'=>'GET',
-                    'class'=>'d-inline-block me-3']) }}
-                    <select name="payment" class="form-select form-select-sm d-inline-block w-auto me-2">
-                        <option value="">-</option>
-                        <option value="success" {{ request(
-                        'payment') == 'success' ? 'selected' : '' }}>Paid</option>
-                        <option value="free" {{ request(
-                        'payment') == 'free' ? 'selected' : '' }}>Free/Staff/Gift</option>
-                        <option value="unpaid" {{ request(
-                        'payment') == 'unpaid' ? 'selected' : '' }}>Unpaid</option>
-                    </select>
-                    @if(request()->has('page'))
-                    <input type="hidden" name="page" value="{{ request('page') }}">
-                    @endif
-                    <button type="submit" class="btn btn-secondary btn-sm">Filter</button>
+            <div class="card-header d-flex flex-column flex-md-row flex-wrap flex-grow-1">
+                <div class="pe-0 mx-auto mx-md-0">
+                    <i class="fa fa-users fa-fw"></i> All Participants (Tickets)
+                </div>
+                <div class="col-auto ms-md-auto ps-0 align-self-end w-100">
+                    {{ Form::open(['url'=>'/admin/events/' . $event->slug . '/participants', 'method'=>'GET', 'class'=>'d-inline-block me-md-3']) }}
+                    <div class="d-flex gap-2 align-items-center justify-content-end">
+                        <label for="signed_in" class="me-2">Check In Status:</label>
+                        <select name="signed_in" class="form-select form-select-sm w-auto">
+                            <option value="any" {{ request('signed_in', 'any') == 'All' || request('signed_in') === null ? 'selected' : '' }}>Any</option>
+                            <option value="yes" {{ request('signed_in') == 'yes' ? 'selected' : '' }}>Signed In</option>
+                            <option value="no" {{ request('signed_in') == 'no' ? 'selected' : '' }}>Not Signed In</option>
+                        </select>
+                        @if(request()->has('payment'))
+                        <input type="hidden" name="payment" value="{{ request('payment') }}">
+                        @endif
+                        @if(request()->has('search'))
+                        <input type="hidden" name="search" value="{{ request('search') }}">
+                        @endif
+                        @if(request()->has('page'))
+                        <input type="hidden" name="page" value="{{ request('page') }}">
+                        @endif
+                        <button type="submit" class="btn btn-secondary btn-sm">Filter</button>
+                    </div>
                     {{ Form::close() }}
+                </div>
+                <div class="col-auto ms-md-auto ps-0 align-self-end w-100">
+                    <div class="d-flex flex-column flex-md-row gap-2 align-items-center justify-content-end">
+                        {{ Form::open(['url'=>'/admin/events/' . $event->slug . '/participants', 'method'=>'GET',
+                        'class'=>'d-inline-block me-md-3']) }}
+                        <div class="input-group input-group-sm">
+                            <input type="text" name="search" class="form-control" placeholder="Search by username..."
+                                   value="{{ request('search') }}">
+                            @if(request()->has('payment'))
+                            <input type="hidden" name="payment" value="{{ request('payment') }}">
+                            @endif
+                            @if(request()->has('signed_in'))
+                            <input type="hidden" name="signed_in" value="{{ request('signed_in') }}">
+                            @endif
+                            @if(request()->has('page'))
+                            <input type="hidden" name="page" value="{{ request('page') }}">
+                            @endif
+                            <button type="submit" class="btn btn-secondary">Search</button>
+                        </div>
+                        {{ Form::close() }}
 
-                    {{ Form::open(['url'=>'/admin/events/' . $event->slug . '/participants/signoutall', 'onsubmit' =>
-                    'return ConfirmSignOutAll()', 'class'=>'d-inline-block me-3']) }}
-                    {{ Form::hidden('_method', 'GET') }}
-                    <button type="submit" class="btn btn-danger btn-sm">Sign Out all Participants</button>
-                    {{ Form::close() }}
+                        {{ Form::open(['url'=>'/admin/events/' . $event->slug . '/participants', 'method'=>'GET',
+                        'class'=>'d-inline-block me-md-3']) }}
+                        <div class="d-flex gap-2">
+                            <select name="payment" class="form-select form-select-sm w-auto">
+                                <option value="">-</option>
+                                <option value="success" {{ request(
+                                'payment') == 'success' ? 'selected' : '' }}>Paid</option>
+                                <option value="free" {{ request(
+                                'payment') == 'free' ? 'selected' : '' }}>Free/Staff/Gift</option>
+                                <option value="unpaid" {{ request(
+                                'payment') == 'unpaid' ? 'selected' : '' }}>Unpaid</option>
+                            </select>
+                            @if(request()->has('signed_in'))
+                            <input type="hidden" name="signed_in" value="{{ request('signed_in') }}">
+                            @endif
+                            @if(request()->has('page'))
+                            <input type="hidden" name="page" value="{{ request('page') }}">
+                            @endif
+                            <button type="submit" class="btn btn-secondary btn-sm">Filter</button>
+                        </div>
+                        {{ Form::close() }}
 
-                    <a href="/admin/events/{{ $event->slug }}/tickets#freebies" class="btn btn-info btn-sm">Freebies</a>
+                        {{ Form::open(['url'=>'/admin/events/' . $event->slug . '/participants/signoutall', 'onsubmit'
+                        =>
+                        'return ConfirmSignOutAll()', 'class'=>'d-inline-block me-md-3']) }}
+                        {{ Form::hidden('_method', 'GET') }}
+                        <button type="submit" class="btn btn-danger btn-sm">Sign Out all Participants</button>
+                        {{ Form::close() }}
+
+                        <a href="/admin/events/{{ $event->slug }}/tickets#freebies"
+                           class="btn btn-info btn-sm">Freebies</a>
+                    </div>
                 </div>
             </div>
 			<div class="card-body">
@@ -159,7 +209,7 @@
 							@endforeach
 						</tbody>
 					</table>
-                    {{ $participants->appends(['payment' => request('payment')])->links() }}
+                    {{ $participants->appends(['payment' => request('payment'), 'search' => request('search'), 'signed_in' => request('signed_in', 'any')])->links() }}
                 </div>
 			</div>
 		</div>
