@@ -25,8 +25,8 @@
 			@endif
 		@endforeach
 	</div>
-	<div class="hero-overlay d-none d-sm-block">
-			@if ($nextEvent)
+    <div class="hero-overlay">
+        @if ($nextEvent)
 				<div>
 					<h3>@lang('messages.next_event')</h3>
 					<h1>{{ $nextEvent->display_name }}</h1>
