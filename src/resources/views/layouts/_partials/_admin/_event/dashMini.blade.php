@@ -52,7 +52,7 @@
             </a>
         </div>
     </div>
-    <button class="btn btn-outline-secondary w-100 mb-3" type="button" data-bs-toggle="collapse"
+    <button class="btn w-100 mb-3" type="button" data-bs-toggle="collapse"
             data-bs-target="#miniDashCards" aria-expanded="false" aria-controls="miniDashCards">
         <span class="collapse show" data-bs-target="#miniDashCards">Show dashboard</span>
         <span class="collapse" data-bs-target="#miniDashCards">Hide dashboard</span>
