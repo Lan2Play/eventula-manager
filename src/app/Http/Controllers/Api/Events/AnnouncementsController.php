@@ -3,19 +3,10 @@
 namespace App\Http\Controllers\Api\Events;
 
 use App\EventAnnouncement;
-use DB;
-use DateTime;
 
 use App\Event;
-use App\Ticket;
 use App\EventParticipantType;
-use App\EventTimetable;
-use App\EventTimetableData;
-
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
-use Illuminate\Http\Request;
 
 class AnnouncementsController extends Controller
 {
