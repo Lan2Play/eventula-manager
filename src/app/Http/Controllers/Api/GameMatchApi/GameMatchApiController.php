@@ -43,12 +43,12 @@ class GameMatchApiController extends Controller
             $thirdpartynameprop = $gamematchapihandler->getuserthirdpartyrequirements()["thirdpartyname"];
 
             foreach ($team1->tournamentParticipants as $key => $team1Participant) {
-                $eventParticipant = $team1Participant->eventParticipant;
+                $eventParticipant = $team1Participant->eventTicket;
                 $user = $eventParticipant->user;
                 $gamematchapihandler->addplayer($team1->name, $user->$thirdpartyidprop, $user->$thirdpartynameprop, $user->id, $user->username);
             }
             foreach ($team2->tournamentParticipants as $key => $team2Participant) {
-                $eventParticipant = $team2Participant->eventParticipant;
+                $eventParticipant = $team2Participant->eventTicket;
                 $user = $eventParticipant->user;
                 $gamematchapihandler->addplayer($team2->name, $user->$thirdpartyidprop, $user->$thirdpartynameprop, $user->id, $user->username);
             }

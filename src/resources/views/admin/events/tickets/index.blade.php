@@ -21,33 +21,46 @@
 		</div>
 	</div>
 
-	@include ('layouts._partials._admin._event.dashMini')
+
+    @include ('layouts._partials._admin._event.dashMini')
 
 	<div class="row">
+
 		<div class="col-md-8 col-lg-8">
+            @php
+            $charts = [
+            [
+            'title' => 'Purchase Breakdown',
+            'canvasId' => 'purchaseBreakdownChart',
+            'containerClasses' => 'h-75 w-75'
+            ],
+            [
+            'title' => 'Income Breakdown',
+            'canvasId' => 'incomeBreakdownChart',
+            'containerClasses' => 'w-75'
+            ]
+            ];
+            @endphp
 
-			<div class="card mb-3">
-				<div class="card-header">
-					<i class="fa fa-bar-chart-o fa-fw"></i> Ticket Breakdown
-				</div>
-				<div class="card-body">
-					<div class="row">
-						<div class="col-sm-6 col-12">
-							<h4>Purchase Breakdown</h4>
-							<div class="h-75 w-75">
-								<canvas id="purchaseBreakdownChart"></canvas>
-							</div>
-						</div>
-						<div class="col-sm-6 col-12">
-							<h4>Income Breakdown</h4>
-							<div class="w-75">
-								<canvas id="incomeBreakdownChart"></canvas>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
+            <div class="d-lg-block collapse d-md-none d-sm-none" id="ticketBreakdown">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <i class="fa fa-bar-chart-o fa-fw"></i> Ticket Breakdown
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        @foreach($charts as $chart)
+                        <div class="col-sm-6 col-12">
+                            <h4>{{ $chart['title'] }}</h4>
+                            <div class="{{ $chart['containerClasses'] }}">
+                                <canvas id="{{ $chart['canvasId'] }}"></canvas>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+            </div>
 
 
 			<div class="card mb-3">
@@ -65,6 +78,7 @@
 							<th>Quantity</th>
 							<th>Purchased</th>
 							<th>Purchase Period</th>
+                            <th>Hide policy?</th>
 							<th>Seatable</th>
 							<th></th>
 							<th></th>
@@ -116,6 +130,13 @@
 										Never
 									@endif
 								</td>
+                                <td>
+                                    @if ($ticketType->tickettype_hide_policy >= 0)
+                                        Custom
+                                    @else
+                                        Inherit
+                                    @endif
+                                </td>
 								<td>
 									@if ($ticketType->seatable)
 										Yes
@@ -231,11 +252,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-md-4 col-lg-4">
 
-
-
-		</div>
 	</div>
         <div class="col-md-4 col-lg-4">
             <div class="card mb-3">
@@ -304,13 +321,99 @@
                     {{ Form::close() }}
                 </div>
             </div>
+
+            <div class="card mb-3">
+                <div class="card-header">
+                    <i class="fa fa-eye-slash fa-fw"></i> Ticket Visibility Options
+                </div>
+                <div class="card-body">
+                    <p>Control what ticket should be hidden from the users.</p>
+                    <p>The Global Setting for this is set to: {{$global_ticket_hide_policy}}</p>
+                    <p>The current value is: {{$event->tickettype_hide_policy}}</p>
+                    {{ Form::open(['url' => '/admin/events/' . $event->slug . '/updateTicketHidePolicy', 'onsubmit' => 'return Confirm()']) }}
+                    <div class="form-group">
+                        <label for="ticket_hide_policy">New Hide Policy Value</label>
+                        <small class="text-muted"><i>To use global setting enter -1</i></small>
+                        {{ Form::number('ticket_hide_policy', $event->tickettype_hide_policy, [
+    'class' => 'form-control mb-2',
+    'id' => 'ticket_hide_policy',
+    'min' => -1,
+    'max' => 15]) }}
+                        <button type="submit" class="btn btn-success">Save Policy</button>
+                    </div>
+                    {{ Form::close() }}
+                    <h4>Current Settings:</h4>
+                    <p>Current hide policy value: {{ $event->tickettype_hide_policy }}</p>
+                    <div class="dataTable_wrapper table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                            <tr>
+                                <th>Filter Value</th>
+                                <th>Explanation</th>
+                                <th>Global</th>
+                                <th>Y/N</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @for ($bit = 0; $bit <= 3; $bit++)
+                                @php
+                                    $isGloballyEnabled = ($global_ticket_hide_policy & (1 << $bit)) !== 0;
+                                    $isEnabled = ($event->tickettype_hide_policy & (1 << $bit)) !== 0;
+                                    $isOverridden = $event->tickettype_hide_policy >= 0;
+                                @endphp
+                                <tr>
+                                    <td>{{ pow(2, $bit) }}</td>
+                                    <td>
+                                        @if ($bit === 0)
+                                            Hide upcoming tickets
+                                        @elseif ($bit === 1)
+                                            Hide expired tickets
+                                        @elseif ($bit === 2)
+                                            Hide sold out tickets
+                                        @elseif ($bit === 3)
+                                            Hide timeless tickets
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($isGloballyEnabled)
+                                            @if (!$isOverridden)
+                                                <i class="fa fa-check-circle-o fa-1x" style="color:green"></i>
+                                            @else
+                                                <i class="fa fa-check-circle-o fa-1x" style="color:grey"></i>
+                                            @endif
+                                        @else
+                                            @if (!$isOverridden)
+                                                <i class="fa fa-times-circle-o fa-1x" style="color:red"></i>
+                                            @else
+                                                <i class="fa fa-times-circle-o fa-1x" style="color:grey"></i>
+                                            @endif
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($isOverridden && $isEnabled)
+                                            <i class="fa fa-check-circle-o fa-1x" style="color:green"></i>
+                                        @elseif($isOverridden && !$isEnabled)
+                                            <i class="fa fa-times-circle-o fa-1x" style="color:red"></i>
+                                        @else
+                                            <i class="fa fa-times-circle-o fa-1x" style="color:grey"></i>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endfor
+                            </tbody>
+                        </table>
+                    </div>
+                    <p><i class="bg-warning">Note:</i> these settings can be overridden by each TicketTypes</p>
+                </div>
+            </div>
+        </div>
             <script>
 
                 const purchaseBreakdownChartCanvas = document.getElementById('purchaseBreakdownChart');
                 const incomeBreakdownChartCanvas = document.getElementById('incomeBreakdownChart');
 
-                const purchaseBreakdownData = @json($purchaseBreakdownData);
-                const incomeBreakdownData = @json($incomeBreakdownData);
+                let purchaseBreakdownData = @json($purchaseBreakdownData);
+                let incomeBreakdownData = @json($incomeBreakdownData);
 
                 // Purchase Breakdown
 

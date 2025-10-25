@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers\Api\Events;
 
-use App\Event;
+use App\EventAnnouncement;
 
+use App\Event;
 use App\EventParticipantType;
-use App\EventTimetable;
 use App\Http\Controllers\Controller;
 
-class TimetablesController extends Controller
+class AnnouncementsController extends Controller
 {
 
     /**
-     * Show all Timetables
+     * Show all Announcements
      * @param  $event
-     * @return EventTimetables
+     * @return EventAnnouncements
      */
     public function index($event)
     {
@@ -29,33 +29,32 @@ class TimetablesController extends Controller
         }
 
         $event = Event::where('id', $event->id)->first();
-        return $event->timetables;
+        return $event->announcements;
     }
 
     /**
-     * Show Timetable
+     * Show Announcement
      * @param  $event
-     * @param  EventTimetable $timetable
-     * @return EventTimetable
+     * @param  EventAnnouncement $announcement
+     * @return EventAnnouncement
      */
-    public function show($event, $timetable)
+    public function show($event, $announcement)
     {
         if (is_numeric($event)) {
             $event = Event::where('id', $event)->first();
         } else {
             $event = Event::where('slug', $event)->first();
         }
-        if (is_numeric($timetable)) {
-            $timetable = $event->timetables()->with('data')->where('id', $timetable)->first();
-
+        if (is_numeric($announcement)) {
+            $announcement = $event->announcements()->where('id', $announcement)->first();
         } else {
-            $timetable = $event->timetables()->with('data')->where('slug', $timetable)->first();
+            abort(401, "Announcement ID not correct");
         }
 
-        if (!$event || !$timetable) {
+        if (!$event || !$announcement) {
             abort(404, "Event not found.");
         }
 
-        return $timetable;
+        return $announcement;
     }
 }

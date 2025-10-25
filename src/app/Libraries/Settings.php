@@ -1081,5 +1081,15 @@ class Settings
         return \App\Setting::disableUserLocale();
     }
 
+    public static function setGlobalTicketTypeHidePolicy(int $policy) {
+        return \App\Setting::setGlobalTicketTypeHidePolicy($policy);
+    }
+
+    /**
+     * @return int
+     */
+    public static function getGlobalTicketTypeHidePolicy() {
+        return \App\Setting::getGlobalTicketTypeHidePolicy();
+    }
 
 }

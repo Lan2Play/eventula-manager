@@ -43,7 +43,7 @@
 						</td>
 						<td class="align-middle">
 							@if ($tournamentParticipant->eventTicket->seat)
-								{{ $tournamentParticipant->eventTicket->seat->seat }}
+								{{ $tournamentParticipant->eventTicket->seat->getName() }}
 							@else
 								Not Seated
 							@endif

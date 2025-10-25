@@ -42,7 +42,7 @@
 																								  href="#seating">@lang('events.seating')</a>
 								</li>
 							@endif
-							@if (!$event->private_participants || ($user && !$user->getAllTickets($event->id)->isEmpty()) )
+							@if (!$event->private_participants || ($user && isset($userTickets) && !$userTickets->isEmpty()) )
 								<li class="nav-item" style="font-size:15px; font-weight:bold;"><a class="nav-link"
 																								  href="#attendees">@lang('events.attendees')</a>
 								</li>
@@ -110,7 +110,36 @@
 					<h3><i class="fas fa-ticket-alt me-3"></i>@lang('events.purchasetickets')</h3>
 				</div>
 				<div class="row card-deck">
-					@foreach ($event->ticketTypes()->orderBy('event_ticket_group_id')->get() as $ticketType)
+                    @php
+                    // Cache currency symbol to avoid repeated database calls
+                    $currencySymbol = Settings::getCurrencySymbol();
+                    $globalTicketTypeHidePolicy = Settings::getGlobalTicketTypeHidePolicy();
+                    $eventTicketTypeHidePolicy = $event->tickettype_hide_policy;
+                    
+                    // Pre-calculate ticket counts for each ticket type to avoid N+1 queries
+                    $ticketTypeCounts = [];
+                    foreach ($event->ticketTypes as $tt) {
+                        $ticketTypeCounts[$tt->id] = $tt->tickets->count();
+                    }
+                    
+                    // Use eager-loaded ticketTypes and sort in memory instead of new query
+                    $sortedTicketTypes = $event->ticketTypes->sortBy('event_ticket_group_id');
+                    @endphp
+					@foreach ($sortedTicketTypes as $ticketType)
+                    @php
+                    $ticketTypeHidePolicy = $ticketType->tickettype_hide_policy;
+                    $effectivePolicy = -1;
+                    if ($ticketTypeHidePolicy != -1) {
+                        $effectivePolicy = $ticketTypeHidePolicy;
+                    } elseif ($eventTicketTypeHidePolicy != -1) {
+                        $effectivePolicy = $eventTicketTypeHidePolicy;
+                    } else {
+                        $effectivePolicy = $globalTicketTypeHidePolicy;
+                    }
+                    if ($ticketType->isHiddenByPolicy($effectivePolicy)) {
+                        continue;
+                    }
+                        @endphp
 						<div class="col-12 col-sm-4">
 							<div class="card mb-3" disabled>
 								<div class="card-body d-flex flex-column">
@@ -127,10 +156,10 @@
 									@endif
 									<div class="row mt-auto">
 										<div class="col-sm-12 col-12">
-											<h3>{{ Settings::getCurrencySymbol() }}{{$ticketType->price}}
+											<h3>{{ $currencySymbol }}{{$ticketType->price}}
 												@if ($ticketType->quantity != 0)
 													<small>
-														{{ $ticketType->quantity - $ticketType->tickets()->count() }}
+														{{ $ticketType->quantity - $ticketTypeCounts[$ticketType->id] }}
 														/{{ $ticketType->quantity }} @lang('events.available')
 													</small>
 												@endif
@@ -139,7 +168,7 @@
 												{{ Form::open(array('url'=>'/tickets/purchase/' . $ticketType->id)) }}
 												@if (
                                                 $event->capacity <= $event->tickets->count()
-                                                    || ($ticketType->tickets()->count() >= $ticketType->quantity && $ticketType->quantity != 0)
+                                                    || ($ticketTypeCounts[$ticketType->id] >= $ticketType->quantity && $ticketType->quantity != 0)
                                                     )
 													<div class="row">
 														<div class="mb-3 col-sm-6 col-12">
@@ -165,7 +194,7 @@
 													<div class="row">
 														<div class="mb-3 col-sm-6 col-12 ">
 															{{ Form::label('quantity','Quantity',array('id'=>'','class'=>'')) }}
-															{{ Form::select('quantity', Helpers::getTicketQuantitySelection($ticketType, $ticketType->quantity - $ticketType->tickets()->count()), null, array('id'=>'quantity','class'=>'form-control')) }}
+															{{ Form::select('quantity', Helpers::getTicketQuantitySelection($ticketType, $ticketType->quantity - $ticketTypeCounts[$ticketType->id]), null, array('id'=>'quantity','class'=>'form-control')) }}
 														</div>
 														<div class="mb-3 col-sm-6 col-12 d-flex">
 															{{ Form::hidden('user_id', $user->id, array('id'=>'user_id','class'=>'form-control')) }}
@@ -191,7 +220,7 @@
 			@endif
 		</div>
 
-		@include ('layouts._partials._events.seating')
+        @include ('layouts._partials._events.seating')
 
 
 		<!-- VENUE INFORMATION -->
@@ -570,64 +599,6 @@
 			</div>
 		@endif
 
-		@if (!$event->private_participants || ($user && !$user->getAllTickets($event->id)->isEmpty() ))
-			<!-- ATTENDEES -->
-			<div class="pb-2 mt-4 mb-4 border-bottom">
-				<a name="attendees"></a>
-				<h3><i class="fas fa-users me-3"></i>@lang('events.attendees')</h3>
-			</div>
-			<table class="table table-striped">
-				<thead>
-				<th width="15%">
-				</th>
-				<th>
-					@lang('events.user')
-				</th>
-				<th>
-					@lang('events.name')
-				</th>
-				<th>
-					@lang('events.seat')
-				</th>
-				</thead>
-				<tbody>
-				@foreach ($event->tickets as $ticket)
-					<tr>
-						<td>
-							<img class="img-fluid rounded img-small" style="max-width: 30%;"
-								 alt="{{ $ticket->user->username}}'s Avatar"
-								 src="{{ $ticket->user->avatar }}">
-						</td>
-						<td style="vertical-align: middle;">
-							{{ $ticket->user->username }}
-							@if ($ticket->user->steamid)
-								-
-								<span class="text-muted"><small>Steam: {{ $ticket->user->steamname }}</small></span>
-							@endif
-						</td>
-						<td style="vertical-align: middle;">
-							{{$ticket->user->firstname}}
-						</td>
-						<td style="vertical-align: middle;">
-							@if ($ticket->user->hasSeatableTicket($event->id))
-								@if ($ticket->seat)
-									@if ($ticket->seat->seatingPlan)
-										{{ $ticket->seat->seatingPlan->getShortName() }}
-										| {{ $ticket->seat->getName() }}
-									@else
-										@lang('events.seatingplannotaccessable')
-									@endif
-								@else
-									@lang('events.notseated')
-								@endif
-							@else
-								@lang('events.noseatableticketlist')
-							@endif
-						</td>
-					</tr>
-				@endforeach
-				</tbody>
-			</table>
-		@endif
+ 	@include ('layouts._partials._events.attendees')
 	</div>
 @endsection

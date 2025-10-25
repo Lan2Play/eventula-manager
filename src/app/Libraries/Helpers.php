@@ -252,8 +252,8 @@ class Helpers
     {
         $user = \Auth::user();
         $active_tournament_counter = 0;
-        foreach ($user->eventParticipants as $event_participant) {
-            foreach ($event_participant->tournamentParticipants as $tournament_participant) {
+        foreach ($user->tickets as $ticket) {
+            foreach ($ticket->tournamentParticipants as $tournament_participant) {
                 if (
                     $tournament_participant->eventTournament->event_id == $event_id &&
                     $tournament_participant->eventTournament->status != 'COMPLETE'
@@ -887,12 +887,12 @@ class Helpers
         $team2 = $tournament->getTeamByChallongeId($match->player2_id);
 
         foreach ($team1->tournamentParticipants as $key => $team1Participant) {
-            if ($team1Participant->eventParticipant->user->id == $user->id) {
+            if ($team1Participant->eventTicket->user->id == $user->id) {
                 return true;
             }
         }
         foreach ($team2->tournamentParticipants as $key => $team1Participant) {
-            if ($team1Participant->eventParticipant->user->id == $user->id) {
+            if ($team1Participant->eventTicket->user->id == $user->id) {
                 return true;
             }
         }

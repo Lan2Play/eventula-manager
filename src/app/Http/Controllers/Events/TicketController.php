@@ -179,6 +179,10 @@ class TicketController extends Controller
         }
 
         $action = $request->input('action');
+        if ($action === 'change_user' && $ticket->signed_in && !$isAdmin ) {
+            Session::flash('alert-danger', 'You cannot change the user of a signed in ticket!');
+            return Redirect::back();
+        }
 
         if ($action === 'change_manager') {
             // Only owner can change the manager

@@ -28,6 +28,9 @@ return [
     'revoke_gift' => 'Geschenk zurückziehen',
     'staff_ticket' => 'Team Ticket',
     'free_ticket' => 'Kostenloses Ticket',
+    'signed_in' => 'Eingecheckt',
+    'owner_cant_be_changed' => "Besitzer kann nicht geändert werden",
+
     /* Auditing */
     'manager' => 'Verwalter',
     'owner' => 'Besitzer',

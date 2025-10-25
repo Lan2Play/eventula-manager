@@ -24,7 +24,7 @@ class EventsSeeder extends Seeder
 
         ## House Cleaning
         \DB::table('events')->delete();
-        \DB::table('event_tickets')->delete();
+        \DB::table('ticket_types')->delete();
         \DB::table('event_timetables')->delete();
         \DB::table('event_tournaments')->delete();
         \DB::table('event_venues')->delete();

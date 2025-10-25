@@ -175,7 +175,7 @@ class User extends Authenticatable implements MustVerifyEmail
     /**
      * Get Free Tickets for current User
      * @param  $eventId
-     * @return EventParticipants
+     * @return Ticket
      */
     public function getFreeTickets($eventId)
     {
@@ -186,7 +186,7 @@ class User extends Authenticatable implements MustVerifyEmail
     /**
      * Get Staff Tickets for current User
      * @param  $eventId
-     * @return EventParticipants
+     * @return Ticket
      */
     public function getStaffTickets($eventId)
     {
@@ -438,13 +438,13 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getNextEvent()
     {
         $nextEvent = false;
-        foreach ($this->eventParticipants as $eventParticipant) {
-            if ($eventParticipant->event->end >=  Carbon::now()) {
+        foreach ($this->tickets as $ticket) {
+            if ($ticket->event->end >=  Carbon::now()) {
                 if (!isset($nextEvent) || !$nextEvent) {
-                    $nextEvent = $eventParticipant->event;
+                    $nextEvent = $ticket->event;
                 }
-                if ($nextEvent->end >= $eventParticipant->event->end) {
-                    $nextEvent = $eventParticipant->event;
+                if ($nextEvent->end >= $ticket->event->end) {
+                    $nextEvent = $ticket->event;
                 }
             }
         }

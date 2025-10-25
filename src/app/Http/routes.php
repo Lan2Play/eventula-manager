@@ -36,8 +36,13 @@ Route::group(['middleware' => ['installed']], function () {
         Route::get('/api/events/{event}/participants', 'Api\Events\TicketController@index');
         Route::get('/api/events/{event}/timetables', 'Api\Events\TimetablesController@index');
         Route::get('/api/events/{event}/timetables/{timetable}', 'Api\Events\TimetablesController@show');
+        Route::get('/api/events/{event}/announcements', 'Api\Events\AnnouncementsController@index');
+        Route::get('/api/events/{event}/announcements/{announcement}', 'Api\Events\AnnouncementsController@show');
         Route::get('/api/events/{event}/tickets', 'Api\Events\TicketTypeController@index');
         Route::get('/api/events/{event}/tickets/{ticketType}', 'Api\Events\TicketTypeController@show');
+        Route::get('/api/events/{event}/tournaments', 'Api\Events\TournamentsController@index');
+        Route::get('/api/events/{event}/tournaments/{tournament}', 'Api\Events\TournamentsController@show');
+        Route::get('/api/events/{event}/tournaments/{tournament}/challonge', 'Api\Events\TournamentsController@showChallonge');
 
         Route::group(['middleware' => ['auth:sanctum']], function () {
             /**
@@ -329,6 +334,7 @@ Route::group(['middleware' => ['installed']], function () {
         Route::post('/admin/events/{event}/information', 'Admin\Events\InformationController@store');
         Route::post('/admin/information/{information}', 'Admin\Events\InformationController@update');
         Route::delete('/admin/information/{information}', 'Admin\Events\InformationController@destroy');
+        Route::post('/admin/events/{event}/updateTicketHidePolicy', 'Admin\Events\EventsController@updateTicketHidePolicy');
         /**
          * Seating
          */
@@ -665,6 +671,7 @@ Route::group(['middleware' => ['installed']], function () {
         Route::post('/admin/settings/userlocale/reset', 'Admin\SettingsController@resetUserLocales');
         Route::post('/admin/settings/generate/qr', 'Admin\SettingsController@regenerateQRCodes');
         Route::post('/admin/settings/generate/newqr', 'Admin\SettingsController@regenerateQRCodesWithNewNames');
+        Route::post('/admin/settings/tickethidepolicy', 'Admin\SettingsController@updateGlobalTicketTypeHidePolicy');
 
         /**
          * Appearance
