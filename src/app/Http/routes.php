@@ -36,6 +36,8 @@ Route::group(['middleware' => ['installed']], function () {
         Route::get('/api/events/{event}/participants', 'Api\Events\TicketController@index');
         Route::get('/api/events/{event}/timetables', 'Api\Events\TimetablesController@index');
         Route::get('/api/events/{event}/timetables/{timetable}', 'Api\Events\TimetablesController@show');
+        Route::get('/api/events/{event}/announcements', 'Api\Events\AnnouncementsController@index');
+        Route::get('/api/events/{event}/announcements/{announcement}', 'Api\Events\AnnouncementsController@show');
         Route::get('/api/events/{event}/tickets', 'Api\Events\TicketTypeController@index');
         Route::get('/api/events/{event}/tickets/{ticketType}', 'Api\Events\TicketTypeController@show');
 
