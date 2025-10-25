@@ -40,6 +40,9 @@ Route::group(['middleware' => ['installed']], function () {
         Route::get('/api/events/{event}/announcements/{announcement}', 'Api\Events\AnnouncementsController@show');
         Route::get('/api/events/{event}/tickets', 'Api\Events\TicketTypeController@index');
         Route::get('/api/events/{event}/tickets/{ticketType}', 'Api\Events\TicketTypeController@show');
+        Route::get('/api/events/{event}/tournaments', 'Api\Events\TournamentsController@index');
+        Route::get('/api/events/{event}/tournaments/{tournament}', 'Api\Events\TournamentsController@show');
+        Route::get('/api/events/{event}/tournaments/{tournament}/challonge', 'Api\Events\TournamentsController@showChallonge');
 
         Route::group(['middleware' => ['auth:sanctum']], function () {
             /**
