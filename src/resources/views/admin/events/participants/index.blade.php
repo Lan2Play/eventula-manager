@@ -28,7 +28,7 @@
 
 		<div class="card mb-3">
             <div class="card-header">
-                <div class="d-flex flex-column flex-md-row align-items-md-center gap-3">
+                <div class="d-flex flex-column flex-xl-row align-items-md-center gap-3">
                     <div class="d-flex align-items-center">
                         <i class="fa fa-users fa-fw me-2"></i>
                         <span>All Participants (Tickets)</span>
@@ -51,12 +51,12 @@
                         <button type="submit" class="btn btn-secondary btn-sm">Search</button>
                     </div>
                     {{ Form::close() }}
-                    <div class="ms-md-auto gap-2">
+                    <div class="ms-md-auto gap-2 d-flex flex-column flex-xl-row">
                         {{ Form::open(['url'=>'/admin/events/' . $event->slug . '/participants', 'method'=>'GET',
                         'class'=>'d-inline-block me-md-2']) }}
                         <div class="d-flex gap-2 align-items-center">
-                            <label for="signed_in" class="me-2">Sign-In Status:</label>
-                            <select name="signed_in" class="form-select form-select-sm w-auto">
+                            <label for="signed_in_filter" class="me-2">Sign-In Status:</label>
+                            <select id="signed_in_filter" name="signed_in" class="form-select form-select-sm w-auto">
                                 <option value="any" {{ request(
                                 'signed_in', 'any') == 'All' || request('signed_in') === null ? 'selected' : ''
                                 }}>Any</option>
@@ -81,8 +81,8 @@
                         {{ Form::open(['url'=>'/admin/events/' . $event->slug . '/participants', 'method'=>'GET',
                         'class'=>'d-inline-block me-md-2']) }}
                         <div class="d-flex gap-2">
-                            <label for="payment" class="me-2">Payment Status:</label>
-                            <select name="payment" class="form-select form-select-sm w-auto">
+                            <label for="payment_filter" class="me-2">Payment Status:</label>
+                            <select id="payment_filter" name="payment" class="form-select form-select-sm w-auto">
                                 <option value="">-</option>
                                 <option value="success" {{ request(
                                 'payment') == 'success' ? 'selected' : '' }}>Paid</option>
@@ -111,7 +111,6 @@
                            class="btn btn-info btn-sm">Freebies</a>
                     </div>
                 </div>
-            </div>
             </div>
 			<div class="card-body">
 				<div class="dataTable_wrapper table-responsive">

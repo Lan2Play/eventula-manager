@@ -27,9 +27,9 @@ class TicketController extends Controller
         // Filter by sign-in status
         $signedIn = $request->query->get('signed_in', 'any');
         if ($signedIn !== '' && $signedIn !== 'any') {
-            if (in_array($signedIn, ['yes', 'true', '1', 'on'], true)) {
+            if ($signedIn == 'yes') {
                 $query->where('signed_in', true);
-            } elseif (in_array($signedIn, ['no', 'false', '0', 'off'], true)) {
+            } elseif ($signedIn == 'no') {
                 $query->where('signed_in', false);
             }
         }
