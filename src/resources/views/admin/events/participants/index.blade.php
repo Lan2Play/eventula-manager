@@ -181,7 +181,7 @@
                                     <strong>Not Paid</strong>
                                     @endif
                                     @if($participant->purchase->user_id != $participant->user_id)
-                                     <small>Paid by: {{ $participant->purchase->paypal_email }}</small>
+                                    <small>Paid by: {{ $participant->owner->username }}</small>
                                     @endif
 									@else
 									<strong>No</strong>
