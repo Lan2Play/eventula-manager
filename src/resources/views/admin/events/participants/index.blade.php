@@ -167,13 +167,13 @@
 								<td >
 									@if ($participant->free)
 									<strong>Free</strong>
-									<small>Assigned by: {{ $participant->getAssignedByUser()->username }}</small>
+									<small>assigned by: {{ $participant->getAssignedByUser()->username }}</small>
 									@elseif ($participant->staff)
 									<strong>Staff</strong>
-									<small>Assigned by: {{ $participant->getAssignedByUser()->username }}</small>
+									<small>assigned by: {{ $participant->getAssignedByUser()->username }}</small>
 									@elseif ($participant->gift)
 									<strong>Gift</strong>
-									<small>Assigned by: {{ $participant->getGiftedByUser()->username }}</small>
+									<small>assigned by: {{ $participant->getGiftedByUser()->username }}</small>
 									@elseif ($participant->purchase()->exists())
                                     @if ($participant->purchase->status == \App\Purchase::STATUS_SUCCESS)
 									<strong>Paid</strong>
@@ -181,7 +181,7 @@
                                     <strong>Not Paid</strong>
                                     @endif
                                     @if($participant->purchase->user_id != $participant->user_id)
-                                    <small>Paid by: {{ $participant->owner->username }}</small>
+                                    <small>by: {{ $participant->owner->username }}</small>
                                     @endif
 									@else
 									<strong>No</strong>
