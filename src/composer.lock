@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3d81fb5654eed26982608e52057f11af",
+    "content-hash": "b152f39cc87d2d8acb804a9893823539",
     "packages": [
         {
             "name": "artesaos/seotools",
@@ -10388,25 +10388,25 @@
         },
         {
             "name": "xpaw/php-source-query-class",
-            "version": "4.0.0",
+            "version": "5.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/xPaw/PHP-Source-Query.git",
-                "reference": "02839815b3281c45b111c8dfdb37d6004d886fe9"
+                "reference": "892d90943decd6f306d958330cca658f20a570fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/xPaw/PHP-Source-Query/zipball/02839815b3281c45b111c8dfdb37d6004d886fe9",
-                "reference": "02839815b3281c45b111c8dfdb37d6004d886fe9",
+                "url": "https://api.github.com/repos/xPaw/PHP-Source-Query/zipball/892d90943decd6f306d958330cca658f20a570fc",
+                "reference": "892d90943decd6f306d958330cca658f20a570fc",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.1"
             },
             "require-dev": {
-                "phpstan/phpstan": "^1.10",
-                "phpunit/phpunit": "^10.3",
-                "vimeo/psalm": "^5.15"
+                "phpstan/phpstan": "^2.0",
+                "phpstan/phpstan-strict-rules": "^2.0",
+                "phpunit/phpunit": "^10.3"
             },
             "type": "library",
             "autoload": {
@@ -10432,9 +10432,9 @@
                 "team fortress"
             ],
             "support": {
-                "source": "https://github.com/xPaw/PHP-Source-Query/tree/4.0.0"
+                "source": "https://github.com/xPaw/PHP-Source-Query/tree/5.0.0"
             },
-            "time": "2024-08-04T08:10:16+00:00"
+            "time": "2025-09-28T16:54:22+00:00"
         }
     ],
     "packages-dev": [
