@@ -99,7 +99,7 @@ class EventsController extends Controller
         $event->matchmaking_enabled         = (bool)$request->matchmaking_enabled;
         $event->tournaments_freebies        = (bool)$request->tournaments_freebies;
         $event->tournaments_staff           = (bool)$request->tournaments_staff;
-        $event->ticket_hide_policy          = (int)$request->ticket_hide_policy;
+        $event->tickettype_hide_policy      = (int)($request->ticket_hide_policy ?? -1);
         if (!$event->save()) {
             Session::flash('alert-danger', 'Cannot Save Event!');
             return Redirect::to('admin/events/' . $event->slug);
