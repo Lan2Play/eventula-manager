@@ -123,7 +123,7 @@ return [
             'host'     => Helpers::getEnvWithFallback('REDIS_HOST', 'localhost'),
             'password' => Helpers::getEnvWithFallback('REDIS_PASSWORD', null),
             'port'     => Helpers::getEnvWithFallback('REDIS_PORT', 6379),
-            'database' => 0,
+            'database' => Helpers::getEnvWithFallback('REDIS_DATABASE', 0),
         ],
 
     ],

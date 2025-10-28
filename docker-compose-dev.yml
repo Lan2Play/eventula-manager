@@ -16,6 +16,18 @@ services:
       - 80:80
       - 443:443
     restart: unless-stopped
+    depends_on:
+      - eventula_manager_database
+      - mailhog
+      - redis
+
+  redis:
+    image: redis
+    container_name: eventula_manager_redis
+    restart: unless-stopped
+    networks:
+      - lan
+
   eventula_manager_database:
     image: mysql:9
     volumes:
@@ -27,7 +39,23 @@ services:
     networks:
       - lan
     restart: unless-stopped
+  mailhog:
+    image: mailhog/mailhog:v1.0.1
+    container_name: mailhog
+    restart: unless-stopped
+    ports:
+      - "1025:1025"   # SMTP
+      - "8025:8025"   # Web UI
+    environment:
+      - MH_STORAGE=maildir
+      - MH_MAILDIR_PATH=/maildir
+    volumes:
+      - mailhog_data:/maildir
+    networks:
+      - lan
+
 volumes:
+  mailhog_data:
   eventula_manager_database:
     name: eventula_manager_database
 networks:

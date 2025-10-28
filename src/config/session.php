@@ -20,7 +20,7 @@ return [
     |
     */
 
-    'driver' => 'database',
+    'driver' => Helpers::getEnvWithFallback('SESSION_DRIVER', 'database'),
 
     /*
     |--------------------------------------------------------------------------
