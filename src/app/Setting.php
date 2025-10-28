@@ -4,11 +4,33 @@ namespace App;
 
 use DB;
 use Storage;
-
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
 
 class Setting extends Model
 {
+    protected static function allAsMap(): array
+    {
+        return Cache::tags(['settings'])->rememberForever('settings:all', function () {
+            return self::query()->pluck('value', 'setting')->toArray();
+        });
+    }
+
+    public static function getValue(string $key, $default = null)
+    {
+        $map = self::allAsMap();
+        return array_key_exists($key, $map) ? $map[$key] : $default;
+    }
+
+    protected static function booted()
+    {
+        static::saved(function () {
+            Cache::tags(['settings'])->flush();
+        });
+        static::deleted(function () {
+            Cache::tags(['settings'])->flush();
+        });
+    }
     /**
      * The name of the table.
      *
@@ -44,7 +66,7 @@ class Setting extends Model
      */
     public static function getOrgName()
     {
-        return self::where('setting', 'org_name')->first()->value;
+        return self::getValue('org_name');
     }
 
     /**
@@ -67,7 +89,7 @@ class Setting extends Model
      */
     public static function getOrgTagline()
     {
-        return self::where('setting', 'org_tagline')->first()->value;
+        return self::getValue('org_tagline');
     }
 
     /**
@@ -90,7 +112,7 @@ class Setting extends Model
      */
     public static function getOrgLogo()
     {
-        return (self::where('setting', 'org_logo')->first()->value);
+        return self::getValue('org_logo');
     }
 
     /**
@@ -123,7 +145,7 @@ class Setting extends Model
      */
     public static function getOrgFavicon()
     {
-        return (self::where('setting', 'org_favicon')->first()->value) . '?cb=' . mt_rand(10, 9999);
+        return self::getValue('org_favicon') . '?cb=' . mt_rand(10, 9999);
     }
 
     /**
@@ -156,7 +178,7 @@ class Setting extends Model
      */
     public static function getPurchaseTermsAndConditions()
     {
-        return self::where('setting', 'purchase_terms_and_conditions')->first()->value;
+        return self::getValue('purchase_terms_and_conditions');
     }
 
     /**
@@ -179,7 +201,7 @@ class Setting extends Model
      */
     public static function getRegistrationTermsAndConditions()
     {
-        return self::where('setting', 'registration_terms_and_conditions')->first()->value;
+        return self::getValue('registration_terms_and_conditions');
     }
 
     /**
@@ -202,7 +224,7 @@ class Setting extends Model
      */
     public static function getDiscordLink()
     {
-        return self::where('setting', 'discord_link')->first()->value;
+        return self::getValue('discord_link');
     }
 
     /**
@@ -225,7 +247,7 @@ class Setting extends Model
      */
     public static function getDiscordId()
     {
-        return self::where('setting', 'discord_id')->first()->value;
+        return self::getValue('discord_id');
     }
 
     /**
@@ -248,7 +270,7 @@ class Setting extends Model
      */
     public static function getFacebookLink()
     {
-        return self::where('setting', 'facebook_link')->first()->value;
+        return self::getValue('facebook_link');
     }
 
     /**
@@ -271,7 +293,7 @@ class Setting extends Model
      */
     public static function getSteamLink()
     {
-        return self::where('setting', 'steam_link')->first()->value;
+        return self::getValue('steam_link');
     }
 
     /**
@@ -294,7 +316,7 @@ class Setting extends Model
      */
     public static function getRedditLink()
     {
-        return self::where('setting', 'reddit_link')->first()->value;
+        return self::getValue('reddit_link');
     }
 
     /**
@@ -317,7 +339,7 @@ class Setting extends Model
      */
     public static function getTwitterLink()
     {
-        return self::where('setting', 'twitter_link')->first()->value;
+        return self::getValue('twitter_link');
     }
 
     /**
@@ -340,7 +362,7 @@ class Setting extends Model
      */
     public static function getTeamspeakLink()
     {
-        return self::where('setting', 'teamspeak_link')->first()->value;
+        return self::getValue('teamspeak_link');
     }
 
     /**
@@ -363,7 +385,7 @@ class Setting extends Model
      */
     public static function getMumbleLink()
     {
-        return self::where('setting', 'mumble_link')->first()->value;
+        return self::getValue('mumble_link');
     }
 
     /**
@@ -386,7 +408,7 @@ class Setting extends Model
      */
     public static function getParticipantCountOffset()
     {
-        return self::where('setting', 'participant_count_offset')->first()->value;
+        return self::getValue('participant_count_offset');
     }
 
     /**
@@ -409,7 +431,7 @@ class Setting extends Model
      */
     public static function getEventCountOffset()
     {
-        return self::where('setting', 'event_count_offset')->first()->value;
+        return self::getValue('event_count_offset');
     }
 
     /**
@@ -433,7 +455,7 @@ class Setting extends Model
      */
     public static function getFrontpageAlotTagline()
     {
-        return self::where('setting', 'frontpage_alot_tagline')->first()->value;
+        return self::getValue('frontpage_alot_tagline');
     }
 
     /**
@@ -456,7 +478,7 @@ class Setting extends Model
      */
     public static function getCurrency()
     {
-        return self::where('setting', 'currency')->first()->value;
+        return self::getValue('currency');
     }
 
     /**
@@ -465,7 +487,7 @@ class Setting extends Model
      */
     public static function getCurrencySymbol()
     {
-        $currency = self::where('setting', 'currency')->first()->value;
+        $currency = self::getValue('currency');
         switch ($currency) {
             case 'USD':
                 $symbol = '$';
