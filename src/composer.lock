@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0a4720ae0becb1adaec4196781befebf",
+    "content-hash": "e9d492b66b3388b19ef1d3073695fac3",
     "packages": [
         {
             "name": "artesaos/seotools",
@@ -2513,16 +2513,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v12.35.1",
+            "version": "v12.36.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "d6d6e3cb68238e2fb25b440f222442adef5a8a15"
+                "reference": "5247c8f4139e5266cd42bbe13de131604becd7e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/d6d6e3cb68238e2fb25b440f222442adef5a8a15",
-                "reference": "d6d6e3cb68238e2fb25b440f222442adef5a8a15",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/5247c8f4139e5266cd42bbe13de131604becd7e1",
+                "reference": "5247c8f4139e5266cd42bbe13de131604becd7e1",
                 "shasum": ""
             },
             "require": {
@@ -2728,7 +2728,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2025-10-23T15:25:03+00:00"
+            "time": "2025-10-28T15:13:16+00:00"
         },
         {
             "name": "laravel/legacy-factories",
