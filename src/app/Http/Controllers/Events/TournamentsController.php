@@ -226,27 +226,36 @@ class TournamentsController extends Controller
      */
     public function registerPug(Event $event, EventTournament $tournament, Request $request)
     {
+
+
+        $ticket = $tournament->event->tickets()->where('id', $request->ticket_id)->first();
+
+        if (!$ticket) {
+            Session::flash('alert-danger', __('tickets.alert_ticket_not_found'));
+            return Redirect::back();
+        }
+
         if ($tournament->status != 'OPEN') {
             Session::flash('alert-danger', __('events.tournament_signups_not_permitted'));
             return Redirect::back();
         }
 
-        if (!$tournament->event->tickets()->where('id', $request->ticket_id)->first()) {
+        if (!$ticket->signed_in) {
             Session::flash('alert-danger', __('events.tournament_not_signed_in'));
             return Redirect::back();
         }
 
-        if ($tournament->getParticipant($request->ticket_id)) {
+        if ($tournament->getParticipant($ticket->id)) {
             Session::flash('alert-danger', __('events.tournament_already_signed_up'));
             return Redirect::back();
         }
 
-        if (!$tournament->event->tournaments_freebies && $request->ticket_id->free) {
+        if (!$tournament->event->tournaments_freebies && $ticket->free) {
             Session::flash('alert-danger', __('events.tournament_freebie_not_permitted'));
             return Redirect::back();
         }
 
-        if (!$tournament->event->tournaments_staff && $request->ticket_id->staff) {
+        if (!$tournament->event->tournaments_staff && $ticket->staff) {
             Session::flash('alert-danger', __('events.tournament_staff_not_permitted'));
             return Redirect::back();
         }
