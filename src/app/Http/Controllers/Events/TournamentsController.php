@@ -226,14 +226,21 @@ class TournamentsController extends Controller
      */
     public function registerPug(Event $event, EventTournament $tournament, Request $request)
     {
+
+
         $ticket = $tournament->event->tickets()->where('id', $request->ticket_id)->first();
+
+        if (!$ticket) {
+            Session::flash('alert-danger', __('tickets.alert_ticket_not_found'));
+            return Redirect::back();
+        }
 
         if ($tournament->status != 'OPEN') {
             Session::flash('alert-danger', __('events.tournament_signups_not_permitted'));
             return Redirect::back();
         }
 
-        if (!$tournament->event->tickets()->where('id', $ticket->id)->first()) {
+        if (!$ticket->signed_in) {
             Session::flash('alert-danger', __('events.tournament_not_signed_in'));
             return Redirect::back();
         }
