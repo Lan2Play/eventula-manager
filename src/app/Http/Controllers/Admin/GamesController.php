@@ -134,7 +134,7 @@ class GamesController extends Controller
         if ($request->file('image_header')) {
             $imageName  = 'header.' . $request->file('image_header')->getClientOriginalExtension();
             Image::read($request->file('image_header'))
-                ->resize(1600, 400)
+                ->resize(1600, 300)
                 ->save(public_path() . $destinationPath . $imageName);
             $game->image_header_path = $destinationPath . $imageName;
             if (!$game->save()) {
