@@ -2,34 +2,152 @@
 
 namespace App;
 
-use DB;
 use Storage;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
 
 class Setting extends Model
 {
+
+    /**
+     * @return array<string, string>
+     */
     protected static function allAsMap(): array
     {
-        return Cache::tags(['settings'])->rememberForever('settings:all', function () {
+        try {
+            $callback = function () {
+                return self::query()->pluck('value', 'setting')->toArray();
+            };
+
+            if (Cache::supportsTags()) {
+                return Cache::tags(['settings'])->rememberForever('settings:all', $callback);
+            }
+
+            return Cache::rememberForever('settings:all', $callback);
+        } catch (\Exception $e) {
+            // Fallback: Direkt aus der Datenbank laden
+            \Log::warning('Cache fehler beim Laden der Settings: ' . $e->getMessage());
             return self::query()->pluck('value', 'setting')->toArray();
-        });
+        }
     }
 
     public static function getValue(string $key, $default = null)
     {
-        $map = self::allAsMap();
-        return array_key_exists($key, $map) ? $map[$key] : $default;
+        try {
+            $remember = function () use ($key) {
+                return self::query()->where('setting', $key)->value('value');
+            };
+
+            if (Cache::supportsTags()) {
+                $val = Cache::tags(['settings'])->rememberForever("setting:{$key}", $remember);
+            } else {
+                $val = Cache::rememberForever("setting:{$key}", $remember);
+            }
+
+            return $val !== null ? $val : $default;
+        } catch (\Throwable $e) {
+            \Log::warning('Cache error while loading setting ' . $key . ': ' . $e->getMessage());
+            $val = self::query()->where('setting', $key)->value('value');
+            return $val !== null ? $val : $default;
+        }
+    }
+
+    /**
+     * Efficiently fetch multiple settings by keys.
+     * Returns an associative array of key => value. Missing keys map to null.
+     *
+     * @param string[] $keys
+     * @return array<string, mixed|null>
+     */
+    public static function getValues(array $keys): array
+    {
+        try {
+            // normalize keys
+            $keys = array_values(array_unique(array_filter($keys, function ($k) {
+                return is_string($k) && $k !== '';
+            })));
+            if (!$keys) {
+                return [];
+            }
+
+            $result = [];
+            $missing = [];
+
+            if (Cache::supportsTags()) {
+                foreach ($keys as $k) {
+                    $cached = Cache::tags(['settings'])->get("setting:{$k}");
+                    if ($cached === null) {
+                        $missing[] = $k;
+                    } else {
+                        $result[$k] = $cached;
+                    }
+                }
+            } else {
+                foreach ($keys as $k) {
+                    $cached = Cache::get("setting:{$k}");
+                    if ($cached === null) {
+                        $missing[] = $k;
+                    } else {
+                        $result[$k] = $cached;
+                    }
+                }
+            }
+
+            if ($missing) {
+                $fromDb = self::query()->whereIn('setting', $missing)->pluck('value', 'setting')->toArray();
+                foreach ($missing as $k) {
+                    if (array_key_exists($k, $fromDb)) {
+                        $val = $fromDb[$k];
+                        if (Cache::supportsTags()) {
+                            Cache::tags(['settings'])->forever("setting:{$k}", $val);
+                        } else {
+                            Cache::forever("setting:{$k}", $val);
+                        }
+                        $result[$k] = $val;
+                    } else {
+                        // Key doesn't exist in DB; return null but do not cache null to allow future creation
+                        $result[$k] = null;
+                    }
+                }
+            }
+
+            return $result;
+        } catch (\Throwable $e) {
+            \Log::warning('Cache error while loading multiple settings: ' . $e->getMessage());
+            // Fallback: one DB query
+            $values = self::query()->whereIn('setting', $keys)->pluck('value', 'setting')->toArray();
+            // Ensure all requested keys are present (null for missing)
+            $result = [];
+            foreach ($keys as $k) {
+                $result[$k] = array_key_exists($k, $values) ? $values[$k] : null;
+            }
+            return $result;
+        }
     }
 
     protected static function booted()
     {
-        static::saved(function () {
-            Cache::tags(['settings'])->flush();
-        });
-        static::deleted(function () {
-            Cache::tags(['settings'])->flush();
-        });
+        $invalidate = function (self $model) {
+            try {
+                $key = $model->setting ?? null;
+                if (Cache::supportsTags()) {
+                    if ($key) {
+                        Cache::tags(['settings'])->forget("setting:{$key}");
+                    }
+                    Cache::tags(['settings'])->forget('settings:all');
+                } else {
+                    if ($key) {
+                        Cache::forget("setting:{$key}");
+                    }
+                    Cache::forget('settings:all');
+                }
+            } catch (\Throwable $e) {
+                \Log::warning('Cache invalidation for settings failed: ' . $e->getMessage());
+            }
+        };
+
+        static::saved($invalidate);
+        static::deleted($invalidate);
     }
     /**
      * The name of the table.
