@@ -7,6 +7,7 @@ use Auth;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Cache;
 use Carbon\Carbon;
 
 use Cviebrock\EloquentSluggable\Sluggable;
@@ -213,6 +214,24 @@ class Event extends Model
     }
 
     /**
+     * Use cached lookup for implicit route-model binding.
+     */
+    public function resolveRouteBinding($value, $field = null)
+    {
+        try {
+            if ($field === 'slug' || ($field === null && $this->getRouteKeyName() === 'slug')) {
+                return self::findBySlugCached((string)$value);
+            }
+            if ($field === 'id' || ($field === null && $this->getRouteKeyName() === 'id')) {
+                return self::findCached((int)$value);
+            }
+        } catch (\Throwable $e) {
+            \Log::warning('Event route binding cache error: ' . $e->getMessage());
+        }
+        return parent::resolveRouteBinding($value, $field);
+    }
+
+    /**
      * Get Seat
      * @param  $seatingPlanId
      * @param  $seat
@@ -416,6 +435,144 @@ class Event extends Model
     public function hasEnded()
     {
         return Carbon::parse($this->end)->lessThan(Carbon::now());
+    }
+
+    protected static function booted()
+    {
+        $invalidate = function (self $model) {
+            try {
+                $id = $model->id ?? null;
+                $slug = $model->slug ?? null;
+                if (Cache::supportsTags()) {
+                    if ($id) {
+                        Cache::tags(['events'])->forget("event:{$id}");
+                    }
+                    if ($slug) {
+                        Cache::tags(['events'])->forget("event:slug:{$slug}");
+                    }
+                } else {
+                    if ($id) {
+                        Cache::forget("event:{$id}");
+                    }
+                    if ($slug) {
+                        Cache::forget("event:slug:{$slug}");
+                    }
+                }
+            } catch (\Throwable $e) {
+                \Log::warning('Cache invalidation for events failed: ' . $e->getMessage());
+            }
+        };
+
+        static::saved($invalidate);
+        static::deleted($invalidate);
+    }
+
+    /**
+     * Find an Event by id with caching.
+     * Caches the whole model instance under key event:{id}.
+     */
+    public static function findCached(int $id): ?self
+    {
+        $key = "event:{$id}";
+        try {
+            $remember = function () use ($id) {
+                return self::query()->find($id);
+            };
+            if (Cache::supportsTags()) {
+                return Cache::tags(['events'])->rememberForever($key, $remember);
+            }
+            return Cache::rememberForever($key, $remember);
+        } catch (\Throwable $e) {
+            \Log::warning('Cache error while loading event ' . $id . ': ' . $e->getMessage());
+            return self::query()->find($id);
+        }
+    }
+
+    /**
+     * Find an Event by slug with caching.
+     * Key: event:slug:{slug}
+     */
+    public static function findBySlugCached(string $slug): ?self
+    {
+        $key = "event:slug:{$slug}";
+        try {
+            $remember = function () use ($slug) {
+                return self::query()->where('slug', $slug)->first();
+            };
+            if (Cache::supportsTags()) {
+                return Cache::tags(['events'])->rememberForever($key, $remember);
+            }
+            return Cache::rememberForever($key, $remember);
+        } catch (\Throwable $e) {
+            \Log::warning('Cache error while loading event by slug ' . $slug . ': ' . $e->getMessage());
+            return self::query()->where('slug', $slug)->first();
+        }
+    }
+
+    /**
+     * Fetch multiple events by ids efficiently with caching.
+     * Returns an associative array id => Event|null (null if not found; nulls are not cached).
+     *
+     * @param int[] $ids
+     * @return array<int, self|null>
+     */
+    public static function findManyCached(array $ids): array
+    {
+        try {
+            $ids = array_values(array_unique(array_map('intval', array_filter($ids, function ($v) { return (int)$v > 0; }))));
+            if (!$ids) {
+                return [];
+            }
+            $result = [];
+            $missing = [];
+
+            if (Cache::supportsTags()) {
+                foreach ($ids as $id) {
+                    $cached = Cache::tags(['events'])->get("event:{$id}");
+                    if ($cached === null) {
+                        $missing[] = $id;
+                    } else {
+                        $result[$id] = $cached;
+                    }
+                }
+            } else {
+                foreach ($ids as $id) {
+                    $cached = Cache::get("event:{$id}");
+                    if ($cached === null) {
+                        $missing[] = $id;
+                    } else {
+                        $result[$id] = $cached;
+                    }
+                }
+            }
+
+            if ($missing) {
+                $fromDb = self::query()->whereIn('id', $missing)->get()->keyBy('id');
+                foreach ($missing as $id) {
+                    if (isset($fromDb[$id])) {
+                        $model = $fromDb[$id];
+                        if (Cache::supportsTags()) {
+                            Cache::tags(['events'])->forever("event:{$id}", $model);
+                        } else {
+                            Cache::forever("event:{$id}", $model);
+                        }
+                        $result[$id] = $model;
+                    } else {
+                        $result[$id] = null; // do not cache nulls
+                    }
+                }
+            }
+
+            return $result;
+        } catch (\Throwable $e) {
+            \Log::warning('Cache error while loading multiple events: ' . $e->getMessage());
+            $coll = self::query()->whereIn('id', $ids)->get()->keyBy('id');
+            $out = [];
+            foreach ($ids as $id) {
+                $out[$id] = $coll->get($id, null);
+            }
+            return $out;
+        }
     }
 
 }
