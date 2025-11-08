@@ -19,6 +19,7 @@ class GameMatchApiHandler
             "1" => "Get5",
             "2" => "PugSharp",
             "3" => "PugSharp 2v2",
+            "4" => "TMT2",
         );
         return $return;
     }
@@ -32,32 +33,15 @@ class GameMatchApiHandler
                 return new PugSharpMatchApiHandler();
             case "3":
                 return new PugSharpMatchApiHandler2v2();
+            case "4":
+                return new TMT2MatchApiHandler();
             default:
                 throw new Exception("MatchApiHandler \"" . GameMatchApiHandler::getGameMatchApiHandlerSelectArray()[$matchApiHandlerId] . "\" is not able to execute commands.");
         }
     }
 }
 
-/**
- * IGameMatchApiHandler
- * @param $matchtype (0 for tournament, 1 for matchmaking)
- * @return View
- */
-interface IGameMatchApiHandler
-{
-    public function getconfig($matchid, $nummaps, $players_per_team, $apiurl, $apikey);
-    public function getuserthirdpartyrequirements();
-    public function addteam($name);
-    public function addplayer($teamName, $thirdpartyid, $thirdpartyname, $userid, $username);
-    public function authorizeserver(Request $request, GameServer $gameserver);
-    public function golive(Request $request, MatchMaking $match = null, EventTournament $tournament = null, ?int $challongematchid, int $mapnumber);
-    public function updateround(Request $request, MatchMaking $match = null, EventTournament $tournament = null, ?int $challongematchid, int $mapnumber);
-    public function updateplayer(Request $request, MatchMaking $match = null, EventTournament $tournament = null, ?int $challongematchid, int $mapnumber, string $player);
-    public function finalizemap(Request $request, MatchMaking $match = null, EventTournament $tournament = null, ?int $challongematchid, int $mapnumber);
-    public function finalize(Request $request, MatchMaking $match = null, EventTournament $tournament = null, ?int $challongematchid);
-    public function freeserver(Request $request, MatchMaking $match = null, EventTournament $tournament = null, ?int $challongematchid);
-    public function uploaddemo(Request $request, MatchMaking $match = null, EventTournament $tournament = null, ?int $challongematchid);
-}
+
 
 class Get5MatchApiHandler implements IGameMatchApiHandler
 {
