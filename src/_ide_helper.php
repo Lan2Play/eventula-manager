@@ -5,7 +5,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 12.36.1.
+ * Generated for Laravel 12.40.1.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -3772,7 +3772,7 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
-         * Disconnect the given disk and remove from local cache.
+         * Disconnect the given driver / connection and remove it from local cache.
          *
          * @param string|null $name
          * @return void
@@ -6751,7 +6751,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Register a database query listener with the connection.
          *
-         * @param \Closure $callback
+         * @param \Closure(\Illuminate\Database\Events\QueryExecuted) $callback
          * @return void
          * @static
          */
@@ -8373,10 +8373,10 @@ namespace Illuminate\Support\Facades {
          * @return \Symfony\Component\Finder\SplFileInfo[]
          * @static
          */
-        public static function files($directory, $hidden = false)
+        public static function files($directory, $hidden = false, $depth = 0)
         {
             /** @var \Illuminate\Filesystem\Filesystem $instance */
-            return $instance->files($directory, $hidden);
+            return $instance->files($directory, $hidden, $depth);
         }
 
         /**
@@ -8400,10 +8400,10 @@ namespace Illuminate\Support\Facades {
          * @return array
          * @static
          */
-        public static function directories($directory)
+        public static function directories($directory, $depth = 0)
         {
             /** @var \Illuminate\Filesystem\Filesystem $instance */
-            return $instance->directories($directory);
+            return $instance->directories($directory, $depth);
         }
 
         /**
@@ -10974,6 +10974,48 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
+         * Pause a queue by its connection and name.
+         *
+         * @param string $connection
+         * @param string $queue
+         * @return void
+         * @static
+         */
+        public static function pause($connection, $queue)
+        {
+            /** @var \Illuminate\Queue\QueueManager $instance */
+            $instance->pause($connection, $queue);
+        }
+
+        /**
+         * Resume a paused queue by its connection and name.
+         *
+         * @param string $connection
+         * @param string $queue
+         * @return void
+         * @static
+         */
+        public static function resume($connection, $queue)
+        {
+            /** @var \Illuminate\Queue\QueueManager $instance */
+            $instance->resume($connection, $queue);
+        }
+
+        /**
+         * Determine if a queue is paused.
+         *
+         * @param string $connection
+         * @param string $queue
+         * @return bool
+         * @static
+         */
+        public static function isPaused($connection, $queue)
+        {
+            /** @var \Illuminate\Queue\QueueManager $instance */
+            return $instance->isPaused($connection, $queue);
+        }
+
+        /**
          * Add a queue connection resolver.
          *
          * @param string $driver
@@ -12294,6 +12336,18 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
+         * Gets a list of content types acceptable by the client browser in preferable order.
+         *
+         * @return string[]
+         * @static
+         */
+        public static function getAcceptableContentTypes()
+        {
+            /** @var \Illuminate\Http\Request $instance */
+            return $instance->getAcceptableContentTypes();
+        }
+
+        /**
          * Merge new input into the current request's input array.
          *
          * @param array $input
@@ -13581,19 +13635,6 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
-         * Gets a list of content types acceptable by the client browser in preferable order.
-         *
-         * @return string[]
-         * @static
-         */
-        public static function getAcceptableContentTypes()
-        {
-            //Method inherited from \Symfony\Component\HttpFoundation\Request 
-            /** @var \Illuminate\Http\Request $instance */
-            return $instance->getAcceptableContentTypes();
-        }
-
-        /**
          * Returns true if the request is an XMLHttpRequest.
          * 
          * It works if your JavaScript library sets an X-Requested-With HTTP header.
@@ -13958,13 +13999,14 @@ namespace Illuminate\Support\Facades {
          * Retrieve input from the request as a Fluent object instance.
          *
          * @param array|string|null $key
+         * @param array $default
          * @return \Illuminate\Support\Fluent
          * @static
          */
-        public static function fluent($key = null)
+        public static function fluent($key = null, $default = [])
         {
             /** @var \Illuminate\Http\Request $instance */
-            return $instance->fluent($key);
+            return $instance->fluent($key, $default);
         }
 
         /**
@@ -20405,6 +20447,17 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
+         * Determine if the stack has any content in it.
+         *
+         * @static
+         */
+        public static function isStackEmpty($section)
+        {
+            /** @var \Illuminate\View\Factory $instance */
+            return $instance->isStackEmpty($section);
+        }
+
+        /**
          * Flush all of the stacks.
          *
          * @return void
@@ -25941,7 +25994,7 @@ namespace  {
          * @template TRelatedModel of \Illuminate\Database\Eloquent\Model
          * @param \Illuminate\Database\Eloquent\Relations\Relation<TRelatedModel, *, *>|string $relation
          * @param string $operator
-         * @param int $count
+         * @param \Illuminate\Contracts\Database\Query\Expression|int $count
          * @param string $boolean
          * @param (\Closure(\Illuminate\Database\Eloquent\Builder<TRelatedModel>): mixed)|null $callback
          * @return \Illuminate\Database\Eloquent\Builder<static>
@@ -25959,7 +26012,7 @@ namespace  {
          *
          * @param \Illuminate\Database\Eloquent\Relations\Relation<*, *, *>|string $relation
          * @param string $operator
-         * @param int $count
+         * @param \Illuminate\Contracts\Database\Query\Expression|int $count
          * @return \Illuminate\Database\Eloquent\Builder<static>
          * @static
          */
@@ -26005,7 +26058,7 @@ namespace  {
          * @param \Illuminate\Database\Eloquent\Relations\Relation<TRelatedModel, *, *>|string $relation
          * @param (\Closure(\Illuminate\Database\Eloquent\Builder<TRelatedModel>): mixed)|null $callback
          * @param string $operator
-         * @param int $count
+         * @param \Illuminate\Contracts\Database\Query\Expression|int $count
          * @return \Illuminate\Database\Eloquent\Builder<static>
          * @static
          */
@@ -26023,7 +26076,7 @@ namespace  {
          * @param string $relation
          * @param (\Closure(\Illuminate\Database\Eloquent\Builder<*>|\Illuminate\Database\Eloquent\Relations\Relation<*, *, *>): mixed)|null $callback
          * @param string $operator
-         * @param int $count
+         * @param \Illuminate\Contracts\Database\Query\Expression|int $count
          * @return \Illuminate\Database\Eloquent\Builder<static>
          * @static
          */
@@ -26040,7 +26093,7 @@ namespace  {
          * @param \Illuminate\Database\Eloquent\Relations\Relation<TRelatedModel, *, *>|string $relation
          * @param (\Closure(\Illuminate\Database\Eloquent\Builder<TRelatedModel>): mixed)|null $callback
          * @param string $operator
-         * @param int $count
+         * @param \Illuminate\Contracts\Database\Query\Expression|int $count
          * @return \Illuminate\Database\Eloquent\Builder<static>
          * @static
          */
@@ -26087,7 +26140,7 @@ namespace  {
          * @param \Illuminate\Database\Eloquent\Relations\MorphTo<TRelatedModel, *>|string $relation
          * @param string|array<int, string> $types
          * @param string $operator
-         * @param int $count
+         * @param \Illuminate\Contracts\Database\Query\Expression|int $count
          * @param string $boolean
          * @param (\Closure(\Illuminate\Database\Eloquent\Builder<TRelatedModel>, string): mixed)|null $callback
          * @return \Illuminate\Database\Eloquent\Builder<static>
@@ -26105,7 +26158,7 @@ namespace  {
          * @param \Illuminate\Database\Eloquent\Relations\MorphTo<*, *>|string $relation
          * @param string|array<int, string> $types
          * @param string $operator
-         * @param int $count
+         * @param \Illuminate\Contracts\Database\Query\Expression|int $count
          * @return \Illuminate\Database\Eloquent\Builder<static>
          * @static
          */
@@ -26154,7 +26207,7 @@ namespace  {
          * @param string|array<int, string> $types
          * @param (\Closure(\Illuminate\Database\Eloquent\Builder<TRelatedModel>, string): mixed)|null $callback
          * @param string $operator
-         * @param int $count
+         * @param \Illuminate\Contracts\Database\Query\Expression|int $count
          * @return \Illuminate\Database\Eloquent\Builder<static>
          * @static
          */
@@ -26172,7 +26225,7 @@ namespace  {
          * @param string|array<int, string> $types
          * @param (\Closure(\Illuminate\Database\Eloquent\Builder<TRelatedModel>, string): mixed)|null $callback
          * @param string $operator
-         * @param int $count
+         * @param \Illuminate\Contracts\Database\Query\Expression|int $count
          * @return \Illuminate\Database\Eloquent\Builder<static>
          * @static
          */
