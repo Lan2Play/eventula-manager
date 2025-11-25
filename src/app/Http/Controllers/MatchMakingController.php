@@ -108,8 +108,8 @@ class MatchMakingController extends Controller
 
             $alreadyjoined = false;
             foreach ($match->teams as $team) {
-                if (Arr::first($team->players, function ($value, $key) use ($user) {
-                    return $value->user_id == $user->id;
+                if (Arr::first($team->players->toArray(), function ($value, $key) use ($user) {
+                    return $value['user_id'] == $user->id;
                 }, false)) {
                     $alreadyjoined = true;
                 }
@@ -377,8 +377,8 @@ class MatchMakingController extends Controller
 
 
         foreach ($match->teams as $team) {
-            if (Arr::first($team->players, function ($value, $key) use ($request) {
-                return $value->user_id == Auth::id();
+            if (Arr::first($team->players->toArray(), function ($value, $key) use ($request) {
+                return $value['user_id'] == Auth::id();
             }, false)) {
                 Session::flash('alert-danger', __('matchmaking.youalreadyareinateam'));
                 return Redirect::back();

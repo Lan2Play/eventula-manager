@@ -82,7 +82,7 @@ class MatchMakingController extends Controller
             $alreadyjoined = false;
             foreach ($match->teams as $team)
             {
-                if (Arr::first($team->players, function($value, $key)use($user){return $value->user_id == $user->id;},false))
+                if (Arr::first($team->players->toArray(), function($value, $key)use($user){return $value['user_id'] == $user->id;},false))
                 {
                     $alreadyjoined = true;
                 }
@@ -355,7 +355,7 @@ class MatchMakingController extends Controller
 
         foreach($match->teams as $team)
         {
-            if (Arr::first($team->players, function($value, $key)use($request){return $value->user_id == $request->teamowner;},false))
+            if (Arr::first($team->players->toArray(), function($value, $key)use($request){return $value['user_id'] == $request->teamowner;},false))
             {
                 Session::flash('alert-danger', "specifyed owner is already in a team!");
                 return Redirect::back();
@@ -427,7 +427,7 @@ class MatchMakingController extends Controller
 
             foreach($match->teams as $matchteam)
             {
-                if (Arr::first($matchteam->players, function($value, $key)use($request){return $value->user_id == $request->teamowner;},false))
+                if (Arr::first($matchteam->players->toArray(), function($value, $key)use($request){return $value['user_id'] == $request->teamowner;},false))
                 {
                     Session::flash('alert-danger', "specifyed owner is already in a team!");
                     return Redirect::back();
