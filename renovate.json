@@ -8,11 +8,11 @@
     "branchTopic": "lock-file-maintenance-{{baseBranch}}"
   },
   "forkProcessing": "enabled",
-  "baseBranches": [
+  "baseBranchPatterns": [
     "main"
   ],
   "packageRules": [
-        {
+    {
       "matchUpdateTypes": [
         "minor",
         "patch",
