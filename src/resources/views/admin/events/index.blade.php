@@ -16,23 +16,22 @@
 </div>
 
 <div class="row">
-	<div class="col-lg-8">
+	<div class="col12 col-lg-8">
 
 		<div class="card mb-3">
 			<div class="card-header">
 				<i class="fa fa-th-list fa-fw"></i> Events
 			</div>
 			<div class="card-body">
-				<div class="dataTable_wrapper">
+				<div class="table-responsive dataTable_wrapper">
 					<table width="100%" class="table table-striped table-hover" id="dataTables-example">
 						<thead>
 							<tr>
 								<th>Name</th>
-								<th>Start</th>
-								<th>End</th>
-								<th>Short Description</th>
+								<th class="d-none d-sm-table-cell">Start</th>
+								<th class="d-none d-sm-table-cell">End</th>
+								<th class="d-none d-md-table-cell">Short Description</th>
 								<th>Capacity</th>
-								<th></th>
 								<th></th>
 							</tr>
 						</thead>
@@ -40,18 +39,25 @@
 							@foreach ($events as $event)
 								<tr class="table-row" class="odd gradeX">
 									<td>{{ $event->display_name }}</td>
-									<td>{{ date('d-m-y H:i', strtotime($event->start)) }}</td>
-									<td>{{ date('d-m-y H:i', strtotime($event->end)) }}</td>
-									<td>{!! $event->desc_short !!}</td>
-									<td class="center">{{ $event->capacity }} <small>Seats:{{ $event->getSeatingCapacity() }}</small></td>
+									<td class="d-none d-sm-table-cell">
+                                        {{ date('d-m-y H:i', strtotime($event->start)) }}
+                                    </td>
+									<td class="d-none d-sm-table-cell">
+                                        {{ date('d-m-y H:i', strtotime($event->end)) }}
+                                    </td>
+									<td class="d-none d-md-table-cell">{!! $event->desc_short !!}</td>
+                                    <td class="center">
+                                        <span class="d-block">{{ $event->capacity }}</span>
+                                        <small class="d-none d-md-inline">Seats:{{ $event->getSeatingCapacity() }}</small>
+                                    </td>
 									<td width="15%">
-										<a href="/admin/events/{{ $event->slug }}"><button type="button" class="btn btn-primary btn-sm btn-block">Edit</button></a>
-									</td>
-									<td width="15%">
+                                        <div class="d-flex flex-column flex-sm-row gap-2">
+                                            <a href="/admin/events/{{ $event->slug }}"><button type="button" class="btn btn-primary btn-sm btn-block">View</button></a>
 										{{ Form::open(array('url'=>'/admin/events/' . $event->slug, 'onsubmit' => 'return ConfirmDelete()')) }}
 											{{ Form::hidden('_method', 'DELETE') }}
 											<button type="submit" class="btn btn-danger btn-sm btn-block">Delete</button>
 										{{ Form::close() }}
+                                        </div>
 									</td>
 								</tr>
 							@endforeach
@@ -63,7 +69,7 @@
 		</div>
 
 	</div>
-	<div class="col-lg-4">
+	<div class="col-12 col-lg-4">
 
 		<div class="card mb-3">
 			<div class="card-header">

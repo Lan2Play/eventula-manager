@@ -85,9 +85,9 @@
 						@foreach ($purchases as $purchase)
 							@php
 								$statusColor = 'warning';
-								if ($purchase->status == 'Success') {
+								if ($purchase->status == \App\Purchase::STATUS_SUCCESS) {
 									$statusColor = 'success';
-								}elseif($purchase->status == 'Danger') {
+								}elseif($purchase->status == \App\Purchase::STATUS_DANGER) {
 									$statusColor = 'danger';
 								}
                                 $participantRevoked = false;

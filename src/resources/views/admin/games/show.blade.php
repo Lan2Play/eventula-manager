@@ -580,7 +580,7 @@
 									<img src="{{ $game->image_thumbnail_path }}" class="img img-fluid">
 								</picture>
 							@endif
-							{{ Form::label('image_thumbnail','Thumbnail Image - 300x400',array('id'=>'','class'=>'')) }}
+							{{ Form::label('image_thumbnail','Thumbnail Image - 500x500',array('id'=>'','class'=>'')) }}
 							{{ Form::file('image_thumbnail',array('id'=>'image_thumbnail','class'=>'form-control')) }}
 						</div>
 						<div class="mb-3">

@@ -25,12 +25,19 @@
 			@endif
 		@endforeach
 	</div>
-	<div class="hero-overlay d-none d-sm-block">
-			@if ($nextEvent)
+    <div class="hero-overlay">
+        @if ($nextEvent)
 				<div>
 					<h3>@lang('messages.next_event')</h3>
 					<h1>{{ $nextEvent->display_name }}</h1>
-					<h5>{{ date('dS', strtotime($nextEvent->start)) }} - {{ date('dS', strtotime($nextEvent->end)) }} {{ date('F', strtotime($nextEvent->end)) }} {{ date('Y', strtotime($nextEvent->end)) }}</h5>
+					<h5>
+						@php
+							$locale = app()->getLocale();
+							$startDate = \Carbon\Carbon::parse($nextEvent->start)->locale($locale);
+							$endDate = \Carbon\Carbon::parse($nextEvent->end)->locale($locale);
+                            echo $startDate->translatedFormat(__('date.without_year')) . ' - ' . $endDate->translatedFormat(__('date.with_year'));
+						@endphp
+					</h5>
 					<a href="/events/{{ $nextEvent->slug }}#tickets"><button class="btn btn-primary btn-lg">@lang('messages.book_now')</button></a>
 				</div>
 			@else
@@ -71,7 +78,12 @@
 									</td>
 									<td>
 										<span class="float-end">
-											{{ date('dS', strtotime($event->start)) }} - {{ date('dS', strtotime($event->end)) }} {{ date('F', strtotime($event->end)) }} {{ date('Y', strtotime($event->end)) }}
+											@php
+							                    $locale = app()->getLocale();
+							                    $startDate = \Carbon\Carbon::parse($nextEvent->start)->locale($locale);
+							                    $endDate = \Carbon\Carbon::parse($nextEvent->end)->locale($locale);
+                                                echo $startDate->translatedFormat(__('date.without_year')) . ' - ' . $endDate->translatedFormat(__('date.with_year'));
+						                    @endphp
 										</span>
 									</td>
 								</tr>
@@ -179,9 +191,9 @@
 					<h3>
 						{{ $nextEvent->display_name }}
 						@if (count($nextEvent->seatingPlans) > 0)
-							<small>{{ max($nextEvent->getSeatingCapacity() - $nextEvent->eventParticipants->count(), 0) }} / {{ $nextEvent->getSeatingCapacity() }} @lang('home.seatsremaining')</small>
+							<small>{{ max($nextEvent->getSeatingCapacity() - $nextEvent->tickets->count(), 0) }} / {{ $nextEvent->getSeatingCapacity() }} @lang('home.seatsremaining')</small>
 						@else
-							<small>{{ max($nextEvent->capacity - $nextEvent->eventParticipants->count(), 0) }} / {{ $nextEvent->capacity }} @lang('home.ticketsremaining')</small>
+							<small>{{ max($nextEvent->capacity - $nextEvent->tickets->count(), 0) }} / {{ $nextEvent->capacity }} @lang('home.ticketsremaining')</small>
 						@endif
 					</h3>
 				</div>
@@ -192,7 +204,14 @@
 			</div>
 			<div class="col-12 col-sm-3">
 				<h4>@lang('home.when'):</h4>
-				<h5>{{ date('dS', strtotime($nextEvent->start)) }} - {{ date('dS', strtotime($nextEvent->end)) }} {{ date('F', strtotime($nextEvent->end)) }} {{ date('Y', strtotime($nextEvent->end)) }}</h5>
+				<h5>
+                    @php
+                        $locale = app()->getLocale();
+                        $startDate = \Carbon\Carbon::parse($nextEvent->start)->locale($locale);
+                        $endDate = \Carbon\Carbon::parse($nextEvent->end)->locale($locale);
+                        echo $startDate->translatedFormat(__('date.without_year')) . ' - ' . $endDate->translatedFormat(__('date.with_year'));
+                    @endphp
+				</h5>
 				<h4>@lang('home.where'):</h4>
 				<h5>{{ $nextEvent->venue->display_name }}</h5>
 				@if ($nextEvent->tickets && $user)

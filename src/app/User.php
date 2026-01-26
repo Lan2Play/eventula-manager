@@ -82,9 +82,34 @@ class User extends Authenticatable implements MustVerifyEmail
     /*
      * Relationships
      */
-    public function eventParticipants()
+    public function tickets()
     {
-        return $this->hasMany('App\EventParticipant');
+        return $this->hasMany('App\Ticket', 'user_id');
+    }
+
+    public function ownedTickets()
+    {
+        return $this->hasMany('App\Ticket', 'owner_id');
+    }
+
+    public function managedTickets()
+    {
+        return $this->hasMany('App\Ticket', 'manager_id');
+    }
+
+    public function getAllRoleTickets($paginate = false, $perPage = 5, $pageName = 'page')
+    {
+        $query = Ticket::where(function($query) {
+            $query->where('user_id', $this->id)
+                  ->orWhere('owner_id', $this->id)
+                  ->orWhere('manager_id', $this->id);
+        })->orderBy('created_at', 'desc');
+
+        if ($paginate) {
+            return $query->paginate($perPage, ['*'], $pageName);
+        }
+
+        return $query->get();
     }
     public function matchMakingTeamplayers()
     {
@@ -126,8 +151,8 @@ class User extends Authenticatable implements MustVerifyEmail
             $clauses = ['user_id' => $this->id, 'signed_in' => true];
         }
 
-        $payedparticipant = EventParticipant::whereRelation('purchase', 'status', '=', 'Success')->where($clauses)->orderBy('updated_at', 'DESC')->first();
-        $freeparticipant = EventParticipant::where('free', true)->where($clauses)->orderBy('updated_at', 'DESC')->first();
+        $payedparticipant = Ticket::whereRelation('purchase', 'status', '=', Purchase::STATUS_SUCCESS)->where($clauses)->orderBy('updated_at', 'DESC')->first();
+        $freeparticipant = Ticket::where('free', true)->where($clauses)->orderBy('updated_at', 'DESC')->first();
 
 
         if (isset($payedparticipant) && isset($freeparticipant)) {
@@ -150,53 +175,89 @@ class User extends Authenticatable implements MustVerifyEmail
     /**
      * Get Free Tickets for current User
      * @param  $eventId
-     * @return EventParticipants
+     * @return Ticket
      */
     public function getFreeTickets($eventId)
     {
         $clauses = ['user_id' => $this->id, 'free' => true, 'event_id' => $eventId];
-        return EventParticipant::where($clauses)->get();
+        return Ticket::where($clauses)->get();
     }
 
     /**
      * Get Staff Tickets for current User
      * @param  $eventId
-     * @return EventParticipants
+     * @return Ticket
      */
     public function getStaffTickets($eventId)
     {
         $clauses = ['user_id' => $this->id, 'staff' => true, 'event_id' => $eventId];
-        return EventParticipant::where($clauses)->get();
+        return Ticket::where($clauses)->get();
     }
 
     /**
      * Get all Tickets for current user
+     * @param int $eventId
+     * @param bool $includeRevoked
+     * @param bool $managedTicketsOnly
+     * @param bool $usedTicketsOnly
+     * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getAllTickets($eventId, $includeRevoked = false)
-    {
-        $clauses = ['user_id' => $this->id, 'event_id' => $eventId];
-        if (!$includeRevoked) {
-            $clauses['revoked'] = 0;
+    public function getAllTickets($eventId,
+                                  $includeRevoked = false,
+                                  $managedTicketsOnly = false,
+                                  $usedTicketsOnly = false) {
+
+        if (!$eventId) {
+            return collect();
         }
-        $eventParticipants = EventParticipant::where($clauses)->get();
-        return $eventParticipants;
+
+        $query = Ticket::where('event_id', $eventId);
+
+        // Basis-Filter für Rollen
+        if ($managedTicketsOnly && $usedTicketsOnly) {
+            // Beide Flags - nur Tickets wo User sowohl Manager als auch User ist
+            $query->where(function($q) {
+                $q->where('manager_id', $this->id)
+                    ->where('user_id', $this->id);
+            });
+        } elseif ($managedTicketsOnly) {
+            // Nur gemanagte Tickets
+            $query->where('manager_id', $this->id);
+        } elseif ($usedTicketsOnly) {
+            // Nur eigene Tickets
+            $query->where('user_id', $this->id);
+        } else {
+            // Alle Tickets mit irgendeiner Verbindung
+            $query->where(function($q) {
+                $q->where('user_id', $this->id)
+                    ->orWhere('manager_id', $this->id)
+                    ->orWhere('owner_id', $this->id);
+            });
+        }
+
+        // Revoked-Filter
+        if (!$includeRevoked) {
+            $query->where('revoked', 0);
+        }
+
+        return $query->get();
     }
 
-    public function getAllTicketsOfType(Event $event, EventTicket $ticket) {
-        return EventParticipant::where([
+    public function getAllTicketsOfType(Event $event, TicketType $ticket) {
+        return Ticket::where([
             'user_id' => $this->id,
             'event_id' => $event->id,
-            'ticket_id' => $ticket->id
+            'ticket_type_id' => $ticket->id
         ])->get();
     }
 
-    public function getAllTicketsInTicketGroup(Event $event, EventTicket $ticket) {
+    public function getAllTicketsInTicketGroup(Event $event, TicketType $ticket) {
         if (empty($ticket->ticketGroup)) {
             return $this->getAllTicketsOfType($event, $ticket);
         }
-        $ticketIds = EventTicket::where(['event_ticket_group_id' => $ticket->ticketGroup->id])->pluck('id')->toArray();
+        $ticketIds = TicketType::where(['event_ticket_group_id' => $ticket->ticketGroup->id])->pluck('id')->toArray();
 
-        return EventParticipant::where([
+        return Ticket::where([
             'user_id' => $this->id,
             'event_id' => $event->id,
         ])
@@ -209,17 +270,43 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function hasSeatableTicket($eventId)
     {
-        $eventParticipants = $this->getAllTickets($eventId);
+        return Ticket::where('event_id', $eventId)
+            ->where(function($q) {
+                $q->where('user_id', $this->id)
+                    ->orWhere('manager_id', $this->id)
+                    ->orWhere('owner_id', $this->id);
+            })
+            ->where('revoked', 0)
+            ->where(function($q) {
+                $q->where('free', true)
+                    ->orWhere('staff', true)
+                    ->orWhereHas('ticketType', function($ticketTypeQuery) {
+                        $ticketTypeQuery->where('seatable', true);
+                    });
+            })
+            ->exists();
 
-        foreach ($eventParticipants as $eventParticipant) {
+    }
 
-            if (($eventParticipant->ticket && $eventParticipant->ticket->seatable) ||
-                ($eventParticipant->free || $eventParticipant->staff)
-            ) {
-                return true;
-            }
-        }
-        return false;
+
+    /**
+     * User has at least one seatable ticket for event
+     */
+    public function hasManagedTickets($eventId)
+    {
+        return Ticket::where('event_id', $eventId)
+            ->where(function($q) {
+                $q->where('manager_id', $this->id);
+            })
+            ->where('revoked', 0)
+            ->where(function($q) {
+                $q->where('free', true)
+                    ->orWhere('staff', true)
+                    ->orWhereHas('ticketType', function($ticketTypeQuery) {
+                        $ticketTypeQuery->where('seatable', true);
+                    });
+            })
+            ->exists();
     }
 
     /**
@@ -231,29 +318,31 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getTickets($eventId, $obj = false)
     {
         $clauses = ['user_id' => $this->id, 'event_id' => $eventId, 'revoked' => 0];
-        $eventParticipants = EventParticipant::where($clauses)->get();
+        $eventTickets = Ticket::where($clauses)->get();
         $return = array();
-        foreach ($eventParticipants as $eventParticipant) {
-            if (($eventParticipant->ticket && $eventParticipant->ticket->seatable) ||
-                ($eventParticipant->free || $eventParticipant->staff)
+        foreach ($eventTickets as $eventTicket) {
+            if (($eventTicket->ticketType && $eventTicket->ticketType->seatable) ||
+                ($eventTicket->free || $eventTicket->staff)
             ) {
+
                 $seat = 'Not Seated';
                 $seatingPlanName = "";
-                if ($eventParticipant->seat) {
-                    if ($eventParticipant->seat->seatingPlan) {
-                        $seatingPlanName = $eventParticipant->seat->seatingPlan->getName();
+                if ($eventTicket->seat) {
+                    if ($eventTicket->seat->seatingPlan) {
+                        $seatingPlanName = $eventTicket->seat->seatingPlan->getName();
                     }
-                    $seat = $eventParticipant->seat->getName();
+                    $seat = $eventTicket->seat->getName();
                 }
-                $return[$eventParticipant->id] = 'Participant ID: ' . $eventParticipant->id . $seat;
-                if (!$eventParticipant->ticket && $eventParticipant->staff) {
-                    $return[$eventParticipant->id] = 'Staff Ticket - ' . $seatingPlanName . ' - ' . $seat;
+                $return[$eventTicket->id] = 'Participant ID: ' . $eventTicket->id . $seat;
+                // TODO Discuss this as "bad code style?"
+                if (!$eventTicket->ticketType && $eventTicket->staff) {
+                    $return[$eventTicket->id] = 'Staff Ticket - ' . $seatingPlanName . ' - ' . $seat;
                 }
-                if (!$eventParticipant->ticket && $eventParticipant->free) {
-                    $return[$eventParticipant->id] = 'Free Ticket - ' . $seatingPlanName . ' - ' . $seat;
+                if (!$eventTicket->ticketType && $eventTicket->free) {
+                    $return[$eventTicket->id] = 'Free Ticket - ' . $seatingPlanName . ' - ' . $seat;
                 }
-                if ($eventParticipant->ticket) {
-                    $return[$eventParticipant->id] = $eventParticipant->ticket->name . ' - ' . $seatingPlanName . ' - ' . $seat;
+                if ($eventTicket->ticketType) {
+                    $return[$eventTicket->id] = $eventTicket->ticketType->name . ' - ' . $seatingPlanName . ' - ' . $seat;
                 }
             }
         }
@@ -349,13 +438,13 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getNextEvent()
     {
         $nextEvent = false;
-        foreach ($this->eventParticipants as $eventParticipant) {
-            if ($eventParticipant->event->end >=  Carbon::now()) {
+        foreach ($this->tickets as $ticket) {
+            if ($ticket->event->end >=  Carbon::now()) {
                 if (!isset($nextEvent) || !$nextEvent) {
-                    $nextEvent = $eventParticipant->event;
+                    $nextEvent = $ticket->event;
                 }
-                if ($nextEvent->end >= $eventParticipant->event->end) {
-                    $nextEvent = $eventParticipant->event;
+                if ($nextEvent->end >= $ticket->event->end) {
+                    $nextEvent = $ticket->event;
                 }
             }
         }
@@ -368,7 +457,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected function uniqueAttendedEventCount(): Attribute
     {
         $attribute =  Attribute::make(
-            get: fn() => $this->eventParticipants()
+            get: fn() => $this->tickets()
                 ->whereHas('event', function (Builder $query) {
                     $query->whereIn('status', ['PUBLISHED', 'REGISTEREDONLY'])
                         ->where('end', '<=', Carbon::today());
@@ -413,13 +502,13 @@ class User extends Authenticatable implements MustVerifyEmail
     protected function calculateWinCount(): int
     {
         $teamWins = EventTournamentTeam::where('final_rank', 1)
-            ->whereHas('tournamentParticipants.eventParticipant.user', function (Builder $query) {
+            ->whereHas('tournamentParticipants.eventTicket.user', function (Builder $query) {
                 $query->where('id', $this->id);
             })
             ->count();
 
         $individualWins = EventTournamentParticipant::where('final_rank', 1)
-            ->whereHas('eventParticipant.user', function (Builder $query) {
+            ->whereHas('eventTicket.user', function (Builder $query) {
                 $query->where('id', $this->id);
             })
             ->count();

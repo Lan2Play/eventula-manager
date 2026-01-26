@@ -5,7 +5,7 @@ return [
     | Default Text/Messages Lines
     |--------------------------------------------------------------------------
     |
-    |
+    | //TODO Add multiple onSite Payment Options like cash, sumup, something else (visa/master) so that the user knows
     */
     'book_now' => 'Book now',
     'next_event' => 'Next event',

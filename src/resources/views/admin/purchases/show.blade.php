@@ -26,94 +26,94 @@
                 <div class="card-body">
                     <table width="100%" class="table table-striped table-hover">
                         <thead>
-                            <tr>
-                                <th>Item</th>
-                                <th>Quantity</th>
-                                <th>Price Paid</th>
-                            </tr>
+                        <tr>
+                            <th>Item</th>
+                            <th>Quantity</th>
+                            <th>Price Paid</th>
+                        </tr>
                         </thead>
                         <tbody>
-                            @if ($purchase->getPurchaseContentType() == 'shopOrder')
-                                @foreach ($purchase->order->items as $item)
-                                    <tr>
-                                        <td>
-                                            {{ $item->item->name }}
-                                        </td>
-                                        <td>
-                                            {{ $item->quantity }}
-                                        </td>
-                                        <td>
-                                            @if ($item->price != null)
-                                                {{ Settings::getCurrencySymbol() }}{{ $item->price }}
-                                                @if ($item->price_credit != null && Settings::isCreditEnabled())
+                        @if ($purchase->getPurchaseContentType() === \App\Purchase::CONTENT_TYPE_SHOP_ORDER)
+                            @foreach ($purchase->order->items as $item)
+                                <tr>
+                                    <td>
+                                        {{ $item->item->name }}
+                                    </td>
+                                    <td>
+                                        {{ $item->quantity }}
+                                    </td>
+                                    <td>
+                                        @if ($item->price != null)
+                                            {{ Settings::getCurrencySymbol() }}{{ $item->price }}
+                                            @if ($item->price_credit != null && Settings::isCreditEnabled())
+                                                /
+                                            @endif
+                                        @endif
+                                        @if ($item->price_credit != null && Settings::isCreditEnabled())
+                                            {{ $item->price_credit }} Credits
+                                        @endif
+                                        Each |
+                                        @if ($item->price != null)
+                                            {{ Settings::getCurrencySymbol() }}{{ $item->price * $item->quantity }}
+                                            @if ($item->price_credit != null && Settings::isCreditEnabled())
+                                                /
+                                            @endif
+                                        @endif
+                                        @if ($item->price_credit != null && Settings::isCreditEnabled())
+                                            {{ $item->price_credit * $item->quantity }} Credits
+                                        @endif
+                                        Total
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @elseif ($purchase->getPurchaseContentType() === \App\Purchase::CONTENT_TYPE_EVENT_TICKETS)
+                            @foreach ($purchase->tickets as $ticket)
+                                <tr @class(['table-warning' => $ticket->revoked])>
+                                    <td>
+                                        @if ($ticket->ticketType)
+                                            {{ $ticket->ticketType->name }} for
+                                            {{ $ticket->event->display_name }}
+                                            @if ($ticket->revoked)
+                                                <span class="badge text-bg-warning">Ticket revoked</span>
+                                            @endif
+                                        @endif
+                                        @php
+                                            $labels = [];
+                                            if ($ticket->free == 1) {
+                                                $labels[] = 'Freebie Ticket';
+                                            }
+                                            if ($ticket->staff == 1) {
+                                                $labels[] = 'Staff Ticket';
+                                            }
+                                        @endphp
+                                        @if (!empty($labels))
+                                            {{ implode(', ', $labels) }} for
+                                            {{ $ticket->event->display_name }}
+                                        @endif
+                                    </td>
+
+                                    <td>
+                                        1
+                                    </td>
+                                    <td>
+                                        @if ($ticket->ticketType)
+                                            @if ($ticket->ticketType->price != null)
+                                                {{ Settings::getCurrencySymbol() }}{{ $ticket->ticketType->price }}
+                                                @if ($ticket->ticketType->price_credit != null && Settings::isCreditEnabled())
                                                     /
                                                 @endif
                                             @endif
-                                            @if ($item->price_credit != null && Settings::isCreditEnabled())
-                                                {{ $item->price_credit }} Credits
+                                            @if ($ticket->ticketType->price_credit != null && Settings::isCreditEnabled())
+                                                {{ $ticket->ticketType->price_credit }} Credits
                                             @endif
-                                            Each |
-                                            @if ($item->price != null)
-                                                {{ Settings::getCurrencySymbol() }}{{ $item->price * $item->quantity }}
-                                                @if ($item->price_credit != null && Settings::isCreditEnabled())
-                                                    /
-                                                @endif
-                                            @endif
-                                            @if ($item->price_credit != null && Settings::isCreditEnabled())
-                                                {{ $item->price_credit * $item->quantity }} Credits
-                                            @endif
-                                            Total
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            @elseif ($purchase->getPurchaseContentType() == 'eventTickets')
-                                @foreach ($purchase->participants as $participant)
-                                    <tr @class(['table-warning' => $participant->revoked])>
-                                        <td>
-                                            @if ($participant->ticket)
-                                                {{ $participant->ticket->name }} for
-                                                {{ $participant->event->display_name }}
-                                                @if ($participant->revoked)
-                                                    <span class="badge text-bg-warning">Participant revoked</span>
-                                                @endif
-                                            @endif
-                                            @php
-                                                $labels = [];
-                                                if ($participant->free == 1) {
-                                                    $labels[] = 'Freebie Ticket';
-                                                }
-                                                if ($participant->staff == 1) {
-                                                    $labels[] = 'Staff Ticket';
-                                                }
-                                            @endphp
-                                            @if (!empty($labels))
-                                                {{ implode(', ', $labels) }} for
-                                                {{ $participant->event->display_name }}
-                                            @endif
-                                        </td>
+                                        @else
+                                            0,- {{ Settings::getCurrencySymbol() }}
+                                        @endif
+                                    </td>
 
-                                        <td>
-                                            1
-                                        </td>
-                                        <td>
-                                            @if ($participant->ticket)
-                                                @if ($participant->ticket->price != null)
-                                                    {{ Settings::getCurrencySymbol() }}{{ $participant->ticket->price }}
-                                                    @if ($participant->ticket->price_credit != null && Settings::isCreditEnabled())
-                                                        /
-                                                    @endif
-                                                @endif
-                                                @if ($participant->ticket->price_credit != null && Settings::isCreditEnabled())
-                                                    {{ $participant->ticket->price_credit }} Credits
-                                                @endif
-                                            @else
-                                                0,- {{ Settings::getCurrencySymbol() }}
-                                            @endif
-                                        </td>
-
-                                    </tr>
-                                @endforeach
-                            @endif
+                                </tr>
+                            @endforeach
+                        @endif
                         </tbody>
                     </table>
                     <div class="text-end">
@@ -149,11 +149,10 @@
                     <ul class="list-group">
 
 
-
                         <li class="list-group-item list-group-item-info"><strong>Purchase ID: <span
-                                    class="float-end">{{ $purchase->id }}</span></strong></li>
+                                        class="float-end">{{ $purchase->id }}</span></strong></li>
                         <li
-                            class="list-group-item @if (isset($purchase->user)) list-group-item-info @else list-group-item-danger @endif">
+                                class="list-group-item @if (isset($purchase->user)) list-group-item-info @else list-group-item-danger @endif">
                             <strong>
                                 @if (isset($purchase->user))
                                     User:
@@ -170,7 +169,7 @@
                             </strong>
                         </li>
                         <li
-                            class="list-group-item @if (isset($purchase->user)) list-group-item-info @else list-group-item-danger @endif">
+                                class="list-group-item @if (isset($purchase->user)) list-group-item-info @else list-group-item-danger @endif">
                             <strong>Name: <span class="float-end">
                                     @if (isset($purchase->user))
                                         {{ $purchase->user->firstname }} {{ $purchase->user->surname }}
@@ -178,20 +177,28 @@
                                         User deleted
                                     @endif
                                 </span></strong></li>
+                        @php
+                            $statusClass = match (strtolower($purchase->status)) {
+                                strtolower(\App\Purchase::STATUS_SUCCESS) => 'list-group-item-success',
+                                strtolower(\App\Purchase::STATUS_PENDING) => 'list-group-item-warning',
+                                default => 'list-group-item-danger'
+                            };
+                        @endphp
                         <li
-                            class="list-group-item @if (strtolower($purchase->status) != 'success' && strtolower($purchase->status) != 'pending') list-group-item-danger @endif @if (strtolower($purchase->status) == 'success') list-group-item-success @endif @if (strtolower($purchase->status) == 'pending') list-group-item-warning @endif">
+                                class="list-group-item {{ $statusClass }}">
                             <strong>Status: <span class="float-end">{{ $purchase->status }}</span></strong></li>
                         <li class="list-group-item list-group-item-info"><strong>Type: <span
-                                    class="float-end">{{ $purchase->type }}</span></strong></li>
+                                        class="float-end">{{ $purchase->type }}</span></strong></li>
                         @if ($purchase->paypal_email != null)
                             <li class="list-group-item list-group-item-info">
-                                <strong>Paypal Email: <span class="float-end">{{ $purchase->paypal_email }}</span></strong>
+                                <strong>Paypal Email: <span
+                                            class="float-end">{{ $purchase->paypal_email }}</span></strong>
                             </li>
                         @endif
                         <li class="list-group-item list-group-item-info"><strong>Transaction ID: <span
-                                    class="float-end">{{ $purchase->transaction_id }}</span></strong></li>
+                                        class="float-end">{{ $purchase->transaction_id }}</span></strong></li>
                         <li class="list-group-item list-group-item-info"><strong>Timestamp: <span
-                                    class="float-end">{{ $purchase->created_at }}</span></strong></li>
+                                        class="float-end">{{ $purchase->created_at }}</span></strong></li>
                     </ul>
                     <div class="mb-3">
                     </div>
@@ -202,8 +209,10 @@
                             {{ Form::hidden('_method', 'GET') }}
 
                             <button type="submit"
-                                class="btn btn-block @if (isset($purchase->user)) btn-success	@else btn-warning @endif">Mark
-                                as payed</button>
+                                    class="btn btn-block @if (isset($purchase->user)) btn-success	@else btn-warning @endif">
+                                Mark
+                                as payed
+                            </button>
                             @if (!isset($purchase->user))
                                 <small>caution, the user is already deleted!</small>
                             @endif
@@ -212,27 +221,31 @@
                     @endif
                     @if ($purchase->order)
                         <div class="mb-3">
-                            <a href="/admin/orders/{{ $purchase->order->id }}"><button
-                                    class="btn btn-block btn-success">View Order</button></a>
+                            <a href="/admin/orders/{{ $purchase->order->id }}">
+                                <button
+                                        class="btn btn-block btn-success">View Order
+                                </button>
+                            </a>
                         </div>
                     @endif
 
-                    @if (count($purchase->participants) > 0)
+                    @if (count($purchase->tickets) > 0)
                         <div class="mb-3">
-                            @foreach ($purchase->participants as $participant)
+                            @foreach ($purchase->tickets as $ticket)
                                 <a
-                                    href="/admin/events/{{ $participant->event->slug }}/participants/{{ $participant->id }}">
+                                        href="/admin/events/{{ $ticket->event->slug }}/participants/{{ $ticket->id }}">
                                     <button @class([
                                         'btn',
                                         'btn-block',
-                                        'btn-warning' => $participant->revoked,
-                                        'btn-success' => !$participant->revoked,
+                                        'btn-warning' => $ticket->revoked,
+                                        'btn-success' => !$ticket->revoked,
                                     ])>
-                                        View Participant - {{ $participant->user->username }}
-                                        @if ($participant->revoked)
+                                        View Participant - {{ $ticket->user->username }}
+                                        @if ($ticket->revoked)
                                             (revoked)
                                         @endif
-                                    </button></a>
+                                    </button>
+                                </a>
                             @endforeach
                         </div>
                     @endif
@@ -251,9 +264,11 @@
                         ]) }}
                         {{ Form::hidden('_method', 'DELETE') }}
                         <div class="mb-3">
-                            <div class="alert alert-danger">Deleting a purchase will also remove related data, like event
-                                participants. This has the potential to break stuff!<br />Having a backup is highly
-                                recommended!</div>
+                            <div class="alert alert-danger">Deleting a purchase will also remove related data, like
+                                event
+                                participants. This has the potential to break stuff!<br/>Having a backup is highly
+                                recommended!
+                            </div>
                             <button type="submit" class="btn btn-danger btn-block">Delete purchase</button>
                         </div>
                         {{ Form::close() }}

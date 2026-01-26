@@ -92,17 +92,17 @@
 									</td>
 									<td>
 										@if ($purchase->getPurchaseContentType() == 'eventTickets')
-											@foreach ($purchase->participants as $participant)
-											    {{ $participant->event->display_name }} - 
+											@foreach ($purchase->tickets as $ticket)
+											    {{ $ticket->event->display_name }} - 
 											    @php
 											        $labels = [];
-											        if ($participant->ticket) {
-											            $labels[] = $participant->ticket->name;
+											        if ($ticket->ticket) {
+											            $labels[] = $ticket->ticket->name;
 											        }
-											        if ($participant->free == 1) {
+											        if ($ticket->free == 1) {
 											            $labels[] = 'Freebie';
 											        }
-											        if ($participant->staff == 1) {
+											        if ($ticket->staff == 1) {
 											            $labels[] = 'Staff';
 											        }
 											        if (empty($labels)) {
@@ -278,8 +278,8 @@
 								<td>
 									@if (strtolower($creditLog->action) == 'buy')
 										@if (!$creditLog->purchase->getPurchaseContentType() == 'eventTickets')
-											@foreach ($creditLog->purchase->participants as $participant)
-												{{ $participant->event->display_name }} - {{ $participant->ticket->name }}
+											@foreach ($creditLog->purchase->tickets as $ticket)
+												{{ $ticket->event->display_name }} - {{ $ticket->ticket->name }}
 												@if (!$loop->last)
 													<hr>
 												@endif

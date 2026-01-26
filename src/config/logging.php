@@ -1,5 +1,7 @@
 <?php
 
+use App\Libraries\Helpers;
+
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
 
@@ -16,7 +18,7 @@ return [
     |
     */
 
-    'default' => env('LOG_CHANNEL', 'errorlog'),
+    'default' => Helpers::getEnvWithFallback('LOG_CHANNEL', 'errorlog'),
 
     /*
     |--------------------------------------------------------------------------

@@ -186,7 +186,7 @@ generate-appearance:
 
 # Generate Images - This will erase your current settings!
 generate-images:
-	docker exec eventula_manager_app php artisan db:seed --class=SliderImageTableSeeder
+	docker exec eventula_manager_app php artisan db:seed --class=SliderImagesTableSeeder
 
 # Generate testusers - This will spam 50 testuser to the Database!
 generate-testuser:
@@ -283,6 +283,14 @@ composer-update:
     --volume $(currentDir)/src:/app \
     $(user) \
     composer:latest composer update --ignore-platform-reqs --no-scripts
+
+
+# Update Dev PHP Dependencies via Composer
+composer-update-lock:
+	docker run --rm --name compose-maintainence-update --interactive \
+    --volume $(currentDir)/src:/app \
+    $(user) \
+    composer:latest composer update --lock --ignore-platform-reqs --no-scripts
 
 # list Composer outdated direct
 composer-outdated-direct:

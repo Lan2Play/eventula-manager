@@ -1,5 +1,7 @@
 <?php
 
+use App\Libraries\Helpers;
+
 return [
 
     /*
@@ -13,7 +15,7 @@ return [
     |
     */
 
-    'default' => env('CACHE_DRIVER', 'file'),
+    'default' => Helpers::getEnvWithFallback('CACHE_DRIVER', 'file'),
 
     /*
     |--------------------------------------------------------------------------
@@ -51,8 +53,8 @@ return [
             'driver'  => 'memcached',
             'servers' => [
                 [
-                    'host' => env('MEMCACHED_HOST', '127.0.0.1'),
-                    'port' => env('MEMCACHED_PORT', 11211),
+                    'host' => Helpers::getEnvWithFallback('MEMCACHED_HOST', '127.0.0.1'),
+                    'port' => Helpers::getEnvWithFallback('MEMCACHED_PORT', 11211),
                     'weight' => 100,
                 ],
             ],
@@ -76,6 +78,6 @@ return [
     |
     */
 
-    'prefix' => 'laravel',
+    'prefix' => 'eventula',
 
 ];

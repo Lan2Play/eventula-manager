@@ -2,13 +2,153 @@
 
 namespace App;
 
-use DB;
 use Storage;
-
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
 
 class Setting extends Model
 {
+
+    /**
+     * @return array<string, string>
+     */
+    protected static function allAsMap(): array
+    {
+        try {
+            $callback = function () {
+                return self::query()->pluck('value', 'setting')->toArray();
+            };
+
+            if (Cache::supportsTags()) {
+                return Cache::tags(['settings'])->rememberForever('settings:all', $callback);
+            }
+
+            return Cache::rememberForever('settings:all', $callback);
+        } catch (\Exception $e) {
+            // Fallback: Direkt aus der Datenbank laden
+            \Log::warning('Cache fehler beim Laden der Settings: ' . $e->getMessage());
+            return self::query()->pluck('value', 'setting')->toArray();
+        }
+    }
+
+    public static function getValue(string $key, $default = null)
+    {
+        try {
+            $remember = function () use ($key) {
+                return self::query()->where('setting', $key)->value('value');
+            };
+
+            if (Cache::supportsTags()) {
+                $val = Cache::tags(['settings'])->rememberForever("setting:{$key}", $remember);
+            } else {
+                $val = Cache::rememberForever("setting:{$key}", $remember);
+            }
+
+            return $val !== null ? $val : $default;
+        } catch (\Throwable $e) {
+            \Log::warning('Cache error while loading setting ' . $key . ': ' . $e->getMessage());
+            $val = self::query()->where('setting', $key)->value('value');
+            return $val !== null ? $val : $default;
+        }
+    }
+
+    /**
+     * Efficiently fetch multiple settings by keys.
+     * Returns an associative array of key => value. Missing keys map to null.
+     *
+     * @param string[] $keys
+     * @return array<string, mixed|null>
+     */
+    public static function getValues(array $keys): array
+    {
+        try {
+            // normalize keys
+            $keys = array_values(array_unique(array_filter($keys, function ($k) {
+                return is_string($k) && $k !== '';
+            })));
+            if (!$keys) {
+                return [];
+            }
+
+            $result = [];
+            $missing = [];
+
+            if (Cache::supportsTags()) {
+                foreach ($keys as $k) {
+                    $cached = Cache::tags(['settings'])->get("setting:{$k}");
+                    if ($cached === null) {
+                        $missing[] = $k;
+                    } else {
+                        $result[$k] = $cached;
+                    }
+                }
+            } else {
+                foreach ($keys as $k) {
+                    $cached = Cache::get("setting:{$k}");
+                    if ($cached === null) {
+                        $missing[] = $k;
+                    } else {
+                        $result[$k] = $cached;
+                    }
+                }
+            }
+
+            if ($missing) {
+                $fromDb = self::query()->whereIn('setting', $missing)->pluck('value', 'setting')->toArray();
+                foreach ($missing as $k) {
+                    if (array_key_exists($k, $fromDb)) {
+                        $val = $fromDb[$k];
+                        if (Cache::supportsTags()) {
+                            Cache::tags(['settings'])->forever("setting:{$k}", $val);
+                        } else {
+                            Cache::forever("setting:{$k}", $val);
+                        }
+                        $result[$k] = $val;
+                    } else {
+                        // Key doesn't exist in DB; return null but do not cache null to allow future creation
+                        $result[$k] = null;
+                    }
+                }
+            }
+
+            return $result;
+        } catch (\Throwable $e) {
+            \Log::warning('Cache error while loading multiple settings: ' . $e->getMessage());
+            // Fallback: one DB query
+            $values = self::query()->whereIn('setting', $keys)->pluck('value', 'setting')->toArray();
+            // Ensure all requested keys are present (null for missing)
+            $result = [];
+            foreach ($keys as $k) {
+                $result[$k] = array_key_exists($k, $values) ? $values[$k] : null;
+            }
+            return $result;
+        }
+    }
+
+    protected static function booted()
+    {
+        $invalidate = function (self $model) {
+            try {
+                $key = $model->setting ?? null;
+                if (Cache::supportsTags()) {
+                    if ($key) {
+                        Cache::tags(['settings'])->forget("setting:{$key}");
+                    }
+                    Cache::tags(['settings'])->forget('settings:all');
+                } else {
+                    if ($key) {
+                        Cache::forget("setting:{$key}");
+                    }
+                    Cache::forget('settings:all');
+                }
+            } catch (\Throwable $e) {
+                \Log::warning('Cache invalidation for settings failed: ' . $e->getMessage());
+            }
+        };
+
+        static::saved($invalidate);
+        static::deleted($invalidate);
+    }
     /**
      * The name of the table.
      *
@@ -24,6 +164,7 @@ class Setting extends Model
     protected $fillable = [
         'setting',
         'value',
+        'description',
         'default',
     ];
 
@@ -43,7 +184,7 @@ class Setting extends Model
      */
     public static function getOrgName()
     {
-        return self::where('setting', 'org_name')->first()->value;
+        return self::getValue('org_name');
     }
 
     /**
@@ -66,7 +207,7 @@ class Setting extends Model
      */
     public static function getOrgTagline()
     {
-        return self::where('setting', 'org_tagline')->first()->value;
+        return self::getValue('org_tagline');
     }
 
     /**
@@ -89,7 +230,7 @@ class Setting extends Model
      */
     public static function getOrgLogo()
     {
-        return (self::where('setting', 'org_logo')->first()->value);
+        return self::getValue('org_logo');
     }
 
     /**
@@ -122,7 +263,7 @@ class Setting extends Model
      */
     public static function getOrgFavicon()
     {
-        return (self::where('setting', 'org_favicon')->first()->value) . '?cb=' . mt_rand(10, 9999);
+        return self::getValue('org_favicon') . '?cb=' . mt_rand(10, 9999);
     }
 
     /**
@@ -155,7 +296,7 @@ class Setting extends Model
      */
     public static function getPurchaseTermsAndConditions()
     {
-        return self::where('setting', 'purchase_terms_and_conditions')->first()->value;
+        return self::getValue('purchase_terms_and_conditions');
     }
 
     /**
@@ -178,7 +319,7 @@ class Setting extends Model
      */
     public static function getRegistrationTermsAndConditions()
     {
-        return self::where('setting', 'registration_terms_and_conditions')->first()->value;
+        return self::getValue('registration_terms_and_conditions');
     }
 
     /**
@@ -201,7 +342,7 @@ class Setting extends Model
      */
     public static function getDiscordLink()
     {
-        return self::where('setting', 'discord_link')->first()->value;
+        return self::getValue('discord_link');
     }
 
     /**
@@ -224,7 +365,7 @@ class Setting extends Model
      */
     public static function getDiscordId()
     {
-        return self::where('setting', 'discord_id')->first()->value;
+        return self::getValue('discord_id');
     }
 
     /**
@@ -247,7 +388,7 @@ class Setting extends Model
      */
     public static function getFacebookLink()
     {
-        return self::where('setting', 'facebook_link')->first()->value;
+        return self::getValue('facebook_link');
     }
 
     /**
@@ -270,7 +411,7 @@ class Setting extends Model
      */
     public static function getSteamLink()
     {
-        return self::where('setting', 'steam_link')->first()->value;
+        return self::getValue('steam_link');
     }
 
     /**
@@ -293,7 +434,7 @@ class Setting extends Model
      */
     public static function getRedditLink()
     {
-        return self::where('setting', 'reddit_link')->first()->value;
+        return self::getValue('reddit_link');
     }
 
     /**
@@ -316,7 +457,7 @@ class Setting extends Model
      */
     public static function getTwitterLink()
     {
-        return self::where('setting', 'twitter_link')->first()->value;
+        return self::getValue('twitter_link');
     }
 
     /**
@@ -339,7 +480,7 @@ class Setting extends Model
      */
     public static function getTeamspeakLink()
     {
-        return self::where('setting', 'teamspeak_link')->first()->value;
+        return self::getValue('teamspeak_link');
     }
 
     /**
@@ -362,7 +503,7 @@ class Setting extends Model
      */
     public static function getMumbleLink()
     {
-        return self::where('setting', 'mumble_link')->first()->value;
+        return self::getValue('mumble_link');
     }
 
     /**
@@ -385,7 +526,7 @@ class Setting extends Model
      */
     public static function getParticipantCountOffset()
     {
-        return self::where('setting', 'participant_count_offset')->first()->value;
+        return self::getValue('participant_count_offset');
     }
 
     /**
@@ -408,7 +549,7 @@ class Setting extends Model
      */
     public static function getEventCountOffset()
     {
-        return self::where('setting', 'event_count_offset')->first()->value;
+        return self::getValue('event_count_offset');
     }
 
     /**
@@ -432,7 +573,7 @@ class Setting extends Model
      */
     public static function getFrontpageAlotTagline()
     {
-        return self::where('setting', 'frontpage_alot_tagline')->first()->value;
+        return self::getValue('frontpage_alot_tagline');
     }
 
     /**
@@ -455,7 +596,7 @@ class Setting extends Model
      */
     public static function getCurrency()
     {
-        return self::where('setting', 'currency')->first()->value;
+        return self::getValue('currency');
     }
 
     /**
@@ -464,7 +605,7 @@ class Setting extends Model
      */
     public static function getCurrencySymbol()
     {
-        $currency = self::where('setting', 'currency')->first()->value;
+        $currency = self::getValue('currency');
         switch ($currency) {
             case 'USD':
                 $symbol = '$';
@@ -1553,6 +1694,43 @@ class Setting extends Model
         return true;
     }
 
+    /**
+     * TicketType_hide_policy Global Settings
+     * @param int $value 4 bit integer value
+     */
+    public static function setGlobalTicketTypeHidePolicy(int $value) {
+        $setting = self::where('setting', 'tickettype_hide_policy')->first();
+        $setting->value = (string)$value;
+        return $setting->save();
+    }
 
+    public static function getGlobalTicketTypeHidePolicy(): int
+    {
+        return (int)self::where('setting', 'tickettype_hide_policy')->first()->value;
+    }
 
+    /**
+     * Create or update a setting row idempotently.
+     * Useful in migrations when adding a new default setting.
+     *
+     * @param string $key
+     * @param mixed $value
+     * @param string|null $description
+     * @param bool $isDefault
+     * @return bool
+     */
+    public static function upsertSetting(string $key, $value, ?string $description = null, bool $isDefault = false): bool
+    {
+        $row = self::where('setting', $key)->first();
+        if (!$row) {
+            $row = new self();
+            $row->setting = $key;
+        }
+        $row->value = $value;
+        if (!is_null($description)) {
+            $row->description = $description;
+        }
+        $row->default = $isDefault;
+        return $row->save();
+    }
 }

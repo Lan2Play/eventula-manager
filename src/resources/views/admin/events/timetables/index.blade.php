@@ -21,7 +21,7 @@
 	</div>
 </div>
 
-@include ('layouts._partials._admin._event.dashMini')
+    @include ('layouts._partials._admin._event.dashMini')
 
 <div class="row">
 	<div class="col-lg-8">
@@ -30,8 +30,8 @@
 			<div class="card-header">
 				<i class="fa fa-calendar fa-fw"></i> Timetables
 			</div>
-			<div class="card-body">
-				<table class="table table-striped table-hover table-responsive">
+			<div class="card-body table-responsive">
+				<table class="table table-striped table-hover">
 					<thead>
 						<tr>
 							<th>Name</th>

@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Event;
 use App\EventVenue;
-use App\EventTicket;
+use App\TicketType;
 use App\EventTimetable;
 use App\EventInformation;
 use App\EventSeatingPlan;
@@ -24,7 +24,7 @@ class EventsSeeder extends Seeder
 
         ## House Cleaning
         \DB::table('events')->delete();
-        \DB::table('event_tickets')->delete();
+        \DB::table('ticket_types')->delete();
         \DB::table('event_timetables')->delete();
         \DB::table('event_tournaments')->delete();
         \DB::table('event_venues')->delete();
@@ -40,7 +40,7 @@ class EventsSeeder extends Seeder
             'capacity'          => 30,
         ])->each(
             function ($event) {
-                factory(EventTicket::class)->create([
+                factory(TicketType::class)->create([
                     'event_id' => $event->id,
                 ]);
                 factory(EventTimetable::class)->create([

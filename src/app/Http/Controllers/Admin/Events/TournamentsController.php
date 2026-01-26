@@ -2,17 +2,14 @@
 
 namespace App\Http\Controllers\Admin\Events;
 
-use DB;
-use Auth;
+use Illuminate\View\View;
 use Session;
-use DateTime;
-use Storage;
 use Debugbar;
 
 use App\User;
 use App\Event;
 use App\Game;
-use App\EventParticipant;
+use App\Ticket;
 use App\EventTournament;
 use App\EventTournamentMatchServer;
 use App\EventTournamentParticipant;
@@ -22,7 +19,6 @@ use App\GameMatchApiHandler;
 use Helpers;
 
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Support\Facades\Redirect;
@@ -60,6 +56,7 @@ class TournamentsController extends Controller
 
     /**
      * Store Tournament to Database
+     * TODO: change request->format to a better name that is not used by the request class!
      * @param  Event   $event
      * @param  Request $request
      * @return Redirect
@@ -78,7 +75,7 @@ class TournamentsController extends Controller
             'team_size'     => 'required|in:1v1,2v2,3v3,4v4,5v5,6v6',
             'description'   => 'required',
             'rules'         => 'required',
-            'image'         => 'image',
+            'image'         => 'image:allow_svg',
         ];
         $messages = [
             'name.required'                         => 'Tournament name is required',
@@ -412,13 +409,13 @@ class TournamentsController extends Controller
      * Add Pug to Tournament
      * @param  Event           $event
      * @param  EventTournament $tournament
-     * @param  EventParticipant $participant
+     * @param  Ticket $participant
      * @param  Request         $request
      * @return Redirect
      */
-    public function addPug(Event $event, EventTournament $tournament, EventParticipant $participant, Request $request)
+    public function addPug(Event $event, EventTournament $tournament, Ticket $participant, Request $request)
     {
-         if (!$tournament->event->eventParticipants()->where('id', $participant->id)->first()) {
+         if (!$tournament->event->tickets()->where('id', $participant->id)->first()) {
             Session::flash('alert-danger', __('events.tournament_not_signed_in'));
             return Redirect::back();
         }
@@ -443,7 +440,7 @@ class TournamentsController extends Controller
 
 
         $tournamentParticipant                          = new EventTournamentParticipant();
-        $tournamentParticipant->event_participant_id    = $participant->id;
+        $tournamentParticipant->ticket_id    = $participant->id;
         $tournamentParticipant->event_tournament_id     = $tournament->id;
         $tournamentParticipant->pug                     = true;
 
@@ -463,9 +460,9 @@ class TournamentsController extends Controller
      * @param  Request         $request
      * @return [type]
      */
-    public function addSingle(Event $event, EventTournament $tournament, EventParticipant $participant, Request $request)
+    public function addSingle(Event $event, EventTournament $tournament, Ticket $participant, Request $request)
     {
-        if (!$tournament->event->eventParticipants()->where('id', $participant->id)->first()) {
+        if (!$tournament->event->tickets()->where('id', $participant->id)->first()) {
             Session::flash('alert-danger', __('events.tournament_not_signed_in'));
             return Redirect::back();
         }
@@ -500,7 +497,7 @@ class TournamentsController extends Controller
 
         // TODO - Refactor
         $tournamentParticipant                              = new EventTournamentParticipant();
-        $tournamentParticipant->event_participant_id        = $participant->id;
+        $tournamentParticipant->ticket_id        = $participant->id;
         $tournamentParticipant->event_tournament_id         = $tournament->id;
         $tournamentParticipant->event_tournament_team_id    = @$request->event_tournament_team_id;
 
@@ -542,10 +539,10 @@ class TournamentsController extends Controller
      * @param  Event           $event
      * @param  EventTournament $tournament
      * @param  Request         $request
-     * @param  EventParticipant $participant
+     * @param  Ticket $participant
      * @return Redirect
      */
-    public function unregisterParticipant(Event $event, EventTournament $tournament, EventParticipant $participant, Request $request)
+    public function unregisterParticipant(Event $event, EventTournament $tournament, Ticket $participant, Request $request)
     {
 
 

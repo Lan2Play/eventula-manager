@@ -33,12 +33,13 @@ class EventSeating extends Model
     {
         return $this->belongsTo('App\EventSeatingPlan', 'event_seating_plan_id');
     }
-    public function eventParticipant()
+    public function eventTicket()
     {
-        return $this->belongsTo('App\EventParticipant');
+        return $this->belongsTo('App\Ticket', 'ticket_id');
     }
 
     /**
+     * // TODO wtf the naming?
      * Get Staff Tickets for current User
      * @return string
      */

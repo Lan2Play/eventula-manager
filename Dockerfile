@@ -19,6 +19,8 @@ ARG SOURCE_COMMIT
 ENV SOURCE_COMMIT=$SOURCE_COMMIT
 ARG BUILDNODE
 ENV BUILDNODE=$BUILDNODE
+ARG VERSION
+ENV VERSION=$VERSION
 ARG SOURCE_REF
 ENV SOURCE_REF=$SOURCE_REF
 
@@ -30,7 +32,7 @@ RUN find $NGINX_DOCUMENT_ROOT -type d ! -perm 0775 -print0 | xargs -0 -r chmod 7
 RUN find $NGINX_DOCUMENT_ROOT -type f ! -perm 0664 -print0 | xargs -0 -r chmod 664 
 RUN chgrp -R ${GUID} $NGINX_DOCUMENT_ROOT/storage $NGINX_DOCUMENT_ROOT/bootstrap/cache
 RUN chmod -R ug+rwx $NGINX_DOCUMENT_ROOT/storage $NGINX_DOCUMENT_ROOT/bootstrap/cache
-
+RUN install-php-extensions redis
 # Copy Storage for Bind Mounts - Fix for Bind Mounts on Host system
 RUN cp -a $NGINX_DOCUMENT_ROOT/storage /tmp/storage
 

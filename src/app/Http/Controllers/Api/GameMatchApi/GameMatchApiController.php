@@ -2,34 +2,27 @@
 
 namespace App\Http\Controllers\Api\GameMatchApi;
 
-use DB;
-use Auth;
-use File;
+use Exception;
+use Illuminate\Http\JsonResponse;
+use Illuminate\View\View;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use URL;
-use Illuminate\Support\Facades\Storage;
 
 use App\Event;
 use App\EventTournament;
-use App\EventTimetable;
-use App\EventTimetableData;
-use App\EventParticipant;
-use App\EventParticipantType;
 use App\EventTournamentMatchServer;
 use App\GameMatchApiHandler;
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\MatchMaking;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
-use Response;
 
 class GameMatchApiController extends Controller
 {
     /**
      * tournamentMatchConfig
-     * @return View
+     * @return JsonResponse
      */
     public function tournamentMatchConfig(Event $event, EventTournament $tournament, int $challongeMatchId, int $nummaps, Request $request)
     {
@@ -50,12 +43,12 @@ class GameMatchApiController extends Controller
             $thirdpartynameprop = $gamematchapihandler->getuserthirdpartyrequirements()["thirdpartyname"];
 
             foreach ($team1->tournamentParticipants as $key => $team1Participant) {
-                $eventParticipant = $team1Participant->eventParticipant;
+                $eventParticipant = $team1Participant->eventTicket;
                 $user = $eventParticipant->user;
                 $gamematchapihandler->addplayer($team1->name, $user->$thirdpartyidprop, $user->$thirdpartynameprop, $user->id, $user->username);
             }
             foreach ($team2->tournamentParticipants as $key => $team2Participant) {
-                $eventParticipant = $team2Participant->eventParticipant;
+                $eventParticipant = $team2Participant->eventTicket;
                 $user = $eventParticipant->user;
                 $gamematchapihandler->addplayer($team2->name, $user->$thirdpartyidprop, $user->$thirdpartynameprop, $user->id, $user->username);
             }
@@ -89,7 +82,7 @@ class GameMatchApiController extends Controller
      * @param int $mapnumber
      * @param Request $request
      * @param int $mapnumber
-     * @return View
+     * @return string
      */
     public function tournamentMatchGolive(Event $event, EventTournament $tournament, int $challongeMatchId, int $mapnumber, Request $request)
     {
@@ -120,7 +113,8 @@ class GameMatchApiController extends Controller
      * @param EventTournament $tournament
      * @param int $challongeMatchId
      * @param Request $request
-     * @return View
+     * @return string
+     * @throws Exception
      */
     public function tournamentMatchDemo(Event $event, EventTournament $tournament, int $challongeMatchId, Request $request)
     {
@@ -154,7 +148,8 @@ class GameMatchApiController extends Controller
      * @param EventTournament $tournament
      * @param int $challongeMatchId
      * @param Request $request
-     * @return View
+     * @return string
+     * @throws Exception
      */
     public function tournamentMatchFinalize(Event $event, EventTournament $tournament, int $challongeMatchId, Request $request)
     {
@@ -185,7 +180,8 @@ class GameMatchApiController extends Controller
      * @param EventTournament $tournament
      * @param int $challongeMatchId
      * @param Request $request
-     * @return View
+     * @return string
+     * @throws Exception
      */
     public function tournamentMatchFreeServer(Event $event, EventTournament $tournament, int $challongeMatchId, Request $request)
     {
@@ -218,7 +214,8 @@ class GameMatchApiController extends Controller
      * @param int $challongeMatchId
      * @param int $mapnumber
      * @param Request $request
-     * @return View
+     * @return string
+     * @throws Exception
      */
     public function tournamentMatchFinalizeMap(Event $event, EventTournament $tournament, int $challongeMatchId, int $mapnumber, Request $request)
     {
@@ -252,7 +249,8 @@ class GameMatchApiController extends Controller
      * @param int $challongeMatchId
      * @param int $mapnumber
      * @param Request $request
-     * @return View
+     * @return string
+     * @throws Exception
      */
     public function tournamentMatchUpdateround(Event $event, EventTournament $tournament, int $challongeMatchId, int $mapnumber, Request $request)
     {
@@ -285,7 +283,8 @@ class GameMatchApiController extends Controller
      * @param int $mapnumber
      * @param string $player
      * @param Request $request
-     * @return View
+     * @return string
+     * @throws Exception
      */
     public function tournamentMatchUpdateplayer(Event $event, EventTournament $tournament, int $challongeMatchId, int $mapnumber, string $player, Request $request)
     {
@@ -316,7 +315,8 @@ class GameMatchApiController extends Controller
 
     /**
      * matchMakingMatchConfig
-     * @return View
+     * @return JsonResponse|string
+     * @throws Exception
      */
     public function matchMakingMatchConfig(MatchMaking $match, int $nummaps, Request $request)
     {
@@ -360,7 +360,8 @@ class GameMatchApiController extends Controller
      * @param Request $request
      * @param MatchMaking $match
      * @param int $mapnumber
-     * @return View
+     * @return string
+     * @throws Exception
      */
     public function matchMakingMatchGolive(Request $request, MatchMaking $match, int $mapnumber)
     {
@@ -396,7 +397,8 @@ class GameMatchApiController extends Controller
      * matchMakingMatchFinalize
      * @param Request $request
      * @param MatchMaking $match
-     * @return View
+     * @return string
+     * @throws Exception
      */
     public function matchMakingMatchDemo(Request $request, MatchMaking $match)
     {
@@ -425,7 +427,8 @@ class GameMatchApiController extends Controller
      * matchMakingMatchFinalize
      * @param Request $request
      * @param MatchMaking $match
-     * @return View
+     * @return string
+     * @throws Exception
      */
     public function matchMakingMatchFinalize(Request $request, MatchMaking $match)
     {
@@ -453,7 +456,8 @@ class GameMatchApiController extends Controller
      * matchMakingMatchFreeServer
      * @param Request $request
      * @param MatchMaking $match
-     * @return View
+     * @return string
+     * @throws Exception
      */
     public function matchMakingMatchFreeServer(Request $request, MatchMaking $match)
     {
@@ -483,7 +487,8 @@ class GameMatchApiController extends Controller
      * @param Request $request
      * @param MatchMaking $match
      * @param int $mapnumber
-     * @return View
+     * @return string
+     * @throws Exception
      */
     public function matchMakingMatchFinalizeMap(Request $request, MatchMaking $match, int $mapnumber)
     {
@@ -514,7 +519,8 @@ class GameMatchApiController extends Controller
      * @param Request $request
      * @param MatchMaking $match
      * @param int $mapnumber
-     * @return View
+     * @return string
+     * @throws Exception
      */
     public function matchMakingMatchUpdateround(Request $request, MatchMaking $match, int $mapnumber)
     {
@@ -542,10 +548,8 @@ class GameMatchApiController extends Controller
 
     /**
      * matchMakingMatchUpdateplayer
-     * @param Request $request
-     * @param MatchMaking $match
-     * @param int $mapnumber
-     * @return View
+     * @return string
+     * @throws Exception
      */
     public function matchMakingMatchUpdateplayer(Request $request, MatchMaking $match, int $mapnumber, string $player)
     {

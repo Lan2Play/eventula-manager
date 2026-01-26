@@ -1,5 +1,7 @@
 <?php
 
+use App\Libraries\Helpers;
+
 return [
 
     /*
@@ -26,7 +28,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mysql'),
+    'default' => Helpers::getEnvWithFallback('DB_CONNECTION', 'mysql'),
 
     /*
     |--------------------------------------------------------------------------
@@ -54,11 +56,11 @@ return [
 
         'mysql' => [
            'driver' => 'mysql',
-            'host' => env('DB_HOST', 'database'),
-            'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'eventula_manager_database'),
-            'username' => env('DB_USERNAME', 'eventula_manager'),
-            'password' => env('DB_PASSWORD', 'password'),
+            'host' => Helpers::getEnvWithFallback('DB_HOST', 'database'),
+            'port' => Helpers::getEnvWithFallback('DB_PORT', '3306'),
+            'database' => Helpers::getEnvWithFallback('DB_DATABASE', 'eventula_manager_database'),
+            'username' => Helpers::getEnvWithFallback('DB_USERNAME', 'eventula_manager'),
+            'password' => Helpers::getEnvWithFallback('DB_PASSWORD', 'password'),
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',
@@ -68,10 +70,10 @@ return [
 
         'pgsql' => [
             'driver'   => 'pgsql',
-            'host'     => env('DB_HOST', 'localhost'),
-            'database' => env('DB_DATABASE', 'forge'),
-            'username' => env('DB_USERNAME', 'forge'),
-            'password' => env('DB_PASSWORD', ''),
+            'host'     => Helpers::getEnvWithFallback('DB_HOST', 'localhost'),
+            'database' => Helpers::getEnvWithFallback('DB_DATABASE', 'forge'),
+            'username' => Helpers::getEnvWithFallback('DB_USERNAME', 'forge'),
+            'password' => Helpers::getEnvWithFallback('DB_PASSWORD', ''),
             'charset'  => 'utf8',
             'prefix'   => '',
             'schema'   => 'public',
@@ -79,10 +81,10 @@ return [
 
         'sqlsrv' => [
             'driver'   => 'sqlsrv',
-            'host'     => env('DB_HOST', 'localhost'),
-            'database' => env('DB_DATABASE', 'forge'),
-            'username' => env('DB_USERNAME', 'forge'),
-            'password' => env('DB_PASSWORD', ''),
+            'host'     => Helpers::getEnvWithFallback('DB_HOST', 'localhost'),
+            'database' => Helpers::getEnvWithFallback('DB_DATABASE', 'forge'),
+            'username' => Helpers::getEnvWithFallback('DB_USERNAME', 'forge'),
+            'password' => Helpers::getEnvWithFallback('DB_PASSWORD', ''),
             'charset'  => 'utf8',
             'prefix'   => '',
         ],
@@ -118,10 +120,10 @@ return [
         'cluster' => false,
 
         'default' => [
-            'host'     => env('REDIS_HOST', 'localhost'),
-            'password' => env('REDIS_PASSWORD', null),
-            'port'     => env('REDIS_PORT', 6379),
-            'database' => 0,
+            'host'     => Helpers::getEnvWithFallback('REDIS_HOST', 'localhost'),
+            'password' => Helpers::getEnvWithFallback('REDIS_PASSWORD', null),
+            'port'     => Helpers::getEnvWithFallback('REDIS_PORT', 6379),
+            'database' => Helpers::getEnvWithFallback('REDIS_DATABASE', 0),
         ],
 
     ],

@@ -1,19 +1,11 @@
 <?php
 namespace App\Mail;
-use Storage; 
 use URL;
-use Helpers;
 use App\User;
-use App\Event;
-use App\EventTicket;
-use App\ShopItem;
 use App\Purchase;
-use App\EventParticipant;
+use App\Ticket;
 use App\Libraries\MustacheModelHelper;
 use Spatie\MailTemplates\TemplateMailable;
-use Spatie\MailTemplates\Interfaces\MailTemplateInterface;
-use Spatie\MailTemplates\Models\MailTemplate;
-use Illuminate\support\Collection;
 
 class EventulaTicketOrderPaymentFinishedMail extends TemplateMailable
 {
@@ -42,7 +34,7 @@ class EventulaTicketOrderPaymentFinishedMail extends TemplateMailable
     public $purchase_payment_method;    
 
     /** @var array */
-    public array $purchase_participants;   
+    public array $purchase_tickets;
 
     public function __construct(User $user, Purchase $purchase)
     {
@@ -56,11 +48,11 @@ class EventulaTicketOrderPaymentFinishedMail extends TemplateMailable
         {
             $this->purchase_id = $purchase->id;
             $this->purchase_payment_method = $purchase->getPurchaseType();
-            $this->purchase_participants = array();            
+            $this->purchase_tickets = array();
 
-            foreach($purchase->participants as $participant)
+            foreach($purchase->tickets as $ticket)
             {
-                $this->purchase_participants[] = new MustacheModelHelper(EventParticipant::with('event','ticket')->where('id', $participant->id)->first());
+                $this->purchase_tickets[] = new MustacheModelHelper(Ticket::with('event','ticketType')->where('id', $ticket->id)->first());
             }
         }
     } 

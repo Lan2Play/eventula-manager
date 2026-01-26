@@ -9,23 +9,10 @@
   },
   "forkProcessing": "enabled",
   "baseBranches": [
-    "dev",
     "main"
   ],
   "packageRules": [
-    {
-      "matchUpdateTypes": [
-        "minor",
-        "patch",
-        "pin",
-        "digest"
-      ],
-      "matchBaseBranches": [
-        "dev"
-      ],
-      "automerge": true
-    },
-    {
+        {
       "matchUpdateTypes": [
         "minor",
         "patch",
@@ -35,7 +22,7 @@
       "matchBaseBranches": [
         "main"
       ],
-      "automerge": false
+      "automerge": true
     },
     {
       "matchUpdateTypes": [
@@ -45,21 +32,12 @@
     },
     {
       "matchBaseBranches": [
-        "dev"
-      ],
-      "matchUpdateTypes": [
-        "lockFileMaintenance"
-      ],
-      "automerge": true
-    },
-    {
-      "matchBaseBranches": [
         "main"
       ],
       "matchUpdateTypes": [
         "lockFileMaintenance"
       ],
-      "automerge": false
+      "automerge": true
     }
   ],
   "automergeType": "pr",

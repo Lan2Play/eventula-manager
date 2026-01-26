@@ -13,6 +13,12 @@ class Purchase extends Model
      */
     protected $table = 'purchases';
 
+
+    public const STATUS_SUCCESS = 'Success';
+    public const STATUS_PENDING = 'Pending';
+    public const STATUS_DANGER = 'Danger';
+
+
     protected $fillable = [
         'user_id',
         'type',
@@ -39,9 +45,9 @@ class Purchase extends Model
     {
         return $this->belongsTo('App\User', 'user_id');
     }
-    public function participants()
+    public function tickets()
     {
-        return $this->hasMany('App\EventParticipant', 'purchase_id');
+        return $this->hasMany('App\Ticket', 'purchase_id');
     }
     public function order()
     {
@@ -82,13 +88,14 @@ class Purchase extends Model
     }
 
 
+
     /**
      * Set Purchase Success
      * @return boolean
      */
     public function setSuccess()
     {
-        $this->status = "Success";
+        $this->status = self::STATUS_SUCCESS;
         if (!$this->save()) {
             return false;
         }
@@ -103,13 +110,13 @@ class Purchase extends Model
     {
         $total = 0.0;
 
-        if (!$this->participants->isEmpty())
+        if (!$this->tickets->isEmpty())
         {
-            foreach ($this->participants as $participant)
+            foreach ($this->tickets as $ticket)
             {
-                if (!$participant->free && !$participant->staff)
+                if (!$ticket->free && !$ticket->staff)
                 {
-                    $total += $participant->ticket->price;
+                    $total += $ticket->ticketType->price;
                 }
             }
         }
@@ -117,24 +124,26 @@ class Purchase extends Model
 
     }
 
+    const CONTENT_TYPE_SHOP_ORDER = 'shopOrder';
+    const CONTENT_TYPE_EVENT_TICKETS = 'eventTickets';
+    const CONTENT_TYPE_NONE = 'none';
+
     /**
-     * Get Purchase Content Type
-     * @param String
+     * Determines the type of content associated with this purchase
+     *
+     * @return string Returns one of: 'shopOrder', 'eventTickets', or 'none'
      */
-    public function getPurchaseContentType()
+    public function getPurchaseContentType(): string
     {
-
-        if ($this->order != null)
-        {
-            return 'shopOrder';
+        if ($this->order !== null) {
+            return self::CONTENT_TYPE_SHOP_ORDER;
         }
 
-        if (!$this->participants->isEmpty())
-        {
-            return 'eventTickets';
+        if (!$this->tickets->isEmpty()) {
+            return self::CONTENT_TYPE_EVENT_TICKETS;
         }
 
-        return 'none';
+        return self::CONTENT_TYPE_NONE;
     }
 
 

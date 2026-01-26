@@ -28,6 +28,20 @@ return [
     'revoke_gift' => 'Geschenk zurückziehen',
     'staff_ticket' => 'Team Ticket',
     'free_ticket' => 'Kostenloses Ticket',
+    'signed_in' => 'Eingecheckt',
+    'owner_cant_be_changed' => "Besitzer kann nicht geändert werden",
+
+    /* Auditing */
+    'manager' => 'Verwalter',
+    'owner' => 'Besitzer',
+    'user' => 'Benutzer',
+    'either_staff_or_free' => 'Ist entweder Team oder Kostenloses Ticket',
+    'current_ticket_details' => 'Aktuelle Ticket Details',
+    'select_seat' => 'Platz auswählen',
+    'no_owner' => 'Keiner',
+    'no_manager' => 'Keiner',
+    'no_user' => 'Keiner',
+    'alert_ticket_not_found' => 'Ticket nicht gefunden',
 
     /* Ticket PDF */
     'pdf_header' => 'Dein Ticket für :name',

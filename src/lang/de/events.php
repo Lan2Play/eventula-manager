@@ -122,9 +122,11 @@ return [
     'tournament_freebie_not_permitted' => 'Die Teilnahme an Turnieren von Freebies ist auf diesem Event nicht erlaubt',
     /* Ticket Partial*/
     'remove_seating' => 'Sitzplatz entfernen',
-
     /* General */
     'time_delimiter' => 'um',
     'time_suffix' => 'Uhr',
-    'savetocalendar' => 'In Kalender speichern'
+    'savetocalendar' => 'In Kalender speichern',
+    'ticketgroup' => 'Ticketgruppe: :ticketgroup',
+    'activity' => 'Aktivität',
+    'seatingplanimage' => 'Bild vom Sitzplan',
 ];

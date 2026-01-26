@@ -1,4 +1,3 @@
-# !!!!!!!!!!!!! DONT USE THIS EXAMPLE FOR PRODUCTION! GO TO https://eventula.lan2play.de/admin/getting_started.html#create-your-docker-compose-yml-file AND GET THE FILES THERE !!!!!!!!!!!!!
 services:
   eventula_manager_app:
     build:
@@ -16,6 +15,11 @@ services:
       - 80:80
       - 443:443
     restart: unless-stopped
+    depends_on:
+      - eventula_manager_database
+      - mailpit
+      - cache
+
   eventula_manager_database:
     image: mysql:9
     volumes:
@@ -27,7 +31,27 @@ services:
     networks:
       - lan
     restart: unless-stopped
+
+  cache:
+    image: redis
+    container_name: eventula_manager_redis
+    restart: unless-stopped
+    networks:
+      - lan
+
+
+  mailpit:
+    image: axllent/mailpit
+    container_name: mailpit
+    restart: unless-stopped
+    ports:
+      - "1025:1025"   # SMTP
+      - "8025:8025"   # Web UI
+    networks:
+      - lan
+
 volumes:
+  mailpit_data:
   eventula_manager_database:
     name: eventula_manager_database
 networks:

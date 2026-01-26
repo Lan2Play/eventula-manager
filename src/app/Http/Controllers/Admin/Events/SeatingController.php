@@ -2,21 +2,15 @@
 
 namespace App\Http\Controllers\Admin\Events;
 
-use DB;
 use Illuminate\Http\RedirectResponse;
 use Session;
 use Storage;
 
-use App\User;
 use App\Event;
-use App\EventTicket;
 use App\EventSeating;
 use App\EventSeatingPlan;
-use app\EventSeatingPlanSeat;
-use App\EventParticipant;
-use App\EventParticipantType;
+use App\Ticket;
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
@@ -78,7 +72,7 @@ class SeatingController extends Controller
             "name"      => "required",
             "columns"   => "required|integer",
             "rows"      => "required|integer|max:26",
-            'image'     => 'image',
+            'image'     => 'image:allow_svg',
         ];
         $messages = [
             'name.required'     => 'Name is required',
@@ -136,7 +130,7 @@ class SeatingController extends Controller
         $rules = [
             "columns"   => "integer",
             "rows"      => "integer|max:26",
-            'image'     => 'image',
+            'image'     => 'image:allow_svg',
             'status'    => 'in:draft,preview,published',
             'locked'    => 'boolean',
             'name'      => 'filled',
@@ -316,7 +310,7 @@ class SeatingController extends Controller
     }
 
     /**
-     * Seat Participant
+     * Seat Ticket
      * @param  Event            $event
      * @param  EventSeatingPlan $seatingPlan
      * @param  Request          $request
@@ -363,8 +357,8 @@ class SeatingController extends Controller
         //Check if ticket is even seatable
         if (isset($request->participant_select_modal) && trim($request->participant_select_modal) != '') {
             $clauses = ['id' => $request->participant_select_modal];
-            $participant = EventParticipant::where($clauses)->first();
-            if (($participant->ticket && !$participant->ticket->seatable)) {
+            $ticket = Ticket::where($clauses)->first();
+            if (($ticket->ticket && !$ticket->ticketType->seatable)) {
                 Session::flash('alert-danger', 'Ticket is not eligible for a seat!');
                 return Redirect::back();
             }
@@ -373,7 +367,7 @@ class SeatingController extends Controller
         //Check if the participant has already a seat and remove it if necessary
         //There can only be one!!!
         if (isset($request->participant_id_modal) && trim($request->participant_id_modal) != '') {
-            $clauses = ['event_participant_id' => $request->participant_id_modal];
+            $clauses = ['ticket_id' => $request->participant_id_modal];
             $previousSeat = EventSeating::where($clauses)->first();
             if ($previousSeat != null && $previousSeat->status == 'ACTIVE' && strtoupper($request->seat_status_select_modal) == 'ACTIVE') {
                 $previousSeat->delete();
@@ -381,7 +375,7 @@ class SeatingController extends Controller
         }
 
         $clauses = [
-            'event_participant_id' => $request->participant_select_modal
+            'ticket_id' => $request->participant_select_modal
         ];
         $previousSeat = EventSeating::where($clauses)->first();
         if ($previousSeat != null && $previousSeat->status == 'ACTIVE' &&  strtoupper($request->seat_status_select_modal) == 'ACTIVE') {
@@ -421,7 +415,7 @@ class SeatingController extends Controller
         $newSeat                            = new EventSeating();
         $newSeat->column                    = $request->seat_column;
         $newSeat->row                       = $request->seat_row;
-        $newSeat->event_participant_id      = $request->participant_select_modal;
+        $newSeat->ticket_id                 = $request->participant_select_modal;
         $newSeat->event_seating_plan_id     = $seatingPlan->id;
         $newSeat->status                    = $request->seat_status_select_modal;
 
@@ -438,7 +432,7 @@ class SeatingController extends Controller
     }
 
     /**
-     * Remove Participant Seating
+     * Remove Ticket Seating
      * @param  Event            $event
      * @param  EventSeatingPlan $seatingPlan
      * @param  Request          $request

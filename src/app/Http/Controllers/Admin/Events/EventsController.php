@@ -2,20 +2,16 @@
 
 namespace App\Http\Controllers\Admin\Events;
 
-use DB;
 use Auth;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 use Session;
 use Helpers;
 
-use App\User;
 use App\Event;
-use App\EventParticipant;
-use App\EventTicket;
-use App\EventAnnouncement;
-use App\EventVenue;
+use App\Ticket;
 use App\Purchase;
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
@@ -46,13 +42,13 @@ class EventsController extends Controller
             ->with('user', Auth::user())
             ->with('event', $event)
             ->with('announcements', $event->announcements()->paginate(5, ['*'], 'an'))
-            ->with('participants', $event->eventParticipants()->paginate(10, ['*'], 'ep'));
+            ->with('participants', $event->tickets()->paginate(10, ['*'], 'ep'));
     }
 
     /**
      * Add Event to Database
      * @param  Request $request
-     * @return Redirect
+     * @return RedirectResponse
      */
     public function store(Request $request)
     {
@@ -61,9 +57,9 @@ class EventsController extends Controller
             'desc_short'    => 'required',
             'desc_long'     => 'required',
             'end_date'      => 'required|date_format:m/d/Y',
-            'end_time'      => 'required|date_format:H:i',
+            'end_time'      => 'required|date_format:H:i,G:i',
             'start_date'    => 'required|date_format:m/d/Y',
-            'start_time'    => 'required|date_format:H:i',
+            'start_time'    => 'required|date_format:H:i,G:i',
             'capacity'      => 'required|integer',
             'venue'         => 'exists:event_venues,id',
         ];
@@ -74,9 +70,9 @@ class EventsController extends Controller
             'end_date.required'         => 'End date is required',
             'end_time.required'         => 'End date is required',
             'end_date.date_format'      => 'End Date must be m/d/Y format',
-            'end_time.date_format'      => 'End Time must be H:i format',
+            'end_time.date_format'      => 'End Time must be H:i or G:i format (e.g., 07:00 or 7:00)',
             'start_date.date_format'    => 'Start Date must be m/d/Y format',
-            'start_time.date_format'    => 'Start Time must be H:i format',
+            'start_time.date_format'    => 'Start Time must be H:i or G:i format (e.g., 07:00 or 7:00)',
             'desc_short.required'       => 'Short Description is required',
             'desc_long.required'        => 'Long Description is required',
             'capacity.required'         => 'Capacity is required',
@@ -98,12 +94,12 @@ class EventsController extends Controller
         $event->event_venue_id              = @$request->venue;
         $event->capacity                    = $request->capacity;
         $event->no_tickets_per_user         = empty($request->no_tickets_per_user) ? null : $request->no_tickets_per_user;
-        $event->online_event  = ($request->online_event ? true : false);
-        $event->private_participants  = ($request->private_participants ? true : false);
-        $event->matchmaking_enabled  = ($request->matchmaking_enabled ? true : false);
-        $event->tournaments_freebies  = ($request->tournaments_freebies ? true : false);
-        $event->tournaments_staff  = ($request->tournaments_staff ? true : false);
-
+        $event->online_event                = (bool)$request->online_event;
+        $event->private_participants        = (bool)$request->private_participants;
+        $event->matchmaking_enabled         = (bool)$request->matchmaking_enabled;
+        $event->tournaments_freebies        = (bool)$request->tournaments_freebies;
+        $event->tournaments_staff           = (bool)$request->tournaments_staff;
+        $event->tickettype_hide_policy      = (int)($request->ticket_hide_policy ?? -1);
         if (!$event->save()) {
             Session::flash('alert-danger', 'Cannot Save Event!');
             return Redirect::to('admin/events/' . $event->slug);
@@ -119,16 +115,16 @@ class EventsController extends Controller
      * Update Event
      * @param  Event   $event
      * @param  Request $request
-     * @return Redirect
+     * @return RedirectResponse
      */
     public function update(Event $event, Request $request)
     {
         $rules = [
             'event_name'        => 'filled',
             'end_date'          => 'filled|date_format:m/d/Y',
-            'end_time'          => 'filled|date_format:H:i',
+            'end_time'          => 'filled|date_format:H:i,G:i',
             'start_date'        => 'filled|date_format:m/d/Y',
-            'start_time'        => 'filled|date_format:H:i',
+            'start_time'        => 'filled|date_format:H:i,G:i',
             'status'            => 'in:draft,preview,published,private,registeredonly',
             'capacity'          => 'filled|integer',
             'venue'             => 'exists:event_venues,id',
@@ -138,11 +134,11 @@ class EventsController extends Controller
             'end_date.filled'           => 'A End Date cannot be empty',
             'end_date.date_format'      => 'A End Date must be m/d/Y format',
             'end_time.filled'           => 'A End Time cannot be empty',
-            'end_time.date_format'      => 'A End Time must be H:i formate',
+            'end_time.date_format'      => 'A End Time must be H:i or G:i format (e.g., 07:00 or 7:00)',
             'start_date.filled'         => 'A Start Date cannot be empty',
-            'end_date.date_format'      => 'A Start Date must be m/d/Y format',
+            'start_date.date_format'    => 'A Start Date must be m/d/Y format',
             'start_time.filled'         => 'A Start Time cannot be empty',
-            'end_time.date_format'      => 'A Start Time must be H:i format',
+            'start_time.date_format'    => 'A Start Time must be H:i or G:i format (e.g., 07:00 or 7:00)',
             'status.in'                 => 'Status must be draft, preview, published or private',
             'capacity.filled'           => 'Capacity is required',
             'capacity.integer'          => 'Capacity must be a integer',
@@ -202,13 +198,16 @@ class EventsController extends Controller
         $event->tournaments_freebies  = ($request->tournaments_freebies ? true : false);
         $event->tournaments_staff  = ($request->tournaments_staff ? true : false);
 
-
         if (isset($request->capacity)) {
             $event->capacity        = $request->capacity;
         }
 
         if (isset($request->venue)) {
             $event->event_venue_id              = @$request->venue;
+        }
+
+        if (isset($request->ticket_hide_policy)) {
+            $event->ticket_hide_policy = $request->ticket_hide_policy;
         }
 
         if (!$event->save()) {
@@ -223,7 +222,7 @@ class EventsController extends Controller
     /**
      * Delete Event from Database
      * @param  Event  $event
-     * @return Redirect
+     * @return RedirectResponse
      */
     public function destroy(Event $event)
     {
@@ -245,14 +244,14 @@ class EventsController extends Controller
      * Add Gift Participant
      * @param  Request $request
      * @param  Event   $event
-     * @return Redirect
+     * @return RedirectResponse
      */
     public function freeGift(Request $request, Event $event)
     {
         $purchase                               = new Purchase();
         $purchase->user_id                      = $request->user_id;
         $purchase->type                         = 'system';
-        $purchase->status                       = "Success";
+        $purchase->status                       = Purchase::STATUS_SUCCESS;
         $purchase->transaction_id               = "Granted by ". $request->user()->username;
 
         $purchase->setSuccess();
@@ -261,16 +260,18 @@ class EventsController extends Controller
             Session::flash('alert-danger', 'Could not save "system" purchase!');
         }
 
-        $participant                            = new EventParticipant();
-        $participant->user_id                   = $request->user_id;
-        $participant->event_id                  = $event->id;
-        $participant->free                      = 1;
-        $participant->staff_free_assigned_by    = Auth::id();
-        $participant->purchase_id               = $purchase->id;
-        $participant->generateQRCode();
+        $ticket                            = new Ticket();
+        $ticket->user_id                   = $request->user_id;
+        $ticket->manager_id                = $request->user_id;
+        $ticket->owner_id                  = $request->user_id;
+        $ticket->event_id                  = $event->id;
+        $ticket->free                      = 1;
+        $ticket->staff_free_assigned_by    = Auth::id();
+        $ticket->purchase_id               = $purchase->id;
+        $ticket->generateQRCode();
 
 
-        if (!$participant->save()) {
+        if (!$ticket->save()) {
             Session::flash('alert-danger', 'Could not add Gift!');
             return Redirect::to('admin/events/' . $event->slug . '/tickets');
         }
@@ -283,14 +284,14 @@ class EventsController extends Controller
      * Add Staff Participant
      * @param  Request $request
      * @param  Event   $event
-     * @return Redirect
+     * @return RedirectResponse
      */
     public function freeStaff(Request $request, Event $event)
     {
         $purchase                             = new Purchase();
         $purchase->user_id                    = $request->user_id;
         $purchase->type                       = 'system';
-        $purchase->status                     = "Success";
+        $purchase->status                     = Purchase::STATUS_SUCCESS;
         $purchase->transaction_id             = "Appointed by ". $request->user()->username;
 
         $purchase->setSuccess();
@@ -299,21 +300,44 @@ class EventsController extends Controller
             Session::flash('alert-danger', 'Could not save "system" purchase!');
         }
 
-        $participant = new EventParticipant();
+        $ticket = new Ticket();
 
-        $participant->user_id                = $request->user_id;
-        $participant->event_id               = $event->id;
-        $participant->staff                  = 1;
-        $participant->staff_free_assigned_by = Auth::id();
-        $participant->purchase_id            = $purchase->id;
-        $participant->generateQRCode();
+        $ticket->user_id                = $request->user_id;
+        $ticket->manager_id             = $request->user_id;
+        $ticket->owner_id               = $request->user_id;
+        $ticket->event_id               = $event->id;
+        $ticket->staff                  = 1;
+        $ticket->staff_free_assigned_by = Auth::id();
+        $ticket->purchase_id            = $purchase->id;
+        $ticket->generateQRCode();
 
-        if (!$participant->save()) {
+        if (!$ticket->save()) {
             Session::flash('alert-danger', 'Could not add Staff!');
             return Redirect::to('admin/events/' . $event->slug . '/tickets');
         }
 
         Session::flash('alert-success', 'Successfully added Staff!');
         return Redirect::to('admin/events/' . $event->slug . '/tickets');
+    }
+
+    /**
+     * Seperate method for updating the ticket hide policy because this is not called from the event show page.
+     * @param Event $event to update the ticket Policy for
+     * @param Request $request containing the ticket_hide_policy to set
+     * @return RedirectResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function updateTicketHidePolicy(Event $event, Request $request) {
+        $rules = [
+            'ticket_hide_policy' => 'required|integer|min:-1|max:15'
+        ];
+
+        $this->validate($request, $rules);
+
+        $event->tickettype_hide_policy = $request->ticket_hide_policy;
+        if (!$event->save()) {
+            Session::flash('alert-danger', 'Cannot update Ticket Hide Policy!');
+        }
+        return Redirect::back();
     }
 }

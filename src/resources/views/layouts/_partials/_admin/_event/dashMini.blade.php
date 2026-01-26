@@ -1,151 +1,69 @@
-<div class="row card-deck">
+@php
+    // Determine event status color/icon used in links (also duplicated in the cards partial)
+    if ($event->status == 'PUBLISHED') {
+        $eventStatusColor = 'success';
+        $eventStatusIcon = 'fa-check-circle-o';
+    } elseif ($event->status == 'REGISTEREDONLY') {
+        $eventStatusColor = 'info';
+        $eventStatusIcon = 'fa-check-circle-o';
+    } elseif ($event->status == 'DRAFT') {
+        $eventStatusColor = 'danger';
+        $eventStatusIcon = 'fa-times-circle-o';
+    } elseif ($event->status == 'PREVIEW' || $event->status == 'PRIVATE') {
+        $eventStatusColor = 'warning';
+        $eventStatusIcon = 'fa-ban';
+    } else {
+        $eventStatusColor = 'success';
+        $eventStatusIcon = 'fa-question-circle ';
+    }
+@endphp
 
-	@if ($event->status == 'PUBLISHED')
-		@php
-			$eventStatusColor = 'success';
-			$eventStatusIcon = 'fa-check-circle-o';
-		@endphp
-	@elseif ($event->status == 'REGISTEREDONLY')
-		@php
-			$eventStatusColor = 'info';
-			$eventStatusIcon = 'fa-check-circle-o';
-		@endphp
-	@elseif ($event->status == 'DRAFT')
-		@php
-			$eventStatusColor = 'danger';
-			$eventStatusIcon = 'fa-times-circle-o';
-		@endphp
-	@elseif ($event->status == 'PREVIEW' || $event->status == 'PRIVATE')
-		@php
-			$eventStatusColor = 'warning';
-			$eventStatusIcon = 'fa-ban';
-		@endphp
-	@else
-		@php
-			$eventStatusColor = 'success';
-			$eventStatusIcon = 'fa-question-circle ';
-		@endphp
-	@endif
-	<div class="col d-flex align-items-stretch">
-		<div class="card event-card mb-3 d-flex">
-			<div class="card-header text-bg-{{ $eventStatusColor }} d-flex flex-wrap flex-grow-1">
-				<div class="icon-large pe-0">
-					<i class="fa {{ $eventStatusIcon }} fa-5x"></i>
-				</div>
-				<div class="ms-auto text-end align-self-end">
-					<div class="huge ms-auto">
-						@if ($event->status == 'PUBLISHED')
-							<small>Live</small>
-						@elseif ($event->status == 'REGISTEREDONLY')
-							<small>Registered only</small>
-						@elseif ($event->status == 'DRAFT')
-							<small>Draft</small>
-						@elseif ($event->status == 'PREVIEW')
-							<small>Preview</small>
-						@elseif ($event->status == 'PRIVATE')
-							<small>Private</small>
-						@else
-							<small>{{ $event->status }}</small>
-						@endif
-					</div>
-					<div>Event Status</div>
-				</div>
-			</div>
-			<a href="/admin/events/{{ $event->slug }}" class="card-footer d-flex flex-nowrap">
-				<span class="float-start text-nowrap">View Event Page</span>
-				<span class="float-end ms-auto"><i class="fa fa-arrow-circle-right"></i></span>
-				<div class="clearfix"></div>
-			</a>
-		</div>
-	</div>
-	<div class="col d-flex align-items-stretch">
-		<div class="card event-card mb-3">
-			<div class="card-header d-flex flex-wrap flex-grow-1">
-				<div class="icon-large pe-0">
-					<i class="fa fa-wheelchair fa-5x"></i>
-				</div>
-				<div class="col-auto ms-auto text-end ps-0 align-self-end">
-					<div class="huge ms-auto">{{ $event->getSeatedCount() }}</div>
-					<div>Seated Participants</div>
-				</div>
-			</div>
-			<a href="/admin/events/{{ $event->slug }}/seating" class="card-footer d-flex flex-nowrap">
-				<span class="float-start text-nowrap text-nowrap">View Seating Plans</span>
-				<span class="float-end ms-auto"><i class="fa fa-arrow-circle-right"></i></span>
-				<div class="clearfix"></div>
-			</a>
-		</div>
-	</div>
-	<div class="col d-flex align-items-stretch">
-		<div class="card event-card mb-3">
-			<div class="card-header d-flex flex-wrap flex-grow-1">
-				<div class="icon-large pe-0">
-					<i class="fa fa-list-ol fa-5x"></i>
-				</div>
-				<div class="col-auto ms-auto text-end ps-0 align-self-end">
-					<div class="huge ms-auto">{{ $event->tournaments->count() }}</div>
-					<div>Tournaments</div>
-				</div>
-			</div>
-			<a href="/admin/events/{{ $event->slug }}/tournaments" class="card-footer d-flex flex-nowrap">
-				<span class="float-start text-nowrap">View Tournaments</span>
-				<span class="float-end ms-auto"><i class="fa fa-arrow-circle-right"></i></span>
-				<div class="clearfix"></div>
-			</a>
-		</div>
-	</div>
-	<div class="col d-flex align-items-stretch">
-		<div class="card event-card mb-3">
-			<div class="card-header d-flex flex-wrap flex-grow-1">
-				<div class="icon-large pe-0">
-					<i class="fa fa-user fa-5x"></i>
-				</div>
-				<div class="col-auto ms-auto text-end ps-0 align-self-end">
-					<div class="huge ms-auto">{{ $event->eventParticipants->count() }}</div>
-					<div>Attendees</div>
-				</div>
-			</div>
-			<a href="/admin/events/{{ $event->slug }}/participants" class="card-footer d-flex flex-nowrap">
-				<span class="float-start text-nowrap">View Attendees</span>
-				<span class="float-end ms-auto"><i class="fa fa-arrow-circle-right"></i></span>
-				<div class="clearfix"></div>
-			</a>
-		</div>
-	</div>
-	<div class="col d-flex align-items-stretch">
-		<div class="card event-card mb-3">
-			<div class="card-header d-flex flex-wrap flex-grow-1">
-				<div class="icon-large pe-0">
-					<i class="fa fa-ticket fa-5x"></i>
-				</div>
-				<div class="col-auto ms-auto text-end ps-0 align-self-end">
-					<div class="huge ms-auto">{{ Settings::getCurrencySymbol() }}{{ $event->getTicketSalesCount() }}</div>
-					<div>Ticket Sales</div>
-				</div>
-			</div>
-			<a href="/admin/events/{{ $event->slug }}/tickets" class="card-footer d-flex flex-nowrap">
-				<span class="float-start text-nowrap">View Tickets</span>
-				<span class="float-end ms-auto"><i class="fa fa-arrow-circle-right"></i></span>
-				<div class="clearfix"></div>
-			</a>
-		</div>
-	</div>
-	<div class="col d-flex align-items-stretch">
-		<div class="card event-card mb-3">
-			<div class="card-header d-flex flex-wrap flex-grow-1">
-				<div class="icon-large pe-0">
-					<i class="fa fa-calendar fa-5x"></i>
-				</div>
-				<div class="col-auto ms-auto text-end ps-0 align-self-end">
-					<div class="huge ms-auto">{{ $event->getTimetableDataCount() }}</div>
-					<div>Scheduled Slots</div>
-				</div>
-			</div>
-			<a href="/admin/events/{{ $event->slug }}/timetables" class="card-footer d-flex flex-nowrap">
-				<span class="float-start text-nowrap">View Timetables</span>
-				<span class="float-end ms-auto"><i class="fa fa-arrow-circle-right"></i></span>
-				<div class="clearfix"></div>
-			</a>
-		</div>
-	</div>
+<!-- Small screens: compact menu with collapse to reveal full dashboard -->
+<div class="d-md-none">
+    <div class="row g-2 mb-3">
+        <div class="col-6">
+            <a href="/admin/events/{{ $event->slug }}" class="list-group-item list-group-item-action">
+                <i class="fa {{ $eventStatusIcon }} me-2"></i> Event Page
+            </a>
+        </div>
+        <div class="col-6">
+            <a href="/admin/events/{{ $event->slug }}/seating" class="list-group-item list-group-item-action">
+                <i class="fa fa-wheelchair me-2"></i> Seating Plans
+            </a>
+        </div>
+        <div class="col-6">
+            <a href="/admin/events/{{ $event->slug }}/tournaments" class="list-group-item list-group-item-action">
+                <i class="fa fa-list-ol me-2"></i> Tournaments
+            </a>
+        </div>
+        <div class="col-6">
+            <a href="/admin/events/{{ $event->slug }}/participants" class="list-group-item list-group-item-action">
+                <i class="fa fa-user me-2"></i> Attendees
+            </a>
+        </div>
+        <div class="col-6">
+            <a href="/admin/events/{{ $event->slug }}/tickets" class="list-group-item list-group-item-action">
+                <i class="fa fa-ticket me-2"></i> Tickets
+            </a>
+        </div>
+        <div class="col-6">
+            <a href="/admin/events/{{ $event->slug }}/timetables" class="list-group-item list-group-item-action">
+                <i class="fa fa-calendar me-2"></i> Timetables
+            </a>
+        </div>
+    </div>
+    <button class="btn w-100 mb-3" type="button" data-bs-toggle="collapse"
+            data-bs-target="#miniDashCards" aria-expanded="false" aria-controls="miniDashCards">
+        <span class="collapse show" data-bs-target="#miniDashCards">Show dashboard</span>
+        <span class="collapse" data-bs-target="#miniDashCards">Hide dashboard</span>
+    </button>
+
+    <div id="miniDashCards" class="collapse">
+        @include('layouts._partials._admin._event._dashMiniCards')
+    </div>
+</div>
+
+<!-- Medium and larger screens: always show full dashboard -->
+<div class="d-none d-md-block">
+    @include('layouts._partials._admin._event._dashMiniCards')
 </div>

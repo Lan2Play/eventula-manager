@@ -62,8 +62,6 @@
 						<tr>
 							<td width="3%">
 								<picture>
-									<source srcset="{{ $user->avatar }}.webp" type="image/webp">
-									<source srcset="{{ $user->avatar }}" type="image/jpeg">
 									<img class="img-fluid rounded" src="{{ $user->avatar }}">
 								</picture>
 							</td>

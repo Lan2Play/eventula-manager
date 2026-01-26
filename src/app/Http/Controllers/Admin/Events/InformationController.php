@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers\Admin\Events;
 
-use DB;
-use Auth;
+
 use Session;
 use Storage;
 
 use App\Event;
 use App\EventInformation;
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
@@ -29,7 +27,7 @@ class InformationController extends Controller
         $rules = [
             'title' => 'required',
             'text'  => 'required',
-            'image' => 'image',
+            'image' => 'image:allow_svg',
         ];
         $messages = [
             'title.required'    => 'A Title is required',
@@ -72,7 +70,7 @@ class InformationController extends Controller
     public function update(Request $request, EventInformation $information)
     {
         $rules = [
-            'image' => 'image',
+            'image' => 'image:allow_svg',
             'title' => 'filled',
             'text'  => 'filled',
             'order' => 'integer',

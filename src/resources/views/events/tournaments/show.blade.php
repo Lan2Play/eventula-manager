@@ -74,21 +74,21 @@
 								@foreach ($tournamentParticipants as $tournamentParticipant)
 									@if ($tournamentParticipant->final_rank == 1)
 										@if ($tournament->team_size == '1v1')
-											<h2>{{ Helpers::getChallongeRankFormat($tournamentParticipant->final_rank) }} - {{ $tournamentParticipant->eventParticipant->user->username }}</h2>
+											<h2>{{ Helpers::getChallongeRankFormat($tournamentParticipant->final_rank) }} - {{ $tournamentParticipant->eventTicket->user->username }}</h2>
 										@else
 											<h2>{{ Helpers::getChallongeRankFormat($tournamentParticipant->final_rank) }} - {{ $tournamentParticipant->name }}</h2>
 										@endif
 									@endif
 									@if ($tournamentParticipant->final_rank == 2)
 										@if ($tournament->team_size == '1v1')
-											<h3>{{ Helpers::getChallongeRankFormat($tournamentParticipant->final_rank) }} - {{ $tournamentParticipant->eventParticipant->user->username }}</h3>
+											<h3>{{ Helpers::getChallongeRankFormat($tournamentParticipant->final_rank) }} - {{ $tournamentParticipant->eventTicket->user->username }}</h3>
 										@else
 											<h3>{{ Helpers::getChallongeRankFormat($tournamentParticipant->final_rank) }} - {{ $tournamentParticipant->name }}</h3>
 										@endif
 									@endif
 									@if ($tournamentParticipant->final_rank != 2 && $tournamentParticipant->final_rank != 1)
 										@if ($tournament->team_size == '1v1')
-											<h4>{{ Helpers::getChallongeRankFormat($tournamentParticipant->final_rank) }} - {{ $tournamentParticipant->eventParticipant->user->username }}</h4>
+											<h4>{{ Helpers::getChallongeRankFormat($tournamentParticipant->final_rank) }} - {{ $tournamentParticipant->eventTicket->user->username }}</h4>
 										@else
 											<h4>{{ Helpers::getChallongeRankFormat($tournamentParticipant->final_rank) }} - {{ $tournamentParticipant->name }}</h4>
 										@endif
@@ -140,7 +140,7 @@
 													@if ($tournament->team_size != '1v1')
 														{{ ($tournament->getTeamByChallongeId($match->player1_id))->name }}
 													@else
-														{{ ($tournament->getParticipantByChallongeId($match->player1_id))->eventParticipant->user->username }}
+														{{ ($tournament->getParticipantByChallongeId($match->player1_id))->eventTicket->user->username }}
 													@endif
 												@endif
 											</td>
@@ -154,7 +154,7 @@
 													@if ($tournament->team_size != '1v1')
 														{{ ($tournament->getTeamByChallongeId($match->player2_id))->name }}
 													@else
-														{{ ($tournament->getParticipantByChallongeId($match->player2_id))->eventParticipant->user->username }}
+														{{ ($tournament->getParticipantByChallongeId($match->player2_id))->eventTicket->user->username }}
 													@endif
 												@endif
 											</td>
@@ -183,7 +183,7 @@
 										@foreach ($tournament->tournamentTeams as $tournamentTeam)
 											<div class="col-6 col-sm-6">
 												{{ Form::open(array('url'=>'/events/' . $event->slug . '/tournaments/' . $tournament->slug . '/register', 'files' => true )) }}
-													<input type="hidden" name="event_participant_id" value="{{ $user->active_event_participant->id }}">
+													<input type="hidden" name="ticket_id" value="{{ $user->active_event_participant->id }}">
 													<input type="hidden" name="event_tournament_team_id" value="{{ $tournamentTeam->id }}">
 													<button type="submit" name="action" value="sign_up" class="btn btn-secondary btn-block">{{ $tournamentTeam->name }}</button>
 												{{ Form::close() }}
@@ -204,12 +204,12 @@
 													<button type="submit" class="btn btn-primary btn-block">@lang('events.createteam')</button>
 												</div>
 											</div>
-											<input type="hidden" name="event_participant_id" value="{{ $user->active_event_participant->id }}">
+											<input type="hidden" name="ticket_id" value="{{ $user->active_event_participant->id }}">
 										{{ Form::close() }}
 										<hr>
 									@endif
 									{{ Form::open(array('url'=>'/events/' . $event->slug . '/tournaments/' . $tournament->slug . '/register/pug', 'files' => true )) }}
-										<input type="hidden" name="event_participant_id" value="{{ $user->active_event_participant->id }}">
+										<input type="hidden" name="ticket_id" value="{{ $user->active_event_participant->id }}">
 										<button type="submit" class="btn btn-primary btn-block">@lang('events.signinaspug')</button>
 									{{ Form::close() }}
 								</div>
@@ -220,7 +220,7 @@
 							<div class="row">
 								<div class="col-6 col-sm-6">
 									{{ Form::open(array('url'=>'/events/' . $event->slug . '/tournaments/' . $tournament->slug . '/register', 'files' => true )) }}
-										<input type="hidden" name="event_participant_id" value="{{ $user->active_event_participant->id }}">
+										<input type="hidden" name="ticket_id" value="{{ $user->active_event_participant->id }}">
 										<button type="submit" class="btn btn-primary btn-block">@lang('events.signup')</button>
 									{{ Form::close() }}
 								</div>
@@ -240,7 +240,7 @@
 										@else
 											<h4>@lang('events.signedup')</h4>
 										@endif
-										<input type="hidden" name="event_participant_id" value="{{ $user->active_event_participant->id }}">
+										<input type="hidden" name="ticket_id" value="{{ $user->active_event_participant->id }}">
 										<button type="submit" class="btn btn-danger btn-block">@lang('events.removesignup')</button>
 									</div>
 								</div>

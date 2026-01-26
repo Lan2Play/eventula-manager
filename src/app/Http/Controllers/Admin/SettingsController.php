@@ -13,8 +13,8 @@ use App\ApiKey;
 use App\User;
 use App\Setting;
 use App\Event;
-use App\EventParticipant;
-use App\EventTicket;
+use App\Ticket;
+use App\TicketType;
 use App\CreditLog;
 
 use App\Http\Requests;
@@ -45,7 +45,8 @@ class SettingsController extends Controller
             ->with('isMatchMakingEnabled', Settings::isMatchMakingEnabled())
             ->with('isCreditEnabled', Settings::isCreditEnabled())
             ->with('supportedLoginMethods', Settings::getSupportedLoginMethods())
-            ->with('activeLoginMethods', Settings::getLoginMethods());
+            ->with('activeLoginMethods', Settings::getLoginMethods())
+            ->with('ticket_hide_policy', Settings::getGlobalTicketTypeHidePolicy());
     }
 
     /**
@@ -189,7 +190,7 @@ class SettingsController extends Controller
             'tournament_third'            => 'filled|integer',
             'registration_event'        => 'filled|integer',
             'registration_site'            => 'filled|integer',
-            'shop_status'               => 'in:OPEN,CLOSED',
+            'shop_status'               => 'in:OPEN,CLOSED'
         ];
         $messages = [
             'publicuse.in'                      => 'Publicuse must be true or false',
@@ -303,8 +304,8 @@ class SettingsController extends Controller
             'currency'                  => 'in:GBP,USD,EUR,SEK,DKK',
             'participant_count_offset'  => 'numeric',
             'event_count_offset'        => 'numeric',
-            'org_logo'                  => 'image',
-            'org_favicon'               => 'image',
+            'org_logo'                  => 'image:allow_svg',
+            'org_favicon'               => 'image:allow_svg',
             'site_locale'               => ['nullable', new ValidLocale]
         ];
 
@@ -734,11 +735,11 @@ class SettingsController extends Controller
     {
         $count = 0;
         foreach (Event::all() as $event) {
-            if (!$event->eventParticipants->isEmpty()) {
-                foreach ($event->eventParticipants as $participant) {
+            if (!$event->tickets->isEmpty()) {
+                foreach ($event->tickets as $ticket) {
                     //DEBUG - Delete old images
-                    $participant->generateQRCode();
-                    $participant->save();
+                    $ticket->generateQRCode();
+                    $ticket->save();
                     $count++;
                 }
             }
@@ -845,6 +846,25 @@ class SettingsController extends Controller
 
 
         Session::flash('alert-success', "Successfully Saved General Authentication Settings!");
+        return Redirect::back();
+    }
+
+    /**
+     * @param Request $request->policy 0-15 see Policy in Settings
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function updateGlobalTicketTypeHidePolicy(Request $request)
+    {
+        $rules = [
+            'policy' => 'required|integer|min:0|max:15'
+        ];
+        $this->validate($request, $rules);
+
+        if (!Settings::setGlobalTicketTypeHidePolicy($request->policy)) {
+            Session::flash('alert-danger', "Could not Save Global Ticket Type Hide Policy!");
+            return Redirect::back();
+        }
+        Session::flash('alert-success', "Successfully Saved Global Ticket Type Hide Policy!");
         return Redirect::back();
     }
 }

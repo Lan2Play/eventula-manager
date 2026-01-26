@@ -27,14 +27,12 @@ class AccountController extends Controller
             $creditLogs = $user->creditLogs()->paginate(5, ['*'], 'cl');
         }
         $purchases = $user->purchases()->paginate(5, ['*'], 'pu');
-        $tickets = $user->eventParticipants()
-        ->orderBy('created_at', 'desc')
-        ->paginate(5, ['*'], 'ti');
+        $tickets = $user->getAllRoleTickets(true, 5, 'ti');
         return view("accounts.index")
             ->with('user', $user)
             ->with('creditLogs', $creditLogs)
             ->with('purchases', $purchases)
-            ->with('eventParticipants', $tickets);
+            ->with('tickets', $tickets);
     }
 
     /**
@@ -332,8 +330,7 @@ class AccountController extends Controller
         }
 
         if (Settings::isAuthRequirePhonenumberEnabled()) {
-            $rules['phonenumber'] = 'required|filled|phone:AUTO,DE';
-            $messages['phonenumber.phone'] = 'The field contains an invalid number.';
+            $rules['phonenumber'] = 'required|filled|phone:INTERNATIONAL,DE';
         }
 
         $this->validate($request, $rules, $messages);
@@ -362,7 +359,7 @@ class AccountController extends Controller
 
     public function update_local_avatar(Request $request) {
         $this->validate($request, [
-            'avatar' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+            'avatar' => 'required|image:allow_svg|mimes:jpg,png,jpeg,gif,svg|max:2048',
         ]);
 
         if(!$path = Storage::putFile(

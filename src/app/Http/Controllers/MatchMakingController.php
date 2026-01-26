@@ -26,6 +26,7 @@ class MatchMakingController extends Controller
 {
     /**
      * Show MatchMaking Index Page
+     * TODO Get rid of duplicate code here
      * @return View
      */
     public function index()

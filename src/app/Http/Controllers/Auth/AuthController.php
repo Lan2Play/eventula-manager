@@ -147,7 +147,7 @@ class AuthController extends Controller
                 }
 
                 if (Settings::isAuthRequirePhonenumberEnabled()) {
-                    $validationRules['phonenumber'] = 'required|filled|phone:AUTO,DE';
+                    $validationRules['phonenumber'] = 'required|filled|phone:INTERNATIONAL,DE';
                 }
 
                 $this->validate($request, $validationRules);
@@ -191,8 +191,7 @@ class AuthController extends Controller
                 ];
 
                 if (Settings::isAuthRequirePhonenumberEnabled()) {
-                    $rules['phonenumber'] = 'required|filled|phone:AUTO,DE';
-                    $messages['phonenumber.phone'] = 'The field contains an invalid number.';
+                    $rules['phonenumber'] = 'required|filled|phone:INTERNATIONAL,DE';
                 }
 
                 $this->validate($request, $rules, $messages);

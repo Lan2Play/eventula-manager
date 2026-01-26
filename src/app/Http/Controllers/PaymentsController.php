@@ -12,11 +12,11 @@ use Mail;
 use App\Purchase;
 use App\User;
 use App\Event;
-use App\EventTicket;
+use App\TicketType;
 use App\ShopItem;
 use App\ShopOrder;
 use App\ShopOrderItem;
-use App\EventParticipant;
+use App\Ticket;
 
 use App\Mail\EventulaTicketOrderMail;
 use App\Mail\EventulaShopOrderMail;
@@ -64,7 +64,7 @@ class PaymentsController extends Controller
         $nextEventFlag = true;
         if (array_key_exists('tickets', $basket)) {
             foreach ($basket['tickets'] as $ticketId => $quantity) {
-                if (EventTicket::where('id', $ticketId)
+                if (TicketType::where('id', $ticketId)
                     ->first()
                     ->event
                     ->id
@@ -139,8 +139,8 @@ class PaymentsController extends Controller
         }
         if (array_key_exists('tickets', $basket)) {
             foreach ($basket['tickets'] as $ticketId => $quantity) {
-                $ticket = EventTicket::where('id', $ticketId)->first();
-                if ($ticket->event->capacity <= $ticket->event->EventParticipants->count()) {
+                $ticket = TicketType::where('id', $ticketId)->first();
+                if ($ticket->event->capacity <= $ticket->event->tickets->count()) {
                     Session::flash('alert-danger', __('payments.sold_out', ['eventname' => $ticket->event->display_name]));
                     return Redirect::back();
                 }
@@ -318,7 +318,7 @@ class PaymentsController extends Controller
                 'type'              => 'Credit',
                 'transaction_id'    => '',
                 'token'             => '',
-                'status'            => 'Success'
+                'status'            => Purchase::STATUS_SUCCESS,
             ];
             $purchase = Purchase::create($purchaseParams);
             $this->processBasket($basket, $purchase->id);
@@ -346,7 +346,7 @@ class PaymentsController extends Controller
                 'type'              => 'free',
                 'transaction_id'    => '',
                 'token'             => '',
-                'status'            => 'Success'
+                'status'            => Purchase::STATUS_SUCCESS
             ];
             $purchase = Purchase::create($purchaseParams);
             $this->processBasket($basket, $purchase->id);
@@ -371,7 +371,7 @@ class PaymentsController extends Controller
                 'type'              => 'onsite',
                 'transaction_id'    => '',
                 'token'             => '',
-                'status'            => 'Pending'
+                'status'            => Purchase::STATUS_PENDING
             ];
             $purchase = Purchase::create($purchaseParams);
             $this->processBasket($basket, $purchase->id);
@@ -407,7 +407,7 @@ class PaymentsController extends Controller
                 'type'              => 'Stripe',
                 'transaction_id'    => $response->getTransactionReference() ?? $response->getPaymentIntentReference(),
                 'token'             => $response->getPaymentIntentReference(),
-                'status'            => 'Success'
+                'status'            => Purchase::STATUS_SUCCESS
             ];
             $purchase = Purchase::create($purchaseParams);
             $this->processBasket($basket, $purchase->id);
@@ -482,7 +482,7 @@ class PaymentsController extends Controller
                         'type'              => 'Stripe',
                         'transaction_id'    => $response->getTransactionReference() ?? $response->getPaymentIntentReference(),
                         'token'             => $response->getPaymentIntentReference(),
-                        'status'            => 'Success'
+                        'status'            => Purchase::STATUS_SUCCESS
                     ];
                     $successful = true;
                 }
@@ -606,17 +606,19 @@ class PaymentsController extends Controller
     private function processBasket($basket, $purchaseId)
     {
         if (array_key_exists('tickets', $basket)) {
-            foreach ($basket['tickets'] as $ticketId => $quantity) {
-                $ticket = EventTicket::where('id', $ticketId)->first();
+            foreach ($basket['tickets'] as $ticketTypeId => $quantity) {
+                $ticketType = TicketType::where('id', $ticketTypeId)->first();
                 for ($i = 1; $i <= $quantity; $i++) {
-                    //Add Participant to database
-                    $participant = [
+                    //Add Ticket to database
+                    $ticket = [
                         'user_id'       => Auth::id(),
-                        'event_id'      => $ticket->event->id,
-                        'ticket_id'     => $ticket->id,
+                        'owner_id'      => Auth::id(),
+                        'manager_id'    => Auth::id(),
+                        'event_id'      => $ticketType->event->id,
+                        'ticket_type_id'     => $ticketType->id,
                         'purchase_id'   => $purchaseId,
                     ];
-                    EventParticipant::create($participant);
+                    Ticket::create($ticket);
                 }
             }
         } elseif(array_key_exists('shop', $basket)) {

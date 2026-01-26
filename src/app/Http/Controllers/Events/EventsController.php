@@ -11,7 +11,7 @@ use App\Setting;
 use App\Event;
 use App\EventTimetable;
 use App\EventTimetableData;
-use App\EventParticipant;
+use App\Ticket;
 use App\EventParticipantType;
 
 use App\Http\Requests;
@@ -66,7 +66,7 @@ class EventsController extends Controller
         }
         if ($user) {
             $clauses = ['user_id' => $user->id, 'event_id' => $event->id];
-            $user->eventParticipation = EventParticipant::where($clauses)->get();
+            $user->eventParticipation = Ticket::where($clauses)->get();
             $user->setActiveEventParticipant($event);
         }
         if (!$event->polls->isEmpty()) {
@@ -82,8 +82,32 @@ class EventsController extends Controller
         OpenGraph::setDescription(Helpers::getSeoCustomDescription($event->desc_short));
         OpenGraph::addProperty('type', 'article');
 
+        // Eager load seating plans with all necessary relationships to avoid N+1 queries
+        $event->load([
+            'seatingPlans.seats.eventTicket.user',
+            'tickets.user',
+            'tickets.seat.seatingPlan',
+            'ticketTypes.tickets',
+            'ticketTypes.ticketGroup'
+        ]);
+
+        // Prefetch user tickets with relationships if user is logged in
+        $userTickets = collect();
+        if ($user) {
+            $userTickets = Ticket::where('event_id', $event->id)
+                ->where(function($q) use ($user) {
+                    $q->where('user_id', $user->id)
+                        ->orWhere('manager_id', $user->id)
+                        ->orWhere('owner_id', $user->id);
+                })
+                ->where('revoked', 0)
+                ->with(['seat', 'ticketType'])
+                ->get();
+        }
+
         return view('events.show')
-            ->with('event', $event);
+            ->with('event', $event)
+            ->with('userTickets', $userTickets);
     }
 
     /**

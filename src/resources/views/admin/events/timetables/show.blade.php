@@ -24,7 +24,9 @@
 	</div>
 </div>
 
-@include ('layouts._partials._admin._event.dashMini')
+<div class="d-lg-block collapse d-md-none d-sm-none" id="dashMini">
+    @include ('layouts._partials._admin._event.dashMini')
+</div>
 
 <div class="row">
 	<div class="col-lg-8">
@@ -33,7 +35,7 @@
 			<div class="card-header">
 				<i class="fa fa-wrench fa-fw"></i> Timeslots
 			</div>
-			<div class="card-body">
+			<div class="card-body table-responsive dataTables_wrapper">
 				<table width="100%" class="table table-striped table-hover" id="timetable_table">
 					<thead>
 						<tr>

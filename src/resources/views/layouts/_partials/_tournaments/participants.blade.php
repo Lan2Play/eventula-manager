@@ -37,13 +37,13 @@
 					@endif
 					<tr class='{{ $context }}'>
 						<td class="align-middle">
-								<img alt="{{ $tournamentParticipant->eventParticipant->user->username }}'s Avatar" class="rounded" style="max-width: 4%;" src="{{ $tournamentParticipant->eventParticipant->user->avatar }}">
-								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $tournamentParticipant->eventParticipant->user->username }}
-								<small> - {{ $tournamentParticipant->eventParticipant->user->username }}</small>
+								<img alt="{{ $tournamentParticipant->eventTicket->user->username }}'s Avatar" class="rounded" style="max-width: 4%;" src="{{ $tournamentParticipant->eventTicket->user->avatar }}">
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $tournamentParticipant->eventTicket->user->username }}
+								<small> - {{ $tournamentParticipant->eventTicket->user->username }}</small>
 						</td>
 						<td class="align-middle">
-							@if ($tournamentParticipant->eventParticipant->seat)
-								{{ $tournamentParticipant->eventParticipant->seat->seat }}
+							@if ($tournamentParticipant->eventTicket->seat)
+								{{ $tournamentParticipant->eventTicket->seat->getName() }}
 							@else
 								Not Seated
 							@endif
@@ -83,7 +83,7 @@
 						@endif
 						@if (@$admin && $user->admin)
 							<td  class="align-middle">
-								{{ Form::open(array('url'=>'/admin/events/' . $event->slug . '/tournaments/' . $tournament->slug . '/participants/' . $tournamentParticipant->event_participant_id  . '/remove')) }}
+								{{ Form::open(array('url'=>'/admin/events/' . $event->slug . '/tournaments/' . $tournament->slug . '/participants/' . $tournamentParticipant->ticket_id  . '/remove')) }}
 										<button type="submit" class="btn btn-danger btn-block">Remove</button>
 								{{ Form::close() }}
 							</td>
@@ -119,10 +119,10 @@
 							<td>
 								@if ($tournamentTeam->tournamentParticipants)
 									@foreach ($tournamentTeam->tournamentParticipants as $participant)
-										<img alt="{{ $participant->eventParticipant->user->username }}'s Avatar" class="rounded" style="max-width: 8%;" src="{{ $participant->eventParticipant->user->avatar }}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $participant->eventParticipant->user->username }}
+										<img alt="{{ $participant->eventTicket->user->username }}'s Avatar" class="rounded" style="max-width: 8%;" src="{{ $participant->eventTicket->user->avatar }}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $participant->eventTicket->user->username }}
 										<span class="float-end">
-											@if ($participant->eventParticipant->seat)
-												{{ $participant->eventParticipant->seat->seat }}
+											@if ($participant->eventTicket->seat)
+												{{ $participant->eventTicket->seat->seat }}
 											@else
 												Not Seated
 											@endif
@@ -158,14 +158,14 @@
 						<tr>
 							<td>
 								<p>
-									<img alt="{{ $tournamentParticipant->eventParticipant->user->username }}'s Avatar" class="rounded" style="max-width: 6%;" src="{{ $tournamentParticipant->eventParticipant->user->avatar }}">
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $tournamentParticipant->eventParticipant->user->username }}
+									<img alt="{{ $tournamentParticipant->eventTicket->user->username }}'s Avatar" class="rounded" style="max-width: 6%;" src="{{ $tournamentParticipant->eventTicket->user->avatar }}">
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $tournamentParticipant->eventTicket->user->username }}
 								</p>
 							</td>
 							<td>
 								<p>
-									@if ($tournamentParticipant->eventParticipant->seat)
-										{{ $tournamentParticipant->eventParticipant->seat->seat }}
+									@if ($tournamentParticipant->eventTicket->seat)
+										{{ $tournamentParticipant->eventTicket->seat->seat }}
 									@else
 										Not Seated
 									@endif
@@ -195,12 +195,12 @@
 		</thead>
 		<tbody>
 
-			@foreach ($event->eventParticipants as $participant)
+			@foreach ($event->tickets as $ticket)
 				@php
 					$istournamentpartitipant = false;
 				@endphp
 					@foreach ($tournament->tournamentParticipants as $tournamentParticipant)
-						@if ($tournamentParticipant->eventParticipant->user->username == $participant->user->username)
+						@if ($tournamentParticipant->eventTicket->user->username == $ticket->user->username)
 							@php
 								$istournamentpartitipant = true;
 							@endphp
@@ -210,19 +210,19 @@
 						<tr>
 							<td>
 								<p>
-									<img alt="{{ $participant->user->username }}'s Avatar" class="img-rounded" style="max-width: 6%;" src="{{ $participant->user->avatar }}">
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $participant->user->username }}
+									<img alt="{{ $ticket->user->username }}'s Avatar" class="img-rounded" style="max-width: 6%;" src="{{ $ticket->user->avatar }}">
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $ticket->user->username }}
 								</p>
 							</td>
 							<td>
 								<p>
 									@if ($tournament->team_size != '1v1')
-										{{ Form::open(array('url'=>'/admin/events/' . $event->slug . '/tournaments/' . $tournament->slug . '/participants/' . $participant->id . '/addpug')) }}
+										{{ Form::open(array('url'=>'/admin/events/' . $event->slug . '/tournaments/' . $tournament->slug . '/participants/' . $ticket->id . '/addpug')) }}
 										<button type="submit" class="btn btn-primary btn-block">Add as PUG</button>
 										{{ Form::close() }}
 
 										@if (count($tournament->getTeams()) != 0)
-										{{ Form::open(array('url'=>'/admin/events/' . $event->slug . '/tournaments/' . $tournament->slug . '/participants/' . $participant->id . '/addsingle')) }}
+										{{ Form::open(array('url'=>'/admin/events/' . $event->slug . '/tournaments/' . $tournament->slug . '/participants/' . $ticket->id . '/addsingle')) }}
 										<div class="mb-3 col-12 col-sm-8">
 												{{ Form::select('event_tournament_team_id', $tournament->getTeams(), NULL, array('id'=>'name','class'=>'form-control')) }}
 										</div>
@@ -233,7 +233,7 @@
 									@endif
 
 									@else
-										{{ Form::open(array('url'=>'/admin/events/' . $event->slug . '/tournaments/' . $tournament->slug . '/participants/' . $participant->id . '/addsingle')) }}
+										{{ Form::open(array('url'=>'/admin/events/' . $event->slug . '/tournaments/' . $tournament->slug . '/participants/' . $ticket->id . '/addsingle')) }}
 												<button type="submit" class="btn btn-default btn-sm btn-block">Add to 1vs1</button>
 										{{ Form::close() }}
 									@endif

@@ -59,7 +59,7 @@ body {
 
 .sidebar {
     opacity: 0.9;
-    background-color: $color_header_background;
+    background-color: $color_header_background !important;
     min-height: calc(100vh - 51px);
 }
 

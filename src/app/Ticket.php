@@ -3,6 +3,7 @@
 namespace App;
 
 use Auth;
+use OwenIt\Auditing\Contracts\Auditable;
 use URL;
 use Carbon\Carbon;
 use Dompdf\Dompdf;
@@ -16,14 +17,14 @@ use Colors;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class EventParticipant extends Model
+class Ticket extends Model implements Auditable
 {
     /**
      * The name of the table.
      *
      * @var string
      */
-    protected $table = 'event_participants';
+    protected $table = 'tickets';
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -37,11 +38,27 @@ class EventParticipant extends Model
 
     protected $fillable = [
         'user_id',
+        'manager_id',
+        'owner_id',
         'event_id',
-        'ticket_id',
+        'ticket_type_id',
         'purchase_id',
         'staff',
         'free',
+    ];
+
+    /**
+     * Attributes to include in the Audit.
+     *
+     * @var array
+     */
+    protected $auditInclude = [
+        'user_id',
+        'manager_id',
+        'staff',
+        'free',
+        'event_id',
+        'signed_in'
     ];
 
     public static function boot()
@@ -81,11 +98,21 @@ class EventParticipant extends Model
     }
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\User', 'user_id');
     }
-    public function ticket()
+
+    public function owner()
     {
-        return $this->belongsTo('App\EventTicket', 'ticket_id');
+        return $this->belongsTo('App\User', 'owner_id');
+    }
+
+    public function manager()
+    {
+        return $this->belongsTo('App\User', 'manager_id');
+    }
+    public function ticketType()
+    {
+        return $this->belongsTo('App\TicketType', 'ticket_type_id');
     }
     public function purchase()
     {
@@ -97,11 +124,21 @@ class EventParticipant extends Model
     }
     public function seat()
     {
+        // TODO this is a Seat! Not an EventSeating?!
         return $this->hasOne('App\EventSeating');
     }
 
     /**
-     * Set Event Participant as Signed in
+     * Get User that Assigned Ticket
+     * @return User
+     */
+    public function getAssignedByUser()
+    {
+        return User::where(['id' => $this->staff_free_assigned_by])->first();
+    }
+
+    /**
+     * Set Ticket as Signed in
      * @param Boolean $bool
      */
     public function setSignIn($bool = true)
@@ -114,15 +151,6 @@ class EventParticipant extends Model
             return false;
         }
         return true;
-    }
-
-    /**
-     * Get User that Assigned Ticket
-     * @return User
-     */
-    public function getAssignedByUser()
-    {
-        return User::where(['id' => $this->staff_free_assigned_by])->first();
     }
 
     /**
@@ -181,7 +209,7 @@ class EventParticipant extends Model
     /**
      * Get New Participants
      * @param $type
-     * @return EventParticipant
+     * @return Ticket
      */
     public static function getNewParticipants($type = 'all')
     {
@@ -257,15 +285,29 @@ class EventParticipant extends Model
         return $this->save();
     }
 
+    use \OwenIt\Auditing\Auditable;
+
+
     /**
-     * Check if participant is active
+     * Check if ticket is active (payed and signed in to event or online event)
      * @return Boolean
      */
-    public function isActive()
+    public function isActive(): bool
     {
+        return $this->hasValidAttendance() &&
+            $this->hasValidPaymentStatus() &&
+            !$this->revoked;
+    }
 
-        return ($this->signed_in || $this->event->online_event) &&
-            ($this->free || $this->staff || $this->purchase->status == "Success") &&
-            (!$this->revoked);
+    private function hasValidAttendance(): bool
+    {
+        return $this->signed_in || $this->event->online_event;
+    }
+
+    private function hasValidPaymentStatus(): bool
+    {
+        return $this->free ||
+            $this->staff ||
+            $this->purchase->status === Purchase::STATUS_SUCCESS;
     }
 }

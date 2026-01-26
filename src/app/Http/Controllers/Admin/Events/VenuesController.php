@@ -2,22 +2,21 @@
 
 namespace App\Http\Controllers\Admin\Events;
 
-use DB;
-use Auth;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 use Session;
 use Storage;
 
-use App\Event;
 use App\EventVenue;
 use App\EventVenueImage;
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
 use Sirprize\PostalCodeValidator\Validator as PostcodeValidator;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 class VenuesController extends Controller
 {
@@ -46,7 +45,7 @@ class VenuesController extends Controller
     /**
      * Store Venue to Database
      * @param  Request $request
-     * @return Redirect
+     * @return RedirectResponse
      */
     public function store(Request $request)
     {
@@ -57,7 +56,7 @@ class VenuesController extends Controller
             'address_city'      => 'required',
             'address_postcode'  => 'required',
             'address_country'   => 'required',
-            'image.*'           => 'image',
+            'image.*'           => 'image:allow_svg',
         ];
         $messages = [
             'name.required'             => 'Venue Name is Required',
@@ -147,7 +146,7 @@ class VenuesController extends Controller
             'address_city'      => 'filled',
             'address_postcode'  => 'filled',
             'address_country'   => 'filled',
-            'image.*'           => 'image',
+            'image.*'           => 'image:allow_svg',
         ];
         $messages = [
             'name.filled'               => 'Venue Name cannot be empty',

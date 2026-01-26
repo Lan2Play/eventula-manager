@@ -4,7 +4,6 @@ on:
   push:
     branches: 
       - main
-      - dev
       - legacy
     paths-ignore:
       - 'README.md'
@@ -15,7 +14,6 @@ on:
   pull_request:
     branches: 
       - main
-      - dev
       - legacy
       - 'renovate/**'
       - 'feature/**'
@@ -25,6 +23,8 @@ on:
       - '.github/workflows/update-dockerhub.yml'
       - '.github/workflows/website_build.yml'
       - 'docs'
+  release:
+    types: [published] # Triggers when a release is published
   workflow_dispatch: # Allows action to be run manually from the Actions tab
 
 jobs:
@@ -32,9 +32,9 @@ jobs:
       runs-on: 'ubuntu-latest'
       steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3.6.0
+        uses: docker/setup-qemu-action@v3.7.0
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
       - name: get dependencies
@@ -43,7 +43,7 @@ jobs:
         run: make folder-structure-dev; make layout-images-dev         
       - name: Login to DockerHub
         if: ${{ github.event_name != 'pull_request' }}
-        uses: docker/login-action@v3.4.0
+        uses: docker/login-action@v3.6.0
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -62,6 +62,7 @@ jobs:
             BUILDNUMBER=${{ github.run_number }}
             SOURCE_COMMIT=${{ github.sha }}
             SOURCE_REF=${{ github.ref }}
+            VERSION="latest"
           no-cache: true
           push: false      
       - name: Build and push Linux Image
@@ -80,6 +81,7 @@ jobs:
             BUILDNUMBER=${{ github.run_number }}
             SOURCE_COMMIT=${{ github.sha }}
             SOURCE_REF=${{ github.ref }}
+            VERSION="latest"
           no-cache: true
           push: true
       - name: Build and push Linux legacy Image
@@ -97,22 +99,33 @@ jobs:
             BUILDNUMBER=${{ github.run_number }}
             SOURCE_COMMIT=${{ github.sha }}
             SOURCE_REF=${{ github.ref }}
+            VERSION="legacy"
           no-cache: true
           push: true
-      - name: Build and push Linux Image dev
-        if: ${{ startsWith(github.ref, 'refs/heads/dev') && github.event_name == 'push' }}
+      - name: Extract version from tag
+        if: ${{ github.event_name == 'release' }}
+        id: version
+        run: |
+          VERSION="${{ github.event.release.tag_name }}"
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+          echo "version_without_v=${VERSION#v}" >> $GITHUB_OUTPUT
+      - name: Build and push versioned release Image
+        if: ${{ github.event_name == 'release' }}
         uses: docker/build-push-action@v6.18.0
         with:
           context: .
           file: ./Dockerfile
           platforms: linux/amd64,linux/arm/v7
           tags: |
-            lan2play/eventula-manager:dev
+            lan2play/eventula-manager:${{ steps.version.outputs.version }}
+            lan2play/eventula-manager:${{ steps.version.outputs.version_without_v }}
+            lan2play/eventula-manager:stable
           build-args: |
             BUILDNODE=GitHub (Run Number: ${{ github.run_number }} Run ID: ${{ github.run_id }})
             BUILDID=${{ github.run_id }}
             BUILDNUMBER=${{ github.run_number }}
             SOURCE_COMMIT=${{ github.sha }}
             SOURCE_REF=${{ github.ref }}
+            VERSION=${{ steps.version.outputs.version_without_v }}
           no-cache: true
           push: true

@@ -13,7 +13,7 @@
 		{{
 			Form::text(
 				'name',
-				(@$empty ? null : @$ticket->name),
+				(@$empty ? null : @$ticketType->name),
 				array('id'=>'name','class'=>'form-control')
 			)
 		}}
@@ -26,7 +26,7 @@
 					{{
 						Form::text(
 							'price',
-							(@$empty ? null : @$ticket->price),
+							(@$empty ? null : @$ticketType->price),
 							array('id'=>'price','class'=>'form-control', 'disabled'=>'true')
 						)
 					}}
@@ -34,7 +34,7 @@
 					{{
 						Form::text(
 							'price',
-							(@$empty ? null : @$ticket->price),
+							(@$empty ? null : @$ticketType->price),
 							array('id'=>'price','class'=>'form-control')
 						)
 					}}
@@ -51,7 +51,7 @@
 		{{
 			Form::text(
 				'quantity',
-				(@$empty ? null : @$ticket->quantity),
+				(@$empty ? null : @$ticketType->quantity),
 				array('id'=>'quantity','class'=>'form-control')
 			)
 		}}
@@ -59,14 +59,14 @@
 	</div>
 	<div class="mb-3 col-md-6 col-sm-6 col-12">
 		{{ Form::label('type','Ticket Type',array('id'=>'','class'=>'')) }}
-		{{ Form::select('type', array('participant' => 'Participant', 'spectator' => 'Spectator'), @$ticket->type, array('id'=>'type','class'=>'form-control')) }}
+		{{ Form::select('type', array('participant' => 'Participant', 'spectator' => 'Spectator'), @$ticketType->type, array('id'=>'type','class'=>'form-control')) }}
 	</div>
 	<div class="mb-3 col-md-6 col-sm-6 col-12">
 		{{ Form::label('no_tickets_per_user','No. of Tickets per User',array('id'=>'','class'=>'')) }}
 		{{
 			Form::text(
 				'no_tickets_per_user',
-				(@$empty ? null : @$ticket->no_tickets_per_user),
+				(@$empty ? null : @$ticketType->no_tickets_per_user),
 				array('id'=>'no_tickets_per_user','class'=>'form-control')
 			)
 		}}
@@ -77,7 +77,7 @@
 		{{ Form::select(
             'ticket_group',
             Helpers::getTicketGroupSelection(),
-            ($empty ?? false) ? null : $ticket->ticketGroup?->id,
+            ($empty ?? false) ? null : $ticketType->ticketGroup?->id,
             [
                 'id' => 'ticket-group',
                 'class' => 'form-control'
@@ -87,7 +87,7 @@
 	<div class="mb-3 col-12">
 		<div class="form-check">
 			<label class="form-check-label">
-				@if (@$ticket->seatable || @$empty)
+				@if (@$ticketType->seatable || @$empty)
 					{{ Form::checkbox('seatable', 1, true, array('id'=>'seatable')) }}
 				@else
 					{{ Form::checkbox('seatable', 1, false, array('id'=>'seatable')) }}
@@ -113,7 +113,7 @@
 		@else
 			{{ Form::text(
 				'sale_start_date',
-				(@$ticket->sale_start ? date('d-m-Y', strtotime($ticket->sale_start)) : null),
+				(@$ticketType->sale_start ? date('d-m-Y', strtotime($ticketType->sale_start)) : null),
 				array('id'=>'sale_start_date','class'=>'form-control')
 				)
 			}}
@@ -134,7 +134,7 @@
 			{{
 				Form::text(
 					'sale_start_time',
-					(@$ticket->sale_start ? date('H:i', strtotime($ticket->sale_start)) : null),
+					(@$ticketType->sale_start ? date('H:i', strtotime($ticketType->sale_start)) : null),
 					array('id'=>'sale_start_time','class'=>'form-control')
 				)
 			}}
@@ -155,7 +155,7 @@
 			{{
 				Form::text(
 					'sale_end_date',
-					(@$ticket->sale_end ? date('d-m-Y', strtotime($ticket->sale_end)) : null),
+					(@$ticketType->sale_end ? date('d-m-Y', strtotime($ticketType->sale_end)) : null),
 					array('id'=>'sale_end_date','class'=>'form-control')
 				)
 			}}
@@ -176,7 +176,7 @@
 			{{
 				Form::text(
 					'sale_end_time',
-					(@$ticket->sale_end ? date('H:i', strtotime($ticket->sale_end)) : null),
+					(@$ticketType->sale_end ? date('H:i', strtotime($ticketType->sale_end)) : null),
 					array('id'=>'sale_end_time','class'=>'form-control')
 				)
 			}}

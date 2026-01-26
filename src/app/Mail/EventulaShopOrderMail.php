@@ -1,19 +1,12 @@
 <?php
 namespace App\Mail;
-use Storage;
 use URL;
 use Helpers;
 use App\User;
-use App\ShopOrder;
-use App\EventTicket;
 use App\ShopItem;
 use App\Purchase;
 use App\Libraries\MustacheModelHelper;
 use Spatie\MailTemplates\TemplateMailable;
-use Spatie\MailTemplates\Interfaces\MailTemplateInterface;
-use Spatie\MailTemplates\Models\MailTemplate;
-use Illuminate\support\Collection;
-use Illuminate\Support\Facades\Log;
 
 
 class EventulaShopOrderMail extends TemplateMailable

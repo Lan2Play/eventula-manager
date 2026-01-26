@@ -280,11 +280,11 @@
                         <h3 class="card-title">@lang('accounts.tickets')</h3>
                     </div>
                     <div class="card-body">
-                        @if (count($eventParticipants))
-                            @foreach ($eventParticipants as $participant)
+                        @if (count($tickets))
+                            @foreach ($tickets as $ticket)
                                 @include ('layouts._partials._tickets.index')
                             @endforeach
-                            {{ $eventParticipants->links() }}
+                            {{ $tickets->links() }}
                         @else
                             @lang('accounts.no_tickets')
                         @endif

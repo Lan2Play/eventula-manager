@@ -57,6 +57,7 @@ return [
     ],
     'not_in'               => 'Valt :attribute är ogiltigt.',
     'numeric'              => ':attribute måste vara en siffra.',
+    'phone'                => ':attribute fältet måste vara ett giltigt nummer.',
     'regex'                => ':attribute formatet är ogiltigt.',
     'required'             => ':attribute fältet är obligatoriskt.',
     'required_if'          => ':attribute fältet är obligatoriskt när :other är :value.',

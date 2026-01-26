@@ -66,8 +66,8 @@ class GamesController extends Controller
     {
         $rules = [
             'name'              => 'required',
-            'image_header'      => 'image',
-            'image_thumbnail'   => 'image',
+            'image_header'      => 'image:allow_svg',
+            'image_thumbnail'   => 'image:allow_svg',
             'matchmaking_enabled'   => 'in:on,off',
             'matchmaking_autostart'   => 'in:on,off',
             'matchmaking_autoapi'   => 'in:on,off',
@@ -122,7 +122,7 @@ class GamesController extends Controller
         if ($request->file('image_thumbnail')) {
             $imageName  = 'thumbnail.' . $request->file('image_thumbnail')->getClientOriginalExtension();
             Image::read($request->file('image_thumbnail'))
-                ->resize(500, 500)
+                ->cover(500, 500)
                 ->save(public_path() . $destinationPath . $imageName);
             $game->image_thumbnail_path = $destinationPath . $imageName;
             if (!$game->save()) {
@@ -134,7 +134,7 @@ class GamesController extends Controller
         if ($request->file('image_header')) {
             $imageName  = 'header.' . $request->file('image_header')->getClientOriginalExtension();
             Image::read($request->file('image_header'))
-                ->resize(1600, 400)
+                ->cover(1600, 300)
                 ->save(public_path() . $destinationPath . $imageName);
             $game->image_header_path = $destinationPath . $imageName;
             if (!$game->save()) {
@@ -157,8 +157,8 @@ class GamesController extends Controller
         $rules = [
             'name'              => 'filled',
             'active'            => 'in:true,false',
-            'image_header'      => 'image',
-            'image_thumbnail'   => 'image',
+            'image_header'      => 'image:allow_svg',
+            'image_thumbnail'   => 'image:allow_svg',
             'matchmaking_enabled'   => 'in:on,off',
             'matchmaking_autostart'   => 'in:on,off',
             'matchmaking_autoapi'   => 'in:on,off',
@@ -225,7 +225,7 @@ class GamesController extends Controller
             }
             $imageName  = 'thumbnail.' . $request->file('image_thumbnail')->getClientOriginalExtension();
             Image::read($request->file('image_thumbnail'))
-                ->resize(500, 500)
+                ->cover(500, 500)
                 ->save(public_path() . $destinationPath . $imageName);
             $game->image_thumbnail_path = $destinationPath . $imageName;
             if (!$game->save()) {
@@ -241,7 +241,7 @@ class GamesController extends Controller
             }
             $imageName  = 'header.' . $request->file('image_header')->getClientOriginalExtension();
             Image::read($request->file('image_header'))
-                ->resize(1600, 400)
+                ->cover(1600, 300)
                 ->save(public_path() . $destinationPath . $imageName);
             $game->image_header_path = $destinationPath . $imageName;
             if (!$game->save()) {

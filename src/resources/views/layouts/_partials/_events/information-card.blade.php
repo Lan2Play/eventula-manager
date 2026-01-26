@@ -15,8 +15,15 @@
                 <div class="d-flex align-items-center">
                     <div>
                         <p><i class="fas fa-calendar-alt mr-2"></i> @lang('events.start')</p>
-                        <h3>{{ date('d.M Y', strtotime($event->start)) }} @lang('events.time_delimiter')
-                            {{ date('H:i', strtotime($event->start)) }} @lang('events.time_suffix')</h3>
+                        <h3>
+                            @php
+                                $locale = app()->getLocale();
+                                $startDate = \Carbon\Carbon::parse($event->start)->locale($locale);
+                                echo $startDate->translatedFormat(__('date.without_year'));
+                            @endphp
+                            @lang('date.time_delimiter')
+                            {{ $startDate->format(__('date.time')) }}
+                        </h3>
                     </div>
                 </div>
             </div>
@@ -25,8 +32,15 @@
                     <div>
 
                         <p><i class="fas fa-calendar-times mr-2"></i> @lang('events.end')</p>
-                        <h3>{{ date('d.M Y', strtotime($event->end)) }} @lang('events.time_delimiter')
-                            {{ date('H:i', strtotime($event->end)) }} @lang('events.time_suffix')</h3>
+                        <h3>
+                            @php
+                                $locale = app()->getLocale();
+                                $endDate = \Carbon\Carbon::parse($event->end)->locale($locale);
+                                echo $endDate->translatedFormat(__('date.with_year'));
+                                @endphp
+                            @lang('date.time_delimiter')
+                            {{ $endDate->format(__('date.time')) }}
+                        </h3>
                     </div>
                 </div>
             </div>

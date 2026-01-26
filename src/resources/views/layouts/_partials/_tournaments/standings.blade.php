@@ -23,12 +23,12 @@
 			@foreach ($tournament->getStandings('desc', true)->final as $standings)
 				<tr>
 					<td>
-						<img class="rounded" style="max-width: 6%;" src="{{ ($tournament->getParticipantByChallongeId($standings->id))->eventParticipant->user->avatar }}">
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ ($tournament->getParticipantByChallongeId($standings->id))->eventParticipant->user->username }}
+						<img class="rounded" style="max-width: 6%;" src="{{ ($tournament->getParticipantByChallongeId($standings->id))->eventTicket->user->avatar }}">
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ ($tournament->getParticipantByChallongeId($standings->id))->eventTicket->user->username }}
 					</td>
 					<td>
-						@if (($tournament->getParticipantByChallongeId($standings->id))->eventParticipant->seat)
-							{{ ($tournament->getParticipantByChallongeId($standings->id))->eventParticipant->seat->seat }}
+						@if (($tournament->getParticipantByChallongeId($standings->id))->eventTicket->seat)
+							{{ ($tournament->getParticipantByChallongeId($standings->id))->eventTicket->seat->seat }}
 						@else
 							Not Seated
 						@endif
@@ -96,8 +96,8 @@
 					<td>
 						@if (($tournament->getTeamByChallongeId($standings->id)->tournamentParticipants))
 							@foreach (($tournament->getTeamByChallongeId($standings->id)->tournamentParticipants) as $participant)
-								<img class="rounded" style="max-width: 6%;" src="{{ $participant->eventParticipant->user->avatar }}">
-								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $participant->eventParticipant->user->username }}<br>
+								<img class="rounded" style="max-width: 6%;" src="{{ $participant->eventTicket->user->avatar }}">
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $participant->eventTicket->user->username }}<br>
 							@endforeach
 						@endif
 					</td>

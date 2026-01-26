@@ -6,15 +6,15 @@
 	<div class="col-lg-12">
 		<h3 class="pb-2 mt-4 mb-4 border-bottom">Events - {{ $event->display_name }} - Participant - {{ $participant->user->username }}</h3>
 		<ol class="breadcrumb">
-			<li class="breadcrumb-item">
-				<a href="/admin/events/">Events</a>
-			</li>
-			<li class="breadcrumb-item">
-				<a href="/admin/events/{{ $event->slug }}">{{ $event->display_name }}</a>
-			</li>
-			<li>
-				<a href="/admin/events/{{ $event->slug }}/participants">Participants</a>
-			</li>
+            <li class="breadcrumb-item">
+                <a href="/admin/events/">Events</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="/admin/events/{{ $event->slug }}">{{ $event->display_name }}</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="/admin/events/{{ $event->slug }}/participants">Participants</a>
+            </li>
 			<li class="breadcrumb-item active">
 				{{ $participant->user->username }}
 			</li>
@@ -22,7 +22,9 @@
 	</div>
 </div>
 
+<div class="d-lg-block collapse d-md-none d-sm-none" id="dashMini">
 @include ('layouts._partials._admin._event.dashMini')
+</div>
 
 @if ($participant->revoked)
 	<div class="alert alert-danger">This participant has been revoked!</div>
@@ -39,7 +41,7 @@
 				@if (!empty($_POST))
 					Successfully Posted
 				@endif
-				<div class="dataTable_wrapper">
+				<div class="dataTable_wrapper table-responsive">
 					<table width="100%" class="table table-striped table-hover" id="seating_table">
 						<thead>
 							<tr>
@@ -62,8 +64,8 @@
 								<td>{{ $participant->user->firstname }} {{ $participant->user->surname }}</td>
 								<td>@if($participant->seat) {{ $participant->seat->seat }} @endif</td>
 								<td>
-									@if ($participant->ticket)
-										{{ $participant->ticket->name }}
+									@if ($participant->ticketType)
+										{{ $participant->ticketType->name }}
 									@else
 										No Ticket Bought / Free
 									@endif
@@ -83,7 +85,17 @@
 				</div>
 			</div>
 		</div>
-
+        <div class="card mb-3">
+            <div class="card-header">
+                Audit Log
+            </div>
+            <div class="card-body">
+                @include('layouts._partials._audit.ticket', [
+    'ticket' => $participant,
+    'audits' => $participant->audits ?? collect()
+])
+            </div>
+        </div>
 	</div>
 	<div class="col-lg-4">
 
@@ -96,8 +108,8 @@
 					<h4>User is signed in at present at the event</h4>
 				@endif
 				{{ Form::label('','Ticket',array('id'=>'','class'=>'')) }}
-				@if ($participant->ticket)
-					<p>{{ $participant->ticket->name }}</p>
+				@if ($participant->ticketType)
+					<p>{{ $participant->ticketType->name }}</p>
 				@else
 					<p>No Ticket Bought / Free</p>
 				@endif
@@ -111,7 +123,7 @@
 				@if (
         				(!$participant->revoked) &&
         				(!$participant->signed_in) &&
-        				((!$participant->ticket) || ($participant->purchase->status == "Success"))
+        				((!$participant->ticketType) || ($participant->purchase->status == "Success"))
 					)
 					{{ Form::open(array('url'=>'/admin/events/' . $event->slug . '/participants/' . $participant->id . '/transfer')) }}
 						<div class="mb-3">
@@ -153,30 +165,28 @@
 						</hr>
 				@endif
 				
-				@if ((!$participant->signed_in) && ($participant->ticket) && ($participant->purchase->status != "Success"))
+				@if ((!$participant->signed_in) && ($participant->ticketType) && ($participant->purchase->status != "Success"))
 				<div class="mb-3">
 					complete payment to transfer or sign in the user
 				</div>
 				@endif
-
 			</div>
 		</div>
-
-		@if (!$participant->revoked)
-		<div class="card mb-3">
-			<div class="card-header">Danger Zone</div>
-			<div class="card-body">
-			{{ Form::open([
-    				'url' => '/admin/events/' . $event->slug . '/participants/' . $participant->id . '/revoke',
-    				'onSubmit' => 'return ConfirmRevoke()'
-				]) }}
-				<div class="mb-3">
-					<button type="submit" class="btn btn-danger btn-block">Revoke</button>
-				</div>
-			{{ Form::close() }}
-			</div>
-		</div>
-		@endif
+            @if (!$participant->revoked)
+            <div class="card mb-3">
+                <div class="card-header">Danger Zone</div>
+                <div class="card-body">
+                    {{ Form::open([
+                    'url' => '/admin/events/' . $event->slug . '/participants/' . $participant->id . '/revoke',
+                    'onSubmit' => 'return ConfirmRevoke()'
+                    ]) }}
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-danger btn-block">Revoke</button>
+                    </div>
+                    {{ Form::close() }}
+                </div>
+            </div>
+            @endif
 
 		@if (config('admin.super_danger_zone'))
 		<div class="card mb-3">
@@ -200,6 +210,7 @@
 		@endif
 
 	</div>
+
 </div>
 
 <script type="text/javascript">

@@ -9,10 +9,10 @@ use Helpers;
 
 use App\User;
 use App\Event;
-use App\EventTicket;
+use App\TicketType;
 use App\EventSeating;
 use App\EventSeatingPlan;
-use App\EventParticipant;
+use App\Ticket;
 use App\EventParticipantType;
 
 use App\Http\Requests;
@@ -47,13 +47,13 @@ class SeatingController extends Controller
     public function store(Event $event, EventSeatingPlan $seatingPlan, Request $request)
     {
         $rules = [
-            'participant_id'    => 'required',
+            'ticket_id'    => 'required',
             'user_id'           => 'required',
             "seat_column"       => "required|integer",
             "seat_row"          => "required|integer|max:26",
         ];
         $messages = [
-            'participant_id.required'   => 'A participant_id is required',
+            'ticket_id.required'   => 'A ticket_id is required',
             'user_id.required'          => 'A user_id is required',
             'seat_column.required'      => 'A column is required',
             'seat_column.integer'       => 'Columns must be a number',
@@ -64,16 +64,27 @@ class SeatingController extends Controller
         ];
         
         $this->validate($request, $rules, $messages);
-        
-        $participant = $event->EventParticipants()->where('id', $request->participant_id)->first();
 
-        if ($participant->ticket && !$participant->ticket->seatable) {
+        // TODO Make this better
+        // (its just an edge case where user has opened seatplan and in the meantime admin has locked seating
+        // User wont be presented with the option to store/change seating therefor he wont need nice feedback for
+        // essentially manually operating the endpoint
+        if($seatingPlan->locked) {
+            $request->session()->flash(
+                'alert-warn',
+                'Seatplan is locked');
+            return Redirect::to('events/' . $event->slug);
+        }
+        
+        $ticket = $event->tickets()->where('id', $request->ticket_id)->first();
+
+        if ($ticket->ticket && !$ticket->ticketType->seatable) {
             // Ticket not seatable
             Session::flash('alert-danger', 'That ticket is not seatable');
             return Redirect::to('events/' . $event->slug);
         }
-        if ($participant->seat != null) {
-            $participant->seat()->delete();
+        if ($ticket->seat != null) {
+            $ticket->seat()->delete();
         }
         //Unseated ticket found
         if (!$event->getSeat($seatingPlan->id, $request->seat_column, $request->seat_row)) {
@@ -81,7 +92,7 @@ class SeatingController extends Controller
             $newSeat                           = new EventSeating();
             $newSeat->column                   = $request->seat_column; 
             $newSeat->row                      = $request->seat_row;
-            $newSeat->event_participant_id     = $participant->id;
+            $newSeat->ticket_id                 = $ticket->id;
             $newSeat->event_seating_plan_id    = $seatingPlan->id;
             $newSeat->save();
             $request->session()->flash(
@@ -105,21 +116,28 @@ class SeatingController extends Controller
     public function destroy(Event $event, EventSeatingPlan $seatingPlan, Request $request)
     {
         $rules = [
-            'participant_id'        => 'required',
+            'ticket_id'        => 'required',
             'seat_column_delete'    => 'required',
             'seat_row_delete'       => 'required',
         ];
         $messages = [
-            'participant_id|required'       => 'A participant_id is required',
+            'ticket_id|required'       => 'A ticket_id is required',
             'seat_column_delete|required'   => 'A seat column is required',
             'seat_row_delete|required'      => 'A seat row is required',
             
         ];
 
         $this->validate($request, $rules, $messages);
-        
+
+        if($seatingPlan->locked) {
+            $request->session()->flash(
+                'alert-warn',
+                'Seatplan is locked');
+            return Redirect::to('events/' . $event->slug);
+        }
+
         $clauses = [
-            'event_participant_id'  => $request->participant_id,
+            'ticket_id'       => $request->ticket_id,
             'column'                => $request->seat_column_delete,    
             'row'                   => $request->seat_row_delete,
             'event_seating_plan_id' => $seatingPlan->id

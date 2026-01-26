@@ -4,31 +4,31 @@
 
 @section ('content')
 
-<div class="row">
-	<div class="col-lg-12">
-		<h3 class="pb-2 mt-4 mb-4 border-bottom">{{ $event->display_name }}</h3>
-		<ol class="breadcrumb">
-			<li class="breadcrumb-item">
-				<a href="/admin/events/">Events</a>
-			</li>
-			<li class="breadcrumb-item active">
-				{{ $event->display_name }}
-			</li>
-		</ol>
+	<div class="row">
+		<div class="col-lg-12">
+			<h3 class="pb-2 mt-4 mb-4 border-bottom">{{ $event->display_name }}</h3>
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item">
+					<a href="/admin/events/">Events</a>
+				</li>
+				<li class="breadcrumb-item active">
+					{{ $event->display_name }}
+				</li>
+			</ol>
+		</div>
 	</div>
-</div>
 
-@include ('layouts._partials._admin._event.dashMini')
+@include('layouts._partials._admin._event._dashMiniCards')
 
-<div class="row">
-	<div class="col-lg-8">
+	<div class="row">
+		<div class="col-lg-8">
 
-		<div class="card mb-3">
-			<div class="card-header">
-				<i class="fa fa-wrench fa-fw"></i> Settings
-			</div>
-			<div class="card-body">
-				{{ Form::open(array('url'=>'/admin/events/' . $event->slug, 'files' => 'true')) }}
+			<div class="card mb-3">
+				<div class="card-header">
+					<i class="fa fa-wrench fa-fw"></i> Settings
+				</div>
+				<div class="card-body">
+					{{ Form::open(array('url'=>'/admin/events/' . $event->slug, 'files' => 'true')) }}
 					<div class="row">
 						<div class="col-md-6 col-sm-12">
 							<div class="mb-3">
@@ -88,7 +88,8 @@
 													'min' => 0
 												)
 										) }}
-										<div class="form-text">Limit total amount of tickets a user can buy for the event. 0 or leave empty for
+										<div class="form-text">Limit total amount of tickets a user can buy for the
+											event. 0 or leave empty for
 											unlimited.
 										</div>
 									</div>
@@ -132,37 +133,43 @@
 					</div>
 					<div class="mb-3">
 						<div class="form-check">
-								<label class="form-check-label">
-									{{ Form::checkbox('online_event', null, $event->online_event, array('id'=>'online_event')) }} Online Event (allow tournament registration and home redirection without being signed in to the event)
-								</label>
+							<label class="form-check-label">
+								{{ Form::checkbox('online_event', null, $event->online_event, array('id'=>'online_event')) }}
+								Online Event (allow tournament registration and home redirection without being signed in
+								to the event)
+							</label>
 						</div>
 					</div>
 					<div class="mb-3">
 						<div class="form-check">
-								<label class="form-check-label">
-									{{ Form::checkbox('private_participants', null, $event->private_participants, array('id'=>'private_participants')) }} Private participants (show participants only to participants)
-								</label>
+							<label class="form-check-label">
+								{{ Form::checkbox('private_participants', null, $event->private_participants, array('id'=>'private_participants')) }}
+								Private participants (show participants only to participants)
+							</label>
 						</div>
 					</div>
 					<div class="mb-3">
 						<div class="form-check">
-								<label class="form-check-label">
-									{{ Form::checkbox('matchmaking_enabled', null, $event->matchmaking_enabled, array('id'=>'matchmaking_enabled')) }} Show Matchmaking (on the redirected home of the event)
-								</label>
+							<label class="form-check-label">
+								{{ Form::checkbox('matchmaking_enabled', null, $event->matchmaking_enabled, array('id'=>'matchmaking_enabled')) }}
+								Show Matchmaking (on the redirected home of the event)
+							</label>
 						</div>
 					</div>
 					<div class="mb-3">
 						<div class="form-check">
-								<label class="form-check-label">
-									{{ Form::checkbox('tournaments_staff', null, $event->tournaments_staff, array('id'=>'tournaments_staff')) }} Allow Tournaments for Staff
-								</label>
+							<label class="form-check-label">
+								{{ Form::checkbox('tournaments_staff', null, $event->tournaments_staff, array('id'=>'tournaments_staff')) }}
+								Allow Tournaments for Staff
+							</label>
 						</div>
 					</div>
 					<div class="mb-3">
 						<div class="form-check">
-								<label class="form-check-label">
-									{{ Form::checkbox('tournaments_freebies', null, $event->tournaments_freebies, array('id'=>'tournaments_freebies')) }} Allow Tournaments for Freebies
-								</label>
+							<label class="form-check-label">
+								{{ Form::checkbox('tournaments_freebies', null, $event->tournaments_freebies, array('id'=>'tournaments_freebies')) }}
+								Allow Tournaments for Freebies
+							</label>
 						</div>
 					</div>
 					<div class="row">
@@ -189,33 +196,36 @@
 						</div>
 					</div>
 					<button type="submit" class="btn btn-success btn-block">Submit</button>
-				{{ Form::close() }}
+					{{ Form::close() }}
+				</div>
 			</div>
-		</div>
 
-		<div class="card mb-3">
-			<div class="card-header">
-				<i class="fa fa-info fa-fw"></i> Event Information
-				<a href="#" class="btn btn-info btn-sm float-end" data-bs-toggle="modal" data-bs-target="#addEventInformationModal">Add Event Information</a>
-			</div>
-			<div class="card-body">
-				@if ($event->information->count() != 0)
-					@foreach ($event->information as $section)
-						<div class="card mb-3">
-							<div class="card-header">
-								<h4 class="card-title">
-									<a data-bs-toggle="collapse" href="#collaspe-{{ $section->id }}" aria-expanded="false" class="collapsed" aria-controls="collaspe-{{ $section->id }}">{{ $section->title }}</a>
-									<div class="float-end">
-										{{ Form::open(array('url' => '/admin/information/' . $section->id)) }}
+			<div class="card mb-3">
+				<div class="card-header">
+					<i class="fa fa-info fa-fw"></i> Event Information
+					<a href="#" class="btn btn-info btn-sm float-end" data-bs-toggle="modal"
+					   data-bs-target="#addEventInformationModal">Add Event Information</a>
+				</div>
+				<div class="card-body">
+					@if ($event->information->count() != 0)
+						@foreach ($event->information as $section)
+							<div class="card mb-3">
+								<div class="card-header">
+									<h4 class="card-title">
+										<a data-bs-toggle="collapse" href="#collaspe-{{ $section->id }}"
+										   aria-expanded="false" class="collapsed"
+										   aria-controls="collaspe-{{ $section->id }}">{{ $section->title }}</a>
+										<div class="float-end">
+											{{ Form::open(array('url' => '/admin/information/' . $section->id)) }}
 											{{ Form::hidden('_method', 'DELETE') }}
 											{{ Form::submit('Delete', array('class' => 'btn btn-danger btn-xs float-right', 'style' => 'margin-top:-2px;')) }}
-										{{ Form::close() }}
-									</div>
-								</h4>
-							</div>
-							<div id="collaspe-{{ $section->id }}" class="collapse">
-								<div class="card-body">
-									{{ Form::open(array('url'=>'/admin/information/' . $section->id, 'files' => 'true')) }}
+											{{ Form::close() }}
+										</div>
+									</h4>
+								</div>
+								<div id="collaspe-{{ $section->id }}" class="collapse">
+									<div class="card-body">
+										{{ Form::open(array('url'=>'/admin/information/' . $section->id, 'files' => 'true')) }}
 										<div class="row">
 											<div class="col-md-6 col-sm-12">
 												<div class="mb-3">
@@ -243,191 +253,211 @@
 												<div class="mb-3 col-lg-6">
 													{{ Form::label('preview','Image Preview',array('id'=>'','class'=>'')) }}
 													<center>
-														<img class="img-fluid img-thumbnail" src="{{ $section->image_path }}" />
+														<img class="img-fluid img-thumbnail"
+															 src="{{ $section->image_path }}"/>
 													</center>
 												</div>
 											</div>
 										@endif
 										<button type="submit" class="btn btn-success btn-block">Update</button>
-									{{ Form::close() }}
+										{{ Form::close() }}
+									</div>
 								</div>
 							</div>
+						@endforeach
+					@else
+						<h4>None</h4>
+					@endif
+				</div>
+			</div>
+
+		</div>
+		<div class="col-lg-4">
+
+			<div class="card mb-3">
+				<div class="card-header">
+					<i class="fa fa-bullhorn fa-fw"></i> Announcements
+					<a href="#" class="btn btn-info btn-sm float-end" data-bs-toggle="modal"
+					   data-bs-target="#addAnnouncementModal">Add Announcement</a>
+				</div>
+				<div class="card-body">
+					@if ($announcements->count() != 0)
+						<div class="list-group">
+							@foreach ($announcements as $announcement)
+								<a href="#" class="list-group-item-action" data-bs-toggle="modal"
+								   onclick="editAnnouncement('{{$announcement->id}}', '{{$announcement->message}}')"
+								   data-bs-target="#editAnnouncementModal">
+									<i class="fa fa-comment fa-fw"></i> {{ $announcement->message }}
+								</a>
+							@endforeach
+							{{ $announcements->links() }}
 						</div>
-					@endforeach
-				@else
-					<h4>None</h4>
-				@endif
+					@else
+						<h4>None</h4>
+					@endif
+				</div>
 			</div>
-		</div>
 
-	</div>
-	<div class="col-lg-4">
-
-		<div class="card mb-3">
-			<div class="card-header">
-				<i class="fa fa-bullhorn fa-fw"></i> Announcements
-				<a href="#" class="btn btn-info btn-sm float-end" data-bs-toggle="modal" data-bs-target="#addAnnouncementModal">Add Announcement</a>
-			</div>
-			<div class="card-body">
-				@if ($announcements->count() != 0)
-					<div class="list-group">
-						@foreach ($announcements as $announcement)
-							<a href="#" class="list-group-item-action" data-bs-toggle="modal" onclick="editAnnouncement('{{$announcement->id}}', '{{$announcement->message}}')" data-bs-target="#editAnnouncementModal">
-								<i class="fa fa-comment fa-fw"></i> {{ $announcement->message }}
-							</a>
-						@endforeach
-						{{ $announcements->links() }}
-					</div>
-				@else
-					<h4>None</h4>
-				@endif
-			</div>
-		</div>
-
-		<div class="card mb-3">
-			<div class="card-header">
-				<i class="fa fa-ticket fa-fw"></i> Tickets
-				<a href="/admin/events/{{ $event->slug }}/tickets" style="margin-left:3px;" class="btn btn-info btn-sm float-right">All Tickets</a>
-				<a href="#" class="btn btn-info btn-sm float-end" data-bs-toggle="modal" data-bs-target="#addTicketModal">Add Ticket</a>
-			</div>
-			<div class="card-body">
-				@if ($event->tickets->count() != 0)
-					<div class="list-group">
-						@foreach ($event->tickets as $ticket)
-							<a href="/admin/events/{{ $event->slug }}/tickets/{{ $ticket->id }}" class="list-group-item-action">
-								<i class="fa fa-pencil fa-fw"></i> {{ $ticket->name }} - {{ Settings::getCurrencySymbol() }}{{ $ticket->price }}
-								<span class="float-end text-muted small">
-									@if($ticket->quantity != 0)
-										<em>{{ $ticket->participants()->count() }} / {{ $ticket->quantity }}</em>
-									@else
-										<em>Unlimited</em>
-									@endif
+			<div class="card mb-3">
+				<div class="card-header">
+					<i class="fa fa-ticket fa-fw"></i> Tickets
+					<a href="/admin/events/{{ $event->slug }}/tickets" style="margin-left:3px;"
+					   class="btn btn-info btn-sm float-right">All Tickets</a>
+					<a href="#" class="btn btn-info btn-sm float-end" data-bs-toggle="modal"
+					   data-bs-target="#addTicketModal">Add Ticket</a>
+				</div>
+				<div class="card-body">
+					@if ($event->tickettypes->count() != 0)
+						<div class="list-group">
+							@foreach ($event->tickettypes as $ticketType)
+								<a href="/admin/events/{{ $event->slug }}/tickets/{{ $ticketType->id }}"
+								   class="list-group-item-action">
+									<i class="fa fa-pencil fa-fw"></i> {{ $ticketType->name }}
+									- {{ Settings::getCurrencySymbol() }}{{ $ticketType->price }}
+									<span class="float-end text-muted small">
+									@if($ticketType->quantity != 0)
+											<em>{{ $ticketType->tickets()->count() }} / {{ $ticketType->quantity }}</em>
+										@else
+											<em>Unlimited</em>
+										@endif
 								</span>
-							</a>
-						@endforeach
-					</div>
-				@else
-					<h4>None</h4>
-				@endif
+								</a>
+							@endforeach
+						</div>
+					@else
+						<h4>None</h4>
+					@endif
+				</div>
 			</div>
-		</div>
 
-		<div class="card mb-3">
-			<div class="card-header">
-				<i class="fa fa-list fa-fw"></i> Polls
+			<div class="card mb-3">
+				<div class="card-header">
+					<i class="fa fa-list fa-fw"></i> Polls
+				</div>
+				<div class="card-body">
+					@if (!$event->polls->isEmpty())
+						<div class="list-group">
+							@foreach ($event->polls as $poll)
+								<a href="/admin/polls/{{ $poll->slug }}" class="list-group-item-action">
+									<i class="fa fa-pencil fa-fw"></i> {{ $poll->name }}
+								</a>
+							@endforeach
+						</div>
+					@else
+						<h4>None</h4>
+					@endif
+				</div>
 			</div>
-			<div class="card-body">
-				@if (!$event->polls->isEmpty())
-					<div class="list-group">
-						@foreach ($event->polls as $poll)
-							<a href="/admin/polls/{{ $poll->slug }}" class="list-group-item-action">
-								<i class="fa fa-pencil fa-fw"></i> {{ $poll->name }}
-							</a>
-						@endforeach
-					</div>
-				@else
-					<h4>None</h4>
-				@endif
-			</div>
-		</div>
 
-		<div class="card mb-3">
-			<div class="card-header">
-				<i class="fa fa-user fa-fw"></i> Attendees
-				<a href="/admin/events/{{ $event->slug }}/participants" style="margin-left:3px;" class="btn btn-info btn-sm float-right">All Attendees</a>
-				<a href="/admin/events/{{ $event->slug }}/tickets#freebies" class="btn btn-info btn-sm float-right">Freebies</a>
-			</div>
-			<div class="card-body">
-				@if (!$event->eventParticipants->isEmpty())
-					<div class="list-group">
-						@foreach ($participants as $participant)
-							<a href="/admin/events/{{ $event->slug }}/participants/{{ $participant->id }}" class="list-group-item-action">
-								<i class="fa fa-comment fa-fw"></i> {{ $participant->user->username }}
-								@if ($participant->user->steamid)
-									- <span class="text-muted"><small>Steam: {{ $participant->user->steamname }}</small></span>
-								@endif
-								<span class="float-end text-muted small">
+			<div class="card mb-3">
+				<div class="card-header">
+					<i class="fa fa-user fa-fw"></i> Attendees
+					<a href="/admin/events/{{ $event->slug }}/participants" style="margin-left:3px;"
+					   class="btn btn-info btn-sm float-right">All Attendees</a>
+					<a href="/admin/events/{{ $event->slug }}/tickets#freebies" class="btn btn-info btn-sm float-right">Freebies</a>
+				</div>
+				<div class="card-body">
+					@if (!$event->tickets->isEmpty())
+						<div class="list-group">
+							@foreach ($participants as $participant)
+								<a href="/admin/events/{{ $event->slug }}/participants/{{ $participant->id }}"
+								   class="list-group-item-action">
+									<i class="fa fa-comment fa-fw"></i> {{ $participant->user->username }}
+									@if ($participant->user->steamid)
+										-
+										<span class="text-muted"><small>Steam: {{ $participant->user->steamname }}</small></span>
+									@endif
+									<span class="float-end text-muted small">
 									<em>{{ date('d-m-y H:i', strtotime($participant->created_at)) }}</em>
 								</span>
-							</a>
-						@endforeach
-						{{ $participants->links() }}
-					</div>
-				@else
-					<h4>None</h4>
-				@endif
+								</a>
+							@endforeach
+							{{ $participants->links() }}
+						</div>
+					@else
+						<h4>None</h4>
+					@endif
+				</div>
 			</div>
-		</div>
 
-		<div class="card mb-3">
-			<div class="card-header">
-				<i class="fa fa-suitcase fa-fw"></i> Sponsors
-				<a href="#" class="btn btn-info btn-sm float-end" data-bs-toggle="modal" data-bs-target="#addSponsorModal">Add Sponsor</a>
+			<div class="card mb-3">
+				<div class="card-header">
+					<i class="fa fa-suitcase fa-fw"></i> Sponsors
+					<a href="#" class="btn btn-info btn-sm float-end" data-bs-toggle="modal"
+					   data-bs-target="#addSponsorModal">Add Sponsor</a>
+				</div>
+				<div class="card-body">
+					@if (!$event->sponsors->isEmpty())
+						<div class="list-group">
+							@foreach ($event->sponsors as $sponsor)
+								<a href="#" class="list-group-item-action" data-bs-toggle="modal"
+								   onclick="editSponsor('{{$sponsor->id}}', '{{$sponsor->name}}', '{{$sponsor->website}}', '{{$sponsor->image_path}}')"
+								   data-bs-target="#editSponsorModal">
+									<i class="fa fa-pencil fa-fw"></i> {{ $sponsor->name }}
+									- {{ ucwords($sponsor->website) }}
+									<img class="img-fluid img-thumbnail" src="{{ $sponsor->image_path }}"/>
+								</a>
+							@endforeach
+						</div>
+					@else
+						<h4>None</h4>
+					@endif
+				</div>
 			</div>
-			<div class="card-body">
-				@if (!$event->sponsors->isEmpty())
-					<div class="list-group">
-						@foreach ($event->sponsors as $sponsor)
-							<a href="#" class="list-group-item-action" data-bs-toggle="modal" onclick="editSponsor('{{$sponsor->id}}', '{{$sponsor->name}}', '{{$sponsor->website}}', '{{$sponsor->image_path}}')" data-bs-target="#editSponsorModal">
-								<i class="fa fa-pencil fa-fw"></i> {{ $sponsor->name }} - {{ ucwords($sponsor->website) }}
-								<img class="img-fluid img-thumbnail" src="{{ $sponsor->image_path }}" />
-							</a>
-						@endforeach
-					</div>
-				@else
-					<h4>None</h4>
-				@endif
-			</div>
-		</div>
 
-		<div class="card mb-3">
-			<div class="card-header">
-				<i class="fa fa-wrench fa-fw"></i> Danger Zone
-			</div>
-			<div class="card-body">
-				{{ Form::open(array('url'=>'/admin/events/' . $event->slug, 'onsubmit' => 'return ConfirmDelete()')) }}
+			<div class="card mb-3">
+				<div class="card-header">
+					<i class="fa fa-wrench fa-fw"></i> Danger Zone
+				</div>
+				<div class="card-body">
+					{{ Form::open(array('url'=>'/admin/events/' . $event->slug, 'onsubmit' => 'return ConfirmDelete()')) }}
 					{{ Form::hidden('_method', 'DELETE') }}
 					<button type="submit" class="btn btn-danger btn-block">Delete</button>
-				{{ Form::close() }}
+					{{ Form::close() }}
+				</div>
 			</div>
+
 		</div>
-
 	</div>
-</div>
 
-<!-- Modals -->
+	<!-- Modals -->
 
-<div class="modal fade" id="addTicketModal" tabindex="-1" role="dialog" aria-labelledby="addTicketModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h4 class="modal-title" id="addTicketModalLabel">Add Ticket</h4>
-				<button type="button" class="btn-close text-decoration-none" data-bs-dismiss="modal" aria-hidden="true"></button>
-			</div>
-			<div class="modal-body">
-				{{ Form::open(array('url'=>'/admin/events/' . $event->slug . '/tickets')) }}
+	<div class="modal fade" id="addTicketModal" tabindex="-1" role="dialog" aria-labelledby="addTicketModalLabel"
+		 aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="addTicketModalLabel">Add Ticket</h4>
+					<button type="button" class="btn-close text-decoration-none" data-bs-dismiss="modal"
+							aria-hidden="true"></button>
+				</div>
+				<div class="modal-body">
+					{{ Form::open(array('url'=>'/admin/events/' . $event->slug . '/tickets')) }}
 					@include('layouts._partials._admin._event._tickets.form', ['empty' => true])
-				{{ Form::close() }}
+					{{ Form::close() }}
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
 
-<div class="modal fade" id="addSponsorModal" tabindex="-1" role="dialog" aria-labelledby="addSponsorModalModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h4 class="modal-title" id="addSponsorModalLabel">Add Sponsor</h4>
-				<button type="button" class="btn-close text-decoration-none" data-bs-dismiss="modal" aria-hidden="true"></button>
-			</div>
-			{{ Form::open(array('url'=>'/admin/events/' . $event->slug . '/sponsors', 'files' => 'true')) }}
+	<div class="modal fade" id="addSponsorModal" tabindex="-1" role="dialog" aria-labelledby="addSponsorModalModalLabel"
+		 aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="addSponsorModalLabel">Add Sponsor</h4>
+					<button type="button" class="btn-close text-decoration-none" data-bs-dismiss="modal"
+							aria-hidden="true"></button>
+				</div>
+				{{ Form::open(array('url'=>'/admin/events/' . $event->slug . '/sponsors', 'files' => 'true')) }}
 				<div class="modal-body">
 					<div class="mb-3">
 						{{ Form::label('sponsor_name','Sponsor Name',array('id'=>'','class'=>'')) }}
 						{{ Form::text('sponsor_name',NULL,array('id'=>'sponsor_name','class'=>'form-control')) }}
 					</div>
 					<div class="mb-3">
-						{{ Form::label('sponsor_website','Sponsor Website',array('id'=>'','class'=>'')) }} <small>should start with http(s)://</small>
+						{{ Form::label('sponsor_website','Sponsor Website',array('id'=>'','class'=>'')) }} <small>should
+							start with http(s)://</small>
 						{{ Form::text('sponsor_website',NULL,array('id'=>'sponsor_website','class'=>'form-control')) }}
 					</div>
 					<div class="mb-3">
@@ -436,27 +466,30 @@
 					</div>
 					<button type="submit" name="action" value="add_sponsor" class="btn btn-secondary">Submit</button>
 				</div>
-			{{ Form::close() }}
+				{{ Form::close() }}
+			</div>
 		</div>
 	</div>
-</div>
 
 
-<div class="modal fade" id="editSponsorModal" tabindex="-1" role="dialog" aria-labelledby="editSponsorModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h4 class="modal-title" id="editSponsorModalLabel">Edit Sponsor</h4>
-				<button type="button" class="btn-close text-decoration-none" data-bs-dismiss="modal" aria-hidden="true"></button>
-			</div>
-			<div class="modal-body">
-				{{ Form::open(array('url'=>'/admin/events/' . $event->slug . '/sponsors', 'files' => 'true', 'id' => 'editSponsorForm')) }}
+	<div class="modal fade" id="editSponsorModal" tabindex="-1" role="dialog" aria-labelledby="editSponsorModalLabel"
+		 aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="editSponsorModalLabel">Edit Sponsor</h4>
+					<button type="button" class="btn-close text-decoration-none" data-bs-dismiss="modal"
+							aria-hidden="true"></button>
+				</div>
+				<div class="modal-body">
+					{{ Form::open(array('url'=>'/admin/events/' . $event->slug . '/sponsors', 'files' => 'true', 'id' => 'editSponsorForm')) }}
 					<div class="mb-3">
 						{{ Form::label('sponsor_name','Sponsor Name',array('id'=>'','class'=>'')) }}
 						{{ Form::text('sponsor_name',NULL,array('id'=>'sponsor_name_id','class'=>'form-control')) }}
 					</div>
 					<div class="mb-3">
-						{{ Form::label('sponsor_website','Sponsor Website',array('id'=>'','class'=>'')) }} <small>should start with http(s)://</small>
+						{{ Form::label('sponsor_website','Sponsor Website',array('id'=>'','class'=>'')) }} <small>should
+							start with http(s)://</small>
 						{{ Form::text('sponsor_website',NULL,array('id'=>'sponsor_website_id','class'=>'form-control')) }}
 					</div>
 					<div class="mb-3">
@@ -469,59 +502,63 @@
 					</div>
 					<button type="submit" name="action" value="add_sponsor" class="btn btn-secondary">Submit</button>
 
-				{{ Form::close() }}
-				{{ Form::open(array('method'  => 'delete', 'url'=>'/admin/events/' . $event->slug . '/sponsors', 'id'=>'deleteSponsorForm', 'files' => 'true' , 'onsubmit' => 'return ConfirmDelete()')) }}
+					{{ Form::close() }}
+					{{ Form::open(array('method'  => 'delete', 'url'=>'/admin/events/' . $event->slug . '/sponsors', 'id'=>'deleteSponsorForm', 'files' => 'true' , 'onsubmit' => 'return ConfirmDelete()')) }}
 					<button type="submit" class="btn btn-danger btn-block">Delete</button>
-				{{ Form::close() }}
+					{{ Form::close() }}
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
-<script>
-	function editSponsor(sponsor_id, sponsor_name, sponsor_website, sponsor_image)
-	{
-		jQuery('#sponsor_image_preview').hide();
-		jQuery("#editSponsorForm").prop('action', '/admin/events/{{ $event->slug }}/sponsors/' + sponsor_id);
-		jQuery("#deleteSponsorForm").prop('action', '/admin/events/{{ $event->slug }}/sponsors/' + sponsor_id);
-		jQuery('#sponsor_name_id').val(sponsor_name);
-		jQuery('#sponsor_website_id').val(sponsor_website);
-		if (sponsor_image !== "") {
-			jQuery('#sponsor_image_preview').attr("src", sponsor_image);;
-			jQuery('#sponsor_image_preview').show();
+	<script>
+		function editSponsor(sponsor_id, sponsor_name, sponsor_website, sponsor_image) {
+			jQuery('#sponsor_image_preview').hide();
+			jQuery("#editSponsorForm").prop('action', '/admin/events/{{ $event->slug }}/sponsors/' + sponsor_id);
+			jQuery("#deleteSponsorForm").prop('action', '/admin/events/{{ $event->slug }}/sponsors/' + sponsor_id);
+			jQuery('#sponsor_name_id').val(sponsor_name);
+			jQuery('#sponsor_website_id').val(sponsor_website);
+			if (sponsor_image !== "") {
+				jQuery('#sponsor_image_preview').attr("src", sponsor_image);
+				;
+				jQuery('#sponsor_image_preview').show();
+			}
 		}
-	}
-</script>
+	</script>
 
 
-<div class="modal fade" id="addAnnouncementModal" tabindex="-1" role="dialog" aria-labelledby="addAnnouncementModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h4 class="modal-title" id="announcementModalLabel">Add Announcement</h4>
-				<button type="button" class="btn-close text-decoration-none" data-bs-dismiss="modal" aria-hidden="true"></button>
-			</div>
-			<div class="modal-body">
-				{{ Form::open(array('url'=>'/admin/events/' . $event->slug . '/announcements', 'files' => 'true')) }}
+	<div class="modal fade" id="addAnnouncementModal" tabindex="-1" role="dialog"
+		 aria-labelledby="addAnnouncementModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="announcementModalLabel">Add Announcement</h4>
+					<button type="button" class="btn-close text-decoration-none" data-bs-dismiss="modal"
+							aria-hidden="true"></button>
+				</div>
+				<div class="modal-body">
+					{{ Form::open(array('url'=>'/admin/events/' . $event->slug . '/announcements', 'files' => 'true')) }}
 					<div class="mb-3">
 						{{ Form::label('message','Message',array('id'=>'','class'=>'')) }}
 						{{ Form::textarea('message', NULL,array('id'=>'message','class'=>'form-control', 'rows' => '2')) }}
 					</div>
 					<button type="submit" class="btn btn-secondary btn-block">Submit</button>
-				{{ Form::close() }}
+					{{ Form::close() }}
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
 
-<div class="modal fade" id="editAnnouncementModal" tabindex="-1" role="dialog" aria-labelledby="editAnnouncementModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h4 class="modal-title" id="editAnnouncementModalLabel">Edit Announcement</h4>
-				<button type="button" class="btn-close text-decoration-none" data-bs-dismiss="modal" aria-hidden="true"></button>
-			</div>
-			<div class="modal-body">
-				{{ Form::open(array('url'=>'/admin/events/' . $event->slug . '/announcements', 'files' => 'true', 'id' => 'editAnnouncementForm')) }}
+	<div class="modal fade" id="editAnnouncementModal" tabindex="-1" role="dialog"
+		 aria-labelledby="editAnnouncementModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="editAnnouncementModalLabel">Edit Announcement</h4>
+					<button type="button" class="btn-close text-decoration-none" data-bs-dismiss="modal"
+							aria-hidden="true"></button>
+				</div>
+				<div class="modal-body">
+					{{ Form::open(array('url'=>'/admin/events/' . $event->slug . '/announcements', 'files' => 'true', 'id' => 'editAnnouncementForm')) }}
 					<div class="mb-3">
 						{{ Form::label('message','Message',array('id'=>'','class'=>'')) }}
 						{{ Form::textarea('message', NULL,array('id'=>'edit_announcement','class'=>'form-control', 'rows' => '2')) }}
@@ -529,32 +566,33 @@
 					<div class="mb-3">
 						<button type="submit" class="btn btn-secondary btn-block">Submit</button>
 					</div>
-				{{ Form::close() }}
-				{{ Form::open(array('method'  => 'delete', 'url'=>'/admin/events/' . $event->slug . '/announcements', 'id'=>'deleteAnnouncementForm', 'files' => 'true')) }}
+					{{ Form::close() }}
+					{{ Form::open(array('method'  => 'delete', 'url'=>'/admin/events/' . $event->slug . '/announcements', 'id'=>'deleteAnnouncementForm', 'files' => 'true')) }}
 					<button type="submit" class="btn btn-danger btn-block">Delete</button>
-				{{ Form::close() }}
+					{{ Form::close() }}
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
-<script>
-	function editAnnouncement(announcement_id, message)
-	{
-		jQuery("#editAnnouncementForm").prop('action', '/admin/events/{{ $event->slug }}/announcements/' + announcement_id);
-		jQuery("#deleteAnnouncementForm").prop('action', '/admin/events/{{ $event->slug }}/announcements/' + announcement_id);
-		jQuery('#edit_announcement').val(message);
-	}
-</script>
+	<script>
+		function editAnnouncement(announcement_id, message) {
+			jQuery("#editAnnouncementForm").prop('action', '/admin/events/{{ $event->slug }}/announcements/' + announcement_id);
+			jQuery("#deleteAnnouncementForm").prop('action', '/admin/events/{{ $event->slug }}/announcements/' + announcement_id);
+			jQuery('#edit_announcement').val(message);
+		}
+	</script>
 
-<div class="modal fade" id="addEventInformationModal" tabindex="-1" role="dialog" aria-labelledby="addEventInformationModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h4 class="modal-title" id="addEventInformationModal">Add Event Information</h4>
-				<button type="button" class="btn-close text-decoration-none" data-bs-dismiss="modal" aria-hidden="true"></button>
-			</div>
-			<div class="modal-body">
-				{{ Form::open(array('url'=>'/admin/events/' . $event->slug . '/information', 'files' => 'true')) }}
+	<div class="modal fade" id="addEventInformationModal" tabindex="-1" role="dialog"
+		 aria-labelledby="addEventInformationModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="addEventInformationModal">Add Event Information</h4>
+					<button type="button" class="btn-close text-decoration-none" data-bs-dismiss="modal"
+							aria-hidden="true"></button>
+				</div>
+				<div class="modal-body">
+					{{ Form::open(array('url'=>'/admin/events/' . $event->slug . '/information', 'files' => 'true')) }}
 					<div class="row">
 						<div class="col-md-6 col-sm-12">
 							<div class="mb-3">
@@ -574,18 +612,18 @@
 						{{ Form::textarea('text', NULL,array('id'=>'text','class'=>'form-control', 'rows' => '4')) }}
 					</div>
 					<button type="submit" class="btn btn-secondary">Submit</button>
-				{{ Form::close() }}
+					{{ Form::close() }}
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
 
-<!-- JavaScript-->
-<script type="text/javascript">
-	jQuery( function() {
-		jQuery( "#start_date" ).datepicker();
-		jQuery( "#end_date" ).datepicker();
-	});
-</script>
+	<!-- JavaScript-->
+	<script type="text/javascript">
+		jQuery(function () {
+			jQuery("#start_date").datepicker();
+			jQuery("#end_date").datepicker();
+		});
+	</script>
 
 @endsection
