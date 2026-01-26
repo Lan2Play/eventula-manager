@@ -60,8 +60,10 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\TelescopeServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         OwenIt\Auditing\AuditingServiceProvider::class,
+        Laravel\Telescope\TelescopeServiceProvider::class,
     ],
 
     /*

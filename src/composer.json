@@ -82,7 +82,7 @@
         "orangehill/iseed": "3.1.1",
         "squizlabs/php_codesniffer": "3.13.5",
         "filp/whoops": "2.18.4",
-        "laravel/telescope": "^5.15"
+        "laravel/telescope": "^5.16"
     },
     "autoload": {
         "classmap": [
