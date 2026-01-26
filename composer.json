@@ -1,5 +1,0 @@
-{
-    "require": {
-        "laravel/telescope": "^5.15"
-    }
-}
