@@ -2,9 +2,12 @@
 *.sublime-workspace
 resources/certs/*
 resources/wait
-
+.idea
+_data
 \.env*
-
+*.sql
+vendor/
+*.tar.gz
 src/vendor
 src/node_modules
 src/public/storage
