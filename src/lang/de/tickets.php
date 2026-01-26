@@ -41,7 +41,7 @@ return [
     'no_owner' => 'Keiner',
     'no_manager' => 'Keiner',
     'no_user' => 'Keiner',
-
+    'alert_ticket_not_found' => 'Ticket nicht gefunden',
 
     /* Ticket PDF */
     'pdf_header' => 'Dein Ticket für :name',

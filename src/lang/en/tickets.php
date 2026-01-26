@@ -58,6 +58,7 @@ return [
     'alert_event_not_yet_published' => 'The event is currently in the state :state. You can not buy tickets for for now.',
     'alert_event_not_found' => 'Event Not found',
     'alert_user_not_found' => 'User not found',
+    'alert_ticket_not_found' => 'Ticket not found',
     'alert_event_ended' => 'You cannot buy tickets for previous events',
     'alert_ticket_not_yet' => 'You cannot buy this ticket yet.',
     'alert_ticket_not_anymore' => 'You cannot buy this ticket anymore.',
