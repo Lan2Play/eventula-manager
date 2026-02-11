@@ -49,7 +49,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Build Linux Image
         if: ${{ github.event_name == 'pull_request' }}
-        uses: docker/build-push-action@v6.18.0
+        uses: docker/build-push-action@v6.19.1
         with:
           context: .
           file: ./Dockerfile
@@ -67,7 +67,7 @@ jobs:
           push: false      
       - name: Build and push Linux Image
         if: ${{ startsWith(github.ref, 'refs/heads/main') && github.event_name == 'push' }}
-        uses: docker/build-push-action@v6.18.0
+        uses: docker/build-push-action@v6.19.1
         with:
           context: .
           file: ./Dockerfile
@@ -86,7 +86,7 @@ jobs:
           push: true
       - name: Build and push Linux legacy Image
         if: ${{ startsWith(github.ref, 'refs/heads/legacy') && github.event_name == 'push' }}
-        uses: docker/build-push-action@v6.18.0
+        uses: docker/build-push-action@v6.19.1
         with:
           context: .
           file: ./Dockerfile
@@ -111,7 +111,7 @@ jobs:
           echo "version_without_v=${VERSION#v}" >> $GITHUB_OUTPUT
       - name: Build and push versioned release Image
         if: ${{ github.event_name == 'release' }}
-        uses: docker/build-push-action@v6.18.0
+        uses: docker/build-push-action@v6.19.1
         with:
           context: .
           file: ./Dockerfile
