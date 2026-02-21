@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "78360cc7c4294b8d0902f80e81ce8ede",
+    "content-hash": "6372340b83c3e081bc48f3a8ad663a8d",
     "packages": [
         {
             "name": "artesaos/seotools",
@@ -6949,29 +6949,29 @@
         },
         {
             "name": "spatie/laravel-cookie-consent",
-            "version": "3.3.3",
+            "version": "3.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-cookie-consent.git",
-                "reference": "fa375d4c9cae8745137ec3249e1b8e35d911963a"
+                "reference": "67a7717c2ed43fa27dd24a5df2a71272b47937b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-cookie-consent/zipball/fa375d4c9cae8745137ec3249e1b8e35d911963a",
-                "reference": "fa375d4c9cae8745137ec3249e1b8e35d911963a",
+                "url": "https://api.github.com/repos/spatie/laravel-cookie-consent/zipball/67a7717c2ed43fa27dd24a5df2a71272b47937b4",
+                "reference": "67a7717c2ed43fa27dd24a5df2a71272b47937b4",
                 "shasum": ""
             },
             "require": {
-                "illuminate/cookie": "^10.0|^11.0|^12.0",
-                "illuminate/support": "^10.0|^11.0|^12.0",
-                "illuminate/view": "^10.0|^11.0|^12.0",
+                "illuminate/cookie": "^11.0|^12.0|^13.0",
+                "illuminate/support": "^11.0|^12.0|^13.0",
+                "illuminate/view": "^11.0|^12.0|^13.0",
                 "php": "^8.2",
                 "spatie/laravel-package-tools": "^1.9"
             },
             "require-dev": {
                 "fakerphp/faker": "^1.9",
-                "orchestra/testbench": "^8.0|^9.0|^10.0",
-                "pestphp/pest": "^2.34|^3.7"
+                "orchestra/testbench": "^9.0|^10.0|^11.0",
+                "pestphp/pest": "^3.7|^4.0"
             },
             "type": "library",
             "extra": {
@@ -7015,7 +7015,7 @@
                 "spatie"
             ],
             "support": {
-                "source": "https://github.com/spatie/laravel-cookie-consent/tree/3.3.3"
+                "source": "https://github.com/spatie/laravel-cookie-consent/tree/3.4.0"
             },
             "funding": [
                 {
@@ -7023,7 +7023,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2025-02-21T13:11:14+00:00"
+            "time": "2026-02-21T15:58:52+00:00"
         },
         {
             "name": "spatie/laravel-database-mail-templates",
