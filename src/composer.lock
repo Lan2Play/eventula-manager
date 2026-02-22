@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6372340b83c3e081bc48f3a8ad663a8d",
+    "content-hash": "fe5b11f646f85cd6f60695601df7c120",
     "packages": [
         {
             "name": "artesaos/seotools",
@@ -7027,28 +7027,28 @@
         },
         {
             "name": "spatie/laravel-database-mail-templates",
-            "version": "3.7.1",
+            "version": "3.7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-database-mail-templates.git",
-                "reference": "d6faa971faa85bdc8f12956e44a7fb7102980651"
+                "reference": "6afac9ace73d2ace6dd1fa923cdfa94ad1011649"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-database-mail-templates/zipball/d6faa971faa85bdc8f12956e44a7fb7102980651",
-                "reference": "d6faa971faa85bdc8f12956e44a7fb7102980651",
+                "url": "https://api.github.com/repos/spatie/laravel-database-mail-templates/zipball/6afac9ace73d2ace6dd1fa923cdfa94ad1011649",
+                "reference": "6afac9ace73d2ace6dd1fa923cdfa94ad1011649",
                 "shasum": ""
             },
             "require": {
-                "laravel/framework": "~5.8|^6.0|^7.0|^8.0|^9.0|^10.0|^11.0|^12.0",
+                "laravel/framework": "~5.8|^6.0|^7.0|^8.0|^9.0|^10.0|^11.0|^12.0|^13.0",
                 "mustache/mustache": "^2.14.1|^2.14",
                 "php": "^7.2|^8.0"
             },
             "require-dev": {
                 "ext-pdo_sqlite": "*",
                 "mockery/mockery": "^1.0|^1.3.1",
-                "orchestra/testbench": "~3.8|^4.0|^5.0|^6.0|^7.0|^8.0|^9.0|^10.0",
-                "phpunit/phpunit": "^7.5|^8.0|^9.3|^10.5|^11.5.3"
+                "orchestra/testbench": "~3.8|^4.0|^5.0|^6.0|^7.0|^8.0|^9.0|^10.0|^11.0",
+                "phpunit/phpunit": "^7.5|^8.0|^9.3|^10.5|^11.5.3|^12.5.12"
             },
             "type": "library",
             "extra": {
@@ -7083,7 +7083,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-database-mail-templates/issues",
-                "source": "https://github.com/spatie/laravel-database-mail-templates/tree/3.7.1"
+                "source": "https://github.com/spatie/laravel-database-mail-templates/tree/3.7.2"
             },
             "funding": [
                 {
@@ -7091,7 +7091,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2025-02-21T13:06:00+00:00"
+            "time": "2026-02-21T21:49:53+00:00"
         },
         {
             "name": "spatie/laravel-package-tools",
