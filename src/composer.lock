@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fe5b11f646f85cd6f60695601df7c120",
+    "content-hash": "069e5b46afcf3b1b65dba2915fe1df13",
     "packages": [
         {
             "name": "artesaos/seotools",
@@ -10923,25 +10923,25 @@
         },
         {
             "name": "orangehill/iseed",
-            "version": "v3.7.2",
+            "version": "v3.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orangehill/iseed.git",
-                "reference": "1ee99b10e6f9bdcee6ee90194c4248f67748d630"
+                "reference": "11ee04a43330b5241be9f7b97dcd9d44bc5745f2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orangehill/iseed/zipball/1ee99b10e6f9bdcee6ee90194c4248f67748d630",
-                "reference": "1ee99b10e6f9bdcee6ee90194c4248f67748d630",
+                "url": "https://api.github.com/repos/orangehill/iseed/zipball/11ee04a43330b5241be9f7b97dcd9d44bc5745f2",
+                "reference": "11ee04a43330b5241be9f7b97dcd9d44bc5745f2",
                 "shasum": ""
             },
             "require": {
-                "illuminate/support": "^8.0|^9.0|^10.0|^11.0|^12.0",
+                "illuminate/support": "^8.0|^9.0|^10.0|^11.0|^12.0|^13.0",
                 "php": "^8.0.2"
             },
             "require-dev": {
-                "illuminate/filesystem": "^8.0|^9.0|^10.0|^11.0|^12.0",
-                "laravel/framework": "^8.0|^9.0|^10.0|^11.0|^12.0",
+                "illuminate/filesystem": "^8.0|^9.0|^10.0|^11.0|^12.0|^13.0",
+                "laravel/framework": "^8.0|^9.0|^10.0|^11.0|^12.0|^13.0",
                 "mockery/mockery": "^1.0.0",
                 "phpunit/phpunit": "^9.0|^10.0|^11.0"
             },
@@ -10980,9 +10980,9 @@
             ],
             "support": {
                 "issues": "https://github.com/orangehill/iseed/issues",
-                "source": "https://github.com/orangehill/iseed/tree/v3.7.2"
+                "source": "https://github.com/orangehill/iseed/tree/v3.8.0"
             },
-            "time": "2026-02-08T16:59:09+00:00"
+            "time": "2026-02-23T07:40:35+00:00"
         },
         {
             "name": "phar-io/manifest",
