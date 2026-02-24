@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "069e5b46afcf3b1b65dba2915fe1df13",
+    "content-hash": "c442f0236006721513284f40add07688",
     "packages": [
         {
             "name": "artesaos/seotools",
@@ -2734,20 +2734,20 @@
         },
         {
             "name": "laravel/legacy-factories",
-            "version": "v1.4.1",
+            "version": "v1.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/legacy-factories.git",
-                "reference": "cd0f8c77d116bac121e9779fcff1f71801aaac50"
+                "reference": "fdaadc5c7cc656503704ad87a6d5fad961cc5c8a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/legacy-factories/zipball/cd0f8c77d116bac121e9779fcff1f71801aaac50",
-                "reference": "cd0f8c77d116bac121e9779fcff1f71801aaac50",
+                "url": "https://api.github.com/repos/laravel/legacy-factories/zipball/fdaadc5c7cc656503704ad87a6d5fad961cc5c8a",
+                "reference": "fdaadc5c7cc656503704ad87a6d5fad961cc5c8a",
                 "shasum": ""
             },
             "require": {
-                "illuminate/macroable": "^8.0|^9.0|^10.0|^11.0|^12.0",
+                "illuminate/macroable": "^8.0|^9.0|^10.0|^11.0|^12.0|^13.0",
                 "php": "^7.3|^8.0",
                 "symfony/finder": "^3.4|^4.0|^5.0|^6.0|^7.0"
             },
@@ -2786,7 +2786,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2025-01-24T15:41:36+00:00"
+            "time": "2026-02-21T13:29:40+00:00"
         },
         {
             "name": "laravel/prompts",
