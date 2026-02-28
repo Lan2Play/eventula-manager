@@ -52,7 +52,7 @@
         "scssphp/scssphp": "2.1.0",
         "omnipay/paypal": "3.0.2",
         "cviebrock/eloquent-sluggable": "12.0.0",
-        "barryvdh/laravel-debugbar": "3.16.5",
+        "barryvdh/laravel-debugbar": "4.0.10",
         "omnipay/stripe": "3.2.0",
         "symfony/routing": "7.4.6",
         "sirprize/postal-code-validator": "1.5.0",
