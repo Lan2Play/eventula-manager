@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a4c55bcc2d58352117d2ab5d897f7770",
+    "content-hash": "1844866bbad1125884371cf43172b387",
     "packages": [
         {
             "name": "artesaos/seotools",
@@ -10465,25 +10465,25 @@
         },
         {
             "name": "xpaw/php-source-query-class",
-            "version": "5.0.0",
+            "version": "6.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/xPaw/PHP-Source-Query.git",
-                "reference": "892d90943decd6f306d958330cca658f20a570fc"
+                "reference": "fe854e0e582b3da4261034bbc0f1e9b1e5e5bd73"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/xPaw/PHP-Source-Query/zipball/892d90943decd6f306d958330cca658f20a570fc",
-                "reference": "892d90943decd6f306d958330cca658f20a570fc",
+                "url": "https://api.github.com/repos/xPaw/PHP-Source-Query/zipball/fe854e0e582b3da4261034bbc0f1e9b1e5e5bd73",
+                "reference": "fe854e0e582b3da4261034bbc0f1e9b1e5e5bd73",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.1"
+                "php": ">=8.2"
             },
             "require-dev": {
                 "phpstan/phpstan": "^2.0",
                 "phpstan/phpstan-strict-rules": "^2.0",
-                "phpunit/phpunit": "^10.3"
+                "phpunit/phpunit": "^12.0"
             },
             "type": "library",
             "autoload": {
@@ -10509,9 +10509,15 @@
                 "team fortress"
             ],
             "support": {
-                "source": "https://github.com/xPaw/PHP-Source-Query/tree/5.0.0"
+                "source": "https://github.com/xPaw/PHP-Source-Query/tree/6.0.0"
             },
-            "time": "2025-09-28T16:54:22+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/xPaw",
+                    "type": "github"
+                }
+            ],
+            "time": "2026-01-29T10:35:30+00:00"
         }
     ],
     "packages-dev": [
