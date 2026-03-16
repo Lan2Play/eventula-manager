@@ -37,6 +37,30 @@ dev:
 dev-database:
 	$(DOCKER_COMPOSE) -f docker-compose-dev.yml up -d eventula_manager_database
 
+# Sail stack up (src/compose.yaml)
+sail-up:
+	cd $(currentDir)/src && ./vendor/bin/sail up -d
+
+# Sail stack down
+sail-down:
+	cd $(currentDir)/src && ./vendor/bin/sail down
+
+# Sail logs
+sail-logs:
+	cd $(currentDir)/src && ./vendor/bin/sail logs -f
+
+# Sail artisan command - usage make sail-artisan command="migrate --seed"
+sail-artisan:
+	cd $(currentDir)/src && ./vendor/bin/sail artisan $(command)
+
+# Sail database migrations
+sail-migrate:
+	cd $(currentDir)/src && ./vendor/bin/sail artisan migrate --force
+
+# Sail run PHPUnit test suite
+sail-test:
+	cd $(currentDir)/src && ./vendor/bin/sail exec laravel.test php vendor/bin/phpunit
+
 # Debug
 interactive:
 	$(DOCKER_COMPOSE) -f docker-compose-dev.yml up

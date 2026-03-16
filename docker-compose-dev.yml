@@ -2,7 +2,7 @@ services:
   eventula_manager_app:
     build:
       context: .
-      dockerfile: Dockerfile.sail-dev
+      dockerfile: Dockerfile
     working_dir: /web/html/
     volumes:
       - $PWD/src/:/web/html/
