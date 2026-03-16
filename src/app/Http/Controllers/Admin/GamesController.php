@@ -189,7 +189,7 @@ class GamesController extends Controller
             $matchstartgameservercommand = $request->matchstartgameservercommand;
         }
 
-        $game->name         = @$request->name;
+        $game->name         = $request->input('name');
         $game->description  = @(trim($request->description) == '' ? null : $request->description);
         $game->version      = @(trim($request->version) == '' ? null : $request->version);
         $game->gamecommandhandler = $request->gamecommandhandler;
@@ -199,9 +199,9 @@ class GamesController extends Controller
         $game->matchmaking_autostart = ($request->matchmaking_autostart ? true : false);
         $game->matchmaking_autoapi = ($request->matchmaking_autoapi ? true : false);
         $game->public       = @($request->public ? true : false);
-        $game->connect_game_url = @$request->connect_game_url;
-        $game->connect_game_command = @$request->connect_game_command;
-        $game->connect_stream_url = @$request->connect_stream_url;
+        $game->connect_game_url = $request->input('connect_game_url');
+        $game->connect_game_command = $request->input('connect_game_command');
+        $game->connect_stream_url = $request->input('connect_stream_url');
         $game->min_team_count = $request->min_team_count;
         $game->max_team_count = $request->max_team_count;
 

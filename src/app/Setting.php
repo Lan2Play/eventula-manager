@@ -649,7 +649,7 @@ class Setting extends Model
      */
     public static function getAboutMain()
     {
-        return self::where('setting', 'about_main')->first()->value;
+        return self::where('setting', 'about_main')->value('value');
     }
 
     /**
@@ -672,7 +672,7 @@ class Setting extends Model
      */
     public static function getAboutShort()
     {
-        return self::where('setting', 'about_short')->first()->value;
+        return self::where('setting', 'about_short')->value('value');
     }
 
     /**
@@ -695,7 +695,7 @@ class Setting extends Model
      */
     public static function getAboutOurAim()
     {
-        return self::where('setting', 'about_our_aim')->first()->value;
+        return self::where('setting', 'about_our_aim')->value('value');
     }
 
     /**
@@ -718,7 +718,7 @@ class Setting extends Model
      */
     public static function getAboutWho()
     {
-        return self::where('setting', 'about_who')->first()->value;
+        return self::where('setting', 'about_who')->value('value');
     }
 
     /**
@@ -741,7 +741,7 @@ class Setting extends Model
      */
     public static function getLegalNotice()
     {
-        return self::where('setting', 'legal_notice')->first()->value;
+        return self::where('setting', 'legal_notice')->value('value');
     }
 
     /**
@@ -764,7 +764,7 @@ class Setting extends Model
      */
     public static function getPrivacyPolicy()
     {
-        return self::where('setting', 'privacy_policy')->first()->value;
+        return self::where('setting', 'privacy_policy')->value('value');
     }
 
     /**
@@ -866,7 +866,7 @@ class Setting extends Model
      */
     public static function isCreditEnabled()
     {
-        return self::where('setting', 'credit_enabled')->first()->value;
+        return self::where('setting', 'credit_enabled')->value('value');
     }
 
     /**
@@ -997,7 +997,7 @@ class Setting extends Model
      */
     public static function getCreditTournamentParticipation()
     {
-        return self::where('setting', 'credit_award_tournament_participation')->first()->value;
+        return self::where('setting', 'credit_award_tournament_participation')->value('value');
     }
 
     /**
@@ -1006,7 +1006,7 @@ class Setting extends Model
      */
     public static function getCreditTournamentFirst()
     {
-        return self::where('setting', 'credit_award_tournament_first')->first()->value;
+        return self::where('setting', 'credit_award_tournament_first')->value('value');
     }
 
     /**
@@ -1015,7 +1015,7 @@ class Setting extends Model
      */
     public static function getCreditTournamentSecond()
     {
-        return self::where('setting', 'credit_award_tournament_second')->first()->value;
+        return self::where('setting', 'credit_award_tournament_second')->value('value');
     }
 
     /**
@@ -1024,7 +1024,7 @@ class Setting extends Model
      */
     public static function getCreditTournamentThird()
     {
-        return self::where('setting', 'credit_award_tournament_third')->first()->value;
+        return self::where('setting', 'credit_award_tournament_third')->value('value');
     }
 
     /**
@@ -1033,7 +1033,7 @@ class Setting extends Model
      */
     public static function getCreditRegistrationEvent()
     {
-        return self::where('setting', 'credit_award_registration_event')->first()->value;
+        return self::where('setting', 'credit_award_registration_event')->value('value');
     }
 
     /**
@@ -1042,7 +1042,7 @@ class Setting extends Model
      */
     public static function getCreditRegistrationSite()
     {
-        return self::where('setting', 'credit_award_registration_site')->first()->value;
+        return self::where('setting', 'credit_award_registration_site')->value('value');
     }
 
     /**
@@ -1051,7 +1051,7 @@ class Setting extends Model
      */
     public static function isShopEnabled()
     {
-        return self::where('setting', 'shop_enabled')->first()->value;
+        return self::where('setting', 'shop_enabled')->value('value');
     }
 
     /**
@@ -1092,7 +1092,7 @@ class Setting extends Model
      */
     public static function getShopStatus()
     {
-        return self::where('setting', 'shop_status')->first()->value;
+        return self::where('setting', 'shop_status')->value('value');
     }
 
     /**
@@ -1118,7 +1118,7 @@ class Setting extends Model
      */
     public static function getShopWelcomeMessage()
     {
-        return self::where('setting', 'shop_welcome_message')->first()->value;
+        return self::where('setting', 'shop_welcome_message')->value('value');
     }
 
     /**
@@ -1142,7 +1142,7 @@ class Setting extends Model
      */
     public static function getShopClosedMessage()
     {
-        return self::where('setting', 'shop_closed_message')->first()->value;
+        return self::where('setting', 'shop_closed_message')->value('value');
     }
 
     /**
@@ -1166,7 +1166,7 @@ class Setting extends Model
      */
     public static function isGalleryEnabled()
     {
-        return self::where('setting', 'gallery_enabled')->first()->value;
+        return self::where('setting', 'gallery_enabled')->value('value');
     }
 
     /**
@@ -1207,7 +1207,7 @@ class Setting extends Model
      */
     public static function isHelpEnabled()
     {
-        return self::where('setting', 'help_enabled')->first()->value;
+        return self::where('setting', 'help_enabled')->value('value');
     }
 
     /**
@@ -1249,7 +1249,7 @@ class Setting extends Model
      */
     public static function isMatchMakingEnabled()
     {
-        return self::where('setting', 'matchmaking_enabled')->first()->value;
+        return self::where('setting', 'matchmaking_enabled')->value('value');
     }
 
     /**
@@ -1291,7 +1291,7 @@ class Setting extends Model
      */
     public static function isSystemsMatchMakingPublicuseEnabled()
     {
-        return self::where('setting', 'systems_matchmaking_publicuse')->first()->value;
+        return self::where('setting', 'systems_matchmaking_publicuse')->value('value');
     }
 
     /**
@@ -1332,7 +1332,7 @@ class Setting extends Model
      */
     public static function isSystemsMatchMakingNonegameEnabled()
     {
-        return self::where('setting', 'systems_matchmaking_nonegame')->first()->value;
+        return self::where('setting', 'systems_matchmaking_nonegame')->value('value');
     }
 
     /**
@@ -1373,7 +1373,7 @@ class Setting extends Model
      */
     public static function getSystemsMatchMakingMaxopenperuser()
     {
-        return self::where('setting', 'systems_matchmaking_maxopenperuser')->first()->value;
+        return self::where('setting', 'systems_matchmaking_maxopenperuser')->value('value');
     }
 
     /**
@@ -1461,7 +1461,7 @@ class Setting extends Model
      */
     public static function isAuthSteamRequireEmailEnabled()
     {
-        return self::where('setting', 'auth_steam_require_email')->first()->value;
+        return self::where('setting', 'auth_steam_require_email')->value('value');
     }
 
     /**
@@ -1502,7 +1502,7 @@ class Setting extends Model
      */
     public static function isAuthRequirePhonenumberEnabled()
     {
-        return self::where('setting', 'auth_require_phonenumber')->first()->value;
+        return self::where('setting', 'auth_require_phonenumber')->value('value');
     }
 
     /**
@@ -1543,7 +1543,7 @@ class Setting extends Model
      */
     public static function isAuthAllowEmailChangeEnabled()
     {
-        return self::where('setting', 'auth_allow_email_change')->first()->value;
+        return self::where('setting', 'auth_allow_email_change')->value('value');
     }
 
     /**
@@ -1585,7 +1585,7 @@ class Setting extends Model
      */
     public static function isInstalled()
     {
-        return self::where('setting', 'installed')->first()->value;
+        return self::where('setting', 'installed')->value('value');
     }
 
     /**
@@ -1610,7 +1610,7 @@ class Setting extends Model
      */
     public static function getSeoKeywords()
     {
-        return self::where('setting', 'seo_keywords')->first()->value;
+        return self::where('setting', 'seo_keywords')->value('value');
     }
 
     /**
@@ -1649,7 +1649,7 @@ class Setting extends Model
      */
     public static function getSiteLocale()
     {
-        return self::where('setting', 'site_locale')->first()->value;
+        return self::where('setting', 'site_locale')->value('value');
     }
 
 
@@ -1659,7 +1659,7 @@ class Setting extends Model
      */
     public static function isUserLocaleEnabled()
     {
-        return self::where('setting', 'user_locale_enabled')->first()->value;
+        return self::where('setting', 'user_locale_enabled')->value('value');
     }
 
     /**
@@ -1706,7 +1706,7 @@ class Setting extends Model
 
     public static function getGlobalTicketTypeHidePolicy(): int
     {
-        return (int)self::where('setting', 'tickettype_hide_policy')->first()->value;
+        return (int)self::where('setting', 'tickettype_hide_policy')->value('value');
     }
 
     /**

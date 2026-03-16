@@ -131,8 +131,8 @@ class ShopController extends Controller
         ];
         $this->validate($request, $rules, $messages);
 
-        $category->name = @$request->name;
-        $category->order = @$request->order;
+        $category->name = $request->input('name');
+        $category->order = $request->input('order');
         $category->status = @strtoupper($request->status);
 
         if (!$category->save()) {
@@ -183,7 +183,7 @@ class ShopController extends Controller
     		'price'                   => $price,
     		'price_credit'            => $price_credit,
     		'added_by'                => Auth::id(),
-            'description'             => @$request->description,
+            'description'             => $request->input('description'),
     	];
 	  	if (!$shopItem = ShopItem::create($params)) {
   		 	Session::flash('alert-danger', 'Cannot save Item!');
@@ -241,13 +241,13 @@ class ShopController extends Controller
             $price_credit = null;
         }
 
-        $item->name = @$request->name;
-        $item->stock = @$request->stock;
-        $item->shop_item_category_id = @$request->category_id;
+        $item->name = $request->input('name');
+        $item->stock = $request->input('stock');
+        $item->shop_item_category_id = $request->input('category_id');
         $item->price = @$price;
         $item->price_credit = @$price_credit;
-        $item->description = @$request->description;
-        $item->featured = @$request->featured;
+        $item->description = $request->input('description');
+        $item->featured = $request->input('featured');
         $item->status = @strtoupper($request->status);
         if (!$item->save()) {
             Session::flash('alert-danger', 'Cannot update Item!');

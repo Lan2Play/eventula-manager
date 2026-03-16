@@ -17,14 +17,15 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-use Debugbar;
+
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
 
-    use Notifiable, HasApiTokens;
+    use Notifiable, HasApiTokens, HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -71,8 +72,9 @@ class User extends Authenticatable implements MustVerifyEmail
         parent::boot();
         self::created(function ($model) {
             if (Settings::isCreditEnabled()) {
-                if (Settings::getCreditRegistrationSite() != 0 || Settings::getCreditRegistrationSite() != null) {
-                    $model->editCredit(Settings::getCreditRegistrationSite(), false, 'User Registration');
+                $amount = (int) Settings::getCreditRegistrationSite();
+                if ($amount !== 0) {
+                    $model->editCredit($amount, false, 'User Registration');
                 }
             }
             return true;
@@ -169,7 +171,7 @@ class User extends Authenticatable implements MustVerifyEmail
             $this->active_event_participant = $payedparticipant;
         }
 
-        Debugbar::addMessage("active_event_participant: " . json_encode($this->active_event_participant), 'setActiveEventParticipant');
+
     }
 
     /**

@@ -14,9 +14,25 @@ services:
         environment:
             WWWUSER: '${WWWUSER}'
             LARAVEL_SAIL: 1
+            SUPERVISOR_PHP_USER: 'root'
             XDEBUG_MODE: '${SAIL_XDEBUG_MODE:-off}'
             XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}'
             IGNITION_LOCAL_SITES_PATH: '${PWD}'
+            DB_MIGRATE: '${DB_MIGRATE:-false}'
+            DB_SEED: '${DB_SEED:-false}'
+        command:
+            - bash
+            - -c
+            - |
+                if [ "$$DB_MIGRATE" = 'true' ]; then
+                    echo 'Running database migrations...'
+                    php artisan migrate --force
+                fi
+                if [ "$$DB_SEED" = 'true' ]; then
+                    echo 'Seeding database...'
+                    php artisan db:seed --class=RequiredDatabaseSeeder --force
+                fi
+                exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
         volumes:
             - '.:/var/www/html'
         networks:

@@ -206,7 +206,7 @@ class TournamentsController extends Controller
         $tournamentParticipant                              = new EventTournamentParticipant();
         $tournamentParticipant->ticket_id        = $request->ticket_id;
         $tournamentParticipant->event_tournament_id         = $tournament->id;
-        $tournamentParticipant->event_tournament_team_id    = @$request->event_tournament_team_id;
+        $tournamentParticipant->event_tournament_team_id    = $request->input('event_tournament_team_id');
 
         if (!$tournamentParticipant->save()) {
             Session::flash('alert-danger', __('events.tournament_cannot_add_participant'));

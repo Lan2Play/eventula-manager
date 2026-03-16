@@ -196,10 +196,10 @@ class PaymentsController extends Controller
                         'shipping_first_name'   => $request->shipping_first_name,
                         'shipping_last_name'    => $request->shipping_last_name,
                         'shipping_address_1'    => $request->shipping_address_1,
-                        'shipping_address_2'    => @$request->shipping_address_2,
-                        'shipping_country'      => @$request->shipping_country,
+                        'shipping_address_2'    => $request->input('shipping_address_2'),
+                        'shipping_country'      => $request->input('shipping_country'),
                         'shipping_postcode'     => $request->shipping_postcode,
-                        'shipping_state'        => @$request->shipping_state,
+                        'shipping_state'        => $request->input('shipping_state'),
                     ];
                 } else {
                     $basket['delivery'] = ['type' => 'event'];

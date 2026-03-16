@@ -7,6 +7,7 @@ use Auth;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Cache;
 use Carbon\Carbon;
 
@@ -14,7 +15,7 @@ use Cviebrock\EloquentSluggable\Sluggable;
 
 class Event extends Model
 {
-    use Sluggable;
+    use Sluggable, HasFactory;
 
     /**
      * The name of the table.
@@ -68,35 +69,32 @@ class Event extends Model
 
         parent::boot();
 
-        $admin = false;
-        if (Auth::user() && Auth::user()->getAdmin()) {
-            $admin = true;
-        }
+        // Auth is evaluated per-query (inside the closure), not once at class boot.
+        // This prevents stale admin state when the model is booted in a long-lived process
+        // (e.g. queue workers) or during tests where the authenticated user changes.
+        static::addGlobalScope('eventVisibility', function (Builder $builder) {
+            $admin = (Auth::check() && Auth::user()->getAdmin())
+                || (isset(auth('sanctum')->user()->id)
+                    && get_class(auth('sanctum')->user()) === 'App\GameServer');
 
-        if (isset(auth('sanctum')->user()->id) && get_class(auth('sanctum')->user()) == "App\GameServer") {
-            $admin = true;
-        }
+            if ($admin) {
+                return; // admins see all events — no restrictions added
+            }
 
-        if (!$admin && (Auth::user() || auth('sanctum')->user())) {
-            static::addGlobalScope('statusDraft', function (Builder $builder) {
-                $builder->where('status', '!=', 'DRAFT');
-            });
-            static::addGlobalScope('statusPublished', function (Builder $builder) {
-                $builder->where('status', 'PUBLISHED')
-                    ->orWhere('status', 'REGISTEREDONLY')
-                    ->orWhere('status', 'PRIVATE');
-            });
-        }
+            $builder->where('status', '!=', 'DRAFT');
 
-        if (!$admin && !Auth::user() && !auth('sanctum')->user()) {
-            static::addGlobalScope('statusDraft', function (Builder $builder) {
-                $builder->where('status', '!=', 'DRAFT');
-            });
-            static::addGlobalScope('statusPublished', function (Builder $builder) {
-                $builder->where('status', 'PUBLISHED')
-                    ->orWhere('status', 'PRIVATE');
-            });
-        }
+            if (Auth::check() || auth('sanctum')->check()) {
+                // Authenticated non-admin: also sees REGISTEREDONLY events
+                $builder->where(function (Builder $q) {
+                    $q->whereIn('status', ['PUBLISHED', 'REGISTEREDONLY', 'PRIVATE']);
+                });
+            } else {
+                // Guest: only PUBLISHED and PRIVATE
+                $builder->where(function (Builder $q) {
+                    $q->whereIn('status', ['PUBLISHED', 'PRIVATE']);
+                });
+            }
+        });
     }
 
 

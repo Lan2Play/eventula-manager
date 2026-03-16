@@ -34,25 +34,15 @@ class EventsSeeder extends Seeder
         $venue = factory(EventVenue::class)->create();
 
         ## Events
-        factory(Event::class)->create([
+        $event = factory(Event::class)->create([
             'event_venue_id'    => $venue->id,
             'status'            => 'PUBLISHED',
             'capacity'          => 30,
-        ])->each(
-            function ($event) {
-                factory(TicketType::class)->create([
-                    'event_id' => $event->id,
-                ]);
-                factory(EventTimetable::class)->create([
-                    'event_id' => $event->id,
-                ]);
-                factory(EventInformation::class, 5)->create([
-                    'event_id' => $event->id,
-                ]);
-                factory(EventSeatingPlan::class)->create([
-                    'event_id' => $event->id,
-                ]);
-            }
-        );
+        ]);
+
+        factory(TicketType::class)->create(['event_id' => $event->id]);
+        factory(EventTimetable::class)->create(['event_id' => $event->id]);
+        factory(EventInformation::class, 5)->create(['event_id' => $event->id]);
+        factory(EventSeatingPlan::class)->create(['event_id' => $event->id]);
     }
 }

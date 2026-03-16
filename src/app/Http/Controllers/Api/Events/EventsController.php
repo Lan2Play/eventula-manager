@@ -20,11 +20,27 @@ use Illuminate\Support\Facades\Redirect;
 class EventsController extends Controller
 {
     /**
+     * Build the address array for an event, safely handling a missing venue.
+     */
+    private function buildEventAddress(Event $event): array
+    {
+        return [
+            'line_1'   => $event->venue?->address_1,
+            'line_2'   => $event->venue?->address_2,
+            'street'   => $event->venue?->address_street,
+            'city'     => $event->venue?->address_city,
+            'postcode' => $event->venue?->address_postcode,
+            'country'  => $event->venue?->address_country,
+        ];
+    }
+
+    /**
      * Show Events
      * @return View
      */
     public function index()
     {
+        $host = request()->getSchemeAndHttpHost();
         $return = array();
         foreach (Event::all() as $event) {
             $return[] = [
@@ -36,23 +52,16 @@ class EventsController extends Controller
                     'short' => $event->desc_short,
                     'long' => $event->desc_long,
                 ],
-                'address' => [
-                    'line_1' => $event->venue->address_1,
-                    'line_2' => $event->venue->address_2,
-                    'street' => $event->venue->address_street,
-                    'city' => $event->venue->address_city,
-                    'postcode' => $event->venue->address_postcode,
-                    'country' => $event->venue->address_country,
-                ],
+                'address' => $this->buildEventAddress($event),
                 'api' => [
-                    'base' => 'http://' . $_SERVER['HTTP_HOST'] . '/api/events/' . $event->slug,
+                    'base' => $host . '/api/events/' . $event->slug,
                     'tickets' => '/tickets',
                     'participants' => '/participants',
                     'timetables' => '/timetables',
                     'tournaments' => '/tournaments',
                 ],
                 'url' => [
-                    'base' => 'http://' . $_SERVER['HTTP_HOST'] . '/events/' . $event->slug,
+                    'base' => $host . '/events/' . $event->slug,
                     'tickets' => '#tickets',
                     'participants' => '#participants',
                     'timetables' => '#timetables',
@@ -70,6 +79,8 @@ class EventsController extends Controller
      */
     public function showUpcoming()
     {
+        $host = request()->getSchemeAndHttpHost();
+        $return = [];
         foreach (Event::where('start', '>', \Carbon\Carbon::today())->get() as $event) {
             $return[] = [
                 'name' => $event->display_name,
@@ -80,23 +91,16 @@ class EventsController extends Controller
                     'short' => $event->desc_short,
                     'long' => $event->desc_long,
                 ],
-                'address' => [
-                    'line_1' => $event->venue->address_1,
-                    'line_2' => $event->venue->address_2,
-                    'street' => $event->venue->address_street,
-                    'city' => $event->venue->address_city,
-                    'postcode' => $event->venue->address_postcode,
-                    'country' => $event->venue->address_country,
-                ],
+                'address' => $this->buildEventAddress($event),
                 'api' => [
-                    'base' => 'http://' . $_SERVER['HTTP_HOST'] . '/api/events/' . $event->slug,
+                    'base' => $host . '/api/events/' . $event->slug,
                     'tickets' => '/tickets',
                     'participants' => '/participants',
                     'timetables' => '/timetables',
                     'tournaments' => '/tournaments',
                 ],
                 'url' => [
-                    'base' => 'http://' . $_SERVER['HTTP_HOST'] . '/events/' . $event->slug,
+                    'base' => $host . '/events/' . $event->slug,
                     'tickets' => '#tickets',
                     'participants' => '#participants',
                     'timetables' => '#timetables',
@@ -124,6 +128,7 @@ class EventsController extends Controller
             abort(404, "Event not found.");
         }
 
+        $host = request()->getSchemeAndHttpHost();
         $return = [
             'name' => $event->display_name,
             'capacity' => $event->capacity,
@@ -133,23 +138,16 @@ class EventsController extends Controller
                 'short' => $event->desc_short,
                 'long' => $event->desc_long,
             ],
-            'address' => [
-                'line_1' => $event->venue->address_1,
-                'line_2' => $event->venue->address_2,
-                'street' => $event->venue->address_street,
-                'city' => $event->venue->address_city,
-                'postcode' => $event->venue->address_postcode,
-                'country' => $event->venue->address_country,
-            ],
+            'address' => $this->buildEventAddress($event),
             'api' => [
-                'base' => 'http://' . $_SERVER['HTTP_HOST'] . '/api/events/' . $event->slug,
+                'base' => $host . '/api/events/' . $event->slug,
                 'tickets' => '/tickets',
                 'participants' => '/participants',
                 'timetables' => '/timetables',
                 'tournaments' => '/tournaments',
             ],
             'url' => [
-                'base' => 'http://' . $_SERVER['HTTP_HOST'] . '/events/' . $event->slug,
+                'base' => $host . '/events/' . $event->slug,
                 'tickets' => '#tickets',
                 'participants' => '#participants',
                 'timetables' => '#timetables',

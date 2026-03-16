@@ -215,7 +215,7 @@ class AccountController extends Controller
 
             $user->email_verified_at = null;
 
-            $user->email = @$request->email;
+            $user->email = $request->input('email');
             $mailchanged = true;
         }
 
@@ -303,11 +303,11 @@ class AccountController extends Controller
             $user->password = Hash::make($request->password1);
         }
 
-        $user->firstname = @$request->firstname;
-        $user->surname = @$request->surname;
+        $user->firstname = $request->input('firstname');
+        $user->surname = $request->input('surname');
 
         if (isset($request->locale)) {
-            $user->locale = @$request->locale;
+            $user->locale = $request->input('locale');
         }
 
         if (!$user->save()) {
@@ -321,7 +321,7 @@ class AccountController extends Controller
         $user = Auth::user();
         $rules = [];
         $messages = [];
-        $email_changed = $user->email != @$request->email;
+        $email_changed = $user->email != $request->input('email');
 
         if (Settings::isAuthSteamRequireEmailEnabled() && $email_changed) {
             $rules['email'] = 'filled|email|unique:users,email';
@@ -340,8 +340,8 @@ class AccountController extends Controller
             $user->email_verified_at = null;
         }
 
-        $user->email = @$request->email;
-        $user->phonenumber = @$request->phonenumber;
+        $user->email = $request->input('email');
+        $user->phonenumber = $request->input('phonenumber');
 
         if (!$user->save()) {
             return Redirect::back()->withFail("Oops, Something went Wrong while updating the user.");

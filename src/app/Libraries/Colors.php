@@ -3,7 +3,7 @@
 namespace App\Libraries;
 
 use App\Appearance;
-use Debugbar;
+
 
 class Colors
 {
@@ -176,6 +176,9 @@ class Colors
 
   public static function HTMLToRGB($htmlCode)
   {
+    if ($htmlCode === null || $htmlCode === '') {
+      return 0xFFFFFF; // default to white when no color is configured
+    }
     $colorFromName = @Colors::$colorNames[$htmlCode];
     if ($colorFromName) {
       $htmlCode = $colorFromName;
@@ -239,6 +242,9 @@ class Colors
 
   public static function isDark($color)
   {
+    if ($color === null || $color === '') {
+      return false; // default: treat missing color as light
+    }
     $rgb = Colors::HTMLToRGB($color);
     $hsl = Colors::RGBToHSL($rgb);
 
@@ -257,17 +263,13 @@ class Colors
   public static function isBodyDarkMode()
   {
     $bodyColor = Appearance::getCssVariable("color_body_background");
-    Debugbar::addMessage("BodyDarkMode: $bodyColor", 'Colors');
-    $result = Colors::isDark($bodyColor->value);
-
-    return $result;
+    return Colors::isDark($bodyColor?->value);
   }
 
   public static function isNavbarDark()
   {
     $bodyColor = Appearance::getCssVariable("color_header_background");
-    Debugbar::addMessage("NavBarDarkMode: $bodyColor", 'Colors');
-    return Colors::isDark($bodyColor->value);
+    return Colors::isDark($bodyColor?->value);
   }
 
 

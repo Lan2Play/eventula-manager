@@ -71,11 +71,12 @@ class NewsController extends Controller
         SEOMeta::addKeyword($seoKeywords);
         OpenGraph::setDescription(Helpers::getSeoCustomDescription($newsTag->tag));
         OpenGraph::addProperty('type', 'article');
-        foreach (NewsTag::where('tag', $newsTag->tag)->get()->reverse() as $newsTag) {
-            $newsArticles[] = $newsTag->newsArticle;
+        $tagName = $newsTag->tag;
+        foreach (NewsTag::where('tag', $tagName)->get()->reverse() as $newsTagRow) {
+            $newsArticles[] = $newsTagRow->newsArticle;
         }
         return view('news.tag')
-            ->with('tag', $newsTag->tag)
+            ->with('tag', $tagName)
             ->with('newsArticles', $newsArticles);
     }
 

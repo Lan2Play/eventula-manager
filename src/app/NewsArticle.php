@@ -6,12 +6,13 @@ use App\NewsComment;
 use App\NewsTag;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Builder;
 
 class NewsArticle extends Model
 {
-    use Sluggable;
+    use Sluggable, HasFactory;
 
     /**
      * The name of the table.

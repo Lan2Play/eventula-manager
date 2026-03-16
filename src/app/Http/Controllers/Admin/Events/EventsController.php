@@ -91,7 +91,7 @@ class EventsController extends Controller
         $event->desc_short                  = $request->desc_short;
         $event->essential_info              = $request->essential_info;
         $event->event_live_info             = $request->event_live_info;
-        $event->event_venue_id              = @$request->venue;
+        $event->event_venue_id              = $request->input('venue');
         $event->capacity                    = $request->capacity;
         $event->no_tickets_per_user         = empty($request->no_tickets_per_user) ? null : $request->no_tickets_per_user;
         $event->online_event                = (bool)$request->online_event;
@@ -203,7 +203,7 @@ class EventsController extends Controller
         }
 
         if (isset($request->venue)) {
-            $event->event_venue_id              = @$request->venue;
+            $event->event_venue_id              = $request->input('venue');
         }
 
         if (isset($request->ticket_hide_policy)) {

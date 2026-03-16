@@ -88,7 +88,7 @@ class SeatingController extends Controller
         $seatingPlan                = new EventSeatingPlan();
         $seatingPlan->event_id      = $event->id;
         $seatingPlan->name          = $request->name;
-        $seatingPlan->name_short    = @$request->name_short;
+        $seatingPlan->name_short    = $request->input('name_short');
 
         $alphabet = range('A', 'Z');
         for ($i = 0; $i < $request->rows; $i++) {

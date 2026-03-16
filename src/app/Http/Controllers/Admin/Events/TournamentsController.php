@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Events;
 
 use Illuminate\View\View;
 use Session;
-use Debugbar;
+
 
 use App\User;
 use App\Event;
@@ -258,8 +258,6 @@ class TournamentsController extends Controller
                     return Redirect::back();
                 }
 
-                Debugbar::addMessage("EventTournamentTeam: " . json_encode($tournamentTeam), 'Tournament');
-
                 foreach($team as $teamParticipant) {
                     // Debugbar::addMessage("TeamParticipantType: " . gettype($teamParticipant) . " TeamParticipant: " . json_encode($teamParticipant), 'Tournament');
                     $teamParticipant->event_tournament_team_id    = $tournamentTeam->id;
@@ -280,7 +278,6 @@ class TournamentsController extends Controller
             foreach ($tournament->tournamentTeams as $team) {
                 $team->load('tournamentParticipants');
                 if ($team->tournamentParticipants->isEmpty()) {
-                    Debugbar::addMessage("Team is empty: $team->name", 'Tournament');
                     if (!$team->delete()) {
                         Session::flash('message', 'Error connecting to Challonge!');
                         return Redirect::to('admin/events/' . $event->slug . '/tournaments');
@@ -499,7 +496,7 @@ class TournamentsController extends Controller
         $tournamentParticipant                              = new EventTournamentParticipant();
         $tournamentParticipant->ticket_id        = $participant->id;
         $tournamentParticipant->event_tournament_id         = $tournament->id;
-        $tournamentParticipant->event_tournament_team_id    = @$request->event_tournament_team_id;
+        $tournamentParticipant->event_tournament_team_id    = $request->input('event_tournament_team_id');
 
         if (!$tournamentParticipant->save()) {
             Session::flash('alert-danger', __('events.tournament_cannot_add_participant'));

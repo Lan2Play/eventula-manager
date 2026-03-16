@@ -144,7 +144,7 @@ class TicketTypeController extends Controller
 
         $ticketType->sale_start = @$saleStart;
         $ticketType->sale_end   = @$saleEnd;
-        $ticketType->quantity   = @$request->quantity;
+        $ticketType->quantity   = $request->input('quantity');
         $ticketType->no_tickets_per_user = $request->no_tickets_per_user;
         $ticketType->event_ticket_group_id = empty($request->ticket_group) ? null : $request->ticket_group;
 

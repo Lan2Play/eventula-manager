@@ -174,13 +174,32 @@ class Helpers
     }
 
     /**
+     * Cache of the next upcoming event for the current request.
+     * Prevents repeated DB queries when the partial calls multiple getNextEvent*() methods.
+     * @var \App\Event|false|null  null = not yet resolved; false = no upcoming event
+     */
+    private static $cachedNextEvent = null;
+
+    /**
+     * Resolve (and cache) the next upcoming Event for this request.
+     * @return \App\Event|null
+     */
+    private static function resolveNextEvent(): ?\App\Event
+    {
+        if (self::$cachedNextEvent === null) {
+            self::$cachedNextEvent = \App\Event::nextUpcoming()->first() ?? false;
+        }
+        return self::$cachedNextEvent ?: null;
+    }
+
+    /**
      * Get Next Event Name.
      *
      * @return string
      */
     public static function getNextEventName()
     {
-        if ($event = Event::nextUpcoming()->first()) {
+        if ($event = self::resolveNextEvent()) {
             return ($event->status == 'DRAFT' || $event->status == 'PREVIEW')
                 ? $event->display_name . ' - ' . $event->status
                 : $event->display_name;
@@ -195,7 +214,7 @@ class Helpers
      */
     public static function getNextEventSlug()
     {
-        return ($event = Event::nextUpcoming()->first()) ? $event->slug : '#';
+        return ($event = self::resolveNextEvent()) ? $event->slug : '#';
     }
 
     /**
@@ -205,7 +224,7 @@ class Helpers
      */
     public static function getNextEventDesc()
     {
-        return ($event = Event::nextUpcoming()->first()) ? $event->desc_long : 'Coming soon...';
+        return ($event = self::resolveNextEvent()) ? $event->desc_long : 'Coming soon...';
     }
 
     /**
@@ -215,7 +234,7 @@ class Helpers
      */
     public static function getNextEventStartDate()
     {
-        return ($event = Event::nextUpcoming()->first())
+        return ($event = self::resolveNextEvent())
             ? date("d-m-Y H:i", strtotime($event->start))
             : 'Coming soon...';
     }
@@ -227,7 +246,7 @@ class Helpers
      */
     public static function getNextEventEndDate()
     {
-        return ($event = Event::nextUpcoming()->first())
+        return ($event = self::resolveNextEvent())
             ? date("d-m-Y H:i", strtotime($event->end))
             : 'Coming soon...';
     }
