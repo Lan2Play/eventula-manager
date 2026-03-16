@@ -89,7 +89,7 @@ class AppServiceProvider extends ServiceProvider
     {
         if (config('app.debug') === true) {
             $this->app->register(\KitLoong\MigrationsGenerator\MigrationsGeneratorServiceProvider::class);
-            $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
+            $this->app->register(\Fruitcake\LaravelDebugbar\ServiceProvider::class);
             $this->app->register(\Orangehill\Iseed\IseedServiceProvider::class);
         }
 

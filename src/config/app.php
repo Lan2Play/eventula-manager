@@ -123,6 +123,6 @@ return [
         'OpenGraph'             => Artesaos\SEOTools\Facades\OpenGraph::class,
         'Twitter'               => Artesaos\SEOTools\Facades\TwitterCard::class,
         'JsonLd'                => Artesaos\SEOTools\Facades\JsonLd::class,
-        'Debugbar'              => Barryvdh\Debugbar\Facades\Debugbar::class,
+        'Debugbar'              => Fruitcake\LaravelDebugbar\Facades\Debugbar::class,
     ],
 ];

@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Barryvdh\Debugbar\Facades\Debugbar;
+use Fruitcake\LaravelDebugbar\Facades\Debugbar;
 
 class NoDebugBar
 {

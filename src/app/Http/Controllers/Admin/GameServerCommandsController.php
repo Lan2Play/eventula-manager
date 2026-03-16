@@ -22,7 +22,6 @@ use App\MatchMaking;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use Barryvdh\Debugbar\Twig\Extension\Debug;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
