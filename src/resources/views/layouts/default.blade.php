@@ -24,6 +24,17 @@
 
 
     @yield ('prefetch')
+
+    @if(config('plausible.script_url'))
+    <script async src="{{ route('plausible.script') }}"></script>
+    <script>
+        window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+        plausible.init({
+            domain: "{{ config('plausible.domain') }}",
+            endpoint: "/{{ config('plausible.event_path') }}"
+        })
+    </script>
+    @endif
 </head>
 
 <body class="full-height">

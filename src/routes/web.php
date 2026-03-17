@@ -1,6 +1,15 @@
 <?php
 
 /**
+ * Plausible Analytics Proxy
+ * Uses generic path names to avoid being blocked by ad blockers.
+ */
+Route::group(['middleware' => ['web']], function () {
+    Route::get('/js/script.js', 'PlausibleProxyController@script')->name('plausible.script');
+    Route::post('/' . config('plausible.event_path'), 'PlausibleProxyController@event')->name('plausible.event');
+});
+
+/**
  * Image Converter
  */
 Route::get('{image}', 'Api\Images\WebpController@convert')->where('image', '.*\.webp');
