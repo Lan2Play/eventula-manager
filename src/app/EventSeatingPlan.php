@@ -5,6 +5,7 @@ namespace App;
 use DB;
 use Auth;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -12,7 +13,7 @@ use Cviebrock\EloquentSluggable\Sluggable;
 
 class EventSeatingPlan extends Model
 {
-    use Sluggable;
+    use Sluggable, HasFactory;
 
     /**
      * The name of the table.

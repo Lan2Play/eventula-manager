@@ -1,6 +1,5 @@
 <?php
 
-use App\Libraries\Helpers;
 
 use Illuminate\Support\Str;
 
@@ -20,7 +19,7 @@ return [
     |
     */
 
-    'driver' => Helpers::getEnvWithFallback('SESSION_DRIVER', 'database'),
+    'driver' => env('SESSION_DRIVER', 'database'),
 
     /*
     |--------------------------------------------------------------------------
@@ -130,7 +129,7 @@ return [
 
     'cookie' => env(
         'SESSION_COOKIE',
-        Str::slug(Helpers::getEnvWithFallback('APP_NAME', 'laravel'), '_').'_session'
+        Str::slug(env('APP_NAME', 'laravel'), '_').'_session'
     ),
 
     /*

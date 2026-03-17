@@ -5,6 +5,7 @@ namespace App;
 use DateTime;
 use Auth;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -12,7 +13,7 @@ use Cviebrock\EloquentSluggable\Sluggable;
 
 class EventTimetable extends Model
 {
-    use Sluggable;
+    use Sluggable, HasFactory;
 
     protected $table = 'event_timetables';
 

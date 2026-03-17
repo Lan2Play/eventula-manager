@@ -9,6 +9,7 @@ use Colors;
 
 use App\ShopOrderItem;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -16,7 +17,7 @@ use Cviebrock\EloquentSluggable\Sluggable;
 
 class ShopItem extends Model
 {
-    use Sluggable;
+    use Sluggable, HasFactory;
 
     /**
      * The name of the table.

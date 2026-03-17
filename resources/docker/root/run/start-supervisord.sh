@@ -38,6 +38,10 @@ fi
 php artisan config:clear
 php artisan config:cache
 
+# Cache routes for production performance
+php artisan route:clear
+php artisan route:cache
+
 # Only migrate database if DB_MIGRATE env variable is set to true
 if [ -n "$DB_MIGRATE" ]
 then

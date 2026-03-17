@@ -18,7 +18,7 @@ return [
     |
     */
 
-    'default' => Helpers::getEnvWithFallback('LOG_CHANNEL', 'errorlog'),
+    'default' => env('LOG_CHANNEL', 'errorlog'),
 
     /*
     |--------------------------------------------------------------------------

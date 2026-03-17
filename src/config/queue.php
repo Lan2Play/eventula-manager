@@ -18,7 +18,7 @@ return [
     |
     */
 
-    'default' => Helpers::getEnvWithFallback('QUEUE_CONNECTION', 'database'),
+    'default' => env('QUEUE_CONNECTION', 'database'),
 
     /*
     |--------------------------------------------------------------------------
@@ -81,7 +81,7 @@ return [
     */
 
     'failed' => [
-        'database' => Helpers::getEnvWithFallback('DB_CONNECTION', 'mysql'),
+        'database' => env('DB_CONNECTION', 'mysql'),
         'table'    => 'failed_jobs',
     ],
 

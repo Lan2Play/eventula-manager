@@ -17,7 +17,7 @@ return [
     |
     */
 
-    'driver' => Helpers::getEnvWithFallback('MAIL_DRIVER', 'mail'),
+    'driver' => env('MAIL_DRIVER', 'mail'),
 
     /*
     |--------------------------------------------------------------------------
@@ -30,7 +30,7 @@ return [
     |
     */
 
-    'host' => Helpers::getEnvWithFallback('MAIL_HOST', 'smtp.mailgun.org'),
+    'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
 
     /*
     |--------------------------------------------------------------------------
@@ -43,7 +43,7 @@ return [
     |
     */
 
-    'port' => Helpers::getEnvWithFallback('MAIL_PORT', 587),
+    'port' => env('MAIL_PORT', 587),
 
     /*
     |--------------------------------------------------------------------------
@@ -56,7 +56,7 @@ return [
     |
     */
 
-    'from' => ['address' => Helpers::getEnvWithFallback('APP_EMAIL', 'no-reply@localhost'), 'name' => null],
+    'from' => ['address' => env('APP_EMAIL', 'no-reply@localhost'), 'name' => null],
 
     /*
     |--------------------------------------------------------------------------
@@ -69,7 +69,7 @@ return [
     |
     */
 
-    'encryption' => Helpers::getEnvWithFallback('MAIL_ENCRYPTION', 'tls'),
+    'encryption' => env('MAIL_ENCRYPTION', 'tls'),
 
     /*
     |--------------------------------------------------------------------------
