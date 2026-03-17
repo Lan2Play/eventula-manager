@@ -65,6 +65,20 @@ class AppServiceProvider extends ServiceProvider
             }
         }
 
+        // Plausible: resolve config from DB (overrides config/plausible.php env defaults)
+        // when ENV_OVERRIDE is true, config/plausible.php already reads from env vars.
+        if (!env('ENV_OVERRIDE') && \Schema::hasTable('settings')) {
+            \Config::set('plausible.enabled',    (bool) \App\Setting::getValue('plausible_enabled', false));
+            \Config::set('plausible.script_url', \App\Setting::getValue('plausible_script_url') ?: config('plausible.script_url'));
+            \Config::set('plausible.domain',     \App\Setting::getValue('plausible_domain') ?: config('plausible.domain'));
+            \Config::set('plausible.api_url',    \App\Setting::getValue('plausible_api_url') ?: config('plausible.api_url'));
+        }
+
+        // PLAUSIBLE_ENABLE env var acts as hard kill-switch: when explicitly set it always wins.
+        if (env('PLAUSIBLE_ENABLE') !== null) {
+            \Config::set('plausible.enabled', filter_var(env('PLAUSIBLE_ENABLE'), FILTER_VALIDATE_BOOLEAN));
+        }
+
         // Set SEO Defaults
         \Config::set('seotools.meta.defaults.description', Helpers::getSeoDescription());
         if (config('settings.seo_keywords') != null) {

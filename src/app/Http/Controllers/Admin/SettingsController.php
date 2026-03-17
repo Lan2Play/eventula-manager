@@ -130,7 +130,11 @@ class SettingsController extends Controller
             ->with('stripePublicKey', ApiKey::where('key', 'stripe_public_key')->first()->value)
             ->with('stripeSecretKey', ApiKey::where('key', 'stripe_secret_key')->first()->value)
             ->with('challongeApiKey', ApiKey::where('key', 'challonge_api_key')->first()->value)
-            ->with('steamApiKey', ApiKey::where('key', 'steam_api_key')->first()->value);
+            ->with('steamApiKey', ApiKey::where('key', 'steam_api_key')->first()->value)
+            ->with('plausibleEnabled', Settings::isPlausibleEnabled())
+            ->with('plausibleScriptUrl', Settings::getPlausibleScriptUrl())
+            ->with('plausibleDomain', Settings::getPlausibleDomain())
+            ->with('plausibleApiUrl', Settings::getPlausibleApiUrl());
     }
 
     /**
@@ -166,6 +170,27 @@ class SettingsController extends Controller
         }
         if (isset($request->stripe_secret_key) && !ApiKey::setStripeSecretKey($request->stripe_secret_key)) {
             Session::flash('alert-danger', 'Could not update!');
+            return Redirect::back();
+        }
+        // Plausible
+        if ($request->has('plausible_enabled')) {
+            $enabled = $request->plausible_enabled === 'on';
+            $result  = $enabled ? Settings::enablePlausible() : Settings::disablePlausible();
+            if (!$result) {
+                Session::flash('alert-danger', 'Could not update Plausible settings!');
+                return Redirect::back();
+            }
+        }
+        if ($request->has('plausible_script_url') && !Settings::setPlausibleScriptUrl($request->plausible_script_url)) {
+            Session::flash('alert-danger', 'Could not update Plausible script URL!');
+            return Redirect::back();
+        }
+        if ($request->has('plausible_domain') && !Settings::setPlausibleDomain($request->plausible_domain)) {
+            Session::flash('alert-danger', 'Could not update Plausible domain!');
+            return Redirect::back();
+        }
+        if ($request->has('plausible_api_url') && !Settings::setPlausibleApiUrl($request->plausible_api_url)) {
+            Session::flash('alert-danger', 'Could not update Plausible API URL!');
             return Redirect::back();
         }
         Session::flash('alert-success', 'Successfully updated!');

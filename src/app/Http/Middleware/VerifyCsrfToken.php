@@ -11,17 +11,7 @@ class VerifyCsrfToken extends BaseVerifier
      *
      * @var array
      */
-    protected $except = [];
-
-    public function __construct(
-        \Illuminate\Contracts\Foundation\Application $app,
-        \Illuminate\Contracts\Encryption\Encrypter $encrypter
-    ) {
-        parent::__construct($app, $encrypter);
-
-        // Populated here because config() cannot be used in property initializers.
-        if ($path = config('plausible.event_path')) {
-            $this->except[] = $path;
-        }
-    }
+    protected $except = [
+        'api/event', // Plausible Analytics event proxy
+    ];
 }

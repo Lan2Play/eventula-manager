@@ -6,7 +6,7 @@
  */
 Route::group(['middleware' => ['web']], function () {
     Route::get('/js/script.js', 'PlausibleProxyController@script')->name('plausible.script');
-    Route::post('/' . config('plausible.event_path'), 'PlausibleProxyController@event')->name('plausible.event');
+    Route::post('/api/event', 'PlausibleProxyController@event')->name('plausible.event');
 });
 
 /**

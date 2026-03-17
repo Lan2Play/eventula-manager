@@ -1092,4 +1092,53 @@ class Settings
         return \App\Setting::getGlobalTicketTypeHidePolicy();
     }
 
+    // -------------------------------------------------------------------------
+    // Plausible Analytics
+    // -------------------------------------------------------------------------
+
+    public static function isPlausibleEnabled()
+    {
+        return \App\Setting::isPlausibleEnabled();
+    }
+
+    public static function enablePlausible()
+    {
+        return \App\Setting::enablePlausible();
+    }
+
+    public static function disablePlausible()
+    {
+        return \App\Setting::disablePlausible();
+    }
+
+    public static function getPlausibleScriptUrl()
+    {
+        return \App\Setting::getPlausibleScriptUrl();
+    }
+
+    public static function setPlausibleScriptUrl($url)
+    {
+        return \App\Setting::setPlausibleScriptUrl($url);
+    }
+
+    public static function getPlausibleDomain()
+    {
+        return \App\Setting::getPlausibleDomain();
+    }
+
+    public static function setPlausibleDomain($domain)
+    {
+        return \App\Setting::setPlausibleDomain($domain);
+    }
+
+    public static function getPlausibleApiUrl()
+    {
+        return \App\Setting::getPlausibleApiUrl();
+    }
+
+    public static function setPlausibleApiUrl($url)
+    {
+        return \App\Setting::setPlausibleApiUrl($url);
+    }
+
 }

@@ -91,6 +91,71 @@ services:
             - '${FORWARD_MAILPIT_DASHBOARD_PORT:-8025}:8025'
         networks:
             - sail
+
+    # ---------------------------------------------------------------------------
+    # Plausible Analytics Community Edition (self-hosted) — OPTIONAL
+    #
+    # Uncomment this block to run a local Plausible instance alongside the app.
+    # Requires:
+    #   1. Uncomment the `plausible_db`, `plausible_events_db`, and
+    #      `plausible` service blocks below.
+    #   2. Create a file plausible-conf.env next to compose.yaml with at least:
+    #        BASE_URL=http://localhost:8000
+    #        SECRET_KEY_BASE=<64-char random string>
+    #   3. Set PLAUSIBLE_API_URL=http://plausible:8000/api/event in your .env
+    #      so the Laravel proxy forwards events to the local instance.
+    #   4. Access the dashboard at http://localhost:8000
+    #
+    # plausible_db:
+    #     image: 'postgres:16-alpine'
+    #     restart: always
+    #     volumes:
+    #         - 'sail-plausible-db:/var/lib/postgresql/data'
+    #     environment:
+    #         POSTGRES_PASSWORD: postgres
+    #     networks:
+    #         - sail
+    #     healthcheck:
+    #         test: ['CMD-SHELL', 'pg_isready -U postgres']
+    #         retries: 5
+    #         timeout: 5s
+    #
+    # plausible_events_db:
+    #     image: 'clickhouse/clickhouse-server:24-alpine'
+    #     restart: always
+    #     volumes:
+    #         - 'sail-plausible-events-db:/var/lib/clickhouse'
+    #     ulimits:
+    #         nofile:
+    #             soft: 262144
+    #             hard: 262144
+    #     networks:
+    #         - sail
+    #     healthcheck:
+    #         test: ['CMD', 'wget', '--spider', '-q', 'http://localhost:8123/ping']
+    #         retries: 5
+    #         timeout: 5s
+    #
+    # plausible:
+    #     image: 'ghcr.io/plausible/community-edition:v3'
+    #     restart: always
+    #     command: sh -c "sleep 10 && /entrypoint.sh db createdb && /entrypoint.sh db migrate && /entrypoint.sh run"
+    #     depends_on:
+    #         plausible_db:
+    #             condition: service_healthy
+    #         plausible_events_db:
+    #             condition: service_healthy
+    #     ports:
+    #         - '${FORWARD_PLAUSIBLE_PORT:-8000}:8000'
+    #     env_file:
+    #         - plausible-conf.env
+    #     environment:
+    #         DATABASE_URL: 'postgres://postgres:postgres@plausible_db:5432/plausible_db'
+    #         CLICKHOUSE_DATABASE_URL: 'http://plausible_events_db:8123/plausible_events'
+    #     networks:
+    #         - sail
+    # ---------------------------------------------------------------------------
+
 networks:
     sail:
         driver: bridge
@@ -99,3 +164,7 @@ volumes:
         driver: local
     sail-redis:
         driver: local
+    # sail-plausible-db:          # uncomment when enabling Plausible CE
+    #     driver: local
+    # sail-plausible-events-db:   # uncomment when enabling Plausible CE
+    #     driver: local

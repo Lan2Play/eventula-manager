@@ -138,4 +138,68 @@
 	</div>
 </div>
 
+{{-- Plausible Analytics --}}
+<div class="row mt-2">
+	<div class="col-12">
+		<h3 class="pb-2 mt-2 mb-4 border-bottom">Plausible Analytics</h3>
+	</div>
+	@if(env('PLAUSIBLE_ENABLE') !== null)
+	<div class="col-12">
+		<div class="alert alert-warning">
+			<strong>Note:</strong> <code>PLAUSIBLE_ENABLE</code> is set in the environment and overrides the toggle below.
+		</div>
+	</div>
+	@endif
+	<div class="col-12 col-md-6">
+		<div class="card mb-3">
+			<div class="card-header">
+				<i class="fa fa-chart-bar fa-fw"></i> Plausible Settings
+			</div>
+			<div class="card-body">
+				{{ Form::open(array('url'=>'/admin/settings/api', 'onsubmit' => 'return ConfirmSubmit()', 'files' => 'true')) }}
+					<div class="mb-3 form-check form-switch">
+						{{ Form::hidden('plausible_enabled', 'off') }}
+						{{ Form::checkbox('plausible_enabled', 'on', $plausibleEnabled, array('id'=>'plausible_enabled','class'=>'form-check-input')) }}
+						{{ Form::label('plausible_enabled', 'Enable Plausible Analytics', array('class'=>'form-check-label')) }}
+					</div>
+					<div class="mb-3">
+						{{ Form::label('plausible_script_url','Script URL',array('class'=>'')) }}
+						{{ Form::text('plausible_script_url', $plausibleScriptUrl, array('id'=>'plausible_script_url','class'=>'form-control','placeholder'=>'https://plausible.io/js/pa-XXXXX.js')) }}
+						<div class="form-text">Personalized script URL from your Plausible site settings.</div>
+					</div>
+					<div class="mb-3">
+						{{ Form::label('plausible_domain','Tracked Domain (optional)',array('class'=>'')) }}
+						{{ Form::text('plausible_domain', $plausibleDomain, array('id'=>'plausible_domain','class'=>'form-control','placeholder'=>'yourdomain.com')) }}
+						<div class="form-text">Leave empty to use <code>APP_URL</code>. Useful when the public domain differs from the internal app URL.</div>
+					</div>
+					<div class="mb-3">
+						{{ Form::label('plausible_api_url','Events API URL',array('class'=>'')) }}
+						{{ Form::text('plausible_api_url', $plausibleApiUrl, array('id'=>'plausible_api_url','class'=>'form-control','placeholder'=>'https://plausible.io/api/event')) }}
+						<div class="form-text">Override for self-hosted Plausible instances, e.g. <code>https://plausible.yourdomain.com/api/event</code></div>
+					</div>
+					<button type="submit" class="btn btn-success btn-block">Save</button>
+				{{ Form::close() }}
+			</div>
+		</div>
+	</div>
+	<div class="col-12 col-md-6">
+		<div class="card mb-3">
+			<div class="card-header">
+				<i class="fa fa-info-circle fa-fw"></i> About Plausible
+			</div>
+			<div class="card-body">
+				<p>Plausible is a lightweight, privacy-friendly analytics tool. Events are proxied through this application to avoid ad blockers.</p>
+				<p>The local proxy endpoints are:</p>
+				<ul>
+					<li><code>GET /js/script.js</code> — tracking script</li>
+					<li><code>POST /api/event</code> — event collection</li>
+				</ul>
+				<p><a href="https://plausible.io/docs" target="_blank" rel="noopener">Plausible Documentation</a></p>
+				<hr>
+				<p class="text-muted small">To force-disable Plausible regardless of these settings, set <code>PLAUSIBLE_ENABLE=false</code> in your environment file.</p>
+			</div>
+		</div>
+	</div>
+</div>
+
 @endsection

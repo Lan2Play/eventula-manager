@@ -1733,4 +1733,63 @@ class Setting extends Model
         $row->default = $isDefault;
         return $row->save();
     }
+
+    // -------------------------------------------------------------------------
+    // Plausible Analytics
+    // -------------------------------------------------------------------------
+
+    public static function isPlausibleEnabled()
+    {
+        return (bool) self::getValue('plausible_enabled', false);
+    }
+
+    public static function enablePlausible()
+    {
+        if (!$s = self::where('setting', 'plausible_enabled')->first()) return false;
+        $s->value = true;
+        return $s->save() ? true : false;
+    }
+
+    public static function disablePlausible()
+    {
+        if (!$s = self::where('setting', 'plausible_enabled')->first()) return false;
+        $s->value = false;
+        return $s->save() ? true : false;
+    }
+
+    public static function getPlausibleScriptUrl()
+    {
+        return self::getValue('plausible_script_url');
+    }
+
+    public static function setPlausibleScriptUrl($url)
+    {
+        $setting = self::where('setting', 'plausible_script_url')->first();
+        $setting->value = $url;
+        return $setting->save() ? true : false;
+    }
+
+    public static function getPlausibleDomain()
+    {
+        return self::getValue('plausible_domain');
+    }
+
+    public static function setPlausibleDomain($domain)
+    {
+        $setting = self::where('setting', 'plausible_domain')->first();
+        $setting->value = $domain;
+        return $setting->save() ? true : false;
+    }
+
+    public static function getPlausibleApiUrl()
+    {
+        return self::getValue('plausible_api_url', 'https://plausible.io/api/event');
+    }
+
+    public static function setPlausibleApiUrl($url)
+    {
+        $setting = self::where('setting', 'plausible_api_url')->first();
+        $setting->value = $url;
+        return $setting->save() ? true : false;
+    }
 }

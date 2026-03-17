@@ -14,6 +14,10 @@ class PlausibleProxyController extends Controller
      */
     public function script(): Response
     {
+        if (!config('plausible.enabled')) {
+            return response('', 204);
+        }
+
         $scriptUrl = config('plausible.script_url');
 
         $script = Cache::remember('plausible-script', now()->addHours(24), function () use ($scriptUrl) {
@@ -33,7 +37,11 @@ class PlausibleProxyController extends Controller
      */
     public function event(Request $request): Response
     {
-        $apiUrl = rtrim(config('plausible.api_base_url'), '/') . '/api/event';
+        if (!config('plausible.enabled')) {
+            return response('', 202);
+        }
+
+        $apiUrl = config('plausible.api_url', 'https://plausible.io/api/event');
 
         $response = Http::withHeaders([
             'User-Agent'     => $request->userAgent(),
