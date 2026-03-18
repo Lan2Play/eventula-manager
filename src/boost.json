@@ -1,0 +1,15 @@
+{
+    "agents": [
+        "claude_code",
+        "copilot",
+        "junie"
+    ],
+    "guidelines": true,
+    "herd_mcp": false,
+    "mcp": true,
+    "nightwatch_mcp": false,
+    "sail": true,
+    "skills": [
+        "socialite-development"
+    ]
+}
