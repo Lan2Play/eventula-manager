@@ -295,6 +295,7 @@ Route::group(['middleware' => ['installed', 'web', 'admin']], function () {
          * Users
          */
         Route::get('/admin/users', 'Admin\UsersController@index');
+        Route::get('/admin/users/last-logins', 'Admin\UsersController@lastLogins');
         Route::get('/admin/users/{user}', 'Admin\UsersController@show');
         Route::delete('/admin/users/{user}', 'Admin\UsersController@remove');
         Route::post('/admin/users/{user}/admin', 'Admin\UsersController@grantAdmin');

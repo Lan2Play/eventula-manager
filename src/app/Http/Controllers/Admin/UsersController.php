@@ -49,6 +49,33 @@ class UsersController extends Controller
     }
 
     /**
+     * Show Last Logins Page
+     * @return View
+     */
+    public function lastLogins(Request $request)
+    {
+        $allowedSortColumns = ['username', 'last_login'];
+        $sortBy = in_array($request->sort_by, $allowedSortColumns) ? $request->sort_by : 'last_login';
+        $sortDir = $request->sort_dir === 'asc' ? 'asc' : 'desc';
+
+        $query = User::where('last_login', '>', '0000-00-00 00:00:00');
+
+        if ($request->search != '') {
+            $query->where('username', 'LIKE', '%' . $request->search . '%');
+        }
+
+        $users = $query->orderBy($sortBy, $sortDir)
+            ->paginate(20)
+            ->appends(['search' => $request->search, 'sort_by' => $sortBy, 'sort_dir' => $sortDir]);
+
+        return view('admin.users.last-logins')
+            ->with('users', $users)
+            ->with('sortBy', $sortBy)
+            ->with('sortDir', $sortDir)
+            ->with('search', $request->search ?? '');
+    }
+
+    /**
      * Show User Page
      * @return View
      */
