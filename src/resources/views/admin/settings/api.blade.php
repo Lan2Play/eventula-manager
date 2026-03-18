@@ -143,7 +143,7 @@
 	<div class="col-12">
 		<h3 class="pb-2 mt-2 mb-4 border-bottom">Plausible Analytics</h3>
 	</div>
-	@if(env('PLAUSIBLE_ENABLE') !== null)
+	@if(!empty(env('PLAUSIBLE_ENABLE')))
 	<div class="col-12">
 		<div class="alert alert-warning">
 			<strong>Note:</strong> <code>PLAUSIBLE_ENABLE</code> is set in the environment and overrides the toggle below.

@@ -65,7 +65,7 @@ class PlausibleProxyTest extends TestCase
         $this->get('/js/script.js')
             ->assertOk()
             ->assertHeader('Content-Type', 'application/javascript')
-            ->assertHeader('Cache-Control', 'public, max-age=86400')
+            ->assertHeader('Cache-Control', 'max-age=86400, public')
             ->assertSee(self::FAKE_SCRIPT, escape: false);
     }
 

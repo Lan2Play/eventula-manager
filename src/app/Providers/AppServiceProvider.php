@@ -74,8 +74,8 @@ class AppServiceProvider extends ServiceProvider
             \Config::set('plausible.api_url',    \App\Setting::getValue('plausible_api_url') ?: config('plausible.api_url'));
         }
 
-        // PLAUSIBLE_ENABLE env var acts as hard kill-switch: when explicitly set it always wins.
-        if (env('PLAUSIBLE_ENABLE') !== null) {
+        // PLAUSIBLE_ENABLE env var acts as hard kill-switch: when explicitly set to a non-empty value it always wins.
+        if (!empty(env('PLAUSIBLE_ENABLE'))) {
             \Config::set('plausible.enabled', filter_var(env('PLAUSIBLE_ENABLE'), FILTER_VALIDATE_BOOLEAN));
         }
 
