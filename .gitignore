@@ -35,3 +35,6 @@ docker-compose.local.yml
 docker-compose-dev.local.yml
 
 dbfile.sql
+
+.phpunit.result.cache
+.phpunit-watcher.result.cache

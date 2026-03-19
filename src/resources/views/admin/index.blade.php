@@ -163,6 +163,13 @@
                         @endforeach
                     </ul>
                 </div>
+                <a href="/admin/users/last-logins">
+                    <div class="card-footer">
+                        <span class="float-start">See more</span>
+                        <span class="float-end"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
             </div>
         </div>
 
