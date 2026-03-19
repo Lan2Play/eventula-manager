@@ -9,10 +9,40 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Cache;
+use App\Traits\Cacheable;
 
 class NewsArticle extends Model
 {
-    use Sluggable, HasFactory;
+    use Sluggable, HasFactory, Cacheable;
+
+    protected static string $cacheTag       = 'news';
+    protected static string $cacheKeyPrefix = 'article';
+
+    protected static function additionalCacheKeys(self $model): array
+    {
+        return ['article:latest:2', 'article:latest:5', 'article:latest:10'];
+    }
+
+    /**
+     * Get the latest N articles with caching.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public static function latestArticlesCached(int $limit = 2): \Illuminate\Database\Eloquent\Collection
+    {
+        $key = "article:latest:{$limit}";
+        try {
+            $remember = fn() => static::latestArticles($limit)->get();
+            if (Cache::supportsTags()) {
+                return Cache::tags(['news'])->rememberForever($key, $remember);
+            }
+            return Cache::rememberForever($key, $remember);
+        } catch (\Throwable $e) {
+            \Log::warning('Cache error loading latest articles: ' . $e->getMessage());
+            return static::latestArticles($limit)->get();
+        }
+    }
 
     /**
      * The name of the table.

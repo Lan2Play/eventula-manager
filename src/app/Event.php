@@ -2,7 +2,6 @@
 
 namespace App;
 
-use DB;
 use Auth;
 
 use Illuminate\Database\Eloquent\Model;
@@ -12,10 +11,25 @@ use Illuminate\Support\Facades\Cache;
 use Carbon\Carbon;
 
 use Cviebrock\EloquentSluggable\Sluggable;
+use App\Traits\Cacheable;
 
 class Event extends Model
 {
-    use Sluggable, HasFactory;
+    use Sluggable, HasFactory, Cacheable;
+
+    protected static string $cacheTag       = 'events';
+    protected static string $cacheKeyPrefix = 'event';
+
+    protected static function additionalCacheKeys(self $model): array
+    {
+        $slug = $model->slug ?? null;
+        return array_filter([
+            $slug ? "event:slug:{$slug}" : null,
+            'event:all',
+            'event:next-upcoming',
+            'event:current',
+        ]);
+    }
 
     /**
      * The name of the table.
@@ -435,61 +449,6 @@ class Event extends Model
         return Carbon::parse($this->end)->lessThan(Carbon::now());
     }
 
-    protected static function booted()
-    {
-        $invalidate = function (self $model) {
-            try {
-                $id = $model->id ?? null;
-                $slug = $model->slug ?? null;
-                if (Cache::supportsTags()) {
-                    if ($id) {
-                        Cache::tags(['events'])->forget("event:{$id}");
-                    }
-                    if ($slug) {
-                        Cache::tags(['events'])->forget("event:slug:{$slug}");
-                    }
-                } else {
-                    if ($id) {
-                        Cache::forget("event:{$id}");
-                    }
-                    if ($slug) {
-                        Cache::forget("event:slug:{$slug}");
-                    }
-                }
-            } catch (\Throwable $e) {
-                \Log::warning('Cache invalidation for events failed: ' . $e->getMessage());
-            }
-        };
-
-        static::saved($invalidate);
-        static::deleted($invalidate);
-    }
-
-    /**
-     * Find an Event by id with caching.
-     * Caches the whole model instance under key event:{id}.
-     */
-    public static function findCached(int $id): ?self
-    {
-        $key = "event:{$id}";
-        try {
-            $remember = function () use ($id) {
-                return self::query()->find($id);
-            };
-            if (Cache::supportsTags()) {
-                return Cache::tags(['events'])->rememberForever($key, $remember);
-            }
-            return Cache::rememberForever($key, $remember);
-        } catch (\Throwable $e) {
-            \Log::warning('Cache error while loading event ' . $id . ': ' . $e->getMessage());
-            return self::query()->find($id);
-        }
-    }
-
-    /**
-     * Find an Event by slug with caching.
-     * Key: event:slug:{slug}
-     */
     public static function findBySlugCached(string $slug): ?self
     {
         $key = "event:slug:{$slug}";
@@ -508,69 +467,66 @@ class Event extends Model
     }
 
     /**
-     * Fetch multiple events by ids efficiently with caching.
-     * Returns an associative array id => Event|null (null if not found; nulls are not cached).
-     *
-     * @param int[] $ids
-     * @return array<int, self|null>
+     * Get all events with caching.
      */
-    public static function findManyCached(array $ids): array
+    public static function allCached(): \Illuminate\Database\Eloquent\Collection
     {
+        $key = 'event:all';
         try {
-            $ids = array_values(array_unique(array_map('intval', array_filter($ids, function ($v) { return (int)$v > 0; }))));
-            if (!$ids) {
-                return [];
-            }
-            $result = [];
-            $missing = [];
-
+            $remember = fn() => static::query()->get();
             if (Cache::supportsTags()) {
-                foreach ($ids as $id) {
-                    $cached = Cache::tags(['events'])->get("event:{$id}");
-                    if ($cached === null) {
-                        $missing[] = $id;
-                    } else {
-                        $result[$id] = $cached;
-                    }
-                }
-            } else {
-                foreach ($ids as $id) {
-                    $cached = Cache::get("event:{$id}");
-                    if ($cached === null) {
-                        $missing[] = $id;
-                    } else {
-                        $result[$id] = $cached;
-                    }
-                }
+                return Cache::tags(['events'])->rememberForever($key, $remember);
             }
-
-            if ($missing) {
-                $fromDb = self::query()->whereIn('id', $missing)->get()->keyBy('id');
-                foreach ($missing as $id) {
-                    if (isset($fromDb[$id])) {
-                        $model = $fromDb[$id];
-                        if (Cache::supportsTags()) {
-                            Cache::tags(['events'])->forever("event:{$id}", $model);
-                        } else {
-                            Cache::forever("event:{$id}", $model);
-                        }
-                        $result[$id] = $model;
-                    } else {
-                        $result[$id] = null; // do not cache nulls
-                    }
-                }
-            }
-
-            return $result;
+            return Cache::rememberForever($key, $remember);
         } catch (\Throwable $e) {
-            \Log::warning('Cache error while loading multiple events: ' . $e->getMessage());
-            $coll = self::query()->whereIn('id', $ids)->get()->keyBy('id');
-            $out = [];
-            foreach ($ids as $id) {
-                $out[$id] = $coll->get($id, null);
+            \Log::warning('Cache error loading all events: ' . $e->getMessage());
+            return static::query()->get();
+        }
+    }
+
+    /**
+     * Get the next upcoming event with a short TTL cache (time-sensitive).
+     */
+    public static function nextUpcomingCached(): ?self
+    {
+        $key = 'event:next-upcoming';
+        try {
+            // Use false as sentinel: remember() skips caching null, causing perpetual misses
+            // when there is no upcoming event.
+            $remember = fn() => static::nextUpcoming()->first() ?? false;
+            if (Cache::supportsTags()) {
+                $result = Cache::tags(['events'])->remember($key, now()->addMinutes(5), $remember);
+            } else {
+                $result = Cache::remember($key, now()->addMinutes(5), $remember);
             }
-            return $out;
+            return $result ?: null;
+        } catch (\Throwable $e) {
+            \Log::warning('Cache error loading next upcoming event: ' . $e->getMessage());
+            return static::nextUpcoming()->first();
+        }
+    }
+
+    /**
+     * Get the current active event with a short TTL cache (time-sensitive).
+     */
+    public static function currentCached(): ?self
+    {
+        $key = 'event:current';
+        try {
+            // Use false as sentinel: remember() skips caching null, causing perpetual misses
+            // when there is no active event.
+            $remember = fn() => static::current()->first() ?? false;
+            if (Cache::supportsTags()) {
+                $result = Cache::tags(['events'])->remember($key, now()->addMinutes(5), $remember);
+            } else {
+                $result = Cache::remember($key, now()->addMinutes(5), $remember);
+            }
+            return $result ?: null;
+        } catch (\Throwable $e) {
+            \Log::warning('Cache error loading current event: ' . $e->getMessage());
+            return static::current()->first();
         }
     }
 
 }
+

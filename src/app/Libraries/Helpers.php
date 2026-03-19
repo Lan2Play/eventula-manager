@@ -187,7 +187,7 @@ class Helpers
     private static function resolveNextEvent(): ?\App\Event
     {
         if (self::$cachedNextEvent === null) {
-            self::$cachedNextEvent = \App\Event::nextUpcoming()->first() ?? false;
+            self::$cachedNextEvent = \App\Event::nextUpcomingCached() ?? false;
         }
         return self::$cachedNextEvent ?: null;
     }

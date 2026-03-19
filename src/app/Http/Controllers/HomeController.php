@@ -68,12 +68,12 @@ class HomeController extends Controller
     public function home()
     {
         return view("home")
-            ->with('nextEvent', Event::nextUpcoming()->first())
+            ->with('nextEvent', Event::nextUpcomingCached())
             ->with('topAttendees', Helpers::getTopAttendees())
             ->with('topWinners', Helpers::getTopWinners())
             ->with('gameServerList', Helpers::getPublicGameServers())
-            ->with('newsArticles', NewsArticle::latestArticles()->get())
-            ->with('events', Event::all())
+            ->with('newsArticles', NewsArticle::latestArticlesCached())
+            ->with('events', Event::allCached())
             ->with('sliderImages', SliderImage::getImages('frontpage'))
         ;
     }
@@ -123,7 +123,7 @@ class HomeController extends Controller
         $signedIn = true;
         $gameServerList = Helpers::getCasualGameServers();
 
-        $event =  Event::current()->first();
+        $event = Event::currentCached();
         // Check if event is null and handle it
         if (!$event) {
             return redirect()->route('home.index')->with('error', 'No active event found.');

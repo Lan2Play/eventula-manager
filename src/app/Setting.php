@@ -15,15 +15,36 @@ class Setting extends Model
     protected static function allAsMap(): array
     {
         try {
-            $callback = function () {
-                return self::query()->pluck('value', 'setting')->toArray();
+            $fromDb = false;
+            $map = null;
+
+            $callback = function () use (&$fromDb, &$map) {
+                $fromDb = true;
+                $map = self::query()->pluck('value', 'setting')->toArray();
+                return $map;
             };
 
             if (Cache::supportsTags()) {
-                return Cache::tags(['settings'])->rememberForever('settings:all', $callback);
+                $result = Cache::tags(['settings'])->rememberForever('settings:all', $callback);
+            } else {
+                $result = Cache::rememberForever('settings:all', $callback);
             }
 
-            return Cache::rememberForever('settings:all', $callback);
+            // When loaded fresh from DB, also warm all individual setting:{key} cache entries
+            // so subsequent getValue() calls are instant cache hits instead of per-key DB queries.
+            // Use false as sentinel for null values so rememberForever() in getValue() keeps them cached.
+            if ($fromDb && is_array($map)) {
+                foreach ($map as $key => $value) {
+                    $cacheValue = $value ?? false;
+                    if (Cache::supportsTags()) {
+                        Cache::tags(['settings'])->forever("setting:{$key}", $cacheValue);
+                    } else {
+                        Cache::forever("setting:{$key}", $cacheValue);
+                    }
+                }
+            }
+
+            return $result;
         } catch (\Exception $e) {
             // Fallback: Direkt aus der Datenbank laden
             \Log::warning('Cache fehler beim Laden der Settings: ' . $e->getMessage());
@@ -34,8 +55,11 @@ class Setting extends Model
     public static function getValue(string $key, $default = null)
     {
         try {
+            // Store `false` as a sentinel for "setting exists but has no value", because
+            // rememberForever() skips caching when the callback returns null (is_null check),
+            // causing perpetual cache-miss cycles for unset settings.
             $remember = function () use ($key) {
-                return self::query()->where('setting', $key)->value('value');
+                return self::query()->where('setting', $key)->value('value') ?? false;
             };
 
             if (Cache::supportsTags()) {
@@ -44,7 +68,8 @@ class Setting extends Model
                 $val = Cache::rememberForever("setting:{$key}", $remember);
             }
 
-            return $val !== null ? $val : $default;
+            // Decode the sentinel back to null for callers
+            return ($val !== null && $val !== false) ? $val : $default;
         } catch (\Throwable $e) {
             \Log::warning('Cache error while loading setting ' . $key . ': ' . $e->getMessage());
             $val = self::query()->where('setting', $key)->value('value');
@@ -79,7 +104,8 @@ class Setting extends Model
                     if ($cached === null) {
                         $missing[] = $k;
                     } else {
-                        $result[$k] = $cached;
+                        // Decode false sentinel (no DB value) back to null for callers
+                        $result[$k] = $cached !== false ? $cached : null;
                     }
                 }
             } else {
@@ -88,7 +114,7 @@ class Setting extends Model
                     if ($cached === null) {
                         $missing[] = $k;
                     } else {
-                        $result[$k] = $cached;
+                        $result[$k] = $cached !== false ? $cached : null;
                     }
                 }
             }
@@ -97,13 +123,14 @@ class Setting extends Model
                 $fromDb = self::query()->whereIn('setting', $missing)->pluck('value', 'setting')->toArray();
                 foreach ($missing as $k) {
                     if (array_key_exists($k, $fromDb)) {
-                        $val = $fromDb[$k];
+                        // Store false sentinel for null values so the cache entry persists
+                        $val = $fromDb[$k] ?? false;
                         if (Cache::supportsTags()) {
                             Cache::tags(['settings'])->forever("setting:{$k}", $val);
                         } else {
                             Cache::forever("setting:{$k}", $val);
                         }
-                        $result[$k] = $val;
+                        $result[$k] = $val !== false ? $val : null;
                     } else {
                         // Key doesn't exist in DB; return null but do not cache null to allow future creation
                         $result[$k] = null;
@@ -649,7 +676,7 @@ class Setting extends Model
      */
     public static function getAboutMain()
     {
-        return self::where('setting', 'about_main')->value('value');
+        return self::getValue('about_main');
     }
 
     /**
@@ -672,7 +699,7 @@ class Setting extends Model
      */
     public static function getAboutShort()
     {
-        return self::where('setting', 'about_short')->value('value');
+        return self::getValue('about_short');
     }
 
     /**
@@ -695,7 +722,7 @@ class Setting extends Model
      */
     public static function getAboutOurAim()
     {
-        return self::where('setting', 'about_our_aim')->value('value');
+        return self::getValue('about_our_aim');
     }
 
     /**
@@ -718,7 +745,7 @@ class Setting extends Model
      */
     public static function getAboutWho()
     {
-        return self::where('setting', 'about_who')->value('value');
+        return self::getValue('about_who');
     }
 
     /**
@@ -741,7 +768,7 @@ class Setting extends Model
      */
     public static function getLegalNotice()
     {
-        return self::where('setting', 'legal_notice')->value('value');
+        return self::getValue('legal_notice');
     }
 
     /**
@@ -764,7 +791,7 @@ class Setting extends Model
      */
     public static function getPrivacyPolicy()
     {
-        return self::where('setting', 'privacy_policy')->value('value');
+        return self::getValue('privacy_policy');
     }
 
     /**
