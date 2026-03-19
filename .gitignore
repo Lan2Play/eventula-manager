@@ -5,6 +5,10 @@ resources/wait
 
 \.env*
 
+
+
+.idea
+
 src/vendor
 src/node_modules
 src/public/storage
