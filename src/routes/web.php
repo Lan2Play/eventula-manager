@@ -56,7 +56,7 @@ Route::group(['middleware' => ['installed']], function () {
 
         Route::get('/login/steam', 'Auth\SteamController@login');
 
-        Route::post('/login/standard', 'Auth\LoginController@login')->name('login.standard');;
+        Route::post('/login/standard', 'Auth\LoginController@login')->name('login.standard');
 
         Route::group(['middleware' => ['auth', 'banned', 'verified', 'nophonenumber']], function () {
             Route::get('/account', 'AccountController@index');
