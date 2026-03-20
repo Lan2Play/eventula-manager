@@ -12,6 +12,9 @@
  */
 if (config('app.debug') === true) {
     Route::get('phpinfo', function () {
+        if (!in_array(request()->ip(), ['127.0.0.1', '::1'], true)) {
+            abort(403);
+        }
         phpinfo();
     })->name('phpinfo');
 }
