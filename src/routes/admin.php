@@ -163,7 +163,7 @@ Route::group(['middleware' => ['installed']], function () {
         Route::post('/admin/games/{game}/gameservercommands/execute/{gameServer}/matchmaking/{match}', 'Admin\GameServerCommandsController@executeGameServerMatchMakingCommand');
 
         /**
-         * GameServerCommandParametrs
+         * GameServerCommandParameters
          */
         Route::post('/admin/games/{game}/gameservercommandparameters', 'Admin\GameServerCommandParametersController@store');
         Route::post('/admin/games/{game}/gameservercommandparameters/{gameServerCommandParameter}', 'Admin\GameServerCommandParametersController@update');
