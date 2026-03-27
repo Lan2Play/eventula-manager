@@ -17,7 +17,7 @@
         "sass-loader": "16.0.7"
     },
     "dependencies": {
-        "@fortawesome/fontawesome-free": "6.7.2",
+        "@fortawesome/fontawesome-free": "7.2.0",
         "bootstrap": "5.3.8",
         "jquery": "3.7.1",
         "jquery-ui-dist": "1.13.3",
