@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9232cdbda293cd1270572c87a6482302",
+    "content-hash": "08cb94aa3667fdd0930b14d70e7d6a85",
     "packages": [
         {
             "name": "artesaos/seotools",
@@ -10708,21 +10708,21 @@
         },
         {
             "name": "kitloong/laravel-migrations-generator",
-            "version": "v7.2.0",
+            "version": "v7.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kitloong/laravel-migrations-generator.git",
-                "reference": "37f29a99671a5dde3a598e40157e2e245f077878"
+                "reference": "4e1f62bde791224f9a083d36f9fc30f18976891b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kitloong/laravel-migrations-generator/zipball/37f29a99671a5dde3a598e40157e2e245f077878",
-                "reference": "37f29a99671a5dde3a598e40157e2e245f077878",
+                "url": "https://api.github.com/repos/kitloong/laravel-migrations-generator/zipball/4e1f62bde791224f9a083d36f9fc30f18976891b",
+                "reference": "4e1f62bde791224f9a083d36f9fc30f18976891b",
                 "shasum": ""
             },
             "require": {
                 "ext-pdo": "*",
-                "illuminate/support": "^11.0|^12.0",
+                "illuminate/support": "^11.0|^12.0|^13.0",
                 "php": "^8.2"
             },
             "require-dev": {
@@ -10730,7 +10730,7 @@
                 "friendsofphp/php-cs-fixer": "^3.1",
                 "larastan/larastan": "^2.0|^3.0",
                 "mockery/mockery": "^1.0",
-                "orchestra/testbench": "^9.0|^10.0",
+                "orchestra/testbench": "^9.0|^10.0|^11.0",
                 "phpmd/phpmd": "^2.10",
                 "phpstan/phpstan-mockery": "^1.0|^2.0",
                 "slevomat/coding-standard": "^8.0",
@@ -10770,7 +10770,7 @@
             ],
             "support": {
                 "issues": "https://github.com/kitloong/laravel-migrations-generator/issues",
-                "source": "https://github.com/kitloong/laravel-migrations-generator/tree/v7.2.0"
+                "source": "https://github.com/kitloong/laravel-migrations-generator/tree/v7.3.0"
             },
             "funding": [
                 {
@@ -10782,7 +10782,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-08-10T07:31:19+00:00"
+            "time": "2026-03-15T14:07:55+00:00"
         },
         {
             "name": "mockery/mockery",
