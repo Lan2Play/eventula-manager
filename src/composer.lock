@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "098cc9071ffbce5bb772d0fcfb9a52af",
+    "content-hash": "5aaf481de052eaa1d2937df71dbaa8b4",
     "packages": [
         {
             "name": "artesaos/seotools",
@@ -6775,16 +6775,16 @@
         },
         {
             "name": "sirprize/postal-code-validator",
-            "version": "1.5.0",
+            "version": "1.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sirprize/postal-code-validator.git",
-                "reference": "64b471d88e4533922c0cf242087292352dd24de2"
+                "reference": "d4c1e8d3d241212f738937cd4dfe2a50374b9801"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sirprize/postal-code-validator/zipball/64b471d88e4533922c0cf242087292352dd24de2",
-                "reference": "64b471d88e4533922c0cf242087292352dd24de2",
+                "url": "https://api.github.com/repos/sirprize/postal-code-validator/zipball/d4c1e8d3d241212f738937cd4dfe2a50374b9801",
+                "reference": "d4c1e8d3d241212f738937cd4dfe2a50374b9801",
                 "shasum": ""
             },
             "require": {
@@ -6823,9 +6823,9 @@
             ],
             "support": {
                 "issues": "https://github.com/sirprize/postal-code-validator/issues",
-                "source": "https://github.com/sirprize/postal-code-validator/tree/1.5.0"
+                "source": "https://github.com/sirprize/postal-code-validator/tree/1.5.1"
             },
-            "time": "2023-11-24T06:06:38+00:00"
+            "time": "2026-03-12T08:25:51+00:00"
         },
         {
             "name": "spatie/backtrace",
