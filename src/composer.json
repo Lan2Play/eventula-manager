@@ -63,7 +63,7 @@
         "laravel/ui": "4.6.3",
         "spatie/laravel-database-mail-templates": "3.7.2",
         "laravel/sanctum": "4.3.1",
-        "propaganistas/laravel-phone": "6.0.2",
+        "propaganistas/laravel-phone": "6.0.3",
         "symfony/mailgun-mailer": "7.4.0",
         "symfony/http-client": "7.4.6",
         "spatie/backtrace": "1.8.1",
