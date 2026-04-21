@@ -4,30 +4,30 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "08cb94aa3667fdd0930b14d70e7d6a85",
+    "content-hash": "599ceb62e81b4c48783ee7e2703b9be5",
     "packages": [
         {
             "name": "artesaos/seotools",
-            "version": "v1.3.2",
+            "version": "v1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/artesaos/seotools.git",
-                "reference": "f22bc0b0ff1bcb683ff72589d11fa80d10706597"
+                "reference": "c92d09f0ad4491181863850a3ab2e1534361409b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/artesaos/seotools/zipball/f22bc0b0ff1bcb683ff72589d11fa80d10706597",
-                "reference": "f22bc0b0ff1bcb683ff72589d11fa80d10706597",
+                "url": "https://api.github.com/repos/artesaos/seotools/zipball/c92d09f0ad4491181863850a3ab2e1534361409b",
+                "reference": "c92d09f0ad4491181863850a3ab2e1534361409b",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "illuminate/config": "^10.0 || ^11.0 || ^12.0",
-                "illuminate/support": "^10.0 || ^11.0 || ^12.0",
+                "illuminate/config": "^10.0 || ^11.0 || ^12.0 || ^13.0",
+                "illuminate/support": "^10.0 || ^11.0 || ^12.0 || ^13.0",
                 "php": "^8.1"
             },
             "require-dev": {
-                "orchestra/testbench": "^8.0 || ^9.0 || ^10.0",
+                "orchestra/testbench": "^8.0 || ^9.0 || ^10.0 || ^11.0",
                 "phpunit/phpunit": "^9.0 || ^10.0 || ^11.5.3"
             },
             "type": "library",
@@ -75,7 +75,7 @@
                 "issues": "https://github.com/artesaos/seotools/issues",
                 "source": "https://github.com/artesaos/seotools"
             },
-            "time": "2025-03-07T14:44:43+00:00"
+            "time": "2026-03-28T12:37:33+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
