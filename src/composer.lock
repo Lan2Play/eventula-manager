@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "99fa8037230846e4cd3312ff6a5c98f8",
+    "content-hash": "958fbd91d94341118fa5a20526d12729",
     "packages": [
         {
             "name": "artesaos/seotools",
@@ -2363,16 +2363,16 @@
         },
         {
             "name": "intervention/image-laravel",
-            "version": "1.5.7",
+            "version": "1.5.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Intervention/image-laravel.git",
-                "reference": "86a53a154024e8b2f52cbdeac13f6bdb1aaedfaa"
+                "reference": "a760b041e5133fd81509414f4955c93ffefb4a7b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Intervention/image-laravel/zipball/86a53a154024e8b2f52cbdeac13f6bdb1aaedfaa",
-                "reference": "86a53a154024e8b2f52cbdeac13f6bdb1aaedfaa",
+                "url": "https://api.github.com/repos/Intervention/image-laravel/zipball/a760b041e5133fd81509414f4955c93ffefb4a7b",
+                "reference": "a760b041e5133fd81509414f4955c93ffefb4a7b",
                 "shasum": ""
             },
             "require": {
@@ -2427,7 +2427,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Intervention/image-laravel/issues",
-                "source": "https://github.com/Intervention/image-laravel/tree/1.5.7"
+                "source": "https://github.com/Intervention/image-laravel/tree/1.5.9"
             },
             "funding": [
                 {
@@ -2443,7 +2443,7 @@
                     "type": "ko_fi"
                 }
             ],
-            "time": "2026-02-28T06:49:50+00:00"
+            "time": "2026-03-24T15:10:30+00:00"
         },
         {
             "name": "invisnik/laravel-steam-auth",
