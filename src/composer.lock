@@ -4953,16 +4953,16 @@
         },
         {
             "name": "owen-it/laravel-auditing",
-            "version": "v14.0.3",
+            "version": "v14.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/owen-it/laravel-auditing.git",
-                "reference": "34e8a21890082a7a353894a4acdeb2d301dbe0d4"
+                "reference": "4fb70d295a04a63ff2c00947a76c42aac1654741"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/owen-it/laravel-auditing/zipball/34e8a21890082a7a353894a4acdeb2d301dbe0d4",
-                "reference": "34e8a21890082a7a353894a4acdeb2d301dbe0d4",
+                "url": "https://api.github.com/repos/owen-it/laravel-auditing/zipball/4fb70d295a04a63ff2c00947a76c42aac1654741",
+                "reference": "4fb70d295a04a63ff2c00947a76c42aac1654741",
                 "shasum": ""
             },
             "require": {
@@ -4975,7 +4975,7 @@
             "require-dev": {
                 "mockery/mockery": "^1.5.1",
                 "orchestra/testbench": "^9.0|^10.0|^11.0",
-                "phpunit/phpunit": "^11.0|^12.5.12"
+                "phpunit/phpunit": "^11.5|^12.5.12"
             },
             "type": "package",
             "extra": {
@@ -5033,7 +5033,7 @@
                 "issues": "https://github.com/owen-it/laravel-auditing/issues",
                 "source": "https://github.com/owen-it/laravel-auditing"
             },
-            "time": "2026-03-27T13:27:17+00:00"
+            "time": "2026-06-18T14:09:19+00:00"
         },
         {
             "name": "paragonie/constant_time_encoding",
