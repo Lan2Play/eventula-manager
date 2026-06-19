@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "962d6ac836c2564f1124bf903f8d69b4",
+    "content-hash": "91e71ffcd3ccf7e93e64b9806e9b9e27",
     "packages": [
         {
             "name": "artesaos/seotools",
@@ -2124,16 +2124,16 @@
         },
         {
             "name": "haydenpierce/class-finder",
-            "version": "0.5.3",
+            "version": "0.6.0",
             "source": {
                 "type": "git",
-                "url": "git@gitlab.com:hpierce1102/ClassFinder.git",
-                "reference": "40703445c18784edcc6411703e7c3869af11ec8c"
+                "url": "https://gitlab.com/hpierce1102/ClassFinder.git",
+                "reference": "b9e7859e9570c77805a9dc9caff7071f5d343636"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://gitlab.com/api/v4/projects/hpierce1102%2FClassFinder/repository/archive.zip?sha=40703445c18784edcc6411703e7c3869af11ec8c",
-                "reference": "40703445c18784edcc6411703e7c3869af11ec8c",
+                "url": "https://gitlab.com/api/v4/projects/hpierce1102%2FClassFinder/repository/archive.zip?sha=b9e7859e9570c77805a9dc9caff7071f5d343636",
+                "reference": "b9e7859e9570c77805a9dc9caff7071f5d343636",
                 "shasum": ""
             },
             "require": {
@@ -2162,7 +2162,11 @@
                 }
             ],
             "description": "A library that can provide of a list of classes in a given namespace",
-            "time": "2023-06-18T17:43:01+00:00"
+            "support": {
+                "issues": "https://gitlab.com/hpierce1102/ClassFinder/-/issues",
+                "source": "https://gitlab.com/hpierce1102/ClassFinder/-/tree/0.6.0"
+            },
+            "time": "2026-05-30T23:39:50+00:00"
         },
         {
             "name": "ignited/laravel-omnipay",
