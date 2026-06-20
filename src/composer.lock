@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "91e71ffcd3ccf7e93e64b9806e9b9e27",
+    "content-hash": "80671bb9e46706e746aec2680d040241",
     "packages": [
         {
             "name": "artesaos/seotools",
@@ -2170,20 +2170,20 @@
         },
         {
             "name": "ignited/laravel-omnipay",
-            "version": "3.7.0",
+            "version": "3.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ignited/laravel-omnipay.git",
-                "reference": "3ba19626e11c89ae94335903022b000f681d1665"
+                "reference": "80e7b66d0662b91c746cc437bff01aa928aa9126"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ignited/laravel-omnipay/zipball/3ba19626e11c89ae94335903022b000f681d1665",
-                "reference": "3ba19626e11c89ae94335903022b000f681d1665",
+                "url": "https://api.github.com/repos/ignited/laravel-omnipay/zipball/80e7b66d0662b91c746cc437bff01aa928aa9126",
+                "reference": "80e7b66d0662b91c746cc437bff01aa928aa9126",
                 "shasum": ""
             },
             "require": {
-                "illuminate/support": "~6|~7|~8|~9|~10|~11|~12",
+                "illuminate/support": "~6|~7|~8|~9|~10|~11|~12|~13",
                 "omnipay/common": "~3.0",
                 "php": "^7.2.5|^8.0"
             },
@@ -2224,9 +2224,9 @@
             ],
             "support": {
                 "issues": "https://github.com/ignited/laravel-omnipay/issues",
-                "source": "https://github.com/ignited/laravel-omnipay/tree/3.7.0"
+                "source": "https://github.com/ignited/laravel-omnipay/tree/3.8.0"
             },
-            "time": "2025-02-26T01:02:57+00:00"
+            "time": "2026-04-22T09:06:33+00:00"
         },
         {
             "name": "intervention/gif",
