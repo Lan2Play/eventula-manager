@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9ef9f6d68457d5f2eda1acc1b5df7054",
+    "content-hash": "1a64ff512d2c221b368bbda713f225ec",
     "packages": [
         {
             "name": "artesaos/seotools",
@@ -6968,16 +6968,16 @@
         },
         {
             "name": "spatie/laravel-cookie-consent",
-            "version": "3.4.0",
+            "version": "3.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-cookie-consent.git",
-                "reference": "67a7717c2ed43fa27dd24a5df2a71272b47937b4"
+                "reference": "b256d9ab44f8e4804ff414226a3ff51c26bbe8d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-cookie-consent/zipball/67a7717c2ed43fa27dd24a5df2a71272b47937b4",
-                "reference": "67a7717c2ed43fa27dd24a5df2a71272b47937b4",
+                "url": "https://api.github.com/repos/spatie/laravel-cookie-consent/zipball/b256d9ab44f8e4804ff414226a3ff51c26bbe8d4",
+                "reference": "b256d9ab44f8e4804ff414226a3ff51c26bbe8d4",
                 "shasum": ""
             },
             "require": {
@@ -7034,7 +7034,7 @@
                 "spatie"
             ],
             "support": {
-                "source": "https://github.com/spatie/laravel-cookie-consent/tree/3.4.0"
+                "source": "https://github.com/spatie/laravel-cookie-consent/tree/3.5.0"
             },
             "funding": [
                 {
@@ -7042,7 +7042,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2026-02-21T15:58:52+00:00"
+            "time": "2026-06-15T23:03:35+00:00"
         },
         {
             "name": "spatie/laravel-database-mail-templates",
