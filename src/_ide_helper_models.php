@@ -89,8 +89,6 @@ namespace App{
  * @property string $slug
  * @property string $status
  * @property int $capacity
- * @property int|null $no_tickets_per_user
- * @property int $tickettype_hide_policy
  * @property int|null $event_venue_id
  * @property string $start
  * @property string $end
@@ -99,10 +97,6 @@ namespace App{
  * @property string|null $essential_info
  * @property string|null $event_live_info
  * @property int $online_event
- * @property int $private_participants
- * @property int $matchmaking_enabled
- * @property int $tournaments_staff
- * @property int $tournaments_freebies
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Ticket> $allEventTickets
@@ -148,17 +142,11 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereEventLiveInfo($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereEventVenueId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereMatchmakingEnabled($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereNiceName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereNoTicketsPerUser($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereOnlineEvent($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Event wherePrivateParticipants($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereStart($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereTickettypeHidePolicy($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereTournamentsFreebies($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereTournamentsStaff($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Event whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Event withUniqueSlugConstraints(\Illuminate\Database\Eloquent\Model $model, string $attribute, array $config, string $slug)
  */
@@ -214,11 +202,9 @@ namespace App{
 namespace App{
 /**
  * @property int $id
- * @property int|null $column
- * @property int|null $row
- * @property string $status
+ * @property string $seat
  * @property int $event_seating_plan_id
- * @property int|null $ticket_id
+ * @property int $event_participant_id
  * @property int $gifted
  * @property int|null $gifted_user_id
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -228,15 +214,13 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventSeating newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventSeating newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventSeating query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventSeating whereColumn($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventSeating whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|EventSeating whereEventParticipantId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventSeating whereEventSeatingPlanId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventSeating whereGifted($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventSeating whereGiftedUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventSeating whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventSeating whereRow($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventSeating whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventSeating whereTicketId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|EventSeating whereSeat($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventSeating whereUpdatedAt($value)
  */
 	class EventSeating extends \Eloquent {}
@@ -400,11 +384,6 @@ namespace App{
  * @property int $api_complete
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property int $random_teams
- * @property int $match_autostart
- * @property int $match_autoapi
- * @property string $bestof
- * @property string $grand_finals_modifier
  * @property-read \App\Event $event
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\EventTournamentMatchServer> $eventTournamentMatchServer
  * @property-read int|null $event_tournament_match_server_count
@@ -420,7 +399,6 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournament whereAllowBronze($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournament whereAllowPlayerTeams($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournament whereApiComplete($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournament whereBestof($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournament whereChallongeTournamentId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournament whereChallongeTournamentUrl($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournament whereCreatedAt($value)
@@ -429,12 +407,8 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournament whereEventId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournament whereFormat($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournament whereGameId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournament whereGrandFinalsModifier($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournament whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournament whereMatchAutoapi($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournament whereMatchAutostart($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournament whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournament whereRandomTeams($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournament whereRules($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournament whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournament whereStatus($value)
@@ -453,8 +427,7 @@ namespace App{
  * @property int $game_server_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property int $event_tournament_id
- * @property-read \App\EventTournament $eventTournament
+ * @property-read \App\EventTournament|null $eventTournament
  * @property-read \App\GameServer $gameServer
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournamentMatchServer findSimilarSlugs(string $attribute, array $config, string $slug)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournamentMatchServer newModelQuery()
@@ -462,7 +435,6 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournamentMatchServer query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournamentMatchServer whereChallongeMatchId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournamentMatchServer whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournamentMatchServer whereEventTournamentId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournamentMatchServer whereGameServerId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournamentMatchServer whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournamentMatchServer whereSlug($value)
@@ -475,7 +447,7 @@ namespace App{
 namespace App{
 /**
  * @property int $id
- * @property int|null $ticket_id
+ * @property int|null $event_participant_id
  * @property string|null $challonge_participant_id
  * @property int|null $event_tournament_team_id
  * @property int $event_tournament_id
@@ -496,6 +468,7 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournamentParticipant whereChallongeParticipantId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournamentParticipant whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournamentParticipant whereCreditApplied($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournamentParticipant whereEventParticipantId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournamentParticipant whereEventTournamentId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournamentParticipant whereEventTournamentTeamId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournamentParticipant whereFinalHistory($value)
@@ -504,7 +477,6 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournamentParticipant whereFinalScore($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournamentParticipant whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournamentParticipant wherePug($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournamentParticipant whereTicketId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EventTournamentParticipant whereUpdatedAt($value)
  */
 	class EventTournamentParticipant extends \Eloquent {}
@@ -684,10 +656,6 @@ namespace App{
  * @property int $min_team_count
  * @property int $max_team_count
  * @property int|null $matchStartgameServerCommand
- * @property int $gamematchapihandler
- * @property int $matchmaking_enabled
- * @property int $matchmaking_autostart
- * @property int $matchmaking_autoapi
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\EventTournament> $eventTournaments
  * @property-read int|null $event_tournaments_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\GameServerCommandParameter> $gameServerCommandParameters
@@ -711,14 +679,10 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Game whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Game whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Game whereGamecommandhandler($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Game whereGamematchapihandler($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Game whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Game whereImageHeaderPath($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Game whereImageThumbnailPath($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Game whereMatchStartgameServerCommand($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Game whereMatchmakingAutoapi($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Game whereMatchmakingAutostart($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Game whereMatchmakingEnabled($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Game whereMaxTeamCount($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Game whereMinTeamCount($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Game whereName($value)
@@ -737,14 +701,12 @@ namespace App{
  * @property string $name
  * @property string $slug
  * @property int $ispublic
- * @property int $isenabled
  * @property string $type
  * @property string|null $address
  * @property int|null $game_port
  * @property string|null $game_password
  * @property int|null $rcon_port
  * @property string|null $rcon_password
- * @property string|null $rcon_address
  * @property string $gameserver_secret
  * @property int $game_id
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -766,10 +728,8 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|GameServer whereGamePort($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|GameServer whereGameserverSecret($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|GameServer whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|GameServer whereIsenabled($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|GameServer whereIspublic($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|GameServer whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|GameServer whereRconAddress($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|GameServer whereRconPassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|GameServer whereRconPort($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|GameServer whereSlug($value)
@@ -787,7 +747,6 @@ namespace App{
  * @property string $name
  * @property string $slug
  * @property string $command
- * @property string|null $verification
  * @property int $scope
  * @property int $game_id
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -805,7 +764,6 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|GameServerCommand whereScope($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|GameServerCommand whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|GameServerCommand whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|GameServerCommand whereVerification($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|GameServerCommand withUniqueSlugConstraints(\Illuminate\Database\Eloquent\Model $model, string $attribute, array $config, string $slug)
  */
 	class GameServerCommand extends \Eloquent {}
@@ -897,28 +855,10 @@ namespace App{
 
 namespace App{
 /**
- * @property int $id
- * @property string $display_name
- * @property string $nice_name
- * @property string $path
- * @property string $url
- * @property string|null $desc
- * @property int|null $help_category_entry_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\HelpCategoryEntry|null $entry
  * @method static \Illuminate\Database\Eloquent\Builder<static>|HelpCategoryEntryAttachment newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|HelpCategoryEntryAttachment newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|HelpCategoryEntryAttachment query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|HelpCategoryEntryAttachment whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|HelpCategoryEntryAttachment whereDesc($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|HelpCategoryEntryAttachment whereDisplayName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|HelpCategoryEntryAttachment whereHelpCategoryEntryId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|HelpCategoryEntryAttachment whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|HelpCategoryEntryAttachment whereNiceName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|HelpCategoryEntryAttachment wherePath($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|HelpCategoryEntryAttachment whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|HelpCategoryEntryAttachment whereUrl($value)
  */
 	class HelpCategoryEntryAttachment extends \Eloquent {}
 }
@@ -1035,22 +975,10 @@ namespace App{
 
 namespace App{
 /**
- * @property int $id
- * @property string $name
- * @property int|null $matchmaking_id
- * @property int|null $challonge_match_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\MatchMaking|null $matchMakingMatch
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MatchReplay newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MatchReplay newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MatchReplay query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|MatchReplay whereChallongeMatchId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|MatchReplay whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|MatchReplay whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|MatchReplay whereMatchmakingId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|MatchReplay whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|MatchReplay whereUpdatedAt($value)
  */
 	class MatchReplay extends \Eloquent {}
 }
@@ -1061,7 +989,7 @@ namespace App{
  * @property string $title
  * @property string $slug
  * @property string $article
- * @property int|null $user_id
+ * @property int $user_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\NewsComment> $comments
@@ -1317,47 +1245,6 @@ namespace App{
  * @property int $id
  * @property string $name
  * @property string $slug
- * @property int $featured
- * @property string $status
- * @property string|null $description
- * @property float|null $price
- * @property int|null $price_credit
- * @property int $shop_item_category_id
- * @property int $stock
- * @property int $added_by
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\ShopItemCategory|null $category
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\ShopItemImage> $images
- * @property-read int|null $images_count
- * @property-read \App\User $user
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ShopItem findSimilarSlugs(string $attribute, array $config, string $slug)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ShopItem newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ShopItem newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ShopItem query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ShopItem whereAddedBy($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ShopItem whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ShopItem whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ShopItem whereFeatured($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ShopItem whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ShopItem whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ShopItem wherePrice($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ShopItem wherePriceCredit($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ShopItem whereShopItemCategoryId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ShopItem whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ShopItem whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ShopItem whereStock($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ShopItem whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|ShopItem withUniqueSlugConstraints(\Illuminate\Database\Eloquent\Model $model, string $attribute, array $config, string $slug)
- */
-	class ShopItem extends \Eloquent {}
-}
-
-namespace App{
-/**
- * @property int $id
- * @property string $name
- * @property string $slug
  * @property int $order
  * @property string $status
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -1496,31 +1383,9 @@ namespace App{
 
 namespace App{
 /**
- * @property int $id
- * @property int $user_id
- * @property int|null $manager_id
- * @property int|null $owner_id
- * @property int $event_id
- * @property int|null $ticket_type_id
- * @property int|null $purchase_id
- * @property int $revoked
- * @property string|null $qrcode
- * @property int $staff
- * @property int $free
- * @property int|null $staff_free_assigned_by
- * @property int $signed_in
- * @property int $credit_applied
- * @property string|null $gift
- * @property string|null $gift_accepted
- * @property string|null $gift_accepted_url
- * @property string|null $gift_sendee
- * @property int $transferred
- * @property int $transferred_event_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \OwenIt\Auditing\Models\Audit> $audits
  * @property-read int|null $audits_count
- * @property-read \App\Event $event
+ * @property-read \App\Event|null $event
  * @property-read \App\User|null $manager
  * @property-read \App\User|null $owner
  * @property-read \App\Purchase|null $purchase
@@ -1528,79 +1393,30 @@ namespace App{
  * @property-read \App\TicketType|null $ticketType
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\EventTournamentParticipant> $tournamentParticipants
  * @property-read int|null $tournament_participants_count
- * @property-read \App\User $user
+ * @property-read \App\User|null $user
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Ticket newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Ticket newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Ticket query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Ticket whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Ticket whereCreditApplied($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Ticket whereEventId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Ticket whereFree($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Ticket whereGift($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Ticket whereGiftAccepted($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Ticket whereGiftAcceptedUrl($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Ticket whereGiftSendee($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Ticket whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Ticket whereManagerId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Ticket whereOwnerId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Ticket wherePurchaseId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Ticket whereQrcode($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Ticket whereRevoked($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Ticket whereSignedIn($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Ticket whereStaff($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Ticket whereStaffFreeAssignedBy($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Ticket whereTicketTypeId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Ticket whereTransferred($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Ticket whereTransferredEventId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Ticket whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Ticket whereUserId($value)
  */
 	class Ticket extends \Eloquent implements \OwenIt\Auditing\Contracts\Auditable {}
 }
 
 namespace App{
 /**
- * @property int $id
- * @property int $event_id
- * @property string $name
- * @property int $tickets_per_user
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Event $event
+ * @property-read \App\Event|null $event
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\TicketType> $tickets
  * @property-read int|null $tickets_count
  * @method static \Illuminate\Database\Eloquent\Builder<static>|TicketGroup newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|TicketGroup newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|TicketGroup query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|TicketGroup whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|TicketGroup whereEventId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|TicketGroup whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|TicketGroup whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|TicketGroup whereTicketsPerUser($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|TicketGroup whereUpdatedAt($value)
  */
 	class TicketGroup extends \Eloquent {}
 }
 
 namespace App{
 /**
- * @property int $id
- * @property string $name
- * @property int $event_id
- * @property string $type
- * @property float $price
- * @property int|null $no_tickets_per_user
- * @property int|null $event_ticket_group_id
- * @property int $tickettype_hide_policy
- * @property int|null $price_credit
- * @property int $seatable
- * @property int $quantity
- * @property string|null $sale_start
- * @property string|null $sale_end
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\CreditLog|null $creditLogs
- * @property-read \App\Event $event
+ * @property-read \App\Event|null $event
  * @property-read \App\TicketGroup|null $ticketGroup
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Ticket> $tickets
  * @property-read int|null $tickets_count
@@ -1608,21 +1424,6 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|TicketType newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|TicketType query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|TicketType ungrouped()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|TicketType whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|TicketType whereEventId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|TicketType whereEventTicketGroupId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|TicketType whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|TicketType whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|TicketType whereNoTicketsPerUser($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|TicketType wherePrice($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|TicketType wherePriceCredit($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|TicketType whereQuantity($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|TicketType whereSaleEnd($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|TicketType whereSaleStart($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|TicketType whereSeatable($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|TicketType whereTickettypeHidePolicy($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|TicketType whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|TicketType whereUpdatedAt($value)
  */
 	class TicketType extends \Eloquent {}
 }
@@ -1636,11 +1437,8 @@ namespace App{
  * @property string|null $username_nice
  * @property string|null $steamname
  * @property string|null $email
- * @property string $phonenumber
  * @property string|null $password
- * @property string $selected_avatar
- * @property string|null $local_avatar
- * @property string|null $steam_avatar
+ * @property string|null $avatar
  * @property string|null $steamid
  * @property int $admin
  * @property int $credit_total
@@ -1650,8 +1448,6 @@ namespace App{
  * @property string|null $email_verified_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property string $locale
- * @property-read mixed $avatar
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\CreditLog> $creditLogs
  * @property-read int|null $credit_logs_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Ticket> $managedTickets
@@ -1676,6 +1472,7 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereAdmin($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereAvatar($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereBanned($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereCreditTotal($value)
@@ -1684,13 +1481,8 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereFirstname($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereLastLogin($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereLocalAvatar($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereLocale($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePassword($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePhonenumber($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRememberToken($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereSelectedAvatar($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereSteamAvatar($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereSteamid($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereSteamname($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereSurname($value)
