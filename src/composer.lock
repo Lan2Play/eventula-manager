@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "602c8ff277304bfbee341a7945539fc9",
+    "content-hash": "846271bee0ac7aa87d65a03e48efded0",
     "packages": [
         {
             "name": "artesaos/seotools",
@@ -10941,16 +10941,16 @@
         },
         {
             "name": "orangehill/iseed",
-            "version": "v3.8.0",
+            "version": "v3.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orangehill/iseed.git",
-                "reference": "11ee04a43330b5241be9f7b97dcd9d44bc5745f2"
+                "reference": "15ce002707c8cc3806544c0a24661e3b619cb9d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orangehill/iseed/zipball/11ee04a43330b5241be9f7b97dcd9d44bc5745f2",
-                "reference": "11ee04a43330b5241be9f7b97dcd9d44bc5745f2",
+                "url": "https://api.github.com/repos/orangehill/iseed/zipball/15ce002707c8cc3806544c0a24661e3b619cb9d9",
+                "reference": "15ce002707c8cc3806544c0a24661e3b619cb9d9",
                 "shasum": ""
             },
             "require": {
@@ -10998,9 +10998,9 @@
             ],
             "support": {
                 "issues": "https://github.com/orangehill/iseed/issues",
-                "source": "https://github.com/orangehill/iseed/tree/v3.8.0"
+                "source": "https://github.com/orangehill/iseed/tree/v3.8.1"
             },
-            "time": "2026-02-23T07:40:35+00:00"
+            "time": "2026-06-24T08:59:33+00:00"
         },
         {
             "name": "phar-io/manifest",
