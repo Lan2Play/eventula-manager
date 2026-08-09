@@ -40,7 +40,7 @@
         "laravel/legacy-factories": "1.4.2",
         "webonyx/graphql-php": "15.33.1",
         "invisnik/laravel-steam-auth": "dev-master",
-        "laravel/socialite": "5.28.0",
+        "laravel/socialite": "5.29.0",
         "ignited/laravel-omnipay": "3.8.0",
         "simplesoftwareio/simple-qrcode": "4.2.0",
         "guzzlehttp/guzzle": "7.15.3",
