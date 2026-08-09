@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "52d1b8108de30a6593fe74bc3ed43372",
+    "content-hash": "efab24effdc2ab9eabb6178d26313ae3",
     "packages": [
         {
             "name": "artesaos/seotools",
@@ -2523,16 +2523,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v12.62.0",
+            "version": "v12.65.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "f7e61eb1e0e06a38996802b769bce9127aec227c"
+                "reference": "99a8fb3153f962a323377d6742be08da86bcccb8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/f7e61eb1e0e06a38996802b769bce9127aec227c",
-                "reference": "f7e61eb1e0e06a38996802b769bce9127aec227c",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/99a8fb3153f962a323377d6742be08da86bcccb8",
+                "reference": "99a8fb3153f962a323377d6742be08da86bcccb8",
                 "shasum": ""
             },
             "require": {
@@ -2741,7 +2741,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2026-06-09T13:50:13+00:00"
+            "time": "2026-08-05T15:33:16+00:00"
         },
         {
             "name": "laravel/legacy-factories",
@@ -3258,16 +3258,16 @@
         },
         {
             "name": "league/commonmark",
-            "version": "2.8.2",
+            "version": "2.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark.git",
-                "reference": "59fb075d2101740c337c7216e3f32b36c204218b"
+                "reference": "5703d83ba3da3b2e356a5fedc848ed6d8ffb6529"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/59fb075d2101740c337c7216e3f32b36c204218b",
-                "reference": "59fb075d2101740c337c7216e3f32b36c204218b",
+                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/5703d83ba3da3b2e356a5fedc848ed6d8ffb6529",
+                "reference": "5703d83ba3da3b2e356a5fedc848ed6d8ffb6529",
                 "shasum": ""
             },
             "require": {
@@ -3289,8 +3289,8 @@
                 "github/gfm": "0.29.0",
                 "michelf/php-markdown": "^1.4 || ^2.0",
                 "nyholm/psr7": "^1.5",
-                "phpstan/phpstan": "^1.8.2",
-                "phpunit/phpunit": "^9.5.21 || ^10.5.9 || ^11.0.0",
+                "phpstan/phpstan": "^2.0.0",
+                "phpunit/phpunit": "^9.5.21 || ^10.5.9 || ^11.0.0 || ^12.0.0 || ^13.0.0",
                 "scrutinizer/ocular": "^1.8.1",
                 "symfony/finder": "^5.3 | ^6.0 | ^7.0 || ^8.0",
                 "symfony/process": "^5.4 | ^6.0 | ^7.0 || ^8.0",
@@ -3304,7 +3304,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "2.9-dev"
+                    "dev-main": "2.10-dev"
                 }
             },
             "autoload": {
@@ -3361,7 +3361,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-03-19T13:16:38+00:00"
+            "time": "2026-08-03T13:42:31+00:00"
         },
         {
             "name": "league/config",
