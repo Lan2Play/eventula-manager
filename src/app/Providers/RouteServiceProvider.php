@@ -32,13 +32,20 @@ class RouteServiceProvider extends ServiceProvider
     /**
      * Define the routes for the application.
      *
+     * Routes are split across three files:
+     *   - routes/web.php   — public frontend, auth, install, and user-facing routes
+     *   - routes/api.php   — REST API, gameserver API, user API (Sanctum-guarded)
+     *   - routes/admin.php — all admin panel routes
+     *
      * @param  \Illuminate\Routing\Router  $router
      * @return void
      */
     public function map(Router $router)
     {
         $router->group(['namespace' => $this->namespace], function ($router) {
-            require app_path('Http/routes.php');
+            require base_path('routes/web.php');
+            require base_path('routes/api.php');
+            require base_path('routes/admin.php');
         });
     }
 }
