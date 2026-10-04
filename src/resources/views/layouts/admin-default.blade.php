@@ -116,7 +116,7 @@
                 </div>
                 @if ($errors->any())
                     <div class="alert alert-fixed alert-danger alert-dismissible fade show" role="alert">
-                        <h4 mt-0>Errors occured</h4>
+                        <h4 mt-0>Errors occurred</h4>
                         <ul>
                             @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>

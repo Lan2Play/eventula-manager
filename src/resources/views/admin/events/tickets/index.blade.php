@@ -118,14 +118,14 @@
 
 									@if ($ticketType->sale_start)
                                     Start:
-										{{ date('H:i d-m-Y', strtotime($ticketType->sale_start)) }}
+										{{ date(__('date.time_date_numeric'), strtotime($ticketType->sale_start)) }}
 									@else
 										Immediate
 									@endif
 									-
 									@if ($ticketType->sale_end)
                                         End:
-										{{ date('H:i d-m-Y', strtotime($ticketType->sale_end)) }}
+										{{ date(__('date.time_date_numeric'), strtotime($ticketType->sale_end)) }}
 									@else
 										Never
 									@endif

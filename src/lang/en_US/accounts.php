@@ -11,7 +11,6 @@
 */
 
 return [
-    'firstname' => 'First name',
     'surname' => 'Last name',
     'purchases_basket' => 'Cart',
 ];

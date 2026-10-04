@@ -124,7 +124,7 @@ class ShopController extends Controller
             Session::put(Settings::getOrgName() . '-basket', $params);
             Session::save();
         }
-        Session::flash('alert-success', 'Basket Updated!');
+        Session::flash('alert-success', 'Cart updated!');
         return Redirect::to('/shop/basket');
     }
 

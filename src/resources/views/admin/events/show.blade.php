@@ -368,7 +368,7 @@
 										<span class="text-muted"><small>Steam: {{ $participant->user->steamname }}</small></span>
 									@endif
 									<span class="float-end text-muted small">
-									<em>{{ date('d-m-y H:i', strtotime($participant->created_at)) }}</em>
+									<em>{{ date(__('date.datetime_numeric'), strtotime($participant->created_at)) }}</em>
 								</span>
 								</a>
 							@endforeach

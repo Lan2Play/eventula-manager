@@ -102,7 +102,7 @@ class SeatingController extends Controller
             return Redirect::to('events/' . $event->slug);
         }
         $seat = $event->getSeat($seatingPlan->id, $request->seat_column, $request->seat_row);
-        $request->session()->flash('alert-danger', 'Seat ' . $seat->getName() . ' in plan ' . $seatingPlan->name . ' is alredy taken');
+        $request->session()->flash('alert-danger', 'Seat ' . $seat->getName() . ' in plan ' . $seatingPlan->name . ' is already taken');
         return Redirect::to('events/' . $event->slug);
     }
 

@@ -219,7 +219,7 @@ class TournamentsController extends Controller
     public function start(Event $event, EventTournament $tournament)
     {
         if ($tournament->tournamentParticipants->count() < 2) {
-            Session::flash('alert-danger', 'Tournament doesnt have enough participants');
+            Session::flash('alert-danger', 'Tournament doesn\'t have enough participants');
             return Redirect::back();
         }
 
@@ -254,7 +254,7 @@ class TournamentsController extends Controller
                 $tournamentTeam->name                   = "Team " . ($key + 1);
 
                 if (!$tournamentTeam->save()) {
-                    Session::flash('alert-danger', "Couldnt save random Team " + ($key + 1));
+                    Session::flash('alert-danger', "Couldn't save random team " . ($key + 1));
                     return Redirect::back();
                 }
 
@@ -267,7 +267,7 @@ class TournamentsController extends Controller
                     $teamParticipant->event_tournament_team_id    = $tournamentTeam->id;
 
                     if (!$teamParticipant->save()) {
-                        Session::flash('alert-danger', "Couldn´t add a player to Team " . ($key + 1));
+                        Session::flash('alert-danger', "Couldn't add a player to team " . ($key + 1));
                         return Redirect::back();
                     }
                 }

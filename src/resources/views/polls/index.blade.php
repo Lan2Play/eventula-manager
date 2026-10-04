@@ -46,8 +46,8 @@
 				@if (!empty($poll->description))
 					<p class="bg-info  padding">{{ $poll->description }}</p>
 				@endif
-				<p class="bg-success  padding">Start: {{ date('H:i d-m-Y', strtotime($poll->start)) }}</p>
-				<p class="bg-danger  padding">End: {{ date('H:i d-m-Y', strtotime($poll->end)) }}</p>
+				<p class="bg-success  padding">Start: {{ date(__('date.time_date_numeric'), strtotime($poll->start)) }}</p>
+				<p class="bg-danger  padding">End: {{ date(__('date.time_date_numeric'), strtotime($poll->end)) }}</p>
 				<p class="bg-info  padding">Options: {{ $poll->options->count() }}</p>
 				<p class="bg-info  padding">Votes: {{ $poll->getTotalVotes() }}</p>
 			</div>

@@ -84,7 +84,7 @@ class EventTimetable extends Model
             $return[$startDate->format('Y-m-d H:i:s')] = date(
                 "D",
                 strtotime($startDate->format('Y-m-d H:i:s'))
-            ) . ' - ' .  date("H:i", strtotime($startDate->format('Y-m-d H:i:s')));
+            ) . ' - ' .  date(__('date.time_short'), strtotime($startDate->format('Y-m-d H:i:s')));
             $startDate->modify('+30 minutes');
         }
         if ($obj) {

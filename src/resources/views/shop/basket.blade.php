@@ -1,13 +1,13 @@
 @extends ('layouts.default')
 
-@section ('page_title', Settings::getOrgName() . ' Shop | Basket')
+@section ('page_title', Settings::getOrgName() . ' Shop | Cart')
 
 @section ('content')
 
 <div class="container pt-1">
 	<div class="pb-2 mt-4 mb-4 border-bottom">
 		<h1>
-			Shop - Basket
+			Shop - Cart
 		</h1>
 	</div>
 	@include ('layouts._partials._shop.navigation')
@@ -81,7 +81,7 @@
 					<button type="button" class="btn btn-primary btn-block">Checkout</button>
 				</a>
 			@else
-				<p>Basket is Empty</p>
+				<p>Your cart is empty</p>
 			@endif
 		</div>
 	</div>

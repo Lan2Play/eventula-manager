@@ -20,7 +20,7 @@
 				<th>Status</th>
 				<th>Payment Type</th>
 				<th>Ordered At</th>
-				<th>Basket</th>
+				<th>Cart</th>
 				<th>Total</th>
 				<th></th>
 			</tr>

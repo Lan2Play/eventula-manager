@@ -46,7 +46,7 @@
 								<th>Description</th>
 								<th>URL</th>
 								<th>Status</th>
-								<th># of Entrys</th>
+								<th># of Entries</th>
 								<th></th>
 								<th></th>
 							</tr>

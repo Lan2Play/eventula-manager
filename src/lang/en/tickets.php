@@ -13,14 +13,14 @@ return [
     |
     */
 
-    'max_ticket_event_count_reached' => 'You can not buy :ticketname x:ticketamount because it would exceed the event\'s limit of :maxamount total ticket(s) per user. You currently have :currentamount total ticket(s) for this event.',
-    'max_ticket_group_count_reached' => 'You can not buy :ticketname x:ticketamount, because it would exceed the limit of :maxamount ticket(s) from the group :ticketgroup per user. You currently have :currentamount ticket(s).',
-    'max_ticket_type_count_reached' => 'You can not buy :ticketname x:ticketamount, because it would exceed the limit of :maxamount ticket(s) per user. You currently have :currentamount ticket(s).',
+    'max_ticket_event_count_reached' => 'You cannot buy :ticketname x:ticketamount because it would exceed the event\'s limit of :maxamount total ticket(s) per user. You currently have :currentamount total ticket(s) for this event.',
+    'max_ticket_group_count_reached' => 'You cannot buy :ticketname x:ticketamount because it would exceed the limit of :maxamount ticket(s) from the group :ticketgroup per user. You currently have :currentamount ticket(s).',
+    'max_ticket_type_count_reached' => 'You cannot buy :ticketname x:ticketamount because it would exceed the limit of :maxamount ticket(s) per user. You currently have :currentamount ticket(s).',
 
     
     /* Ticket Partial*/
-    'has_been_gifted' => 'This Ticket has been gifted!',
-    'not_eligable_for_seat' => 'This Ticket is not eligable for a seat',
+    'has_been_gifted' => 'This ticket has been gifted!',
+    'not_eligable_for_seat' => 'This ticket is not eligible for a seat',
     'has_been_revoked' => 'This ticket has been revoked!',
     'gift_ticket' => 'Gift Ticket', 
     'gift_url' => 'Gift URL:',
@@ -40,9 +40,9 @@ return [
     'modal_change_manager_example' => 'Example: A Clan Member buys tickets for his buddy and himself. They both are members of a clan. The Clan Manager will be the one managing the clan\'s visit to an event, therefore he can change the seats a ticket will occupy and the user that is using the ticket.',
     'modal_change_user_search_user_label' => 'Search for new User',
     'modal_change_user_headline' => 'What can a User do?',
-    'modal_change_user_text' => 'A User "uses" the Ticket to get entrance to the event, seating, tournaments and basically everything that is related to the event.',
+    'modal_change_user_text' => 'A User "uses" the ticket to get entrance to the event, seating, tournaments and basically everything that is related to the event.',
     'modal_change_user_example' => 'A user that is a user of a ticket sees the ticket in their profile and on the event page but does not have access to the controls of the ticket (changing manager or user) but could also change the seat.',
-    'owner_cant_be_changed' => 'Owner can not be changed',
+    'owner_cant_be_changed' => 'Owner cannot be changed',
     'only_owner_can_chang_manager' => 'Only the owner can change the manager',
     'only_owner_or_manager_can_change_user' => 'Only the ticket owner or manager can change the user',
     'buttons_save' => 'save',
@@ -55,8 +55,8 @@ return [
     'signed_in' => 'Checked in',
 
     /* Alerts */
-    'alert_event_not_yet_published' => 'The event is currently in the state :state. You can not buy tickets for for now.',
-    'alert_event_not_found' => 'Event Not found',
+    'alert_event_not_yet_published' => 'The event is currently in the state :state. You cannot buy tickets for it yet.',
+    'alert_event_not_found' => 'Event not found',
     'alert_user_not_found' => 'User not found',
     'alert_ticket_not_found' => 'Ticket not found',
     'alert_event_ended' => 'You cannot buy tickets for previous events',

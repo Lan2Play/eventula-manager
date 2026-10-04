@@ -42,10 +42,10 @@ class TimetableDataController extends Controller
         $data->desc                 = $request->desc;
         
         if (!$data->save()) {
-            Session::flash('alert-danger', 'Cannot save Timetable Slot!');
+            Session::flash('alert-danger', 'Cannot save schedule slot!');
             return Redirect::back();
         }
-        Session::flash('alert-success', 'Successfully saved Timetable Slot!');
+        Session::flash('alert-success', 'Successfully saved schedule slot!');
         return Redirect::back();
     }
 
@@ -74,10 +74,10 @@ class TimetableDataController extends Controller
         $data->desc         = $request->desc;
 
         if (!$data->save()) {
-            Session::flash('alert-danger', 'Cannot update Timetable Slot!');
+            Session::flash('alert-danger', 'Cannot update schedule slot!');
             return Redirect::back();
         }
-        Session::flash('alert-success', 'Successfully updated Timetable Slot!');
+        Session::flash('alert-success', 'Successfully updated schedule slot!');
         return Redirect::back();
     }
 
@@ -91,11 +91,11 @@ class TimetableDataController extends Controller
     {
         try {
             $data->delete();
-            Session::flash('alert-success', 'Successfully deleted Timetable Slot!');
+            Session::flash('alert-success', 'Successfully deleted schedule slot!');
         } catch (\Exception $e) {
             // Log the exception message
             \Log::error('Error deleting Timetable Slot: ' . $e->getMessage());
-            Session::flash('alert-danger', 'Cannot delete Timetable Slot!');
+            Session::flash('alert-danger', 'Cannot delete schedule slot!');
         }
         return Redirect::back();
     }

@@ -31,7 +31,7 @@
 						@if ($slot->name != NULL && $slot->desc != NULL && $slot->start_time >= date('Y-m-d H:i:s'))
 							<tr>
 								<td>
-									{{ date("D", strtotime($slot->start_time)) }} - {{ date("H:i", strtotime($slot->start_time)) }}
+									{{ date("D", strtotime($slot->start_time)) }} - {{ date(__('date.time_short'), strtotime($slot->start_time)) }}
 								</td>
 								<td>
 									{{ $slot->name }}

@@ -8,7 +8,7 @@
 			<div class="pb-2 mt-4 mb-4 border-bottom">
 				<h1>Hello & Welcome to your new Event Management Platform!</h1>
 			</div>
-			<p>Before you can start planning and adding events we need do a litte setup...</p>
+			<p>Before you can start planning and adding events we need to do a little setup...</p>
 			<p>Please Fill out the form below. Once this is done you will be redirected to the Admin Panel.</p>
 			{{ Form::open(array('url'=>'/install' )) }}
 				<h2>Step 1: Create Admin User</h2>
@@ -18,13 +18,13 @@
 		                <div class="row">
 		                    <div class="col-12 col-md-6">
 		                        <div class="mb-3 @error('firstname') is-invalid @enderror">
-		                            {{ Form::label('firstname','Firstname',array('id'=>'','class'=>'')) }}
+		                            {{ Form::label('firstname','First Name',array('id'=>'','class'=>'')) }}
 		                            <input id="firstname" type="firstname" class="form-control" name="firstname" value="{{ old('firstname') }}" required autocomplete="firstname">
 		                        </div>
 		                    </div>
 		                    <div class="col-12 col-md-6">
 		                        <div class="mb-3  @error('surname') is-invalid @enderror">
-		                            {{ Form::label('surname','Surname',array('id'=>'','class'=>'')) }}
+		                            {{ Form::label('surname','Last Name',array('id'=>'','class'=>'')) }}
 		                            <input id="surname" type="surname" class="form-control" name="surname" value="{{ old('surname') }}" required autocomplete="surname">
 		                        </div>
 		                    </div>

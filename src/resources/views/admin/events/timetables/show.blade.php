@@ -1,12 +1,12 @@
 @extends ('layouts.admin-default')
 
-@section ('page_title', 'Timetables - ' . $event->display_name)
+@section ('page_title', 'Schedules - ' . $event->display_name)
 
 @section ('content')
 
 <div class="row">
 	<div class="col-lg-12">
-		<h3 class="pb-2 mt-4 mb-4 border-bottom">Timetables - {{ $timetable->name }}</h3>
+		<h3 class="pb-2 mt-4 mb-4 border-bottom">Schedules - {{ $timetable->name }}</h3>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item">
 				<a href="/admin/events/">Events</a>
@@ -15,7 +15,7 @@
 				<a href="/admin/events/{{ $event->slug }}">{{ $event->display_name }}</a>
 			</li>
 			<li class="breadcrumb-item">
-				<a href="/admin/events/{{ $event->slug }}/timetables">Timetables</a>
+				<a href="/admin/events/{{ $event->slug }}/timetables">Schedules</a>
 			</li>
 			<li class="breadcrumb-item active">
 				{{ $timetable->name }}
@@ -48,7 +48,7 @@
 					<tbody>
 						@foreach ($timetable->data as $slot)
 							<tr class="odd gradeX">
-								<td>{{ date("D", strtotime($slot->start_time)) }} - {{ date("H:i", strtotime($slot->start_time)) }}</td>
+								<td>{{ date("D", strtotime($slot->start_time)) }} - {{ date(__('date.time_short'), strtotime($slot->start_time)) }}</td>
 								@if($slot->name == NULL && $slot->desc == NULL)
 									<td>EMPTY</td>
 									<td>EMPTY</td>
@@ -133,9 +133,9 @@
 						<div class="form-check">
 							<label class="form-check-label">
 								@if ($timetable->primary)
-									{{ Form::checkbox('primary', 1, true, array('id'=>'primary'))}} Primary Timetable
+									{{ Form::checkbox('primary', 1, true, array('id'=>'primary'))}} Primary Schedule
 								@else
-									{{ Form::checkbox('primary', 1, false, array('id'=>'primary'))}} Primary Timetable
+									{{ Form::checkbox('primary', 1, false, array('id'=>'primary'))}} Primary Schedule
 								@endif
 							</label>
 						</div>

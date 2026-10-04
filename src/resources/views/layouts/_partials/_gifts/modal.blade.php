@@ -21,7 +21,7 @@
 							Paste it to your Friend
 						</li>
 						<li>
-							Tell your friend to vist the URL and Claim their ticket
+							Tell your friend to visit the URL and claim their ticket
 						</li>
 					</ol>
 				</div>

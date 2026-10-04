@@ -13,7 +13,7 @@ return [
     'help' => 'Help',
     'event' => 'Event:',
     'copylink' => 'Copy Link:',
-    'search' => 'Search..',
+    'search' => 'Search…',
     'showattachmentmanager' => 'Manage Attachments',
     'attachmentmanager' => 'Attachment Manager',
     'uploadedattachments' => 'Uploaded Attachments',

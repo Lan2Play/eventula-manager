@@ -11,6 +11,5 @@
 */
 
 return [
-    'firstname' => 'First name',
     'surname' => 'Last name',
 ];

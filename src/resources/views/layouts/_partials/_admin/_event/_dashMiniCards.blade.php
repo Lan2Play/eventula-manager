@@ -142,7 +142,7 @@
 			</div>
 		</div>
 			<a href="/admin/events/{{ $event->slug }}/timetables" class="card-footer d-flex flex-nowrap">
-				<span class="float-start text-nowrap">View Timetables</span>
+				<span class="float-start text-nowrap">View Schedules</span>
 				<span class="float-end ms-auto"><i class="fa fa-arrow-circle-right"></i></span>
 				<div class="clearfix"></div>
 			</a>

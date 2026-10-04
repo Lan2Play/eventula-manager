@@ -23,7 +23,7 @@
 
 		<div class="card mb-3">
 			<div class="card-header">
-				<i class="fa fa-entry fa-fw"></i> Entrys
+				<i class="fa fa-entry fa-fw"></i> Entries
 			</div>
 			<div class="card-body">
 				<div class="dataTable_wrapper">

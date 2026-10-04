@@ -60,7 +60,7 @@
 						<div class="mb-3">
 							<div class="form-check">
 								<label class="form-check-label">
-									{{ Form::checkbox('auth_allow_email_change', null, $isAuthAllowEmailChangeEnabled, array('id'=>'auth_allow_email_change')) }} Allow changing the Email Adress after registration
+									{{ Form::checkbox('auth_allow_email_change', null, $isAuthAllowEmailChangeEnabled, array('id'=>'auth_allow_email_change')) }} Allow changing the email address after registration
 								</label>
 							</div>
 						</div>
@@ -95,7 +95,7 @@
 						<div class="mb-3">
 							<div class="form-check">
 								<label class="form-check-label">
-									{{ Form::checkbox('auth_steam_require_email', null, $isAuthSteamRequireEmailEnabled, array('id'=>'auth_steam_require_email')) }} Require Email Adress on Steam registration (all registered users will be forced to set it on the next login)
+									{{ Form::checkbox('auth_steam_require_email', null, $isAuthSteamRequireEmailEnabled, array('id'=>'auth_steam_require_email')) }} Require email address on Steam registration (all registered users will be forced to set it on the next login)
 								</label>
 							</div>
 						</div>

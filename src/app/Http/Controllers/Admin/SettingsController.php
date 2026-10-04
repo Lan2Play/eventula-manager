@@ -316,7 +316,7 @@ class SettingsController extends Controller
             'about_main.filled'                 => 'About Main cannot be empty',
             'about_short.filled'                => 'About Short cannot be empty',
             'about_our_aim.filled'              => 'About Our Aim cannot be empty',
-            'about_who.filled'                  => 'About Whos who cannot be empty',
+            'about_who.filled'                  => 'About Who\'s who cannot be empty',
             'legal_notice.filled'               => 'LegalNotice is required in Germany',
             'privacy_policy.filled'             => 'PrivacyPolicy is required in Germany',
             'seo_keywords.filled'               => 'SEO Keywords cannot be empty',
@@ -682,7 +682,7 @@ class SettingsController extends Controller
             $user->save();
             $count++;
         }
-        Session::flash('alert-success', 'Successfully resetted userlocale to ' . Settings::getSiteLocale() . ' on ' . $count . ' Users!');
+        Session::flash('alert-success', 'Successfully reset user locale to ' . Settings::getSiteLocale() . ' on ' . $count . ' Users!');
         return Redirect::back();
     }
 

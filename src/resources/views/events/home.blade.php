@@ -111,10 +111,10 @@ use Debugbar;
 
                 <p>
                     @lang('events.timetable-created-at')
-                    {{ $timetable->created_at->toDateString() == now()->toDateString() ? $timetable->created_at->format('M d, H:i') : ($timetable->created_at->year == now()->year ? $timetable->created_at->format('M d') : $timetable->created_at->format('M d, Y')) }}
+                    {{ $timetable->created_at->toDateString() == now()->toDateString() ? $timetable->created_at->format('M d, ' . __('date.time_short')) : ($timetable->created_at->year == now()->year ? $timetable->created_at->format('M d') : $timetable->created_at->format('M d, Y')) }}
                     ,
                     @lang('events.timetable-updated-at')
-                    {{ $timetable->updated_at->toDateString() == now()->toDateString() ? $timetable->updated_at->format('M d, H:i') : ($timetable->updated_at->year == now()->year ? $timetable->updated_at->format('M d') : $timetable->updated_at->format('M d, Y')) }}
+                    {{ $timetable->updated_at->toDateString() == now()->toDateString() ? $timetable->updated_at->format('M d, ' . __('date.time_short')) : ($timetable->updated_at->year == now()->year ? $timetable->updated_at->format('M d') : $timetable->updated_at->format('M d, Y')) }}
                 </p>
 
                 <table class="table table-striped">
@@ -134,7 +134,7 @@ use Debugbar;
                     <tr>
                         <td>
                             {{ date("D", strtotime($slot->start_time)) }}
-                            - {{ date("H:i", strtotime($slot->start_time)) }}
+                            - {{ date(__('date.time_short'), strtotime($slot->start_time)) }}
                         </td>
                         <td>
                             {{ $slot->name ?? '-' }}

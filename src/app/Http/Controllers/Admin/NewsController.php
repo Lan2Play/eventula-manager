@@ -70,7 +70,7 @@ class NewsController extends Controller
             'article.required'  => 'Article is required.',
             'article.filled'    => 'Article cannot be empty.',
             'tags.required'     => 'You must add Tags.',
-            'tags.filled'       => 'You cannont be empty.',
+            'tags.filled'       => 'Tags cannot be empty.',
         ];
         $this->validate($request, $rules, $messages);
 

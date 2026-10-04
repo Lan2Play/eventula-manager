@@ -22,8 +22,8 @@
 
 @if($matchCountError)
 	<div class="alert alert-fixed alert-danger alert-dismissible fade show" role="alert">
-		<h4 mt-0>Errors occured</h4>
-		<ul>At least one of youre servers have more than one match assigned. This should never happen! Please look through the list and fix the error manually.</ul>
+		<h4 mt-0>Errors occurred</h4>
+		<ul>At least one of your servers has more than one match assigned. This should never happen! Please look through the list and fix the error manually.</ul>
 		<button type="button" class="btn-close text-decoration-none" data-bs-dismiss="alert" aria-label="Close">
 			
 		</button>
@@ -177,7 +177,7 @@
 										
 										
 										<a href="/admin/games/{{ $gameServer->game->slug }}/gameservers/{{ $gameServer->slug }}">
-										<p style="color:red">{{$gameServer->getAssignedMatchServer()["count"]}} Matches assigned! This should never happen! Please klick here to fix it manually</p>
+										<p style="color:red">{{$gameServer->getAssignedMatchServer()["count"]}} Matches assigned! This should never happen! Please click here to fix it manually</p>
 										</a>
 										@endif
 

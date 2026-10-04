@@ -40,10 +40,10 @@
 								<tr class="table-row" class="odd gradeX">
 									<td>{{ $event->display_name }}</td>
 									<td class="d-none d-sm-table-cell">
-                                        {{ date('d-m-y H:i', strtotime($event->start)) }}
+                                        {{ date(__('date.datetime_numeric'), strtotime($event->start)) }}
                                     </td>
 									<td class="d-none d-sm-table-cell">
-                                        {{ date('d-m-y H:i', strtotime($event->end)) }}
+                                        {{ date(__('date.datetime_numeric'), strtotime($event->end)) }}
                                     </td>
 									<td class="d-none d-md-table-cell">{!! $event->desc_short !!}</td>
                                     <td class="center">

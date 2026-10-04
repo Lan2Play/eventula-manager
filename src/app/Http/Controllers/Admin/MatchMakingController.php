@@ -148,7 +148,7 @@ class MatchMakingController extends Controller
                 {
                     if (!Helpers::checkUserFields(User::where('id', '=', $request->team1owner)->first(),(new GameMatchApiHandler())->getGameMatchApiHandler($tempgame->gamematchapihandler)->getuserthirdpartyrequirements()))
                     {
-                        Session::flash('alert-danger', "you cannot create the match with the selected team 1 owner, because the nessecary third party account link on the user is missing");
+                        Session::flash('alert-danger', "You cannot create the match with the selected team 1 owner because the necessary third-party account link on the user is missing");
                         return Redirect::back();
                     }
 
@@ -357,7 +357,7 @@ class MatchMakingController extends Controller
         {
             if (Arr::first($team->players->toArray(), function($value, $key)use($request){return $value['user_id'] == $request->teamowner;},false))
             {
-                Session::flash('alert-danger', "specifyed owner is already in a team!");
+                Session::flash('alert-danger', "Specified owner is already in a team!");
                 return Redirect::back();
             }
         }
@@ -410,7 +410,7 @@ class MatchMakingController extends Controller
         {
             if (!Helpers::checkUserFields(User::where('id', '=', $request->teamowner)->first(),(new GameMatchApiHandler())->getGameMatchApiHandler($match->game->gamematchapihandler)->getuserthirdpartyrequirements()))
             {
-                Session::flash('alert-danger', "you cannot set this teamowner because the nessecary third party account link on the user is missing");
+                Session::flash('alert-danger', "You cannot set this team owner because the necessary third-party account link on the user is missing");
                 return Redirect::back();
             }
 
@@ -429,7 +429,7 @@ class MatchMakingController extends Controller
             {
                 if (Arr::first($matchteam->players->toArray(), function($value, $key)use($request){return $value['user_id'] == $request->teamowner;},false))
                 {
-                    Session::flash('alert-danger', "specifyed owner is already in a team!");
+                    Session::flash('alert-danger', "Specified owner is already in a team!");
                     return Redirect::back();
                 }
             }
@@ -529,7 +529,7 @@ class MatchMakingController extends Controller
         {
             if (!Helpers::checkUserFields(User::where('id', '=', $request->userid)->first(),(new GameMatchApiHandler())->getGameMatchApiHandler($match->game->gamematchapihandler)->getuserthirdpartyrequirements()))
             {
-                Session::flash('alert-danger', "you cannot add this user to the team because the nessecary third party account link on the user is missing");
+                Session::flash('alert-danger', "You cannot add this user to the team because the necessary third-party account link on the user is missing");
                 return Redirect::back();
             }
 
@@ -780,7 +780,7 @@ class MatchMakingController extends Controller
 
                     $team->team_score = $value;
                     if (!$team->save()) {
-                        Session::flash('alert-danger', 'Score for at least one team could not be setted!');
+                        Session::flash('alert-danger', 'Score for at least one team could not be set!');
                         return Redirect::back();
                     }
 

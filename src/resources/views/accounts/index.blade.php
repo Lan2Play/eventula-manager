@@ -330,7 +330,7 @@
                                                 {{ $purchase->getPurchaseType() }}
                                             </td>
                                             <td>
-                                                {{ date('d-m-y H:i', strtotime($purchase->created_at)) }}
+                                                {{ date(__('date.datetime_numeric'), strtotime($purchase->created_at)) }}
                                             </td>
                                             <td>
                                                 @if (!$purchase->getPurchaseContentType() == 'eventTickets')
@@ -449,13 +449,13 @@
                                             </td>
                                             <td>
                                                 @if ($token->last_used_at)
-                                                    {{ date('d-m-y H:i', strtotime($token->last_used_at)) }}
+                                                    {{ date(__('date.datetime_numeric'), strtotime($token->last_used_at)) }}
                                                 @else
                                                     @lang('accounts.token_never_used')
                                                 @endif
                                             </td>
                                             <td>
-                                                {{ date('d-m-y H:i', strtotime($token->created_at)) }}
+                                                {{ date(__('date.datetime_numeric'), strtotime($token->created_at)) }}
                                             </td>
                                             <td>
                                                 {{ Form::open(['url' => '/account/tokens/remove/' . $token->id, 'onsubmit' => 'return ConfirmDeleteToken()']) }}

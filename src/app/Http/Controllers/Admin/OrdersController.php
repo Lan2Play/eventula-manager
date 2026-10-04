@@ -108,7 +108,7 @@ class OrdersController extends Controller
             Session::flash('alert-danger', 'Cannot Cancel order!');
             return Redirect::back();
         }
-        Session::flash('alert-success', 'Successfully Cancelled order!');
+        Session::flash('alert-success', 'Successfully canceled order!');
         return Redirect::back();
     }
 

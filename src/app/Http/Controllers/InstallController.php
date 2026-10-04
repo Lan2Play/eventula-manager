@@ -58,7 +58,7 @@ class InstallController extends Controller
             'email.unique'          				=> 'Email must be unique.',
             'password1.same'        				=> 'Passwords must be the same.',
             'password1.required'    				=> 'Password is required.',
-            'password1.min'         				=> 'Password must be atleast 8 characters long.',
+            'password1.min'         				=> 'Password must be at least 8 characters long.',
             'org_name.filled'						=> 'Org Name cannot be empty.',
             'org_tagline.filled'					=> 'Org Tagline cannot be empty.',
             'paypal_username.required_without'		=> 'Paypal Username is required if no other details are entered.',

@@ -182,7 +182,7 @@
 													</div>
 												@elseif($ticketType->sale_start && $ticketType->sale_start >= date('Y-m-d H:i:s'))
 													<h5>
-														@lang('events.availablefrom', ['time' => date('H:i', strtotime($ticketType->sale_start)), 'date'=> date ('d-m-Y', strtotime($ticketType->sale_start))])
+														@lang('events.availablefrom', ['time' => date(__('date.time_short'), strtotime($ticketType->sale_start)), 'date'=> date(__('date.date_numeric'), strtotime($ticketType->sale_start))])
 													</h5>
 												@elseif(
                                                 $ticketType->sale_end && $ticketType->sale_end <= date('Y-m-d H:i:s') || date('Y-m-d H:i:s')>= $event->end
@@ -365,10 +365,10 @@
 
 				<p>
 					@lang('events.timetable-created-at')
-					{{ $timetable->created_at->toDateString() == now()->toDateString() ? $timetable->created_at->format('M d, H:i') : ($timetable->created_at->year == now()->year ? $timetable->created_at->format('M d') : $timetable->created_at->format('M d, Y')) }}
+					{{ $timetable->created_at->toDateString() == now()->toDateString() ? $timetable->created_at->format('M d, ' . __('date.time_short')) : ($timetable->created_at->year == now()->year ? $timetable->created_at->format('M d') : $timetable->created_at->format('M d, Y')) }}
 					,
 					@lang('events.timetable-updated-at')
-					{{ $timetable->updated_at->toDateString() == now()->toDateString() ? $timetable->updated_at->format('M d, H:i') : ($timetable->updated_at->year == now()->year ? $timetable->updated_at->format('M d') : $timetable->updated_at->format('M d, Y')) }}
+					{{ $timetable->updated_at->toDateString() == now()->toDateString() ? $timetable->updated_at->format('M d, ' . __('date.time_short')) : ($timetable->updated_at->year == now()->year ? $timetable->updated_at->format('M d') : $timetable->updated_at->format('M d, Y')) }}
 				</p>
 
 				<table class="table table-striped">
@@ -389,7 +389,7 @@
 							<tr>
 								<td>
 									{{ date("D", strtotime($slot->start_time)) }}
-									- {{ date("H:i", strtotime($slot->start_time)) }}
+									- {{ date(__('date.time_short'), strtotime($slot->start_time)) }}
 								</td>
 								<td>
 									{{ $slot->name }}

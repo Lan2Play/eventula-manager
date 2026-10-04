@@ -187,7 +187,7 @@ class AuthController extends Controller
                     'email.unique'          => 'Email must be unique.',
                     'password1.same'        => 'Passwords must be the same.',
                     'password1.required'    => 'Password is required.',
-                    'password1.min'         => 'Password must be atleast 8 characters long.',
+                    'password1.min'         => 'Password must be at least 8 characters long.',
                 ];
 
                 if (Settings::isAuthRequirePhonenumberEnabled()) {

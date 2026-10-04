@@ -48,7 +48,7 @@
         </div>
         <div class="col-6">
             <a href="/admin/events/{{ $event->slug }}/timetables" class="list-group-item list-group-item-action">
-                <i class="fa fa-calendar me-2"></i> Timetables
+                <i class="fa fa-calendar me-2"></i> Schedules
             </a>
         </div>
     </div>

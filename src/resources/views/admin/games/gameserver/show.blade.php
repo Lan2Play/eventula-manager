@@ -34,7 +34,7 @@
 
 				</div>
 				<div class="card-body">
-					<small style="color: red">You should only delete the assignment(s) here, if they are really orphaned and you're server is free again. If you do this on a running match, this will most likeley break the match/tournament automation</small>
+					<small style="color: red">You should only delete the assignment(s) here, if they are really orphaned and your server is free again. If you do this on a running match, this will most likely break the match/tournament automation</small>
 					@if (isset($gameServer->matchMakingServer) || isset($gameServer->eventTournamentMatchServer))
 					
 					<div class="dataTable_wrapper">

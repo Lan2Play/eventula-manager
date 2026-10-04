@@ -162,7 +162,7 @@
 														{{ Form::open(array('url'=>'/admin/events/' . $event->slug . '/tournaments/' . $tournament->slug .'/match/' . $match->id . ((isset($matchserver) && isset($matchserver->gameServer)) ? '/update':'') , 'id'=>'selectServerModal')) }}
 														<div class="modal-body">
 															@if (isset($tournament->match_autoapi) && $tournament->match_autoapi && isset($tournament->game->gamematchapihandler) && $tournament->game->gamematchapihandler != 0 )
-																<small style="color: red">This does not end the match remotely on the currently assigned server and does not load it on the new assigned Server. You have to manually execute the nessecary commands on your server with the Execute Command button. Also if you're automation works as its intended, you should never have to assign a server here.</small>
+																<small style="color: red">This does not end the match remotely on the currently assigned server and does not load it on the new assigned Server. You have to manually execute the necessary commands on your server with the Execute Command button. Also if you're automation works as its intended, you should never have to assign a server here.</small>
 															@endif
 															@if (isset($matchserver) && isset($matchserver->gameServer))
 																<br><br><p><small style="color: red">If you need to delete the current assignment, you can do that on the <a href="/admin/games/{{$matchserver->gameServer->game->slug}}/gameservers/{{$matchserver->gameServer->slug}}">gameservers detail page</a></small></p>

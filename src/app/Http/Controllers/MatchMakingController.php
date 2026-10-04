@@ -719,14 +719,14 @@ class MatchMakingController extends Controller
             // After scrambling there is no team owner available.
             $teamToUpdate->team_owner_id = null;
             if (!$teamToUpdate->save()) {
-                Session::flash('alert-danger', "Couldn´t set team owner id");
+                Session::flash('alert-danger', "Couldn't set team owner ID");
                 return Redirect::back();
             }
 
             foreach ($team as $teamPlayer) {
                 $teamPlayer->matchmaking_team_id = $teamToUpdate->id;
                 if (!$teamPlayer->save()) {
-                    Session::flash('alert-danger', "Couldn´t add a player to Team " . ($key + 1));
+                    Session::flash('alert-danger', "Couldn't add a player to team " . ($key + 1));
                     return Redirect::back();
                 }
             }

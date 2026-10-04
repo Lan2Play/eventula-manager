@@ -160,16 +160,16 @@ class UsersController extends Controller
                 }
                 break;
             default:
-                Session::flash('alert-danger', 'Cannot remove thirdparty authentication, no method selected!!');
+                Session::flash('alert-danger', 'Cannot remove third-party authentication, no method selected!');
                 return Redirect::back();
                 break;
         }
 
         if (!$user->save()) {
-            Session::flash('alert-danger', 'Cannot remove thirdparty authentication!');
+            Session::flash('alert-danger', 'Cannot remove third-party authentication!');
             return Redirect::back();
         }
-        Session::flash('alert-success', 'Successfully removed thirdparty authentication!');
+        Session::flash('alert-success', 'Successfully removed third-party authentication!');
         return Redirect::back();
     }
 

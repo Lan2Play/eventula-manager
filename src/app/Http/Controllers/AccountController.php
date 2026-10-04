@@ -226,9 +226,9 @@ class AccountController extends Controller
             ];
             $messages = [
                 'password1.same'    => 'Passwords must be the same.',
-                'password1.min'     => 'Password must be atleast 8 characters long.',
+                'password1.min'     => 'Password must be at least 8 characters long.',
                 'password2.same'    => 'Passwords must be the same.',
-                'password2.min'     => 'Password must be atleast 8 characters long.',
+                'password2.min'     => 'Password must be at least 8 characters long.',
             ];
             $this->validate($request, $rules, $messages);
             $user->password = Hash::make($request->password1);
@@ -280,7 +280,7 @@ class AccountController extends Controller
         ];
         $messages = [
             'firstname.filled'  => 'Firstname Cannot be blank.',
-            'surname.filled'    => 'Surname Cannot be blank.',
+            'surname.filled'    => 'Last name cannot be blank.',
             'email.email'       => 'Email must be a valid Email Address.',
             'password1.same'    => 'Passwords must be the same.',
             'password2.same'    => 'Passwords must be the same.',
@@ -295,9 +295,9 @@ class AccountController extends Controller
             ];
             $messages = [
                 'password1.same'    => 'Passwords must be the same.',
-                'password1.min'     => 'Password must be atleast 8 characters long.',
+                'password1.min'     => 'Password must be at least 8 characters long.',
                 'password2.same'    => 'Passwords must be the same.',
-                'password2.min'     => 'Password must be atleast 8 characters long.',
+                'password2.min'     => 'Password must be at least 8 characters long.',
             ];
             $this->validate($request, $rules, $messages);
             $user->password = Hash::make($request->password1);

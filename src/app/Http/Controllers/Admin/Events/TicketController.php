@@ -195,11 +195,11 @@ class TicketController extends Controller
         ];
         $this->validate($request, $rules, $messages);
         if ($ticket->signed_in) {
-            Session::flash('alert-warning', 'Cannot tranfer Participant already signed in!');
+            Session::flash('alert-warning', 'Cannot transfer participant who is already signed in!');
             return Redirect::to('admin/events/' . $event->slug . '/participants/' . $ticket->id);
         }
         if (!$ticket->transfer($request->event_id)) {
-            Session::flash('alert-danger', 'Cannot tranfer Participant!');
+            Session::flash('alert-danger', 'Cannot transfer participant!');
             return Redirect::to('admin/events/' . $event->slug . '/participants/' . $ticket->id);
         }
         Session::flash('alert-success', 'Participant Transferred!');

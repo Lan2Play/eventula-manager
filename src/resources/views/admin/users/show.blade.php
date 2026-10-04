@@ -72,7 +72,7 @@
 									Time
 								</th>
 								<th>
-									Basket
+									Cart
 								</th>
 								<th>
 								</th>
@@ -88,7 +88,7 @@
 										{{ $purchase->getPurchaseType() }}
 									</td>
 									<td>
-										{{  date('d-m-y H:i', strtotime($purchase->created_at)) }}
+										{{  date(__('date.datetime_numeric'), strtotime($purchase->created_at)) }}
 									</td>
 									<td>
 										@if ($purchase->getPurchaseContentType() == 'eventTickets')
@@ -187,7 +187,7 @@
 							<input type="hidden" name="email" value="{{ $userShow->email }}">
 							<button type="submit" class="btn btn-block btn-success">Send password set link</button>
 						{{ Form::close() }}
-						<small>This will send a verification link to the users email so a password can be setted.</small>
+						<small>This will send a verification link to the users email so a password can be set.</small>
 					</div>
 					@endif --}}
 

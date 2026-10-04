@@ -63,11 +63,11 @@ class TimetablesController extends Controller
         $timetable->event_id    = $event->id;
 
         if (!$timetable->save()) {
-            Session::flash('alert-danger', 'Cannot save Timetable!');
+            Session::flash('alert-danger', 'Cannot save schedule!');
             return Redirect::back();
         }
 
-        Session::flash('alert-success', 'Successfully saved Timetable!');
+        Session::flash('alert-success', 'Successfully saved schedule!');
         return Redirect::to('admin/events/' . $event->slug . '/timetables/' . $timetable->slug);
     }
 
@@ -103,11 +103,11 @@ class TimetablesController extends Controller
         $timetable->primary     = ($request->primary ? true : false);
 
         if (!$timetable->save()) {
-            Session::flash('alert-danger', 'Cannot update Timetable!');
+            Session::flash('alert-danger', 'Cannot update schedule!');
             return Redirect::back();
         }
 
-        Session::flash('alert-success', 'Successfully updated Timetable!');
+        Session::flash('alert-success', 'Successfully updated schedule!');
         return Redirect::back();
     }
 
@@ -121,11 +121,11 @@ class TimetablesController extends Controller
     public function destroy(Event $event, EventTimetable $timetable, Request $request)
     {
         if (!$timetable->delete()) {
-            Session::flash('alert-danger', 'Cannot delete Timetable!');
+            Session::flash('alert-danger', 'Cannot delete schedule!');
             return Redirect::back();
         }
 
-        Session::flash('alert-success', 'Successfully deleted Timetable!');
+        Session::flash('alert-success', 'Successfully deleted schedule!');
         return Redirect::back();
     }
 }

@@ -153,7 +153,7 @@ class GameServerCommandsController extends Controller
             $commandHandler->init($gameServer->rcon_address ?? $gameServer->address, $gameServer->rcon_port, $gameServer->rcon_password);
             $result = $commandHandler->execute($command, $verification);
             if ($result == false) {
-                $error = "Unexpected Error occured.";
+                $error = "Unexpected error occurred.";
             }
         } catch (Exception $e) {
             $error = $e->getMessage();

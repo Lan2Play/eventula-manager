@@ -62,7 +62,7 @@
 		<div class="col-12 col-sm-6">
 			<div class="card mb-3">
 				<div class="card-header ">
-					<h3 class="card-title">Basket</h3>
+					<h3 class="card-title">Cart</h3>
 				</div>
 				<div class="card-body">
 					@if ($order->purchase->getPurchaseContentType() == 'shopOrder')

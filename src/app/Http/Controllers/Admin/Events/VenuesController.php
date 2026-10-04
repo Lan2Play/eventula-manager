@@ -63,7 +63,7 @@ class VenuesController extends Controller
             'address_1.required'        => 'Address is Required',
             'address_street.required'   => 'Street name is Required',
             'address_city.required'     => 'City name is Required',
-            'address_postcode.required' => 'Postcode is Required',
+            'address_postcode.required' => 'ZIP code is required',
             'address_country.required'  => 'Country is Required',
             'image.*.image'             => 'Venue Image must be of Image type',
         ];
@@ -153,7 +153,7 @@ class VenuesController extends Controller
             'address_1.filled'          => 'Address cannot be empty',
             'address_street.filled'     => 'Street name cannot be empty',
             'address_city.filled'       => 'City name cannot be empty',
-            'address_postcode.filled'   => 'Postcode cannot be empty',
+            'address_postcode.filled'   => 'ZIP code cannot be empty',
             'address_country.filled'    => 'Country cannot be empty',
             'image.*.image'             => 'Venue Image must be of Image type',
         ];

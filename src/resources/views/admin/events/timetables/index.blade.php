@@ -1,12 +1,12 @@
 @extends ('layouts.admin-default')
 
-@section ('page_title', 'Timetables - ' . $event->display_name)
+@section ('page_title', 'Schedules - ' . $event->display_name)
 
 @section ('content')
 
 <div class="row">
 	<div class="col-lg-12">
-		<h3 class="pb-2 mt-4 mb-4 border-bottom">Timetables</h3>
+		<h3 class="pb-2 mt-4 mb-4 border-bottom">Schedules</h3>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item">
 				<a href="/admin/events/">Events</a>
@@ -15,7 +15,7 @@
 				<a href="/admin/events/{{ $event->slug }}">{{ $event->display_name }}</a>
 			</li>
 			<li class="breadcrumb-item active">
-				Timetables
+				Schedules
 			</li>
 		</ol>
 	</div>
@@ -28,7 +28,7 @@
 
 		<div class="card mb-3">
 			<div class="card-header">
-				<i class="fa fa-calendar fa-fw"></i> Timetables
+				<i class="fa fa-calendar fa-fw"></i> Schedules
 			</div>
 			<div class="card-body table-responsive">
 				<table class="table table-striped table-hover">
@@ -72,7 +72,7 @@
 
 		<div class="card mb-3">
 			<div class="card-header">
-				<i class="fa fa-plus fa-fw"></i> Add New Timetable
+				<i class="fa fa-plus fa-fw"></i> Add New Schedule
 			</div>
 			<div class="card-body">
 				{{ Form::open(array('url'=>'/admin/events/' . $event->slug . '/timetables')) }}

@@ -211,7 +211,7 @@
                             <button type="submit"
                                     class="btn btn-block @if (isset($purchase->user)) btn-success	@else btn-warning @endif">
                                 Mark
-                                as payed
+                                as paid
                             </button>
                             @if (!isset($purchase->user))
                                 <small>caution, the user is already deleted!</small>

@@ -97,7 +97,7 @@
 					</div>
 					<div class="row">
 						<div class="col-lg-6 col-sm-12 mb-3">
-							{{ Form::label('address_postcode','Address Postcode',array('id'=>'','class'=>'')) }}
+							{{ Form::label('address_postcode','Address ZIP Code',array('id'=>'','class'=>'')) }}
 							{{ Form::text('address_postcode', '',array('id'=>'address_postcode','class'=>'form-control')) }}
 						</div>
 						<div class="col-lg-6 col-sm-12 mb-3">

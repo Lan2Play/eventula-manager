@@ -281,7 +281,7 @@ class SeatingController extends Controller
                 Session::flash('alert-success', 'Seating plan copied successfully');
                 break;
             case 6:
-                Session::flash('alert-warning', 'Seating plan copied successfully, but one ore more inactive seats could not be saved');
+                Session::flash('alert-warning', 'Seating plan copied successfully, but one or more inactive seats could not be saved');
                 break;
             case 5:
                 Session::flash('alert-warning', 'Seating plan copied successfully, but seating plan image could not be saved');

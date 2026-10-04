@@ -32,7 +32,7 @@
 				</div>
 				<div class="card-footer d-flex justify-content-between align-items-center">
 					<a href="/gallery/{{ $album->slug }}" class="btn btn-primary">@lang('gallery.view_album')</a>
-					<span class="text-muted">@lang('gallery.date') {{ $album->created_at->format('d M Y') }}</span>
+					<span class="text-muted">@lang('gallery.date') {{ $album->created_at->format(__('date.date_short')) }}</span>
 				</div>
 			</div>
 			</div>
