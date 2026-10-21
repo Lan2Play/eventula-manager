@@ -509,7 +509,6 @@ get-lang-blade:
     $(user) php:8-fpm-alpine /bin/sh -c " \
 	cat $(blade) | grep -o \"'$(prefix)\..*'\" | sed \"s|'||g\" | sort | uniq | sed \"s|.*\.|'|g\" | sed -e \"s/$$/' => '',/\""
 
-
 # set installed in database
 set-installed:
 	make database-command command="update settings set value=1 where setting='installed';"
