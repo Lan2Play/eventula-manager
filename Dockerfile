@@ -51,3 +51,7 @@ RUN sed -i 's/default_socket_timeout = 60/default_socket_timeout = 240/' /usr/lo
 # Default Command
 
 ENTRYPOINT ["/run/docker-entrypoint.sh"]
+
+
+HEALTHCHECK --interval=15s --timeout=5s --start-period=3m --retries=3 \
+    CMD curl -fsS http://127.0.0.1/health > /dev/null || exit 1

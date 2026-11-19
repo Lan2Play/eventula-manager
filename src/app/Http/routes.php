@@ -10,6 +10,13 @@ if (config('app.debug') === true) {
 }
 
 /**
+ * Healthcheck
+ */
+Route::group(['middleware' => ['nodebugbar']], function () {
+    Route::get('/health', HealthCheckController::class);
+});
+
+/**
  * Image Converter
  */
 Route::get('{image}', 'Api\Images\WebpController@convert')->where('image', '.*\.webp');
